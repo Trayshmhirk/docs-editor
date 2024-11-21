@@ -8,6 +8,18 @@ body {
 
 @layer base {
   :root {
-    --radius: 0.5rem;
+    @apply bg-[#09111f] text-white;
+  }
+
+  ::-webkit-scrollbar {
+    @apply w-1 h-2 rounded-[50px];
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-[#2e3d5b] rounded-[50px];
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-[#09090a];
   }
 }
