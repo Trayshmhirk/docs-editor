@@ -165,6 +165,7 @@ body {
    text-align: right;
    min-width: 25px;
 }
+
 .editor-code:after {
    content: attr(data-highlight-language);
    top: 0;
@@ -400,56 +401,4 @@ pre::-webkit-scrollbar-thumb {
    margin-right: 8px;
    line-height: 16px;
    background-size: contain;
-}
-
-i.undo {
-   background-image: url(/assets/icons/arrow-counterclockwise.svg);
-}
-
-i.redo {
-   background-image: url(/assets/icons/arrow-clockwise.svg);
-}
-
-i.bold {
-   background-image: url(/assets/icons/type-bold.svg);
-}
-
-i.italic {
-   background-image: url(/assets/icons/type-italic.svg);
-}
-
-i.underline {
-   background-image: url(/assets/icons/type-underline.svg);
-}
-
-i.strikethrough {
-   background-image: url(/assets/icons/type-strikethrough.svg);
-}
-
-i.left-align {
-   background-image: url(/assets/icons/text-left.svg);
-}
-
-i.center-align {
-   background-image: url(/assets/icons/text-center.svg);
-}
-
-i.right-align {
-   background-image: url(/assets/icons/text-right.svg);
-}
-
-i.justify-align {
-   background-image: url(/assets/icons/justify.svg);
-}
-
-i.h1 {
-   background-image: url(/assets/icons/h1.svg);
-}
-
-i.h2 {
-   background-image: url(/assets/icons/h2.svg);
-}
-
-i.h3 {
-   background-image: url(/assets/icons/h3.svg);
 }

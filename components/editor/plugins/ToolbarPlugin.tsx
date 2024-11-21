@@ -28,6 +28,22 @@ import {
    useState,
    useSyncExternalStore,
 } from "react";
+import {
+   AlignCenter,
+   AlignJustify,
+   AlignLeft,
+   AlignRight,
+   Bold,
+   Heading1,
+   Heading2,
+   Heading3,
+   Heading4,
+   Italic,
+   RotateCcw,
+   RotateCw,
+   Strikethrough,
+   Underline,
+} from "lucide-react";
 
 const LowPriority = 1;
 
@@ -91,7 +107,7 @@ export default function ToolbarPlugin() {
       );
    }, [editor, $updateToolbar]);
 
-   function toggleBlock(type: "h1" | "h2" | "h3" | "quote") {
+   function toggleBlock(type: "h1" | "h2" | "h3" | "h4" | "quote") {
       const selection = $getSelection();
 
       if (activeBlock === type) {
@@ -110,6 +126,10 @@ export default function ToolbarPlugin() {
          return $setBlocksType(selection, () => $createHeadingNode("h3"));
       }
 
+      if (type === "h4") {
+         return $setBlocksType(selection, () => $createHeadingNode("h4"));
+      }
+
       if (type === "quote") {
          return $setBlocksType(selection, () => $createQuoteNode());
       }
@@ -125,7 +145,7 @@ export default function ToolbarPlugin() {
             className="toolbar-item spaced"
             aria-label="Undo"
          >
-            <i className="format undo" />
+            <RotateCcw className="format w-5 text-white text-opacity-70" />
          </button>
          <button
             disabled={!canRedo}
@@ -135,7 +155,7 @@ export default function ToolbarPlugin() {
             className="toolbar-item"
             aria-label="Redo"
          >
-            <i className="format redo" />
+            <RotateCw className="format w-5 text-white text-opacity-70" />
          </button>
          <Divider />
          <button
@@ -145,7 +165,7 @@ export default function ToolbarPlugin() {
                "toolbar-item spaced " + (activeBlock === "h1" ? "active" : "")
             }
          >
-            <i className="format h1" />
+            <Heading1 className="format w-5 text-white text-opacity-70" />
          </button>
          <button
             onClick={() => editor.update(() => toggleBlock("h2"))}
@@ -154,7 +174,7 @@ export default function ToolbarPlugin() {
                "toolbar-item spaced " + (activeBlock === "h2" ? "active" : "")
             }
          >
-            <i className="format h2" />
+            <Heading2 className="format w-5 text-white text-opacity-70" />
          </button>
          <button
             onClick={() => editor.update(() => toggleBlock("h3"))}
@@ -163,7 +183,16 @@ export default function ToolbarPlugin() {
                "toolbar-item spaced " + (activeBlock === "h3" ? "active" : "")
             }
          >
-            <i className="format h3" />
+            <Heading3 className="format w-5 text-white text-opacity-70" />
+         </button>
+         <button
+            onClick={() => editor.update(() => toggleBlock("h4"))}
+            data-active={activeBlock === "h4" ? "" : undefined}
+            className={
+               "toolbar-item spaced " + (activeBlock === "h4" ? "active" : "")
+            }
+         >
+            <Heading4 className="format w-5 text-white text-opacity-70" />
          </button>
          <Divider />
          <button
@@ -173,7 +202,7 @@ export default function ToolbarPlugin() {
             className={"toolbar-item spaced " + (isBold ? "active" : "")}
             aria-label="Format Bold"
          >
-            <i className="format bold" />
+            <Bold className="format w-5 text-white text-opacity-70" />
          </button>
          <button
             onClick={() => {
@@ -182,7 +211,7 @@ export default function ToolbarPlugin() {
             className={"toolbar-item spaced " + (isItalic ? "active" : "")}
             aria-label="Format Italics"
          >
-            <i className="format italic" />
+            <Italic className="format w-5 text-white text-opacity-70" />
          </button>
          <button
             onClick={() => {
@@ -191,7 +220,7 @@ export default function ToolbarPlugin() {
             className={"toolbar-item spaced " + (isUnderline ? "active" : "")}
             aria-label="Format Underline"
          >
-            <i className="format underline" />
+            <Underline className="format w-5 text-white text-opacity-70" />
          </button>
          <button
             onClick={() => {
@@ -202,7 +231,7 @@ export default function ToolbarPlugin() {
             }
             aria-label="Format Strikethrough"
          >
-            <i className="format strikethrough" />
+            <Strikethrough className="format w-5 text-white text-opacity-70" />
          </button>
          <Divider />
          <button
@@ -212,7 +241,7 @@ export default function ToolbarPlugin() {
             className="toolbar-item spaced"
             aria-label="Left Align"
          >
-            <i className="format left-align" />
+            <AlignLeft className="format w-5 text-white text-opacity-70" />
          </button>
          <button
             onClick={() => {
@@ -221,7 +250,7 @@ export default function ToolbarPlugin() {
             className="toolbar-item spaced"
             aria-label="Center Align"
          >
-            <i className="format center-align" />
+            <AlignCenter className="format w-5 text-white text-opacity-70" />
          </button>
          <button
             onClick={() => {
@@ -230,7 +259,7 @@ export default function ToolbarPlugin() {
             className="toolbar-item spaced"
             aria-label="Right Align"
          >
-            <i className="format right-align" />
+            <AlignRight className="format w-5 text-white text-opacity-70" />
          </button>
          <button
             onClick={() => {
@@ -239,7 +268,7 @@ export default function ToolbarPlugin() {
             className="toolbar-item"
             aria-label="Justify Align"
          >
-            <i className="format justify-align" />
+            <AlignJustify className="format w-5 text-white text-opacity-70" />
          </button>{" "}
       </div>
    );
