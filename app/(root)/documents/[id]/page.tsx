@@ -1,5 +1,11 @@
+import { Editor } from "@/components/editor/Editor";
+
 const Document = () => {
-   return <div>Document</div>;
+   return (
+      <div>
+         <Editor />
+      </div>
+   );
 };
 
 export default Document;

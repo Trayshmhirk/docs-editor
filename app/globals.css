@@ -2,24 +2,36 @@
 @tailwind components;
 @tailwind utilities;
 
+@import "../styles/editor-dark-themes.css";
+
 body {
-  font-family: Arial, Helvetica, sans-serif;
+   font-family: Arial, Helvetica, sans-serif;
 }
 
 @layer base {
-  :root {
-    @apply bg-[#09111f] text-white;
-  }
+   :root {
+      @apply bg-[#09111f] text-white;
+   }
 
-  ::-webkit-scrollbar {
-    @apply w-1 h-2 rounded-[50px];
-  }
+   ::-webkit-scrollbar {
+      @apply w-1 h-2 rounded-[50px];
+   }
 
-  ::-webkit-scrollbar-thumb {
-    @apply bg-[#2e3d5b] rounded-[50px];
-  }
+   ::-webkit-scrollbar-thumb {
+      @apply bg-[#2e3d5b] rounded-[50px];
+   }
 
-  ::-webkit-scrollbar-track {
-    @apply bg-[#09090a];
-  }
+   ::-webkit-scrollbar-track {
+      @apply bg-[#09090a];
+   }
+}
+
+@layer utilities {
+   .toolbar-wrapper {
+      @apply z-50 w-screen overflow-auto border-y border-dark-300 bg-dark-100 pl-3 pr-4 shadow-sm;
+   }
+
+   .editor-wrapper {
+      @apply h-[calc(100vh-140px)] gap-5 overflow-auto px-5 pt-5 lg:flex-row lg:items-start lg:justify-center  xl:gap-10 xl:pt-10;
+   }
 }
