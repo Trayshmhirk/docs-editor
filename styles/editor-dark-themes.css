@@ -42,14 +42,6 @@ body {
    text-align: right;
 }
 
-.editor-container {
-   border-radius: 2px;
-   color: #000;
-   line-height: 20px;
-   font-weight: 400;
-   text-align: left;
-}
-
 .editor-inner {
    background: #0b1527;
    position: relative;
@@ -81,27 +73,27 @@ body {
    pointer-events: none;
 }
 
-.editor-text-bold {
+.editor-textBold {
    font-weight: bold;
 }
 
-.editor-text-italic {
+.editor-textItalic {
    font-style: italic;
 }
 
-.editor-text-underline {
+.editor-textUnderline {
    text-decoration: underline;
 }
 
-.editor-text-strikethrough {
+.editor-textStrikethrough {
    text-decoration: line-through;
 }
 
-.editor-text-underlineStrikethrough {
+.editor-textUnderlineStrikethrough {
    text-decoration: underline line-through;
 }
 
-.editor-text-code {
+.editor-textCode {
    background-color: rgb(240, 242, 245);
    padding: 1px 0.25rem;
    font-family: Menlo, Consolas, Monaco, monospace;
@@ -360,10 +352,6 @@ pre::-webkit-scrollbar-thumb {
 
 .toolbar button.toolbar-item.active {
    background-color: #0f1c34;
-}
-
-.toolbar button.toolbar-item.active i {
-   opacity: 1;
 }
 
 .toolbar .toolbar-item:hover:not([disabled]) {

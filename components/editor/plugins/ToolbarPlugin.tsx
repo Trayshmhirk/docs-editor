@@ -64,6 +64,8 @@ export default function ToolbarPlugin() {
 
    const $updateToolbar = useCallback(() => {
       const selection = $getSelection();
+      console.log();
+
       if ($isRangeSelection(selection)) {
          // Update text format
          setIsBold(selection.hasFormat("bold"));

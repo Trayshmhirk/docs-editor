@@ -24,7 +24,7 @@ const initialConfig = {
 export function Editor() {
    return (
       <LexicalComposer initialConfig={initialConfig}>
-         <div className="editor-container size-full">
+         <div className="editor-container size-full rounded-sm text-black leading-5 text-left">
             <div className="toolbar-wrapper flex min-w-full justify-between">
                <ToolbarPlugin />
                {/* {currentUserType === "editor"} && <DeleteModal roomId={roomId}/>*/}
