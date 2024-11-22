@@ -1,16 +1,22 @@
 import { RoomProvider } from "@liveblocks/react";
 import { ClientSideSuspense } from "@liveblocks/react/suspense";
-import { ClipLoader } from "react-spinners";
 import { Editor } from "@/components/editor/Editor";
 import Header from "@/components/Header";
 import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
+import ActiveCollaborators from "./ActiveCollaborators";
+import Loader from "./Loader";
+import { RoomData } from "@liveblocks/node";
 
-const CollaborativeRoom = () => {
+const CollaborativeRoom = ({
+   roomId,
+   // roomMetadata,  // TODO: Access permissions of users to access the document
+}: {
+   roomId: string;
+   roomMetadata: RoomData;
+}) => {
    return (
-      <RoomProvider id="my-room">
-         <ClientSideSuspense
-            fallback={<ClipLoader color="#36d7b7" size={20} />}
-         >
+      <RoomProvider id={roomId}>
+         <ClientSideSuspense fallback={<Loader />}>
             <div className="flex size-full max-h-screen flex-1 flex-col items-center overflow-hidden">
                <Header>
                   <div className="flex w-fit items-center gap-2">
@@ -20,7 +26,8 @@ const CollaborativeRoom = () => {
                   </div>
 
                   <div className="flex items-center gap-3 justify-center">
-                     <p>Share</p>
+                     <ActiveCollaborators />
+
                      <SignedOut>
                         <SignInButton />
                      </SignedOut>

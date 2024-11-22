@@ -1,3 +1,8 @@
+declare type SearchParamProps = {
+   params: { [key: string]: string };
+   searchParams: { [key: string]: string | string[] | undefined };
+};
+
 declare type UserType = "creator" | "editor" | "viewer";
 
 declare type Editorprops = {
@@ -28,4 +33,19 @@ declare type RoomMetadata = {
 declare type AddDocumentBtnProps = {
    userId: string;
    email: string;
+};
+
+declare type CollaboratorProps = {
+   roomId: string;
+   email: string;
+   creatorId: string;
+   collaborator: User;
+   user: User;
+};
+
+declare type CollaborativeRoomProps = {
+   roomId: string;
+   roomMetadata: RoomMetadata;
+   users: User[];
+   currentUserType: UserType;
 };
