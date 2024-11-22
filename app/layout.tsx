@@ -19,6 +19,8 @@ export default function RootLayout({
             baseTheme: dark,
             variables: {
                colorPrimary: "#3371FF",
+               colorBackground: "#09111f",
+
                fontSize: "16px",
             },
          }}

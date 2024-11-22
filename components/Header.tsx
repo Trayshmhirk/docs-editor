@@ -3,7 +3,7 @@ import Link from "next/link";
 
 const Header = ({ children }: HeaderProps) => {
    return (
-      <div className="header flex justify-between gap-2">
+      <div className="header flex justify-between items-center gap-2 py-1 px-5">
          <Link href="/" className="">
             <Image
                src="/assets/logo.png"

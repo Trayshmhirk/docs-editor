@@ -7,15 +7,18 @@ const Document = () => {
       <div>
          <Header>
             <div className="flex w-fit items-center gap-2">
-               <p className="document-title">This is a fake doc</p>
+               <p className="document-title">This is a the doc title</p>
             </div>
 
-            <SignedOut>
-               <SignInButton />
-            </SignedOut>
-            <SignedIn>
-               <UserButton />
-            </SignedIn>
+            <div className="flex items-center gap-3 justify-center">
+               <p>Share</p>
+               <SignedOut>
+                  <SignInButton />
+               </SignedOut>
+               <SignedIn>
+                  <UserButton />
+               </SignedIn>
+            </div>
          </Header>
          <Editor />
       </div>
