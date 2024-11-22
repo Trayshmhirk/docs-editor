@@ -3,7 +3,6 @@
 import { nanoid } from "nanoid";
 import { liveblocks } from "../liveblocks";
 import { revalidatePath } from "next/cache";
-import { RoomData } from "@liveblocks/node";
 
 export const createDoc = async ({ userId, email }: CreateDocumentParams) => {
    const roomId = nanoid();
@@ -39,7 +38,7 @@ export const getDocument = async ({
 }: {
    roomId: string;
    userId: string;
-}): Promise<RoomData | null> => {
+}) => {
    try {
       const room = await liveblocks.getRoom(roomId);
 
@@ -48,7 +47,7 @@ export const getDocument = async ({
       //    throw new Error("You do not have access to this document");
       // }
 
-      return JSON.parse(JSON.stringify(room)) as RoomData;
+      return JSON.parse(JSON.stringify(room));
    } catch (error) {
       console.log(`Error getting document room: ${error}`);
       return null;

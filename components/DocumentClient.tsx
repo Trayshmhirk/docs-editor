@@ -1,11 +1,10 @@
 "use client";
 
 import CollaborativeRoom from "@/components/CollaborativeRoom";
-import { RoomData } from "@liveblocks/node";
 
 interface DocumentClientProps {
    roomId: string;
-   roomMetadata: RoomData; // Replace with the actual metadata type
+   roomMetadata: RoomMetadata; // Replace with the actual metadata type
 }
 
 const DocumentClient: React.FC<DocumentClientProps> = ({
@@ -14,7 +13,12 @@ const DocumentClient: React.FC<DocumentClientProps> = ({
 }) => {
    return (
       <main className="flex w-full flex-col items-center">
-         <CollaborativeRoom roomId={roomId} roomMetadata={roomMetadata} />
+         <CollaborativeRoom
+            roomId={roomId}
+            roomMetadata={roomMetadata}
+            users={[]}
+            currentUserType="editor"
+         />
       </main>
    );
 };

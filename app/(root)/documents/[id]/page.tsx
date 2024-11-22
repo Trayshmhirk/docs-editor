@@ -20,7 +20,7 @@ const Document = async ({ params: { id } }: SearchParamProps) => {
 
    // TODO: Access permissions of users to access the document
 
-   return <DocumentClient roomId={id} roomMetadata={room} />;
+   return <DocumentClient roomId={id} roomMetadata={room.metadata} />;
 };
 
 export default Document;
