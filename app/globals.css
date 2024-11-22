@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+@import '@liveblocks/react-ui/styles.css';
+@import '@liveblocks/react-lexical/styles.css';
 @import "../styles/editor-dark-themes.css";
 
 body {
@@ -32,11 +34,19 @@ body {
    }
 
    .editor-wrapper {
-      @apply h-[calc(100vh-140px)] gap-5 overflow-auto px-5 pt-5 lg:flex-row lg:items-start lg:justify-center  xl:gap-10 xl:pt-10;
+      @apply h-[calc(100vh-140px)] gap-5 overflow-auto px-5 pt-5 lg:flex-row lg:items-start lg:justify-center xl:gap-10 xl:pt-10;
    }
 
    .auth-page {
       @apply flex h-screen w-full flex-col items-center justify-center gap-10;
+   }
+
+   .gradient-blue {
+      background: linear-gradient(to top, #3b82f6, #60a5fa);
+   }
+
+   .gradient-red {
+      background: linear-gradient(to top, #ef4444, #f87171);
    }
 }
 

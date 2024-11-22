@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
+import "@liveblocks/react-ui/styles.css";
+import "@liveblocks/react-lexical/styles.css";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import { dark } from "@clerk/themes";
+import Provider from "./Provider";
 
 export const metadata: Metadata = {
    title: "Docs Editor",
@@ -26,7 +29,9 @@ export default function RootLayout({
          }}
       >
          <html lang="en" suppressHydrationWarning>
-            <body className="min-h-screen">{children}</body>
+            <body className="min-h-screen">
+               <Provider>{children}</Provider>
+            </body>
          </html>
       </ClerkProvider>
    );

@@ -12,14 +12,22 @@
     "@clerk/nextjs": "^6.4.1",
     "@clerk/themes": "^2.1.46",
     "@lexical/react": "^0.20.0",
+    "@liveblocks/client": "^2.12.2",
+    "@liveblocks/node": "^2.12.2",
+    "@liveblocks/react": "^2.12.2",
+    "@liveblocks/react-lexical": "^2.12.2",
+    "@liveblocks/react-ui": "^2.12.2",
+    "@radix-ui/react-slot": "^1.1.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "lexical": "^0.20.0",
     "lucide": "^0.460.0",
     "lucide-react": "^0.460.0",
+    "nanoid": "^5.0.8",
     "next": "15.0.3",
     "react": "19.0.0-rc-66855b96-20241106",
     "react-dom": "19.0.0-rc-66855b96-20241106",
+    "react-spinners": "^0.14.1",
     "tailwind-merge": "^2.5.4",
     "tailwindcss-animate": "^1.0.7"
   },
@@ -30,7 +38,7 @@
     "eslint": "^8",
     "eslint-config-next": "15.0.3",
     "postcss": "^8",
-    "tailwindcss": "^3.4.1",
+    "tailwindcss": "^3.4.15",
     "typescript": "^5"
   }
 }
