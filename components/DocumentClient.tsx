@@ -5,19 +5,23 @@ import CollaborativeRoom from "@/components/CollaborativeRoom";
 interface DocumentClientProps {
    roomId: string;
    roomMetadata: RoomMetadata; // Replace with the actual metadata type
+   users: User[];
+   currentUserType: UserType;
 }
 
 const DocumentClient: React.FC<DocumentClientProps> = ({
    roomId,
    roomMetadata,
+   users,
+   currentUserType,
 }) => {
    return (
       <main className="flex w-full flex-col items-center">
          <CollaborativeRoom
             roomId={roomId}
             roomMetadata={roomMetadata}
-            users={[]}
-            currentUserType="editor"
+            users={users}
+            currentUserType={currentUserType}
          />
       </main>
    );

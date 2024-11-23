@@ -9,19 +9,28 @@ import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
 import { ContentEditable } from "@lexical/react/LexicalContentEditable";
 import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
 import { LexicalErrorBoundary } from "@lexical/react/LexicalErrorBoundary";
+import {
+   liveblocksConfig,
+   LiveblocksPlugin,
+   useIsEditorReady,
+} from "@liveblocks/react-lexical";
+import Loader from "../Loader";
+import FloatingToolbarPlugin from "./plugins/FloatingToolbarPlugin";
 
-const initialConfig = {
-   namespace: "MyEditor",
-   nodes: [HeadingNode],
-   theme: editorTheme,
-   onError: (error: Error) => {
-      console.error(error);
-      throw error;
-   },
-   // editable: currentUserType === "editor",
-};
+export function Editor({ /*roomId, */ currentUserType }: Editorprops) {
+   const initialConfig = liveblocksConfig({
+      namespace: "MyEditor",
+      nodes: [HeadingNode],
+      theme: editorTheme,
+      onError: (error: Error) => {
+         console.error(error);
+         throw error;
+      },
+      editable: currentUserType === "editor",
+   });
 
-export function Editor() {
+   const ready = useIsEditorReady();
+
    return (
       <LexicalComposer initialConfig={initialConfig}>
          <div className="editor-container size-full rounded-sm text-black leading-5 text-left">
@@ -31,24 +40,29 @@ export function Editor() {
             </div>
 
             <div className="editor-wrapper flex flex-col items-center justify-start">
-               <div className="editor-inner min-h-[1100px] relative mb-5 h-fit w-full max-w-[800px] shadow-md lg:mb-10">
-                  <RichTextPlugin
-                     contentEditable={
-                        <ContentEditable className="editor-input h-full" />
-                     }
-                     placeholder={
-                        <div className="editor-placeholder">
-                           Enter some rich text...
-                        </div>
-                     }
-                     ErrorBoundary={LexicalErrorBoundary}
-                  />
-                  {/* {currentUserType === 'editor' && <FloatingToolbarPlugin />} */}
-                  <HistoryPlugin />
-                  <AutoFocusPlugin />
-               </div>
+               {ready ? (
+                  <div className="editor-inner min-h-[1100px] relative mb-5 h-fit w-full max-w-[800px] shadow-md lg:mb-10">
+                     <RichTextPlugin
+                        contentEditable={
+                           <ContentEditable className="editor-input h-full" />
+                        }
+                        placeholder={
+                           <div className="editor-placeholder">
+                              Enter some rich text...
+                           </div>
+                        }
+                        ErrorBoundary={LexicalErrorBoundary}
+                     />
+                     {currentUserType === "editor" && <FloatingToolbarPlugin />}
+                     <HistoryPlugin />
+                     <AutoFocusPlugin />
+                  </div>
+               ) : (
+                  <Loader />
+               )}
 
                {/* liveblocks plugin */}
+               <LiveblocksPlugin></LiveblocksPlugin>
             </div>
          </div>
       </LexicalComposer>
