@@ -2,8 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-@import '@liveblocks/react-ui/styles.css';
-@import '@liveblocks/react-lexical/styles.css';
+@import "@liveblocks/react-ui/styles.css";
+@import "@liveblocks/react-lexical/styles.css";
 @import "../styles/editor-dark-themes.css";
 
 body {
@@ -100,4 +100,109 @@ body {
 .cl-internal-186wk34 {
    top: 1.5rem;
    right: 1.5rem;
+}
+
+/* ======================== Liveblocks Override */
+.lb-root {
+   --lb-accent-subtle: #0b1527;
+   --lb-radius: 6px;
+   --lb-dynamic-background: #1b2840;
+}
+
+.lb-comment,
+.lb-thread-comments,
+.lb-composer,
+.lb-comment-reaction {
+   background-color: #0f1c34;
+   color: #fff;
+}
+
+.lb-button {
+   --lb-foreground-moderate: #fff;
+}
+
+.lb-button:where([data-variant="primary"]) {
+   background-color: #161e30;
+   color: #b4c6ee;
+   padding: 8px;
+}
+
+.lb-button:where(
+      [data-variant="default"]:not(
+            :is(
+                  :enabled:hover,
+                  :enabled:focus-visible,
+                  [aria-expanded="true"],
+                  [aria-selected="true"]
+               )
+         )
+   ) {
+   color: #b4c6ee;
+}
+
+.lb-button:where(
+      :enabled:hover,
+      :enabled:focus-visible,
+      [aria-expanded="true"],
+      [aria-selected="true"]
+   ) {
+   --lb-button-background: #161e30;
+
+   color: #b4c6ee;
+}
+
+.lb-inbox-notification-list-item:where(:not(:last-of-type)) {
+   border-bottom: none;
+}
+
+.lb-comment-body,
+.lb-dropdown-item,
+.lb-dropdown-item-icon,
+.lb-composer-editor {
+   color: #fff;
+}
+
+.lb-composer-action {
+   padding: 8px;
+}
+
+.lb-comment-content {
+   background: #0b1527;
+   margin-top: 16px;
+   padding: 12px;
+   border-radius: 4px;
+   font-size: 14px;
+}
+
+.lb-comment-date,
+.lb-lexical-mention-suggestion-user,
+.lb-composer-suggestions-list-item,
+.lb-inbox-notification-date,
+.lb-comment-author,
+.lb-emoji-picker-search-icon,
+.lb-emoji-picker-category-header-title,
+.lb-emoji-picker-search::placeholder {
+   color: #b4c6ee;
+}
+
+.data-liveblocks-portal {
+   color: #b4c6ee !important;
+}
+
+.lb-root:where(:not(.lb-root .lb-root)) {
+   --lb-dynamic-background: #1b2840;
+   color: #fff;
+}
+
+.lb-composer-editor :where([data-placeholder]) {
+   color: #b4c6ee;
+   font-size: 14px;
+}
+
+.lb-lexical-floating-threads-thread:where([data-resolved]) {
+   opacity: 40%;
+}
+
+.lb-elevation {
+   background: #0f1c34;
 }

@@ -10,12 +10,15 @@ import { ContentEditable } from "@lexical/react/LexicalContentEditable";
 import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
 import { LexicalErrorBoundary } from "@lexical/react/LexicalErrorBoundary";
 import {
+   FloatingComposer,
+   FloatingThreads,
    liveblocksConfig,
    LiveblocksPlugin,
    useIsEditorReady,
 } from "@liveblocks/react-lexical";
 import Loader from "../Loader";
 import FloatingToolbarPlugin from "./plugins/FloatingToolbarPlugin";
+import { useThreads } from "@liveblocks/react/suspense";
 
 export function Editor({ /*roomId, */ currentUserType }: Editorprops) {
    const initialConfig = liveblocksConfig({
@@ -30,6 +33,7 @@ export function Editor({ /*roomId, */ currentUserType }: Editorprops) {
    });
 
    const ready = useIsEditorReady();
+   const { threads } = useThreads();
 
    return (
       <LexicalComposer initialConfig={initialConfig}>
@@ -62,7 +66,10 @@ export function Editor({ /*roomId, */ currentUserType }: Editorprops) {
                )}
 
                {/* liveblocks plugin */}
-               <LiveblocksPlugin></LiveblocksPlugin>
+               <LiveblocksPlugin>
+                  <FloatingComposer className="w-[350px]" />
+                  <FloatingThreads threads={threads} />
+               </LiveblocksPlugin>
             </div>
          </div>
       </LexicalComposer>
