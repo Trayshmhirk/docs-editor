@@ -4,7 +4,9 @@ import { getClerkUsers } from "@/lib/actions/user.actions";
 import { currentUser } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 
-const Document = async ({ params: { id } }: SearchParamProps) => {
+const Document = async ({ params }: SearchParamProps) => {
+   const { id } = await Promise.resolve(params);
+
    const clerkUser = await currentUser();
    if (!clerkUser) {
       redirect("/sign-in");
