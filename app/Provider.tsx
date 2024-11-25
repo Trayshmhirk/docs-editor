@@ -4,11 +4,9 @@ import { ClientSideSuspense } from "@liveblocks/react/suspense";
 import Loader from "@/components/Loader";
 import { getClerkUsers, getDocumentUsers } from "@/lib/actions/user.actions";
 import { useUser } from "@clerk/nextjs";
-import { redirect } from "next/navigation";
 
 const Provider = ({ children }: { children: React.ReactNode }) => {
    const { user: clerkUser } = useUser();
-   if (!clerkUser) redirect("/sign-in");
 
    return (
       <LiveblocksProvider
@@ -20,7 +18,9 @@ const Provider = ({ children }: { children: React.ReactNode }) => {
          resolveMentionSuggestions={async ({ text, roomId }) => {
             const roomUsers = await getDocumentUsers({
                roomId,
-               currentUser: clerkUser.emailAddresses[0].emailAddress,
+               currentUser: clerkUser
+                  ? clerkUser.emailAddresses[0].emailAddress
+                  : "",
                text,
             });
             return roomUsers;
