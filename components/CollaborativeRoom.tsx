@@ -11,11 +11,12 @@ import { useEffect, useRef, useState } from "react";
 import { Input } from "./ui/input";
 import { SquarePen } from "lucide-react";
 import { updateDocument } from "@/lib/actions/room.actions";
+import ShareModal from "./ShareModal";
 
 const CollaborativeRoom = ({
    roomId,
    roomMetadata,
-   // users,
+   users,
    currentUserType,
 }: CollaborativeRoomProps) => {
    const [editing, setEditing] = useState(false);
@@ -78,7 +79,7 @@ const CollaborativeRoom = ({
    return (
       <RoomProvider id={roomId}>
          <ClientSideSuspense fallback={<Loader />}>
-            <div className="flex size-full max-h-screen flex-1 flex-col items-center overflow-hidden">
+            <div className="flex size-full flex-1 flex-col items-center overflow-hidden">
                <Header>
                   <div
                      ref={containerRef}
@@ -119,7 +120,12 @@ const CollaborativeRoom = ({
 
                   <div className="flex items-center gap-3 justify-center">
                      <ActiveCollaborators />
-
+                     <ShareModal
+                        roomId={roomId}
+                        collaborators={users}
+                        creatorId={roomMetadata.creatorId}
+                        currentUserType={currentUserType}
+                     />
                      <SignedOut>
                         <SignInButton />
                      </SignedOut>

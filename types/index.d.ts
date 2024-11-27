@@ -58,3 +58,23 @@ declare type User = {
    color: string;
    userType?: UserType;
 };
+
+declare type ShareDocumentParams = {
+   roomId: string;
+   email: string;
+   userType: UserType;
+   updatedBy: User;
+};
+
+declare type UserTypeSelectorParams = {
+   userType: string;
+   setUserType: React.Dispatch<React.SetStateAction<UserType>>;
+   onClickHandler?: (value: string) => void;
+};
+
+declare type ShareDocumentDialogProps = {
+   roomId: string;
+   collaborators: User[];
+   creatorId: string;
+   currentUserType: UserType;
+};
