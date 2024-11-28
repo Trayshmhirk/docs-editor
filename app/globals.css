@@ -45,6 +45,10 @@ body {
       background: linear-gradient(to top, #3b82f6, #60a5fa);
    }
 
+   .gradient-darkblue {
+      background: linear-gradient(to top, #1B263B, #151E2F);
+   }
+
    .gradient-red {
       background: linear-gradient(to top, #ef4444, #f87171);
    }
@@ -127,25 +131,17 @@ body {
    padding: 8px;
 }
 
-.lb-button:where(
-      [data-variant="default"]:not(
-            :is(
-                  :enabled:hover,
-                  :enabled:focus-visible,
-                  [aria-expanded="true"],
-                  [aria-selected="true"]
-               )
-         )
-   ) {
+.lb-button:where([data-variant="default"]:not( :is( :enabled:hover,
+         :enabled:focus-visible,
+         [aria-expanded="true"],
+         [aria-selected="true"]))) {
    color: #b4c6ee;
 }
 
-.lb-button:where(
-      :enabled:hover,
-      :enabled:focus-visible,
-      [aria-expanded="true"],
-      [aria-selected="true"]
-   ) {
+.lb-button:where( :enabled:hover,
+   :enabled:focus-visible,
+   [aria-expanded="true"],
+   [aria-selected="true"]) {
    --lb-button-background: #161e30;
 
    color: #b4c6ee;
