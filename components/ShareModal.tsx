@@ -16,6 +16,7 @@ import { Label } from "./ui/label";
 import { Input } from "./ui/input";
 import UserTypeSelector from "./UserTypeSelector";
 import Collaborator from "./Collaborator";
+import { updateDocumentAccess } from "@/lib/actions/room.actions";
 
 const ShareModal = ({
    roomId,
@@ -30,7 +31,18 @@ const ShareModal = ({
    const [email, setEmail] = useState("");
    const [userType, setUserType] = useState<UserType>("viewer");
 
-   const handleShareDocument = async () => {};
+   const handleShareDocument = async () => {
+      setLoading(true);
+
+      await updateDocumentAccess({
+         roomId,
+         email,
+         userType: userType as UserType,
+         updatedBy: user.info,
+      });
+
+      setLoading(false);
+   };
 
    return (
       <Dialog open={open} onOpenChange={setOpen}>
@@ -85,7 +97,14 @@ const ShareModal = ({
             <div className="flex flex-col gap-2">
                <ul className="flex flex-col gap-1">
                   {collaborators.map((collaborator) => (
-                     <Collaborator key={collaborator.id} />
+                     <Collaborator
+                        key={collaborator.id}
+                        roomId={roomId}
+                        email={collaborator.email}
+                        collaborator={collaborator}
+                        creatorId={creatorId}
+                        user={user.info}
+                     />
                   ))}
                </ul>
             </div>
