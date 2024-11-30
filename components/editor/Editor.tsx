@@ -20,8 +20,9 @@ import Loader from "../Loader";
 import FloatingToolbarPlugin from "./plugins/FloatingToolbarPlugin";
 import { useThreads } from "@liveblocks/react/suspense";
 import Comments from "../Comments";
+import DeleteModal from "../DeleteModal";
 
-export function Editor({ /*roomId, */ currentUserType }: Editorprops) {
+export function Editor({ roomId, currentUserType }: Editorprops) {
    const initialConfig = liveblocksConfig({
       namespace: "MyEditor",
       nodes: [HeadingNode],
@@ -39,9 +40,9 @@ export function Editor({ /*roomId, */ currentUserType }: Editorprops) {
    return (
       <LexicalComposer initialConfig={initialConfig}>
          <div className="editor-container size-full rounded-sm text-black leading-5 text-left">
-            <div className="toolbar-wrapper flex min-w-full justify-between">
+            <div className="toolbar-wrapper flex min-w-full justify-between items-center">
                <ToolbarPlugin />
-               {/* {currentUserType === "editor"} && <DeleteModal roomId={roomId}/>*/}
+               {currentUserType === "editor" && <DeleteModal roomId={roomId} />}
             </div>
 
             <div className="editor-wrapper flex flex-col items-center justify-start">

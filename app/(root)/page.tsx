@@ -9,6 +9,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import React from "react";
 import { RoomData } from "@liveblocks/node";
+import DeleteModal from "@/components/DeleteModal";
 
 type RoomDocumentsProps = {
    data: RoomData[];
@@ -80,6 +81,8 @@ const Home = async () => {
                               </p>
                            </div>
                         </Link>
+
+                        <DeleteModal roomId={id} />
                      </li>
                   ))}
                </ul>
