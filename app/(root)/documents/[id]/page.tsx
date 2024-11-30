@@ -4,8 +4,8 @@ import { getClerkUsers } from "@/lib/actions/user.actions";
 import { currentUser } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 
-const Document = async ({ params }: { params: { id: string } }) => {
-   const { id } = params;
+const Document = async ({ params }: { params: Promise<{ id: string }> }) => {
+   const { id } = await params;
 
    const clerkUser = await currentUser();
    if (!clerkUser) {
