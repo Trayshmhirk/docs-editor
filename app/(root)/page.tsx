@@ -30,7 +30,7 @@ const Home = async () => {
    return (
       <main className="relative flex w-full flex-col items-center gap-5 sm:gap-10">
          <Header className="sticky left-0 top-0">
-            <div className="flex items-center gap-2 lg-gap-4">
+            <div className="flex items-center gap-2 lg-gap-6">
                <Notifications />
 
                <SignedIn>
@@ -55,13 +55,13 @@ const Home = async () => {
                   {roomDocuments.data.map(({ id, metadata, createdAt }) => (
                      <li
                         key={id}
-                        className="flex items-center justify-between gap-4 rounded-lg bg-[#151E2F] bg-cover p-5 shadow-xl"
+                        className="flex items-center justify-between gap-4 rounded-lg bg-[#2A2A2A] bg-cover p-5 shadow-xl"
                      >
                         <Link
                            href={`/documents/${id}`}
                            className="flex flex-1 items-center gap-4"
                         >
-                           <div className="hidden rounded-md bg-dark-500 p-2 sm:block">
+                           <div className="hidden rounded-md bg-[#555555] p-2 sm:block">
                               <Image
                                  src="/assets/icons/doc.svg"
                                  alt="Document File"
@@ -75,7 +75,7 @@ const Home = async () => {
                               <p className="line-clamp-1 text-lg">
                                  {metadata.title}
                               </p>
-                              <p className="text-sm font-light text-blue-100">
+                              <p className="text-sm font-light text-[#B8B8B8]">
                                  Created about{" "}
                                  {dateConverter(
                                     new Date(createdAt).toISOString()

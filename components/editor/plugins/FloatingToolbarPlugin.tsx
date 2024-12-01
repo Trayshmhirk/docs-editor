@@ -1,12 +1,12 @@
 import {
-   autoUpdate,
-   flip,
-   hide,
-   limitShift,
-   offset,
-   shift,
-   size,
-   useFloating,
+  autoUpdate,
+  flip,
+  hide,
+  limitShift,
+  offset,
+  shift,
+  size,
+  useFloating,
 } from "@floating-ui/react-dom";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import { OPEN_FLOATING_COMPOSER_COMMAND } from "@liveblocks/react-lexical";
@@ -18,119 +18,115 @@ import * as React from "react";
 import { createPortal } from "react-dom";
 
 export default function FloatingToolbar() {
-   const [editor] = useLexicalComposerContext();
+  const [editor] = useLexicalComposerContext();
 
-   const [range, setRange] = useState<Range | null>(null);
+  const [range, setRange] = useState<Range | null>(null);
 
-   useEffect(() => {
-      editor.registerUpdateListener(({ tags }) => {
-         return editor.getEditorState().read(() => {
-            // Ignore selection updates related to collaboration
-            if (tags.has("collaboration")) return;
+  useEffect(() => {
+    editor.registerUpdateListener(({ tags }) => {
+      return editor.getEditorState().read(() => {
+        // Ignore selection updates related to collaboration
+        if (tags.has("collaboration")) return;
 
-            const selection = $getSelection();
-            if (!$isRangeSelection(selection) || selection.isCollapsed()) {
-               setRange(null);
-               return;
-            }
+        const selection = $getSelection();
+        if (!$isRangeSelection(selection) || selection.isCollapsed()) {
+          setRange(null);
+          return;
+        }
 
-            const { anchor, focus } = selection;
+        const { anchor, focus } = selection;
 
-            const range = createDOMRange(
-               editor,
-               anchor.getNode(),
-               anchor.offset,
-               focus.getNode(),
-               focus.offset
-            );
+        const range = createDOMRange(
+          editor,
+          anchor.getNode(),
+          anchor.offset,
+          focus.getNode(),
+          focus.offset
+        );
 
-            setRange(range);
-         });
+        setRange(range);
       });
-   }, [editor]);
+    });
+  }, [editor]);
 
-   if (range === null) return null;
+  if (range === null) return null;
 
-   return (
-      <Toolbar
-         range={range}
-         onRangeChange={setRange}
-         container={document.body}
-      />
-   );
+  return (
+    <Toolbar range={range} onRangeChange={setRange} container={document.body} />
+  );
 }
 
 function Toolbar({
-   range,
-   onRangeChange,
-   container,
+  range,
+  onRangeChange,
+  container,
 }: {
-   range: Range;
-   onRangeChange: (range: Range | null) => void;
-   container: HTMLElement;
+  range: Range;
+  onRangeChange: (range: Range | null) => void;
+  container: HTMLElement;
 }) {
-   const [editor] = useLexicalComposerContext();
+  const [editor] = useLexicalComposerContext();
 
-   const padding = 20;
+  const padding = 20;
 
-   const {
-      refs: { setReference, setFloating },
-      strategy,
-      x,
-      y,
-   } = useFloating({
-      strategy: "fixed",
-      placement: "bottom",
-      middleware: [
-         flip({ padding, crossAxis: false }),
-         offset(10),
-         hide({ padding }),
-         shift({ padding, limiter: limitShift() }),
-         size({ padding }),
-      ],
-      whileElementsMounted: (...args) => {
-         return autoUpdate(...args, {
-            animationFrame: true,
-         });
-      },
-   });
-
-   useLayoutEffect(() => {
-      setReference({
-         getBoundingClientRect: () => range.getBoundingClientRect(),
+  const {
+    refs: { setReference, setFloating },
+    strategy,
+    x,
+    y,
+  } = useFloating({
+    strategy: "fixed",
+    placement: "bottom",
+    middleware: [
+      flip({ padding, crossAxis: false }),
+      offset(10),
+      hide({ padding }),
+      shift({ padding, limiter: limitShift() }),
+      size({ padding }),
+    ],
+    whileElementsMounted: (...args) => {
+      return autoUpdate(...args, {
+        animationFrame: true,
       });
-   }, [setReference, range]);
+    },
+  });
 
-   return createPortal(
-      <div
-         ref={setFloating}
-         style={{
-            position: strategy,
-            top: 0,
-            left: 0,
-            transform: `translate3d(${Math.round(x)}px, ${Math.round(y)}px, 0)`,
-            minWidth: "max-content",
-         }}
-      >
-         <div className="flex w-full min-w-max items-center justify-center gap-2 rounded-lg bg-dark-350 p-1.5 shadow-xl">
-            <button
-               onClick={() => {
-                  const isOpen = editor.dispatchCommand(
-                     OPEN_FLOATING_COMPOSER_COMMAND,
-                     undefined
-                  );
-                  if (isOpen) {
-                     onRangeChange(null);
-                  }
-               }}
-               className="relative inline-flex size-8 items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 disabled:pointer-events-none disabled:opacity-50"
-            >
-               <MessageSquarePlus className="size-6" />
-            </button>
-         </div>
-      </div>,
-      container
-   );
+  useLayoutEffect(() => {
+    setReference({
+      getBoundingClientRect: () => range.getBoundingClientRect(),
+    });
+  }, [setReference, range]);
+
+  return createPortal(
+    <div
+      ref={setFloating}
+      style={{
+        position: strategy,
+        top: 0,
+        left: 0,
+        transform: `translate3d(${Math.round(x)}px, ${Math.round(y)}px, 0)`,
+        minWidth: "max-content",
+      }}
+    >
+      <div className="flex w-full min-w-max items-center justify-center gap-2 rounded-lg bg-[#101010] p-1.5 shadow-xl">
+        <button
+          onClick={() => {
+            const isOpen = editor.dispatchCommand(
+              OPEN_FLOATING_COMPOSER_COMMAND,
+              undefined
+            );
+            if (isOpen) {
+              onRangeChange(null);
+            }
+          }}
+          className="relative inline-flex size-8 items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 disabled:pointer-events-none disabled:opacity-50"
+        >
+          <MessageSquarePlus className="size-6" />
+        </button>
+      </div>
+    </div>,
+    container
+  );
 }
 
 /**
@@ -157,27 +153,27 @@ function Toolbar({
  */
 
 function getDOMTextNode(element: Node | null): Text | null {
-   let node = element;
+  let node = element;
 
-   while (node !== null) {
-      if (node.nodeType === Node.TEXT_NODE) {
-         return node as Text;
-      }
+  while (node !== null) {
+    if (node.nodeType === Node.TEXT_NODE) {
+      return node as Text;
+    }
 
-      node = node.firstChild;
-   }
+    node = node.firstChild;
+  }
 
-   return null;
+  return null;
 }
 
 function getDOMIndexWithinParent(node: ChildNode): [ParentNode, number] {
-   const parent = node.parentNode;
+  const parent = node.parentNode;
 
-   if (parent === null) {
-      throw new Error("Should never happen");
-   }
+  if (parent === null) {
+    throw new Error("Should never happen");
+  }
 
-   return [parent, Array.from(parent.childNodes).indexOf(node)];
+  return [parent, Array.from(parent.childNodes).indexOf(node)];
 }
 
 /**
@@ -190,75 +186,73 @@ function getDOMIndexWithinParent(node: ChildNode): [ParentNode, number] {
  * @returns The range of selection for the DOM that was created.
  */
 export function createDOMRange(
-   editor: LexicalEditor,
-   anchorNode: LexicalNode,
-   _anchorOffset: number,
-   focusNode: LexicalNode,
-   _focusOffset: number
+  editor: LexicalEditor,
+  anchorNode: LexicalNode,
+  _anchorOffset: number,
+  focusNode: LexicalNode,
+  _focusOffset: number
 ): Range | null {
-   const anchorKey = anchorNode.getKey();
-   const focusKey = focusNode.getKey();
-   const range = document.createRange();
-   let anchorDOM: Node | Text | null = editor.getElementByKey(anchorKey);
-   let focusDOM: Node | Text | null = editor.getElementByKey(focusKey);
-   let anchorOffset = _anchorOffset;
-   let focusOffset = _focusOffset;
+  const anchorKey = anchorNode.getKey();
+  const focusKey = focusNode.getKey();
+  const range = document.createRange();
+  let anchorDOM: Node | Text | null = editor.getElementByKey(anchorKey);
+  let focusDOM: Node | Text | null = editor.getElementByKey(focusKey);
+  let anchorOffset = _anchorOffset;
+  let focusOffset = _focusOffset;
 
-   if ($isTextNode(anchorNode)) {
-      anchorDOM = getDOMTextNode(anchorDOM);
-   }
+  if ($isTextNode(anchorNode)) {
+    anchorDOM = getDOMTextNode(anchorDOM);
+  }
 
-   if ($isTextNode(focusNode)) {
-      focusDOM = getDOMTextNode(focusDOM);
-   }
+  if ($isTextNode(focusNode)) {
+    focusDOM = getDOMTextNode(focusDOM);
+  }
 
-   if (
-      anchorNode === undefined ||
-      focusNode === undefined ||
-      anchorDOM === null ||
-      focusDOM === null
-   ) {
-      return null;
-   }
+  if (
+    anchorNode === undefined ||
+    focusNode === undefined ||
+    anchorDOM === null ||
+    focusDOM === null
+  ) {
+    return null;
+  }
 
-   if (anchorDOM.nodeName === "BR") {
-      [anchorDOM, anchorOffset] = getDOMIndexWithinParent(
-         anchorDOM as ChildNode
-      );
-   }
+  if (anchorDOM.nodeName === "BR") {
+    [anchorDOM, anchorOffset] = getDOMIndexWithinParent(anchorDOM as ChildNode);
+  }
 
-   if (focusDOM.nodeName === "BR") {
-      [focusDOM, focusOffset] = getDOMIndexWithinParent(focusDOM as ChildNode);
-   }
+  if (focusDOM.nodeName === "BR") {
+    [focusDOM, focusOffset] = getDOMIndexWithinParent(focusDOM as ChildNode);
+  }
 
-   const firstChild = anchorDOM.firstChild;
+  const firstChild = anchorDOM.firstChild;
 
-   if (
-      anchorDOM === focusDOM &&
-      firstChild !== null &&
-      firstChild.nodeName === "BR" &&
-      anchorOffset === 0 &&
-      focusOffset === 0
-   ) {
-      focusOffset = 1;
-   }
+  if (
+    anchorDOM === focusDOM &&
+    firstChild !== null &&
+    firstChild.nodeName === "BR" &&
+    anchorOffset === 0 &&
+    focusOffset === 0
+  ) {
+    focusOffset = 1;
+  }
 
-   try {
-      range.setStart(anchorDOM, anchorOffset);
-      range.setEnd(focusDOM, focusOffset);
-   } catch (e) {
-      console.log(e);
-      return null;
-   }
+  try {
+    range.setStart(anchorDOM, anchorOffset);
+    range.setEnd(focusDOM, focusOffset);
+  } catch (e) {
+    console.log(e);
+    return null;
+  }
 
-   if (
-      range.collapsed &&
-      (anchorOffset !== focusOffset || anchorKey !== focusKey)
-   ) {
-      // Range is backwards, we need to reverse it
-      range.setStart(focusDOM, focusOffset);
-      range.setEnd(anchorDOM, anchorOffset);
-   }
+  if (
+    range.collapsed &&
+    (anchorOffset !== focusOffset || anchorKey !== focusKey)
+  ) {
+    // Range is backwards, we need to reverse it
+    range.setStart(focusDOM, focusOffset);
+    range.setEnd(anchorDOM, anchorOffset);
+  }
 
-   return range;
+  return range;
 }

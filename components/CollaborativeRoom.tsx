@@ -118,7 +118,7 @@ const CollaborativeRoom = ({
                      )}
                   </div>
 
-                  <div className="flex items-center gap-3 justify-center">
+                  <div className="flex items-center gap-4 justify-center">
                      <ActiveCollaborators />
                      <ShareModal
                         roomId={roomId}

@@ -6,7 +6,7 @@ const Header = ({ children, className }: HeaderProps) => {
    return (
       <div
          className={cn(
-            "min-h-16 min-w-full flex-nowrap bg-dark-100 flex w-full items-center justify-between gap-2 px-4",
+            "min-h-16 min-w-full flex-nowrap bg-black flex w-full items-center justify-between gap-2 px-6",
             className
          )}
       >
