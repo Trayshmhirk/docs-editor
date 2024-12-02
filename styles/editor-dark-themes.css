@@ -55,8 +55,8 @@ body {
    tab-size: 1;
    outline: 0;
    padding: 40px;
-   caret-color: #b8b8b8;
-   color: #dfdfdf;
+   caret-color: #d8d8d8;
+   color: #f1f1f1;
 }
 
 .editor-placeholder {

@@ -16,11 +16,11 @@ body {
   }
 
   ::-webkit-scrollbar {
-    @apply w-[6px] h-2 rounded-[50px];
+    @apply w-1 h-[3px] rounded-[50px];
   }
 
   ::-webkit-scrollbar-thumb {
-    @apply bg-[#2e3d5b] rounded-[50px];
+    @apply bg-[#444444] rounded-[50px];
   }
 
   ::-webkit-scrollbar-track {
@@ -30,7 +30,7 @@ body {
 
 @layer utilities {
   .toolbar-wrapper {
-    @apply z-50 w-screen overflow-auto border-y border-[#2A2A2A] bg-[#111111] px-4 shadow-sm;
+    @apply z-50 w-screen overflow-x-auto overflow-y-hidden border-y border-[#2A2A2A] bg-[#111111] px-2 md:px-4 shadow-sm;
   }
 
   .editor-wrapper {
@@ -42,15 +42,22 @@ body {
   }
 
   .gradient-blue {
+    background: linear-gradient(to top, #0081a4, #00afdb);
+  }
+
+  .gradient-gray {
     background: linear-gradient(to top, #2a2a2a, #555555);
   }
 
-  .gradient-darkblue {
-    background: linear-gradient(to top, #1b263b, #151e2f);
+  .gradient-darkgray {
+    background: linear-gradient(to top, #222222, #1c1c1c) !important;
   }
 
   .gradient-red {
     background: linear-gradient(to top, #ef4444, #f87171);
+  }
+  .gradient-red:hover {
+    background: #ef4444;
   }
 
   .document-title-input {
@@ -72,7 +79,7 @@ body {
 .cl-signIn-start,
 .cl-signUp-start,
 .cl-footer {
-  background: #000000;
+  background: #1f1f1f;
   box-shadow: none;
   padding: 20px;
 }
@@ -80,13 +87,13 @@ body {
 .cl-socialButtonsBlockButton,
 .cl-socialButtonsBlockButton:hover {
   height: 40px;
-  background-color: #555555;
+  background-color: #323232;
   color: #fff;
   transition: all 200ms ease-in-out;
 }
 
 .cl-socialButtonsBlockButton:hover {
-  background-color: #3d3d3d;
+  background-color: #252525;
 }
 
 /* .cl-internal-2gzuzc {
@@ -99,7 +106,7 @@ body {
 
 .cl-userButtonPopoverMain,
 .cl-userButtonPopoverFooter {
-  background: #0b1527;
+  background: #1d1d1d;
 }
 
 .cl-internal-piyvrh {
@@ -120,8 +127,8 @@ body {
   --lb-accent-subtle: #010409;
   --lb-radius: 6px;
   --lb-dynamic-background: #121212;
-  --lb-accent: #b8b8b8;
-  --lb-accent-moderate: #b8b8b8;
+  --lb-accent: #6f6f6f;
+  --lb-accent-moderate: #9b9b9b;
 }
 
 .lb-comment,
@@ -133,12 +140,11 @@ body {
 }
 
 .lb-button {
-  --lb-foreground-moderate: #fff;
+  --lb-foreground-moderate: #444444;
 }
 
 .lb-button:where([data-variant="primary"]) {
-  /* background-color: #161e30; */
-  color: #dfdfdf;
+  color: #ffffff;
 }
 
 .lb-button:where(
@@ -151,7 +157,7 @@ body {
           )
       )
   ) {
-  color: #dfdfdf;
+  color: #ffffff;
 }
 
 .lb-button:where(
@@ -160,9 +166,9 @@ body {
     [aria-expanded="true"],
     [aria-selected="true"]
   ) {
-  --lb-button-background: #161e30;
+  --lb-button-background: #4a4a4a;
 
-  color: #dfdfdf;
+  color: #ffffff;
 }
 
 .lb-inbox-notification-list-item:where(:not(:last-of-type)) {
