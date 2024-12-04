@@ -34,7 +34,7 @@ body {
   }
 
   .editor-wrapper {
-    @apply h-[calc(100vh-114px)] gap-5 overflow-auto px-5 pt-5 lg:flex-row lg:items-start lg:justify-center xl:gap-10 xl:pt-10;
+    @apply h-[calc(100vh-114px)] gap-5 overflow-auto p-4 pb-8 lg:flex-row lg:items-start lg:justify-center md:p-5 xl:gap-10 xl:pt-10;
   }
 
   .auth-page {

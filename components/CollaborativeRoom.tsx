@@ -73,6 +73,11 @@ const CollaborativeRoom = ({
   //    }
   // }, [editing]);
 
+  useEffect(() => {
+    // Dynamically update the document title
+    document.title = `Docs Editor | ${documentTitle}`;
+  }, [documentTitle]);
+
   return (
     <RoomProvider id={roomId}>
       <ClientSideSuspense fallback={<Loader />}>
@@ -91,14 +96,14 @@ const CollaborativeRoom = ({
                   className="document-title-input"
                 />
               ) : (
-                <p className="line-clamp-1 border-dark-400 text-base font-semibold leading-[24px] sm:pl-0 sm:text-xl">
+                <p className="line-clamp-1 border-dark-400 text-sm font-semibold leading-[24px] sm:text-lg">
                   {documentTitle}
                 </p>
               )}
 
               {currentUserType === "editor" && !editing && (
                 <SquarePen
-                  className="size-6 cursor-pointer"
+                  className="size-5 cursor-pointer"
                   onClick={() => setEditing(true)}
                 />
               )}
@@ -110,7 +115,7 @@ const CollaborativeRoom = ({
               {loading && <p className="text-sm text-gray-100">saving...</p>}
             </div>
 
-            <div className="flex items-center gap-4 justify-center">
+            <div className="flex items-center gap-2 md:gap-4 justify-center">
               <ActiveCollaborators />
               <ShareModal
                 roomId={roomId}

@@ -50,7 +50,7 @@ export function Editor({ roomId, currentUserType }: Editorprops) {
             <div className="editor-inner min-h-[1100px] relative mb-5 h-fit w-full max-w-[800px] shadow-md lg:mb-10 rounded-[3px]">
               <RichTextPlugin
                 contentEditable={
-                  <ContentEditable className="editor-input h-full" />
+                  <ContentEditable className="editor-input h-full px-7 py-8 md:p-10" />
                 }
                 placeholder={
                   <div className="editor-placeholder">
