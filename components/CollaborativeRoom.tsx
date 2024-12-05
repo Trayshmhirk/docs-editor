@@ -50,14 +50,26 @@ const CollaborativeRoom = ({
   };
 
   useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
+    const handleClickOutside = async (e: MouseEvent) => {
       if (
+        editing && // Only proceed if the title is being edited
         containerRef.current &&
         !containerRef.current.contains(e.target as Node)
       ) {
-        setEditing(false);
-        updateDocument(roomId, documentTitle);
+        setLoading(true); // Show "saving..." only during editing
+        try {
+          if (documentTitle !== roomMetadata.title) {
+            await updateDocument(roomId, documentTitle);
+          }
+        } catch (error) {
+          console.error(`Error updating document title: ${error}`);
+        } finally {
+          setLoading(false); // Hide loading after completing the update
+          setEditing(false); // Exit editing mode
+        }
       }
+
+      setLoading(false);
     };
 
     document.addEventListener("mousedown", handleClickOutside);
@@ -65,13 +77,13 @@ const CollaborativeRoom = ({
     return () => {
       document.addEventListener("mousedown", handleClickOutside);
     };
-  }, [roomId, documentTitle]);
+  }, [roomId, documentTitle, editing, roomMetadata.title]);
 
-  // useEffect(() => {
-  //    if (editing && inputRef.current) {
-  //       inputRef.current.focus();
-  //    }
-  // }, [editing]);
+  useEffect(() => {
+    if (editing && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [editing]);
 
   useEffect(() => {
     // Dynamically update the document title
