@@ -58,13 +58,13 @@ const Home = async () => {
             {roomDocuments.data.map(({ id, metadata, createdAt }) => (
               <li
                 key={id}
-                className="flex items-center justify-between gap-4 rounded-lg bg-[#2A2A2A] bg-cover p-5 shadow-xl"
+                className="flex items-center justify-between gap-4 rounded-lg bg-white dark:bg-[#2A2A2A] p-5 border border-[#f1f1f1] dark:border-[#424242] shadow-md dark:shadow-lg"
               >
                 <Link
                   href={`/documents/${id}`}
                   className="flex flex-1 items-center gap-4"
                 >
-                  <div className="hidden rounded-md bg-[#555555] p-2 sm:block">
+                  <div className="hidden rounded-md bg-[#f5f5f5] dark:bg-[#555555] p-2 sm:block">
                     <Image
                       src="/assets/icons/doc.svg"
                       alt="Document File"

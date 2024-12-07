@@ -26,8 +26,8 @@ const AddDocumentBtn = ({ userId, email }: AddDocumentBtnProps) => {
       onClick={addDocumentHandler}
       className="gradient-blue flex gap-2 shadow-md"
     >
-      <Plus className="w-6 h-6" />
-      <p className="hidden sm:block">Start a blank document</p>
+      <Plus className="w-6 h-6 text-white" />
+      <p className="hidden sm:block text-white">Start a blank document</p>
     </Button>
   );
 };

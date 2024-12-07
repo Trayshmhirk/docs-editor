@@ -56,6 +56,7 @@ body {
   .gradient-red {
     background: linear-gradient(to top, #ef4444, #f87171);
   }
+
   .gradient-red:hover {
     background: #ef4444;
   }
@@ -147,25 +148,17 @@ body {
   color: #ffffff;
 }
 
-.lb-button:where(
-    [data-variant="default"]:not(
-        :is(
-            :enabled:hover,
-            :enabled:focus-visible,
-            [aria-expanded="true"],
-            [aria-selected="true"]
-          )
-      )
-  ) {
+.lb-button:where([data-variant="default"]:not( :is( :enabled:hover,
+      :enabled:focus-visible,
+      [aria-expanded="true"],
+      [aria-selected="true"]))) {
   color: #ffffff;
 }
 
-.lb-button:where(
-    :enabled:hover,
-    :enabled:focus-visible,
-    [aria-expanded="true"],
-    [aria-selected="true"]
-  ) {
+.lb-button:where( :enabled:hover,
+  :enabled:focus-visible,
+  [aria-expanded="true"],
+  [aria-selected="true"]) {
   --lb-button-background: #4a4a4a;
 
   color: #ffffff;

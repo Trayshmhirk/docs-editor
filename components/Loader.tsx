@@ -11,7 +11,7 @@ const Loader = () => {
       {isDark ? (
         <ClipLoader color="#ffffff" size={40} className="" />
       ) : (
-        <ClipLoader color="#00A2C9" size={40} className="" />
+        <ClipLoader color="#1e1e1e" size={40} className="" />
       )}
     </div>
   );
