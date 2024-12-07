@@ -5,34 +5,42 @@ import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import { dark } from "@clerk/themes";
 import Provider from "./Provider";
+import { ThemeProvider } from "@/components/providers/theme-provider";
 
 export const metadata: Metadata = {
-   title: "Docs Editor",
-   description: "A live collaborative docs editor",
+  title: "Docs Editor",
+  description: "A live collaborative docs editor",
 };
 
 export default function RootLayout({
-   children,
+  children,
 }: Readonly<{
-   children: React.ReactNode;
+  children: React.ReactNode;
 }>) {
-   return (
-      <ClerkProvider
-         appearance={{
-            baseTheme: dark,
-            variables: {
-               colorPrimary: "#3371FF",
-               colorBackground: "#09111f",
+  return (
+    <ClerkProvider
+      appearance={{
+        baseTheme: dark,
+        variables: {
+          colorPrimary: "#3371FF",
+          colorBackground: "#09111f",
 
-               fontSize: "16px",
-            },
-         }}
-      >
-         <html lang="en" suppressHydrationWarning>
-            <body className="min-h-screen">
-               <Provider>{children}</Provider>
-            </body>
-         </html>
-      </ClerkProvider>
-   );
+          fontSize: "16px",
+        },
+      }}
+    >
+      <html lang="en" suppressHydrationWarning>
+        <body className="min-h-screen">
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem={true}
+            storageKey="theme"
+          >
+            <Provider>{children}</Provider>
+          </ThemeProvider>
+        </body>
+      </html>
+    </ClerkProvider>
+  );
 }

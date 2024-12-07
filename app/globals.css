@@ -11,10 +11,6 @@ body {
 }
 
 @layer base {
-  :root {
-    @apply bg-[#111111] text-white;
-  }
-
   ::-webkit-scrollbar {
     @apply w-1 h-[3px] rounded-[50px];
   }
@@ -25,6 +21,10 @@ body {
 
   ::-webkit-scrollbar-track {
     @apply bg-[#09090a];
+  }
+
+  body {
+    @apply bg-white text-[#1e1e1e] dark:bg-[#111111] dark:text-white;
   }
 }
 
