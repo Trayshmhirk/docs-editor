@@ -40,53 +40,57 @@ const Home = async () => {
         </div>
       </Header>
 
-      <div className="absolute bottom-10 right-10">
+      <div className="absolute bottom-10 right-7 md:bottom-10 md:right-10">
         <ToggleTheme />
       </div>
 
       {roomDocuments.data.length > 0 ? (
-        <div className="flex flex-col items-center mb-10 w-full gap-10 px-5">
-          <div className="max-w-[730px] items-end flex w-full justify-between">
-            <h3 className="text-28text-[28px] font-semibold">All documents</h3>
-            <AddDocumentBtn
-              userId={clerkUser.id}
-              email={clerkUser.emailAddresses[0].emailAddress}
-            />
-          </div>
+        <div className="w-full flex justify-center px-5 pb-10">
+          <div className="max-w-[730px] w-full flex flex-col items-center gap-10">
+            <div className="items-center flex w-full justify-between">
+              <h3 className="text-28text-[28px] font-semibold">
+                All documents
+              </h3>
+              <AddDocumentBtn
+                userId={clerkUser.id}
+                email={clerkUser.emailAddresses[0].emailAddress}
+              />
+            </div>
 
-          <ul className="flex w-full max-w-[730px] flex-col gap-5">
-            {roomDocuments.data.map(({ id, metadata, createdAt }) => (
-              <li
-                key={id}
-                className="flex items-center justify-between gap-4 rounded-lg bg-white dark:bg-[#2A2A2A] px-5 py-4 border border-[#f1f1f1] dark:border-[#424242] shadow-md dark:shadow-xl-dark"
-              >
-                <Link
-                  href={`/documents/${id}`}
-                  className="flex flex-1 items-center gap-4"
+            <ul className="flex w-full flex-col gap-5">
+              {roomDocuments.data.map(({ id, metadata, createdAt }) => (
+                <li
+                  key={id}
+                  className="flex items-center justify-between gap-4 rounded-lg bg-white dark:bg-[#2A2A2A] px-5 py-4 border border-[#f1f1f1] dark:border-[#424242] shadow-md dark:shadow-xl-dark"
                 >
-                  <div className="hidden rounded-md bg-[#f5f5f5] dark:bg-[#555555] p-2 sm:block">
-                    <Image
-                      src="/assets/icons/doc.svg"
-                      alt="Document File"
-                      width={40}
-                      height={40}
-                      className=""
-                    />
-                  </div>
+                  <Link
+                    href={`/documents/${id}`}
+                    className="flex flex-1 items-center gap-4"
+                  >
+                    <div className="hidden rounded-md bg-[#f5f5f5] dark:bg-[#555555] p-2 sm:block">
+                      <Image
+                        src="/assets/icons/doc.svg"
+                        alt="Document File"
+                        width={40}
+                        height={40}
+                        className=""
+                      />
+                    </div>
 
-                  <div className="flex flex-col gap-1">
-                    <p className="line-clamp-1 text-lg">{metadata.title}</p>
-                    <p className="text-sm font-light text-[#B8B8B8]">
-                      Created about{" "}
-                      {dateConverter(new Date(createdAt).toISOString())}
-                    </p>
-                  </div>
-                </Link>
+                    <div className="flex flex-col gap-1">
+                      <p className="line-clamp-1 text-lg">{metadata.title}</p>
+                      <p className="text-sm font-light text-[#999999] dark:text-[#B8B8B8]">
+                        Created about{" "}
+                        {dateConverter(new Date(createdAt).toISOString())}
+                      </p>
+                    </div>
+                  </Link>
 
-                <DeleteModal roomId={id} />
-              </li>
-            ))}
-          </ul>
+                  <DeleteModal roomId={id} />
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       ) : (
         <div className="flex w-full max-w-[730px] flex-col items-center justify-center gap-5 rounded-lg bg-dark-200 px-10 py-8">

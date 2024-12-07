@@ -34,7 +34,7 @@ const DeleteModal = ({ roomId }: { roomId: string }) => {
           <Trash2 className="size-5 text-red-600 dark:text-red-600" />
         </Button>
       </DialogTrigger>
-      <DialogContent className="w-full max-w-[400px] flex flex-col gap-6 rounded-xl border-none dark:!gradient-darkgray px-5 py-7 shadow-xl sm:min-w-[500px]">
+      <DialogContent className="w-full md:max-w-[400px] flex flex-col gap-6 rounded-xl border-none dark:!gradient-darkgray px-5 py-7 shadow-xl">
         <DialogHeader className="items-center sm:text-center gap-4 space-y-0">
           <div className="size-12 rounded-full flex items-center justify-center border-8 border-[#c46060] dark:border-[#603333] bg-[#772d2d] dark:bg-[#2c1616]">
             <Trash2 className="size-5 text-[#f84141] dark:text-[#ed4b4b]" />
