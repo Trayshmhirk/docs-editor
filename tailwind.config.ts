@@ -51,6 +51,16 @@ export default {
       "accordion-down": "accordion-down 0.2s ease-out",
       "accordion-up": "accordion-up 0.2s ease-out",
     },
+    boxShadow: {
+      sm: "0 1px 2px 0px rgb(0 0 0 / 0.05)", // Small shadow
+      "sm-dark": "0 1px 3px 0px rgb(0 0 0 / 0.5)", // Small shadow (dark mode)
+      md: "0 2px 4px 0px rgb(0 0 0 / 0.1)", // Medium shadow
+      "md-dark": "0 2px 5px 0px rgb(0 0 0 / 0.6)", // Medium shadow (dark mode)
+      lg: "0 4px 6px -1px rgb(0 0 0 / 0.1)", // Large shadow
+      "lg-dark": "0 4px 7px -1px rgb(0 0 0 / 0.7)", // Large shadow (dark mode)
+      xl: "0 6px 8px -2px rgb(0 0 0 / 0.15)", // Extra large shadow
+      "xl-dark": "0 6px 10px -2px rgb(0 0 0 / 0.8)", // Extra large shadow (dark mode)
+    },
   },
   // plugins: [require("tailwindcss-animate")],
 } satisfies Config;

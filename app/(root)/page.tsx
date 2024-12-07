@@ -58,7 +58,7 @@ const Home = async () => {
             {roomDocuments.data.map(({ id, metadata, createdAt }) => (
               <li
                 key={id}
-                className="flex items-center justify-between gap-4 rounded-lg bg-white dark:bg-[#2A2A2A] p-5 border border-[#f1f1f1] dark:border-[#424242] shadow-md dark:shadow-lg"
+                className="flex items-center justify-between gap-4 rounded-lg bg-white dark:bg-[#2A2A2A] p-5 border border-[#f1f1f1] dark:border-[#424242] shadow-lg dark:shadow-xl-dark"
               >
                 <Link
                   href={`/documents/${id}`}
