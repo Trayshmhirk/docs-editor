@@ -67,7 +67,7 @@ body {
   }
 }
 
-/* ======================== Clerk Override */
+/* Clerk Override */
 .cl-internal-piyvrh,
 .cl-internal-16vtwdp,
 .cl-internal-lk7758,
@@ -79,7 +79,7 @@ body {
   background: none;
 }
 
-/* ======================== Liveblocks Override */
+/* Liveblocks Override */
 .lb-root {
   --lb-accent-subtle: #010409;
   --lb-radius: 6px;
