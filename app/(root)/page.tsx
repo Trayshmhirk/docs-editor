@@ -2,7 +2,6 @@ import AddDocumentBtn from "@/components/AddDocumentBtn";
 import Header from "@/components/Header";
 import { getDocuments } from "@/lib/actions/room.actions";
 import { dateConverter } from "@/lib/utils";
-import { SignedIn, UserButton } from "@clerk/nextjs";
 import { currentUser } from "@clerk/nextjs/server";
 import Image from "next/image";
 import Link from "next/link";
@@ -12,6 +11,7 @@ import { RoomData } from "@liveblocks/node";
 import DeleteModal from "@/components/DeleteModal";
 import Notifications from "@/components/Notifications";
 import { ToggleTheme } from "@/components/ToggleTheme";
+import ClerkUserButton from "@/components/ClerkUserButton";
 
 type RoomDocumentsProps = {
   data: RoomData[];
@@ -34,9 +34,7 @@ const Home = async () => {
         <div className="flex items-center gap-2 lg-gap-6">
           <Notifications />
 
-          <SignedIn>
-            <UserButton />
-          </SignedIn>
+          <ClerkUserButton />
         </div>
       </Header>
 

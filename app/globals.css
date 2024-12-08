@@ -5,6 +5,7 @@
 @import "@liveblocks/react-ui/styles.css";
 @import "@liveblocks/react-lexical/styles.css";
 @import "../styles/editor-dark-themes.css";
+@import "../styles/editor-light-themes.css";
 
 body {
   font-family: Arial, Helvetica, sans-serif;
@@ -32,16 +33,13 @@ body {
   .hover-shadow {
     @apply transition-transform duration-300 ease-in-out hover:-translate-y-[1px] hover:shadow-md dark:hover:shadow-md-dark;
   }
+
   .toolbar-wrapper {
     @apply z-50 w-screen overflow-x-auto overflow-y-hidden border-y border-[#2A2A2A] bg-[#111111] px-2 md:px-4 shadow-md;
   }
 
   .editor-wrapper {
     @apply h-[calc(100vh-114px)] gap-5 overflow-auto p-4 pb-8 lg:flex-row lg:items-start lg:justify-center md:p-5 xl:gap-10 xl:pt-10;
-  }
-
-  .auth-page {
-    @apply flex h-screen w-full flex-col items-center justify-center gap-10;
   }
 
   .gradient-blue {
@@ -70,60 +68,15 @@ body {
 }
 
 /* ======================== Clerk Override */
-.cl-avatarBox {
-  width: 36px;
-  height: 36px;
-}
-
-.cl-userButtonTrigger {
-  height: fit-content !important;
-}
-
-.cl-cardBox,
-.cl-signIn-start,
-.cl-signUp-start,
-.cl-footer {
-  background: #1f1f1f;
-  box-shadow: none;
-  padding: 20px;
-}
-
-.cl-socialButtonsBlockButton,
-.cl-socialButtonsBlockButton:hover {
-  height: 40px;
-  background-color: #323232;
-  color: #fff;
-  transition: all 200ms ease-in-out;
-}
-
-.cl-socialButtonsBlockButton:hover {
-  background-color: #252525;
-}
-
-/* .cl-internal-2gzuzc {
-   filter: brightness(100%);
-} */
-
-.cl-logoBox {
-  height: 64px;
-}
-
-.cl-userButtonPopoverMain,
-.cl-userButtonPopoverFooter {
-  background: #1d1d1d;
-}
-
-.cl-internal-piyvrh {
-  background: none;
-}
-
-.cl-internal-186wk34 {
-  top: 1.5rem;
-  right: 1.5rem;
-}
-
-.cl-internal-1l66zxt {
+.cl-internal-piyvrh,
+.cl-internal-16vtwdp,
+.cl-internal-lk7758,
+.cl-internal-13u79ez {
   display: none;
+}
+
+.cl-internal-w4f4gh {
+  background: none;
 }
 
 /* ======================== Liveblocks Override */
