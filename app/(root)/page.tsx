@@ -91,14 +91,16 @@ const Home = async () => {
           </div>
         </div>
       ) : (
-        <div className="flex w-full max-w-[730px] flex-col items-center justify-center gap-5 rounded-lg bg-dark-200 px-10 py-8">
-          <Image
-            src="/assets/icons/doc.svg"
-            alt="Document"
-            width={40}
-            height={40}
-            className=""
-          />
+        <div className="flex w-full max-w-[730px] flex-col items-center justify-center gap-5 rounded-lg bg-white dark:bg-[#2A2A2A] px-10 py-6 border border-[#f1f1f1] dark:border-[#424242] shadow-md dark:shadow-lg-dark">
+          <div className="hidden rounded-md bg-[#f5f5f5] dark:bg-[#555555] p-2 sm:block">
+            <Image
+              src="/assets/icons/doc.svg"
+              alt="Document"
+              width={40}
+              height={40}
+              className=""
+            />
+          </div>
 
           <AddDocumentBtn
             userId={clerkUser.id}
