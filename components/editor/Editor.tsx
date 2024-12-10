@@ -16,11 +16,11 @@ import {
   LiveblocksPlugin,
   useIsEditorReady,
 } from "@liveblocks/react-lexical";
-import Loader from "../Loader";
+import Loader from "@/components/Loader";
 import FloatingToolbarPlugin from "./plugins/FloatingToolbarPlugin";
 import { useThreads } from "@liveblocks/react/suspense";
-import Comments from "../Comments";
-import DeleteModal from "../DeleteModal";
+import Comments from "@/components/Comments";
+import DeleteModal from "@/components/modal/DeleteModal";
 
 export function Editor({ roomId, currentUserType }: Editorprops) {
   const initialConfig = liveblocksConfig({

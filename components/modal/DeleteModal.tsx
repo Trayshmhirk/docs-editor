@@ -11,7 +11,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Button } from "./ui/button";
+import { Button } from "@/components/ui/button";
 import { Trash2 } from "lucide-react";
 import { deleteDocument } from "@/lib/actions/room.actions";
 

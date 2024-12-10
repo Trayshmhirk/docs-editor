@@ -8,7 +8,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import React from "react";
 import { RoomData } from "@liveblocks/node";
-import DeleteModal from "@/components/DeleteModal";
+import DeleteModal from "@/components/modal/DeleteModal";
 import Notifications from "@/components/Notifications";
 import { ToggleTheme } from "@/components/ToggleTheme";
 import ClerkUserButton from "@/components/ClerkUserButton";

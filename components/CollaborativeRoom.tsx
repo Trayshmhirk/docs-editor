@@ -5,13 +5,13 @@ import { ClientSideSuspense } from "@liveblocks/react/suspense";
 import { Editor } from "@/components/editor/Editor";
 import Header from "@/components/Header";
 import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
-import ActiveCollaborators from "./ActiveCollaborators";
-import Loader from "./Loader";
+import ActiveCollaborators from "@/components/ActiveCollaborators";
+import Loader from "@/components/Loader";
 import { useEffect, useRef, useState } from "react";
-import { Input } from "./ui/input";
+import { Input } from "@/components/ui/input";
 import { SquarePen } from "lucide-react";
 import { updateDocument } from "@/lib/actions/room.actions";
-import ShareModal from "./ShareModal";
+import ShareModal from "@/components/modal/ShareModal";
 
 const CollaborativeRoom = ({
   roomId,

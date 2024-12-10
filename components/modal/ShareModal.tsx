@@ -10,12 +10,12 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Button } from "./ui/button";
+import { Button } from "@/components/ui/button";
 import { Share } from "lucide-react";
-import { Label } from "./ui/label";
-import { Input } from "./ui/input";
-import UserTypeSelector from "./UserTypeSelector";
-import Collaborator from "./Collaborator";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import UserTypeSelector from "@/components/UserTypeSelector";
+import Collaborator from "@/components/Collaborator";
 import { updateDocumentAccess } from "@/lib/actions/room.actions";
 
 const ShareModal = ({
