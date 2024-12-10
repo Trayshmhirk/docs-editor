@@ -38,7 +38,7 @@ const Notifications = () => {
       </PopoverTrigger>
       <PopoverContent
         align="end"
-        className="flex flex-col gap-2 max-w-[350px] sm:max-w-[460px] w-full border dark:bg-[#1f1f1f] border-[#eeeeee] dark:border-[#181818] ml-4 shadow-lg"
+        className="flex flex-col gap-2 max-w-[350px] sm:max-w-[460px] w-full border dark:bg-[#1f1f1f] border-[#eeeeee] dark:border-[#181818] ml-3 shadow-lg"
       >
         <LiveblocksUIConfig
           overrides={{
