@@ -8,6 +8,13 @@ export default {
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
+    screens: {
+      xs: "404px",
+      sm: "576px",
+      md: "768px",
+      lg: "1024px",
+      xl: "1200px",
+    },
     container: {
       center: true,
       padding: "2rem",

@@ -33,12 +33,12 @@ const Notifications = () => {
         <Bell className="size-6" />
 
         {count > 0 && (
-          <div className="absolute right-2 top-2 z-20 size-2 rounded-full bg-blue-500 text-white"></div>
+          <div className="absolute right-2 top-2 z-20 size-2 rounded-full bg-[#00afdb] text-white"></div>
         )}
       </PopoverTrigger>
       <PopoverContent
         align="end"
-        className="w-[460px] border dark:bg-[#1f1f1f] border-[#eeeeee] dark:border-[#181818] shadow-lg"
+        className="flex flex-col gap-2 max-w-[350px] sm:max-w-[460px] w-full border dark:bg-[#1f1f1f] border-[#eeeeee] dark:border-[#181818] ml-4 shadow-lg"
       >
         <LiveblocksUIConfig
           overrides={{
@@ -47,7 +47,7 @@ const Notifications = () => {
             ),
           }}
         >
-          <InboxNotificationList>
+          <InboxNotificationList className="flex flex-col gap-2">
             {unreadNotifications.length === 0 && (
               <p className="p-2 text-center text-[#bbbbbb] dark:text-[#656565]">
                 No new notifications
@@ -58,7 +58,7 @@ const Notifications = () => {
                 <InboxNotification
                   key={notification.id}
                   inboxNotification={notification}
-                  className="border-b border-dark-300 bg-dark-200 text-white"
+                  className="flex flex-col gap-2 md:gap-3 sm:flex-row border border-[#eeeeee] dark:border-[#434343] bg-[#f7f7f7] dark:bg-[#2a2a2a] text-[#1e1e1e] dark:text-[white] py-3 rounded"
                   href={`/documents/${notification.roomId}`}
                   showActions={false}
                   kinds={{
@@ -66,7 +66,7 @@ const Notifications = () => {
                       <InboxNotification.Thread
                         {...props}
                         showActions={false}
-                        showRoomName={false}
+                        showRoomName={true}
                       />
                     ),
                     textMention: (props) => (
@@ -78,7 +78,11 @@ const Notifications = () => {
                     $documentAccess: (props) => (
                       <InboxNotification.Custom
                         {...props}
-                        title={props.inboxNotification.activities[0].data.title}
+                        title={
+                          <p className="text-sm">
+                            {props.inboxNotification.activities[0].data.title}
+                          </p>
+                        }
                         aside={
                           <InboxNotification.Icon className="bg-transparent">
                             <Image
