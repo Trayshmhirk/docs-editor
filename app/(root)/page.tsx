@@ -43,8 +43,8 @@ const Home = async () => {
       </div>
 
       {roomDocuments.data.length > 0 ? (
-        <div className="w-full flex justify-center px-5 pb-10">
-          <div className="max-w-[730px] w-full flex flex-col items-center gap-10">
+        <div className="w-full flex justify-center px-4 sm:px-5 py-2 pb-10">
+          <div className="max-w-[730px] w-full flex flex-col items-center gap-8 sm:gap-10">
             <div className="items-center flex w-full justify-between">
               <h3 className="text-28text-[28px] font-semibold">
                 All documents
@@ -55,7 +55,7 @@ const Home = async () => {
               />
             </div>
 
-            <ul className="flex w-full flex-col gap-5">
+            <ul className="flex w-full flex-col gap-4 sm:gap-5">
               {roomDocuments.data.map(({ id, metadata, createdAt }) => (
                 <li
                   key={id}
@@ -63,9 +63,9 @@ const Home = async () => {
                 >
                   <Link
                     href={`/documents/${id}`}
-                    className="flex flex-1 items-center gap-4"
+                    className="flex flex-1 items-center gap-3 sm:gap-4"
                   >
-                    <div className="hidden rounded-md bg-[#f5f5f5] dark:bg-[#555555] p-2 sm:block">
+                    <div className="size-11 sm:size-14 flex-shrink-0 flex-grow-0 rounded-md bg-[#f5f5f5] dark:bg-[#555555] p-2">
                       <Image
                         src="/assets/icons/doc.svg"
                         alt="Document File"
@@ -76,8 +76,10 @@ const Home = async () => {
                     </div>
 
                     <div className="flex flex-col gap-1">
-                      <p className="line-clamp-1 text-lg">{metadata.title}</p>
-                      <p className="text-sm font-light text-[#999999] dark:text-[#B8B8B8]">
+                      <p className="line-clamp-1 sm:text-lg font-medium sm:font-normal">
+                        {metadata.title}
+                      </p>
+                      <p className="text-xs sm:text-sm font-light text-[#999999] dark:text-[#B8B8B8]">
                         Created about{" "}
                         {dateConverter(new Date(createdAt).toISOString())}
                       </p>
@@ -92,7 +94,7 @@ const Home = async () => {
         </div>
       ) : (
         <div className="flex w-full max-w-[730px] flex-col items-center justify-center gap-5 rounded-lg bg-white dark:bg-[#2A2A2A] px-10 py-6 border border-[#f1f1f1] dark:border-[#424242] shadow-md dark:shadow-lg-dark">
-          <div className="hidden rounded-md bg-[#f5f5f5] dark:bg-[#555555] p-2 sm:block">
+          <div className="rounded-md bg-[#f5f5f5] dark:bg-[#555555] p-2">
             <Image
               src="/assets/icons/doc.svg"
               alt="Document"
