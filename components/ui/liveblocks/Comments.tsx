@@ -6,31 +6,31 @@ import { useIsThreadActive } from "@liveblocks/react-lexical";
 import { cn } from "@/lib/utils";
 
 const ThreadWrapper = ({ thread }: { thread: ThreadData<BaseMetadata> }) => {
-   const isActive = useIsThreadActive(thread.id);
-   return (
-      <Thread
-         thread={thread}
-         data-state={isActive ? "active" : null}
-         className={cn(
-            "w-full max-w-[800px] border border-[#2A2A2A] shadow-sm lg:w-[350px] transition-all rounded-[3px]",
-            isActive && "!border-blue-500 shadow-md",
-            thread.resolved && "opacity-40"
-         )}
-      />
-   );
+  const isActive = useIsThreadActive(thread.id);
+  return (
+    <Thread
+      thread={thread}
+      data-state={isActive ? "active" : null}
+      className={cn(
+        "w-full max-w-[800px] border border-[#2A2A2A] shadow-sm lg:w-[350px] transition-all rounded-[3px]",
+        isActive && "!border-blue-500 shadow-md",
+        thread.resolved && "opacity-40"
+      )}
+    />
+  );
 };
 
 const Comments = () => {
-   const { threads } = useThreads();
-   return (
-      <div className="lg:w-fit flex w-full flex-col gap-4 items-center justify-center">
-         <Composer className="w-full max-w-[800px] border border-[#2A2A2A] shadow-sm lg:w-[350px] rounded-[3px]" />
+  const { threads } = useThreads();
+  return (
+    <div className="lg:w-fit flex w-full flex-col gap-4 items-center justify-center">
+      <Composer className="w-full max-w-[800px] border border-[#2A2A2A] shadow-sm lg:w-[350px] rounded-[3px]" />
 
-         {threads.map((thread) => (
-            <ThreadWrapper key={thread.id} thread={thread} />
-         ))}
-      </div>
-   );
+      {threads.map((thread) => (
+        <ThreadWrapper key={thread.id} thread={thread} />
+      ))}
+    </div>
+  );
 };
 
 export default Comments;

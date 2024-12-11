@@ -1,22 +1,18 @@
-// declare type SearchParamProps = {
-//    params: { [key: string]: any };
-// };
-
 declare type UserType = "creator" | "editor" | "viewer";
 
 declare type Editorprops = {
-   roomId: string;
-   currentUserType: UserType;
+  roomId: string;
+  currentUserType: UserType;
 };
 
 declare type HeaderProps = {
-   children: React.ReactNode;
-   className?: string;
+  children: React.ReactNode;
+  className?: string;
 };
 
 declare type CreateDocumentParams = {
-   userId: string;
-   email: string;
+  userId: string;
+  email: string;
 };
 
 declare type AccessType = ["room:write"] | ["room:read", "room:presence:write"];
@@ -24,56 +20,56 @@ declare type AccessType = ["room:write"] | ["room:read", "room:presence:write"];
 declare type RoomAccesses = Record<string, AccessType>;
 
 declare type RoomMetadata = {
-   creatorId: string;
-   email: string;
-   title: string;
+  creatorId: string;
+  email: string;
+  title: string;
 };
 
 declare type AddDocumentBtnProps = {
-   userId: string;
-   email: string;
+  userId: string;
+  email: string;
 };
 
 declare type CollaboratorProps = {
-   roomId: string;
-   email: string;
-   creatorId: string;
-   collaborator: User;
-   user: User;
+  roomId: string;
+  email: string;
+  creatorId: string;
+  collaborator: User;
+  user: User;
 };
 
 declare type CollaborativeRoomProps = {
-   roomId: string;
-   roomMetadata: RoomMetadata;
-   users: User[];
-   currentUserType: UserType;
+  roomId: string;
+  roomMetadata: RoomMetadata;
+  users: User[];
+  currentUserType: UserType;
 };
 
 declare type User = {
-   id: string;
-   name: string;
-   email: string;
-   avatar: string;
-   color: string;
-   userType?: UserType;
+  id: string;
+  name: string;
+  email: string;
+  avatar: string;
+  color: string;
+  userType?: UserType;
 };
 
 declare type ShareDocumentParams = {
-   roomId: string;
-   email: string;
-   userType: UserType;
-   updatedBy: User;
+  roomId: string;
+  email: string;
+  userType: UserType;
+  updatedBy: User;
 };
 
 declare type UserTypeSelectorParams = {
-   userType: string;
-   setUserType: React.Dispatch<React.SetStateAction<UserType>>;
-   onClickHandler?: (value: string) => void;
+  userType: string;
+  setUserType: React.Dispatch<React.SetStateAction<UserType>>;
+  onClickHandler?: (value: string) => void;
 };
 
 declare type ShareDocumentDialogProps = {
-   roomId: string;
-   collaborators: User[];
-   creatorId: string;
-   currentUserType: UserType;
+  roomId: string;
+  collaborators: User[];
+  creatorId: string;
+  currentUserType: UserType;
 };
