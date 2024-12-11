@@ -1,4 +1,4 @@
-import DocumentClient from "@/components/DocumentClient";
+import DocumentClient from "@/components/ui/common/DocumentClient";
 import { getDocument } from "@/lib/actions/room.actions";
 import { getClerkUsers } from "@/lib/actions/user.actions";
 import { currentUser } from "@clerk/nextjs/server";

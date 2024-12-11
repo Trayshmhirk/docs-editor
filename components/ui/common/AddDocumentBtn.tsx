@@ -1,7 +1,7 @@
 "use client";
 
 import { Plus } from "lucide-react";
-import { Button } from "./ui/button";
+import { Button } from "../button";
 import { createDoc } from "@/lib/actions/room.actions";
 import { useRouter } from "next/navigation";
 

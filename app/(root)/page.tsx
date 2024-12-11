@@ -1,5 +1,5 @@
-import AddDocumentBtn from "@/components/AddDocumentBtn";
-import Header from "@/components/Header";
+import AddDocumentBtn from "@/components/ui/common/AddDocumentBtn";
+import Header from "@/components/ui/shared/Header";
 import { getDocuments } from "@/lib/actions/room.actions";
 import { dateConverter } from "@/lib/utils";
 import { currentUser } from "@clerk/nextjs/server";
@@ -9,9 +9,9 @@ import { redirect } from "next/navigation";
 import React from "react";
 import { RoomData } from "@liveblocks/node";
 import DeleteModal from "@/components/modal/DeleteModal";
-import Notifications from "@/components/Notifications";
-import { ToggleTheme } from "@/components/ToggleTheme";
-import ClerkUserButton from "@/components/ClerkUserButton";
+import Notifications from "@/components/ui/liveblocks/Notifications";
+import { ToggleTheme } from "@/components/ui/common/ToggleTheme";
+import ClerkUserButton from "@/components/ui/common/ClerkUserButton";
 
 type RoomDocumentsProps = {
   data: RoomData[];

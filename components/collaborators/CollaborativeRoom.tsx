@@ -3,10 +3,10 @@
 import { RoomProvider } from "@liveblocks/react";
 import { ClientSideSuspense } from "@liveblocks/react/suspense";
 import { Editor } from "@/components/editor/Editor";
-import Header from "@/components/Header";
+import Header from "@/components/ui/shared/Header";
 import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
-import ActiveCollaborators from "@/components/ActiveCollaborators";
-import Loader from "@/components/Loader";
+import ActiveCollaborators from "@/components/collaborators/ActiveCollaborators";
+import Loader from "@/components/ui/common/Loader";
 import { useEffect, useRef, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { SquarePen } from "lucide-react";

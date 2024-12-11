@@ -1,7 +1,7 @@
 import Image from "next/image";
 import React, { useState } from "react";
-import UserTypeSelector from "./UserTypeSelector";
-import { Button } from "./ui/button";
+import UserTypeSelector from "../ui/common/UserTypeSelector";
+import { Button } from "../ui/button";
 import {
   removeCollaborator,
   updateDocumentAccess,

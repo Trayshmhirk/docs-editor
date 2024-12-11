@@ -16,10 +16,10 @@ import {
   LiveblocksPlugin,
   useIsEditorReady,
 } from "@liveblocks/react-lexical";
-import Loader from "@/components/Loader";
+import Loader from "@/components/ui/common/Loader";
 import FloatingToolbarPlugin from "./plugins/FloatingToolbarPlugin";
 import { useThreads } from "@liveblocks/react/suspense";
-import Comments from "@/components/Comments";
+import Comments from "@/components/ui/liveblocks/Comments";
 import DeleteModal from "@/components/modal/DeleteModal";
 
 export function Editor({ roomId, currentUserType }: Editorprops) {

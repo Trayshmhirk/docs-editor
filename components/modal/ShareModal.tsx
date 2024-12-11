@@ -14,8 +14,8 @@ import { Button } from "@/components/ui/button";
 import { Share } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import UserTypeSelector from "@/components/UserTypeSelector";
-import Collaborator from "@/components/Collaborator";
+import UserTypeSelector from "@/components/ui/common/UserTypeSelector";
+import Collaborator from "@/components/collaborators/Collaborator";
 import { updateDocumentAccess } from "@/lib/actions/room.actions";
 
 const ShareModal = ({
