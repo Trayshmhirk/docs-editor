@@ -130,12 +130,36 @@ html.light .lb-comment-reaction {
 }
 
 html.light .lb-comment-content {
-  background: #eeeeee; /* Light content background */
+  background: #dcdcdc; /* Light content background */
   color: #1e1e1e; /* Dark content text */
   margin-top: 16px;
   padding: 12px;
   border-radius: 4px;
   font-size: 14px;
+}
+
+html.light .lb-comment-mention:where([data-self]),
+.lb-composer-mention {
+  background: #00a2c9;
+  padding: 2px 4px;
+}
+html.dark .lb-comment-mention:where([data-self]),
+.lb-composer-mention {
+  background: #0081a4;
+}
+
+html.light .lb-comment-mention,
+.lb-composer-mention {
+  color: white;
+}
+
+html.dark .lb-comment-mention,
+.lb-composer-mention {
+  color: white;
+}
+
+html.light .lb-comment-body {
+  color: #1e1e1e;
 }
 
 .lb-button {
