@@ -21,6 +21,7 @@ import FloatingToolbarPlugin from "./plugins/FloatingToolbarPlugin";
 import { useThreads } from "@liveblocks/react/suspense";
 import Comments from "@/components/ui/liveblocks/Comments";
 import DeleteModal from "@/components/modal/DeleteModal";
+import { ToggleTheme } from "../ui/common/ToggleTheme";
 
 export function Editor({ roomId, currentUserType }: Editorprops) {
   const initialConfig = liveblocksConfig({
@@ -42,7 +43,11 @@ export function Editor({ roomId, currentUserType }: Editorprops) {
       <div className="editor-container size-full rounded-sm text-black leading-5 text-left">
         <div className="toolbar-wrapper h-[50px] flex min-w-full justify-between items-center gap-5">
           <ToolbarPlugin />
-          {currentUserType === "editor" && <DeleteModal roomId={roomId} />}
+
+          <div className="flex gap-2 items-center">
+            <ToggleTheme isEditor />
+            {currentUserType === "editor" && <DeleteModal roomId={roomId} />}
+          </div>
         </div>
 
         <div className="editor-wrapper flex flex-col items-center justify-start">

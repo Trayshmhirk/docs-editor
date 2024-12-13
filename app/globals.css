@@ -37,7 +37,7 @@ body {
   }
 
   .toolbar-wrapper {
-    @apply z-50 w-screen overflow-x-auto overflow-y-hidden border-y border-[#2A2A2A] bg-[#111111] px-2 md:px-4 shadow-md;
+    @apply z-50 w-screen overflow-x-auto overflow-y-hidden border-y border-[#d1d1d1] dark:border-[#2A2A2A] bg-[#F5F5F5] dark:bg-[#000000] px-2 md:px-4 shadow-md;
   }
 
   .editor-wrapper {
@@ -125,13 +125,17 @@ html.light .lb-comment,
 html.light .lb-thread-comments,
 html.light .lb-composer,
 html.light .lb-comment-reaction {
-  background-color: #ffffff; /* Light background */
-  color: #111; /* Dark text */
+  background-color: #ffffff;
+  /* Light background */
+  color: #111;
+  /* Dark text */
 }
 
 html.light .lb-comment-content {
-  background: #dcdcdc; /* Light content background */
-  color: #1e1e1e; /* Dark content text */
+  background: #dcdcdc;
+  /* Light content background */
+  color: #1e1e1e;
+  /* Dark content text */
   margin-top: 16px;
   padding: 12px;
   border-radius: 4px;
@@ -143,6 +147,7 @@ html.light .lb-comment-mention:where([data-self]),
   background: #00a2c9;
   padding: 2px 4px;
 }
+
 html.dark .lb-comment-mention:where([data-self]),
 .lb-composer-mention {
   background: #0081a4;

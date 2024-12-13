@@ -12,7 +12,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-export function ToggleTheme() {
+export function ToggleTheme({ isEditor }: { isEditor: boolean }) {
   const { theme, resolvedTheme, setTheme } = useTheme();
 
   return (
@@ -20,7 +20,11 @@ export function ToggleTheme() {
       <DropdownMenuTrigger asChild>
         <Button
           size="icon"
-          className="bg-white text-[#1e1e1e] hover:bg-[#eeeeee] border border-[#d1d1d1] dark:bg-[#2a2a2a] dark:text-white dark:hover:bg-[#555555] dark:border-[#7a7a7a]"
+          className={`text-[#1e1e1e] dark:text-white hover:bg-[#fcfcfc] dark:hover:bg-[#383838] transition-all   ${
+            isEditor
+              ? "bg-transparent dark:bg-transparent hover-shadow"
+              : "bg-white dark:bg-[#2a2a2a] border border-[#d1d1d1]  dark:border-[#7a7a7a]"
+          }`}
         >
           <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
           <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
@@ -29,7 +33,7 @@ export function ToggleTheme() {
       </DropdownMenuTrigger>
       <DropdownMenuContent
         align="end"
-        className="dark:bg-[#2a2a2a] dark:border-[#555555]"
+        className={`${isEditor ? "dark:bg-black" : "dark:bg-[#2a2a2a]"}  dark:border-[#555555]`}
       >
         <DropdownMenuItem
           onClick={() => setTheme("light")}

@@ -30,7 +30,7 @@ const DeleteModal = ({ roomId }: { roomId: string }) => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button className="min-w-9 rounded bg-transparent dark:bg-transparent p-2 transition-all hover:bg-[#f9f9f9] dark:hover:bg-[#383838] hover-shadow">
+        <Button className="min-w-9 rounded bg-transparent dark:bg-transparent p-2 transition-all hover:bg-[#fcfcfc] dark:hover:bg-[#383838] hover-shadow">
           <Trash2 className="size-5 text-red-600 dark:text-red-600" />
         </Button>
       </DialogTrigger>
