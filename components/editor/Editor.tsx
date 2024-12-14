@@ -44,7 +44,7 @@ export function Editor({ roomId, currentUserType }: Editorprops) {
         <div className="toolbar-wrapper h-[50px] flex min-w-full justify-between items-center gap-5">
           <ToolbarPlugin />
 
-          <div className="flex gap-2 items-center">
+          <div className="flex gap-1 items-center">
             <ToggleTheme isEditor />
             {currentUserType === "editor" && <DeleteModal roomId={roomId} />}
           </div>

@@ -67,6 +67,22 @@ body {
   .document-title-input {
     @apply min-w-[78px] flex-1 border-none bg-transparent px-0 text-left text-base font-semibold leading-[24px] focus-visible:ring-0 focus-visible:ring-offset-0 disabled:text-black sm:text-xl md:text-center !important;
   }
+
+  .toolbar button.toolbar-button {
+    @apply flex items-center bg-transparent rounded p-2 border-none hover:enabled:bg-[#eeeeee] dark:hover:enabled:bg-[#3b3b3b] cursor-pointer;
+  }
+
+  .toolbar button.toolbar-item.active {
+    @apply bg-[#eeeeee] dark:bg-[#3b3b3b];
+  }
+
+  .toolbar button.toolbar-item:disabled {
+    cursor: not-allowed;
+  }
+
+  .toolbar button.toolbar-item:disabled svg {
+    opacity: 0.2;
+  }
 }
 
 /* Clerk Override */

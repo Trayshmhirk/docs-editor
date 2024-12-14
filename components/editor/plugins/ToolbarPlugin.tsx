@@ -44,11 +44,12 @@ import {
   Strikethrough,
   Underline,
 } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 const LowPriority = 1;
 
 function Divider() {
-  return <div className="divider" />;
+  return <div className="w-[1px] h-full bg-[#dedede] dark:bg-[#3b3b3b] mx-1" />;
 }
 
 export default function ToolbarPlugin() {
@@ -138,138 +139,133 @@ export default function ToolbarPlugin() {
   }
 
   return (
-    <div className="toolbar" ref={toolbarRef}>
+    <div
+      className="toolbar h-full flex gap-[2px] bg-[#fcfcfc] dark:bg-[#1e1e1e] p-1 rounded-t-lg"
+      ref={toolbarRef}
+    >
       <button
         disabled={!canUndo}
         onClick={() => {
           editor.dispatchCommand(UNDO_COMMAND, undefined);
         }}
-        className="toolbar-item spaced"
+        className="toolbar-item toolbar-button"
         aria-label="Undo"
       >
-        <RotateCcw className="format w-5 text-white text-opacity-70" />
+        <RotateCcw className="format w-4 text-[#1e1e1e] dark:text-white text-opacity-70" />
       </button>
       <button
         disabled={!canRedo}
         onClick={() => {
           editor.dispatchCommand(REDO_COMMAND, undefined);
         }}
-        className="toolbar-item"
+        className="toolbar-item toolbar-button"
         aria-label="Redo"
       >
-        <RotateCw className="format w-5 text-white text-opacity-70" />
+        <RotateCw className="format w-4 text-[#1e1e1e] dark:text-white text-opacity-70" />
       </button>
       <Divider />
-      <button
+      <Button
         onClick={() => editor.update(() => toggleBlock("h1"))}
         data-active={activeBlock === "h1" ? "" : undefined}
-        className={
-          "toolbar-item spaced " + (activeBlock === "h1" ? "active" : "")
-        }
+        className={`toolbar-item toolbar-button ${activeBlock === "h1" ? "active" : ""}`}
       >
-        <Heading1 className="format w-5 text-white text-opacity-70" />
-      </button>
-      <button
+        <Heading1 className="format w-4 text-[#1e1e1e] dark:text-white text-opacity-70" />
+      </Button>
+      <Button
         onClick={() => editor.update(() => toggleBlock("h2"))}
         data-active={activeBlock === "h2" ? "" : undefined}
-        className={
-          "toolbar-item spaced " + (activeBlock === "h2" ? "active" : "")
-        }
+        className={`toolbar-item toolbar-button ${activeBlock === "h2" ? "active" : ""}`}
       >
-        <Heading2 className="format w-5 text-white text-opacity-70" />
-      </button>
-      <button
+        <Heading2 className="format w-4 text-[#1e1e1e] dark:text-white text-opacity-70" />
+      </Button>
+      <Button
         onClick={() => editor.update(() => toggleBlock("h3"))}
         data-active={activeBlock === "h3" ? "" : undefined}
-        className={
-          "toolbar-item spaced " + (activeBlock === "h3" ? "active" : "")
-        }
+        className={`toolbar-item toolbar-button ${activeBlock === "h3" ? "active" : ""}`}
       >
-        <Heading3 className="format w-5 text-white text-opacity-70" />
-      </button>
-      <button
+        <Heading3 className="format w-4 text-[#1e1e1e] dark:text-white text-opacity-70" />
+      </Button>
+      <Button
         onClick={() => editor.update(() => toggleBlock("h4"))}
         data-active={activeBlock === "h4" ? "" : undefined}
-        className={
-          "toolbar-item spaced " + (activeBlock === "h4" ? "active" : "")
-        }
+        className={`toolbar-item toolbar-button ${activeBlock === "h4" ? "active" : ""}`}
       >
-        <Heading4 className="format w-5 text-white text-opacity-70" />
-      </button>
+        <Heading4 className="format w-4 text-[#1e1e1e] dark:text-white text-opacity-70" />
+      </Button>
       <Divider />
-      <button
+      <Button
         onClick={() => {
           editor.dispatchCommand(FORMAT_TEXT_COMMAND, "bold");
         }}
-        className={"toolbar-item spaced " + (isBold ? "active" : "")}
+        className={`toolbar-item toolbar-button ${isBold ? "active" : ""}`}
         aria-label="Format Bold"
       >
-        <Bold className="format w-5 text-white text-opacity-70" />
-      </button>
-      <button
+        <Bold className="format w-4 text-[#1e1e1e] dark:text-white text-opacity-70" />
+      </Button>
+      <Button
         onClick={() => {
           editor.dispatchCommand(FORMAT_TEXT_COMMAND, "italic");
         }}
-        className={"toolbar-item spaced " + (isItalic ? "active" : "")}
+        className={`toolbar-item toolbar-button ${isItalic ? "active" : ""}`}
         aria-label="Format Italics"
       >
-        <Italic className="format w-5 text-white text-opacity-70" />
-      </button>
-      <button
+        <Italic className="format w-4 text-[#1e1e1e] dark:text-white text-opacity-70" />
+      </Button>
+      <Button
         onClick={() => {
           editor.dispatchCommand(FORMAT_TEXT_COMMAND, "underline");
         }}
-        className={"toolbar-item spaced " + (isUnderline ? "active" : "")}
+        className={`toolbar-item toolbar-button ${isUnderline ? "active" : ""}`}
         aria-label="Format Underline"
       >
-        <Underline className="format w-5 text-white text-opacity-70" />
-      </button>
-      <button
+        <Underline className="format w-4 text-[#1e1e1e] dark:text-white text-opacity-70" />
+      </Button>
+      <Button
         onClick={() => {
           editor.dispatchCommand(FORMAT_TEXT_COMMAND, "strikethrough");
         }}
-        className={"toolbar-item spaced " + (isStrikethrough ? "active" : "")}
+        className={`toolbar-item toolbar-button ${isStrikethrough ? "active" : ""}`}
         aria-label="Format Strikethrough"
       >
-        <Strikethrough className="format w-5 text-white text-opacity-70" />
-      </button>
+        <Strikethrough className="format w-4 text-[#1e1e1e] dark:text-white text-opacity-70" />
+      </Button>
       <Divider />
-      <button
+      <Button
         onClick={() => {
           editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "left");
         }}
-        className="toolbar-item spaced"
+        className="toolbar-item toolbar-button"
         aria-label="Left Align"
       >
-        <AlignLeft className="format w-5 text-white text-opacity-70" />
-      </button>
-      <button
+        <AlignLeft className="format w-4 text-[#1e1e1e] dark:text-white text-opacity-70" />
+      </Button>
+      <Button
         onClick={() => {
           editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "center");
         }}
-        className="toolbar-item spaced"
+        className="toolbar-item toolbar-button"
         aria-label="Center Align"
       >
-        <AlignCenter className="format w-5 text-white text-opacity-70" />
-      </button>
-      <button
+        <AlignCenter className="format w-4 text-[#1e1e1e] dark:text-white text-opacity-70" />
+      </Button>
+      <Button
         onClick={() => {
           editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "right");
         }}
-        className="toolbar-item spaced"
+        className="toolbar-item toolbar-button"
         aria-label="Right Align"
       >
-        <AlignRight className="format w-5 text-white text-opacity-70" />
-      </button>
-      <button
+        <AlignRight className="format w-4 text-[#1e1e1e] dark:text-white text-opacity-70" />
+      </Button>
+      <Button
         onClick={() => {
           editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "justify");
         }}
-        className="toolbar-item"
+        className="toolbar-item toolbar-button"
         aria-label="Justify Align"
       >
-        <AlignJustify className="format w-5 text-white text-opacity-70" />
-      </button>{" "}
+        <AlignJustify className="format w-4 text-[#1e1e1e] dark:text-white text-opacity-70" />
+      </Button>
     </div>
   );
 }
