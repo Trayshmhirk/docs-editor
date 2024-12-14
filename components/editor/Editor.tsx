@@ -50,15 +50,15 @@ export function Editor({ roomId, currentUserType }: Editorprops) {
           </div>
         </div>
 
-        <div className="editor-wrapper flex flex-col items-center justify-start">
+        <div className="editor-wrapper flex flex-col items-center justify-start gap-5 overflow-auto p-4 pb-8 lg:flex-row lg:items-start lg:justify-center md:p-6 md:pt-7 md:pb-8 xl:gap-10">
           {ready ? (
-            <div className="editor-inner min-h-[1100px] relative mb-5 h-fit w-full max-w-[800px] shadow-md lg:mb-10 rounded-[3px]">
+            <div className="min-h-[1100px] relative h-fit w-full max-w-[800px] bg-white dark:bg-[#212121] mb-5 rounded-[3px] shadow-lg">
               <RichTextPlugin
                 contentEditable={
-                  <ContentEditable className="editor-input h-full px-7 py-8 md:p-10" />
+                  <ContentEditable className="editor-input relative h-full text-[#1e1e1e] dark:text-white caret-[#1d1d1d] dark:caret-[#d8d8d8] px-7 py-8 md:p-10" />
                 }
                 placeholder={
-                  <div className="editor-placeholder">
+                  <div className="editor-placeholder absolute top-10 left-10 inline-block text-[15px] text-[#888888] dark:text-[#aaaaaa]">
                     Enter some rich text...
                   </div>
                 }

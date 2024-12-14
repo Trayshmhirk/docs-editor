@@ -42,32 +42,14 @@ body {
   text-align: right;
 }
 
-.editor-inner {
-  background: #212121;
-  position: relative;
-}
-
 .editor-input {
   min-height: 400px;
   resize: none;
-  font-size: 15px;
-  position: relative;
   tab-size: 1;
   outline: 0;
-  caret-color: #d8d8d8;
-  color: #f1f1f1;
 }
 
 .editor-placeholder {
-  color: #dfdfdf;
-  overflow: hidden;
-  position: absolute;
-  text-overflow: ellipsis;
-  top: 40px;
-  left: 40px;
-  font-size: 15px;
-  user-select: none;
-  display: inline-block;
   pointer-events: none;
 }
 

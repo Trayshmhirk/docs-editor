@@ -12,7 +12,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-export function ToggleTheme({ isEditor }: { isEditor: boolean }) {
+export function ToggleTheme({ isEditor }: { isEditor?: boolean }) {
   const { theme, resolvedTheme, setTheme } = useTheme();
 
   return (

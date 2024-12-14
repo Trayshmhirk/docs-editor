@@ -41,7 +41,7 @@ body {
   }
 
   .editor-wrapper {
-    @apply h-[calc(100vh-114px)] gap-5 overflow-auto p-4 pb-8 lg:flex-row lg:items-start lg:justify-center md:p-5 xl:gap-10 xl:pt-10;
+    @apply h-[calc(100vh-114px)];
   }
 
   .gradient-blue {
@@ -256,6 +256,20 @@ html.light .lb-comment-body {
 
 .lb-lexical-floating-threads-thread:where([data-resolved]) {
   opacity: 40%;
+}
+
+html.light .lb-lexical-thread-mark {
+  background-color: #00a1c945;
+  color: #1e1e1e;
+  text-decoration-color: #1e1e1e;
+  padding: 0 2px;
+}
+
+html.dark .lb-lexical-thread-mark {
+  background-color: #00a1c9c0;
+  color: white;
+  text-decoration-color: white;
+  padding: 0 2px;
 }
 
 .lb-elevation {
