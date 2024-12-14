@@ -46,7 +46,7 @@ const ShareModal = ({
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger>
+      <DialogTrigger asChild>
         <Button
           className="h-9 flex items-center gap-1 bg-[#00afdb] dark:bg-[#00afdb] dark:text-white font-medium px-4 shadow-lg dark:shadow-lg-dark transition-all duration-300 ease-in-out hover:bg-[#0081a4] dark:hover:bg-[#0081a4]"
           disabled={currentUserType !== "editor"}
