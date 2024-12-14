@@ -83,9 +83,20 @@ body {
   .toolbar button.toolbar-item:disabled svg {
     opacity: 0.2;
   }
+
+  .editor-input {
+    min-height: 400px;
+    resize: none;
+    tab-size: 1;
+    outline: 0;
+  }
+
+  .editor-placeholder {
+    pointer-events: none;
+  }
 }
 
-/* Clerk Override */
+/* ------------ Clerk Override ------------- */
 .cl-internal-piyvrh,
 .cl-internal-16vtwdp,
 .cl-internal-lk7758,
@@ -102,7 +113,13 @@ body {
   line-height: unset;
 }
 
-/* Liveblocks Override */
+.cl-avatarBox {
+  width: 36px;
+  height: 36px;
+  border: 2px solid #2196f3;
+}
+
+/* ------------- Liveblocks Override ------------- */
 html.dark .lb-root {
   --lb-accent-subtle: #010409;
   --lb-radius: 6px;
