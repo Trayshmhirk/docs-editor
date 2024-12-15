@@ -108,7 +108,7 @@ function Toolbar({
         minWidth: "max-content",
       }}
     >
-      <div className="flex w-full min-w-max items-center justify-center gap-2 rounded-lg bg-[#101010] p-1.5 shadow-xl">
+      <div className="flex w-full min-w-max items-center justify-center gap-2 rounded-lg bg-[#fdfdfd] dark:bg-[#373737] hover:bg-[#f3f3f3] dark:hover:bg-[#191919] border border-[#cccccc] dark:border-[#444444] p-1.5 shadow-md dark:shadow-md-dark transition-colors">
         <button
           onClick={() => {
             const isOpen = editor.dispatchCommand(

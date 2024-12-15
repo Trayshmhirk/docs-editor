@@ -16,7 +16,7 @@ const DocumentClient: React.FC<DocumentClientProps> = ({
   currentUserType,
 }) => {
   return (
-    <main className="flex w-full flex-col items-center">
+    <main className="flex w-full flex-col items-center overflow-hidden">
       <CollaborativeRoom
         roomId={roomId}
         roomMetadata={roomMetadata}

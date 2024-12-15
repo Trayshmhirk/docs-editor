@@ -19,7 +19,7 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en" suppressHydrationWarning={true}>
-        <body className="min-h-screen">
+        <body className="min-h-screen overflow-hidden">
           <ThemeProvider
             attribute="class"
             defaultTheme="system"

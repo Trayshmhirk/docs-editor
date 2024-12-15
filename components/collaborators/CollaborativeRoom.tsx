@@ -93,7 +93,7 @@ const CollaborativeRoom = ({
   return (
     <RoomProvider id={roomId}>
       <ClientSideSuspense fallback={<Loader />}>
-        <div className="flex size-full flex-1 flex-col items-center overflow-hidden">
+        <div className="flex size-full flex-1 flex-col items-center">
           <Header>
             <div ref={containerRef} className="flex w-fit items-center gap-2">
               {editing && !loading ? (
