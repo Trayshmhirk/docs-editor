@@ -208,25 +208,24 @@ html.light .lb-comment-body {
   color: #ffffff;
 }
 
-.lb-button:where(
-    [data-variant="default"]:not(
-        :is(
-            :enabled:hover,
-            :enabled:focus-visible,
-            [aria-expanded="true"],
-            [aria-selected="true"]
-          )
-      )
-  ) {
+html.light .lb-button:where([data-variant="default"]:not( :is( :enabled:hover,
+      :enabled:focus-visible,
+      [aria-expanded="true"],
+      [aria-selected="true"]))) {
+  color: #1e1e1e;
+}
+
+html.dark .lb-button:where([data-variant="default"]:not( :is( :enabled:hover,
+      :enabled:focus-visible,
+      [aria-expanded="true"],
+      [aria-selected="true"]))) {
   color: #ffffff;
 }
 
-.lb-button:where(
-    :enabled:hover,
-    :enabled:focus-visible,
-    [aria-expanded="true"],
-    [aria-selected="true"]
-  ) {
+.lb-button:where( :enabled:hover,
+  :enabled:focus-visible,
+  [aria-expanded="true"],
+  [aria-selected="true"]) {
   --lb-button-background: #4a4a4a;
 
   color: #ffffff;
@@ -273,6 +272,11 @@ html.light .lb-comment-body {
 
 .lb-lexical-floating-threads-thread:where([data-resolved]) {
   opacity: 40%;
+}
+
+.lb-composer-footer {
+  block-size: auto !important;
+  margin-block-start: auto !important;
 }
 
 html.light .lb-lexical-thread-mark {
