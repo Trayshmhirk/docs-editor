@@ -48,14 +48,6 @@ body {
     background: linear-gradient(to top, #0081a4, #00afdb);
   }
 
-  .gradient-darkgray {
-    background: linear-gradient(to top, #222222, #1c1c1c) !important;
-  }
-
-  .gradient-red {
-    background: linear-gradient(to top, #ef4444, #f87171);
-  }
-
   .gradient-red:hover {
     background: #ef4444;
   }
