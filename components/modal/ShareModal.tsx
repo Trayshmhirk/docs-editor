@@ -55,25 +55,25 @@ const ShareModal = ({
           <p className="hidden sm:block">Share</p>
         </Button>
       </DialogTrigger>
-      <DialogContent className="w-full max-w-[400px] flex flex-col gap-6 rounded-xl border-none !gradient-darkgray px-5 py-7 shadow-xl sm:min-w-[500px]">
+      <DialogContent className="w-full max-w-[400px] flex flex-col gap-6 rounded-xl border-none dark:!gradient-darkgray px-5 py-7 shadow-xl sm:min-w-[500px]">
         <DialogHeader>
           <DialogTitle>Manage who can view this project</DialogTitle>
-          <DialogDescription className="text-[#b0b0b0]">
+          <DialogDescription className="text-[#969696] dark:text-[#b0b0b0]">
             Select which users can view and edit this document
           </DialogDescription>
         </DialogHeader>
 
         <div className="flex flex-col gap-3">
-          <Label htmlFor="email" className="text-[#d8d8d8]">
+          <Label htmlFor="email" className="text-[#555555] dark:text-[#d8d8d8]">
             Email address
           </Label>
           <div className="flex items-stretch gap-3">
-            <div className="flex flex-1 items-center rounded-md bg-[#404040]">
+            <div className="flex flex-1 items-center rounded-md bg-[#f5f5f5] dark:bg-[#404040]">
               <Input
                 id="email"
                 type="email"
                 placeholder="Enter email address"
-                className="h-11 flex-1 border-none bg-[#404040] focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-[#a1a1a1]"
+                className="h-11 flex-1 border-none bg-[#f5f5f5] dark:bg-[#404040] focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-[#a1a1a1]"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
@@ -83,7 +83,7 @@ const ShareModal = ({
             <Button
               type="submit"
               onClick={handleShareDocument}
-              className="gradient-blue h-11 px-5"
+              className="h-11 px-5 bg-[#00afdb] dark:bg-[#00afdb] transition-all duration-300 ease-in-out hover:bg-[#0081a4] dark:hover:bg-[#0081a4] shadow-lg dark:shadow-lg-dark "
               disabled={loading}
             >
               {loading ? "sending..." : "Invite"}

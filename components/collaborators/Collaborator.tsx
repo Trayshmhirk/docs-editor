@@ -52,7 +52,7 @@ const Collaborator = ({
         />
 
         <div>
-          <p className="flex gap-2 line-clamp-1 text-sm font-semibold leading-4 text-[#efefef]">
+          <p className="flex gap-2 line-clamp-1 text-sm font-semibold leading-4 text-[#555555] dark:text-[#efefef]">
             {collaborator.name}
             <span className="text-[10px] font-normal text-text-[#efefef]">
               {loading && "updating..."}
@@ -65,7 +65,7 @@ const Collaborator = ({
       </div>
 
       {creatorId === collaborator.id ? (
-        <p className="text-sm text-text-[#efefef]">Owner</p>
+        <p className="text-sm dark:text-[#efefef]">Owner</p>
       ) : (
         <div className="flex items-center gap-1">
           <UserTypeSelector

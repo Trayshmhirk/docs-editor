@@ -48,10 +48,6 @@ body {
     background: linear-gradient(to top, #0081a4, #00afdb);
   }
 
-  .gradient-gray {
-    background: linear-gradient(to top, #2a2a2a, #555555);
-  }
-
   .gradient-darkgray {
     background: linear-gradient(to top, #222222, #1c1c1c) !important;
   }
