@@ -83,7 +83,7 @@ const ShareModal = ({
             <Button
               type="submit"
               onClick={handleShareDocument}
-              className="h-11 px-5 bg-[#00afdb] dark:bg-[#00afdb] transition-all duration-300 ease-in-out hover:bg-[#0081a4] dark:hover:bg-[#0081a4] shadow-lg dark:shadow-lg-dark "
+              className="h-11 px-5 bg-[#00afdb] dark:bg-[#00afdb] dark:text-white transition-colors duration-200 ease-in-out hover:bg-[#0081a4] dark:hover:bg-[#0081a4] shadow-lg dark:shadow-lg-dark"
               disabled={loading}
             >
               {loading ? "sending..." : "Invite"}

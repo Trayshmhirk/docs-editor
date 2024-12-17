@@ -75,7 +75,7 @@ const Collaborator = ({
           />
           <Button
             type="button"
-            className="gradient-red"
+            className="bg-[#ef4444] dark:bg-[#f87171] hover:bg-[#e52828] dark:hover:bg-[#ef4444] dark:text-white transition-all duration-200 ease-in-out"
             onClick={() => removeDocumentHandler(collaborator.email)}
           >
             Remove
