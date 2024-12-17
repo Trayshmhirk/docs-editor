@@ -159,45 +159,132 @@ html.light .lb-thread-comments,
 html.light .lb-composer,
 html.light .lb-comment-reaction {
   background-color: #ffffff;
-  /* Light background */
   color: #111;
-  /* Dark text */
 }
 
 html.light .lb-comment-content {
-  background: #dcdcdc;
-  /* Light content background */
+  background: #dfdfdf;
   color: #1e1e1e;
-  /* Dark content text */
   margin-top: 16px;
   padding: 12px;
   border-radius: 4px;
   font-size: 14px;
-}
-
-html.light .lb-comment-mention:where([data-self]),
-.lb-composer-mention {
-  background: #00a2c9;
-  padding: 2px 4px;
-}
-
-html.dark .lb-comment-mention:where([data-self]),
-.lb-composer-mention {
-  background: #0081a4;
+  font-weight: 500;
 }
 
 html.light .lb-comment-mention,
-.lb-composer-mention {
-  color: white;
+html.light .lb-composer-mention {
+  background: #00a2c9;
 }
 
 html.dark .lb-comment-mention,
-.lb-composer-mention {
-  color: white;
+html.dark .lb-composer-mention {
+  background: #0081a4;
 }
 
-html.light .lb-comment-body {
+.lb-comment-mention,
+.lb-composer-mention {
+  color: white;
+  border-radius: 4px;
+  padding: 3px 4px;
+}
+html.light
+  .lb-button:where(
+    [data-variant="default"]:not(
+        :is(
+            :enabled:hover,
+            :enabled:focus-visible,
+            [aria-expanded="true"],
+            [aria-selected="true"]
+          )
+      )
+  ) {
   color: #1e1e1e;
+}
+
+html.dark
+  .lb-button:where(
+    [data-variant="default"]:not(
+        :is(
+            :enabled:hover,
+            :enabled:focus-visible,
+            [aria-expanded="true"],
+            [aria-selected="true"]
+          )
+      )
+  ) {
+  color: #ffffff;
+}
+
+html.light
+  .lb-button:where(
+    :enabled:hover,
+    :enabled:focus-visible,
+    [aria-expanded="true"],
+    [aria-selected="true"]
+  ) {
+  --lb-button-background: #eeeeee;
+  color: #1e1e1e;
+}
+
+html.dark
+  .lb-button:where(
+    :enabled:hover,
+    :enabled:focus-visible,
+    [aria-expanded="true"],
+    [aria-selected="true"]
+  ) {
+  --lb-button-background: #4a4a4a;
+  color: #ffffff;
+}
+
+html.light .lb-thread-composer:after {
+  border-block-start-color: #cccccc;
+}
+
+html.dark .lb-thread-composer:after {
+  border-block-start-color: #444444;
+}
+
+html.light .lb-comment-body,
+html.light .lb-dropdown-item,
+html.light .lb-dropdown-item-icon,
+html.light .lb-composer-editor {
+  color: #1e1e1e;
+}
+
+html.light .lb-comment-date,
+html.light .lb-lexical-mention-suggestion-user,
+html.light .lb-composer-suggestions-list-item,
+html.light .lb-comment-author,
+html.light .lb-emoji-picker-search-icon,
+html.light .lb-emoji-picker-category-header-title,
+html.light .lb-emoji-picker-search::placeholder {
+  color: #555555;
+}
+
+html.dark .lb-comment-date,
+html.dark .lb-lexical-mention-suggestion-user,
+html.dark .lb-composer-suggestions-list-item,
+html.dark .lb-comment-author,
+html.dark .lb-emoji-picker-search-icon,
+html.dark .lb-emoji-picker-category-header-title,
+html.dark .lb-emoji-picker-search::placeholder {
+  color: #dfdfdf;
+}
+
+html.light .lb-lexical-thread-mark {
+  background-color: #00a1c945;
+  color: #1e1e1e;
+  text-decoration-color: #1e1e1e;
+  padding: 0 2px;
+}
+
+html.dark .lb-lexical-thread-mark {
+  background-color: #00a1c9c0;
+  color: white;
+  text-decoration-color: white;
+  padding: 0 2px;
 }
 
 .lb-button {
@@ -208,52 +295,12 @@ html.light .lb-comment-body {
   color: #ffffff;
 }
 
-html.light .lb-button:where([data-variant="default"]:not( :is( :enabled:hover,
-      :enabled:focus-visible,
-      [aria-expanded="true"],
-      [aria-selected="true"]))) {
-  color: #1e1e1e;
-}
-
-html.dark .lb-button:where([data-variant="default"]:not( :is( :enabled:hover,
-      :enabled:focus-visible,
-      [aria-expanded="true"],
-      [aria-selected="true"]))) {
-  color: #ffffff;
-}
-
-.lb-button:where( :enabled:hover,
-  :enabled:focus-visible,
-  [aria-expanded="true"],
-  [aria-selected="true"]) {
-  --lb-button-background: #4a4a4a;
-
-  color: #ffffff;
-}
-
-.lb-inbox-notification-list-item:where(:not(:last-of-type)) {
-  border-bottom: none;
-}
-
-.lb-comment-body,
-.lb-dropdown-item,
-.lb-dropdown-item-icon,
-.lb-composer-editor {
-  color: #fff;
-}
-
 .lb-composer-action {
   padding: 8px;
 }
 
-.lb-comment-date,
-.lb-lexical-mention-suggestion-user,
-.lb-composer-suggestions-list-item,
-.lb-comment-author,
-.lb-emoji-picker-search-icon,
-.lb-emoji-picker-category-header-title,
-.lb-emoji-picker-search::placeholder {
-  color: #dfdfdf;
+.lb-inbox-notification-list-item:where(:not(:last-of-type)) {
+  border-bottom: none;
 }
 
 .data-liveblocks-portal {
@@ -277,20 +324,6 @@ html.dark .lb-button:where([data-variant="default"]:not( :is( :enabled:hover,
 .lb-composer-footer {
   block-size: auto !important;
   margin-block-start: auto !important;
-}
-
-html.light .lb-lexical-thread-mark {
-  background-color: #00a1c945;
-  color: #1e1e1e;
-  text-decoration-color: #1e1e1e;
-  padding: 0 2px;
-}
-
-html.dark .lb-lexical-thread-mark {
-  background-color: #00a1c9c0;
-  color: white;
-  text-decoration-color: white;
-  padding: 0 2px;
 }
 
 .lb-elevation {
