@@ -74,8 +74,11 @@ export function Editor({ roomId, currentUserType }: Editorprops) {
 
           {/* liveblocks plugin */}
           <LiveblocksPlugin>
-            <FloatingComposer className="w-[350px] border border-[#2A2A2A]" />
-            <FloatingThreads threads={threads} />
+            <FloatingComposer className="w-[350px] border border-[#cccccc] dark:border-[#444444] rounded-md overflow-hidden" />
+            <FloatingThreads
+              threads={threads}
+              className="border border-[#cccccc] dark:border-[#444444]"
+            />
             <Comments />
           </LiveblocksPlugin>
         </div>

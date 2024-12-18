@@ -269,10 +269,12 @@ html.dark .lb-composer-suggestions-list-item {
 
 html.light .lb-elevation {
   background: #ffffff;
+  box-shadow: 0 3px 7px 0px rgb(0 0 0 / 0.1);
 }
 
 html.dark .lb-elevation {
   background: #212121;
+  box-shadow: 0 4px 7px 0px rgb(0 0 0 / 0.7);
 }
 
 html.light .lb-lexical-thread-mark {
