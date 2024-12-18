@@ -20,7 +20,7 @@ import {
 } from "@lexical/rich-text";
 import { $setBlocksType } from "@lexical/selection";
 import { $findMatchingParent } from "@lexical/utils";
-import React from "react";
+import React, { Dispatch } from "react";
 import {
   useCallback,
   useEffect,
@@ -45,6 +45,11 @@ import {
   Underline,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import BlockFormatDropDown from "./toolbarDropdown/BlockFormatDropdown";
+import {
+  blockTypeToBlockName,
+  useToolbarState,
+} from "@/context/ToolbarContext";
 
 const LowPriority = 1;
 
@@ -52,8 +57,16 @@ function Divider() {
   return <div className="w-[1px] h-full bg-[#dedede] dark:bg-[#3b3b3b] mx-1" />;
 }
 
-export default function ToolbarPlugin() {
+export default function ToolbarPlugin(
+  {
+    // setIsLinkEditMode,
+  }: {
+    setIsLinkEditMode: Dispatch<boolean>;
+  }
+): JSX.Element {
   const [editor] = useLexicalComposerContext();
+  const [activeEditor, setActiveEditor] = useState(editor);
+
   const toolbarRef = useRef(null);
   const [canUndo, setCanUndo] = useState(false);
   const [canRedo, setCanRedo] = useState(false);
@@ -63,9 +76,11 @@ export default function ToolbarPlugin() {
   const [isStrikethrough, setIsStrikethrough] = useState(false);
   const activeBlock = useActiveBlock();
 
+  const [isEditable, setIsEditable] = useState(() => editor.isEditable());
+  const { toolbarState, updateToolbarState } = useToolbarState();
+
   const $updateToolbar = useCallback(() => {
     const selection = $getSelection();
-    console.log();
 
     if ($isRangeSelection(selection)) {
       // Update text format
@@ -164,6 +179,18 @@ export default function ToolbarPlugin() {
         <RotateCw className="format w-4 text-[#1e1e1e] dark:text-white text-opacity-70" />
       </button>
       <Divider />
+      {toolbarState.blockType in blockTypeToBlockName &&
+        activeEditor === editor && (
+          <>
+            <BlockFormatDropDown
+              disabled={!isEditable}
+              blockType={toolbarState.blockType}
+              rootType={toolbarState.rootType}
+              editor={activeEditor}
+            />
+            <Divider />
+          </>
+        )}
       <Button
         onClick={() => editor.update(() => toggleBlock("h1"))}
         data-active={activeBlock === "h1" ? "" : undefined}
