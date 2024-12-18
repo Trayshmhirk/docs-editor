@@ -297,6 +297,24 @@ html.dark .lb-lexical-thread-mark {
   color: #fafafa;
 }
 
+html.light
+  :is(
+    .lb-dropdown-item,
+    .lb-composer-suggestions-list-item,
+    .lb-emoji-picker-emoji
+  ):where([data-highlighted], [data-selected]) {
+  background-color: #dcdcdc;
+}
+
+html.dark
+  :is(
+    .lb-dropdown-item,
+    .lb-composer-suggestions-list-item,
+    .lb-emoji-picker-emoji
+  ):where([data-highlighted], [data-selected]) {
+  background-color: #444444;
+}
+
 .lb-button {
   --lb-foreground-moderate: #444444;
 }
