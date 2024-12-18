@@ -315,6 +315,11 @@ html.dark
   background-color: #444444;
 }
 
+html.light .lb-emoji-picker-search {
+  color: #1e1e1e;
+  caret-color: #222222;
+}
+
 .lb-button {
   --lb-foreground-moderate: #444444;
 }
