@@ -143,7 +143,7 @@ html.light .lb-thread-comments,
 html.light .lb-composer,
 html.light .lb-comment-reaction {
   background-color: #ffffff;
-  color: #111;
+  color: #1e1e1e;
 }
 
 html.light .lb-comment-content {
@@ -318,6 +318,26 @@ html.dark
 html.light .lb-emoji-picker-search {
   color: #1e1e1e;
   caret-color: #222222;
+}
+
+html.light .lb-attachment {
+  background-color: #dfdfdf;
+}
+
+html.light .lb-attachment {
+  box-shadow: inset 0 0 0 1px #bcbcbc;
+}
+
+.lb-file-attachment :where(.lb-attachment-name) {
+  font-weight: 600;
+}
+
+html.light .lb-file-attachment :where(.lb-attachment-name) {
+  color: #555555;
+}
+
+html.light .lb-file-attachment :where(.lb-attachment-description) {
+  color: #888888;
 }
 
 .lb-button {
