@@ -104,16 +104,16 @@ body {
 }
 
 /* ------------- Liveblocks Override ------------- */
-html.dark .lb-root {
-  --lb-accent-subtle: #010409;
+html.light .lb-root {
+  --lb-accent-subtle: #f5f5f5;
   --lb-radius: 6px;
-  --lb-dynamic-background: #121212;
+  --lb-dynamic-background: #888888;
   --lb-accent: #6f6f6f;
   --lb-accent-moderate: #9b9b9b;
 }
 
-html.light .lb-root {
-  --lb-accent-subtle: #f5f5f5;
+html.dark .lb-root {
+  --lb-accent-subtle: #010409;
   --lb-radius: 6px;
   --lb-dynamic-background: #121212;
   --lb-accent: #6f6f6f;
@@ -242,7 +242,6 @@ html.light .lb-lexical-mention-suggestion-user,
 html.light .lb-composer-suggestions-list-item,
 html.light .lb-comment-author,
 html.light .lb-emoji-picker-search-icon,
-html.light .lb-emoji-picker-category-header-title,
 html.light .lb-emoji-picker-search::placeholder {
   color: #555555;
 }
@@ -252,7 +251,6 @@ html.dark .lb-lexical-mention-suggestion-user,
 html.dark .lb-composer-suggestions-list-item,
 html.dark .lb-comment-author,
 html.dark .lb-emoji-picker-search-icon,
-html.dark .lb-emoji-picker-category-header-title,
 html.dark .lb-emoji-picker-search::placeholder {
   color: #dfdfdf;
 }
@@ -289,6 +287,14 @@ html.dark .lb-lexical-thread-mark {
   color: white;
   text-decoration-color: white;
   padding: 0 2px;
+}
+
+.lb-emoji-picker-category-header {
+  background-color: #00a1c9c0;
+}
+
+.lb-emoji-picker-category-header-title {
+  color: #fafafa;
 }
 
 .lb-button {
