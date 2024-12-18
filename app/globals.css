@@ -257,6 +257,24 @@ html.dark .lb-emoji-picker-search::placeholder {
   color: #dfdfdf;
 }
 
+html.light .lb-lexical-mention-suggestion-user,
+html.light .lb-composer-suggestions-list-item {
+  background-color: #f5f5f5;
+}
+
+html.dark .lb-lexical-mention-suggestion-user,
+html.dark .lb-composer-suggestions-list-item {
+  background-color: #121212;
+}
+
+html.light .lb-elevation {
+  background: #ffffff;
+}
+
+html.dark .lb-elevation {
+  background: #212121;
+}
+
 html.light .lb-lexical-thread-mark {
   background-color: #00a1c945;
   color: #1e1e1e;
@@ -298,6 +316,9 @@ html.dark .lb-lexical-thread-mark {
 
 .lb-composer-editor :where([data-placeholder]) {
   color: #dfdfdf;
+}
+
+.lb-composer-editor {
   font-size: 14px;
 }
 
@@ -308,10 +329,6 @@ html.dark .lb-lexical-thread-mark {
 .lb-composer-footer {
   block-size: auto !important;
   margin-block-start: auto !important;
-}
-
-.lb-elevation {
-  background: #212121;
 }
 
 .lb-inbox-notification-unread-indicator {
