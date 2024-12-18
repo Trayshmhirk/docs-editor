@@ -13,7 +13,7 @@ const ThreadWrapper = ({ thread }: { thread: ThreadData<BaseMetadata> }) => {
       data-state={isActive ? "active" : null}
       className={cn(
         "w-full max-w-[800px] border border-[#cccccc] dark:border-[#444444] shadow-sm lg:w-[350px] transition-all rounded-md overflow-hidden",
-        isActive && "!border-blue-500 shadow-md",
+        isActive && "border-2 !border-[#00a2c9] shadow-md",
         thread.resolved && "opacity-40"
       )}
     />
