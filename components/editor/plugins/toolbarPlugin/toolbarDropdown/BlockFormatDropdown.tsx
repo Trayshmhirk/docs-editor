@@ -9,13 +9,31 @@ import {
   formatNumberedList,
   formatParagraph,
   formatQuote,
-  dropDownActiveClass,
 } from "../utils";
+import {
+  Code,
+  Heading1,
+  Heading2,
+  Heading3,
+  List,
+  ListChecks,
+  ListOrdered,
+  MessageSquareQuote,
+  Text,
+} from "lucide-react";
 
 type rootTypeToRootName = {
   root: "Root";
   table: "Table";
 };
+
+function dropDownActiveClass(active: boolean) {
+  if (active) {
+    return "active bg-[#00a1c93e] dark:bg-[#00a1c998]";
+  } else {
+    return "";
+  }
+}
 
 export default function BlockFormatDropDown({
   editor,
@@ -31,124 +49,124 @@ export default function BlockFormatDropDown({
   return (
     <DropDown
       disabled={disabled}
-      buttonClassName="toolbar-item block-controls"
+      buttonClassName="toolbar-item"
       buttonIconClassName={"icon block-type " + blockType}
       buttonLabel={blockTypeToBlockName[blockType]}
       buttonAriaLabel="Formatting options for text style"
     >
       <DropDownItem
         className={
-          "item wide w-[250px] max-w-[250px] min-w-[100px] text-[15px] flex items-center justify-between p-2 rounded-lg  " +
+          "item wide w-[250px] max-w-[250px] min-w-[100px] text-[15px] flex items-center justify-between p-2 rounded hover:enabled:bg-[#eee] dark:hover:enabled:bg-[#3b3b3b] " +
           dropDownActiveClass(blockType === "paragraph")
         }
         onClick={() => formatParagraph(editor)}
       >
-        <div className="icon-text-container">
-          <i className="icon paragraph" />
+        <div className="flex items-center gap-3">
+          <Text className="format size-4 text-[#1e1e1e] dark:text-white text-opacity-70" />
           <span className="text">Normal</span>
         </div>
         {/* <span className="shortcut">{SHORTCUTS.NORMAL}</span> */}
       </DropDownItem>
       <DropDownItem
         className={
-          "item wide w-[250px] max-w-[250px] min-w-[100px] text-[15px] flex items-center justify-between p-2 rounded-lg  " +
+          "item wide w-[250px] max-w-[250px] min-w-[100px] text-[15px] flex items-center justify-between p-2 rounded hover:bg-[#eee] dark:hover:bg-[#3b3b3b] " +
           dropDownActiveClass(blockType === "h1")
         }
         onClick={() => formatHeading(editor, blockType, "h1")}
       >
-        <div className="icon-text-container">
-          <i className="icon h1" />
+        <div className="flex items-center gap-3">
+          <Heading1 className="format w-4 text-[#1e1e1e] dark:text-white text-opacity-70" />
           <span className="text">Heading 1</span>
         </div>
         {/* <span className="shortcut">{SHORTCUTS.HEADING1}</span> */}
       </DropDownItem>
       <DropDownItem
         className={
-          "item wide w-[250px] max-w-[250px] min-w-[100px] text-[15px] flex items-center justify-between p-2 rounded-lg  " +
+          "item wide w-[250px] max-w-[250px] min-w-[100px] text-[15px] flex items-center justify-between p-2 rounded hover:bg-[#eee] dark:hover:bg-[#3b3b3b] " +
           dropDownActiveClass(blockType === "h2")
         }
         onClick={() => formatHeading(editor, blockType, "h2")}
       >
-        <div className="icon-text-container">
-          <i className="icon h2" />
+        <div className="flex items-center gap-3">
+          <Heading2 className="format w-4 text-[#1e1e1e] dark:text-white text-opacity-70" />
           <span className="text">Heading 2</span>
         </div>
         {/* <span className="shortcut">{SHORTCUTS.HEADING2}</span> */}
       </DropDownItem>
       <DropDownItem
         className={
-          "item wide w-[250px] max-w-[250px] min-w-[100px] text-[15px] flex items-center justify-between p-2 rounded-lg  " +
+          "item wide w-[250px] max-w-[250px] min-w-[100px] text-[15px] flex items-center justify-between p-2 rounded hover:bg-[#eee] dark:hover:bg-[#3b3b3b] " +
           dropDownActiveClass(blockType === "h3")
         }
         onClick={() => formatHeading(editor, blockType, "h3")}
       >
-        <div className="icon-text-container">
-          <i className="icon h3" />
+        <div className="flex items-center gap-3">
+          <Heading3 className="format w-4 text-[#1e1e1e] dark:text-white text-opacity-70" />
           <span className="text">Heading 3</span>
         </div>
         {/* <span className="shortcut">{SHORTCUTS.HEADING3}</span> */}
       </DropDownItem>
       <DropDownItem
         className={
-          "item wide w-[250px] max-w-[250px] min-w-[100px] text-[15px] flex items-center justify-between p-2 rounded-lg  " +
+          "item wide w-[250px] max-w-[250px] min-w-[100px] text-[15px] flex items-center justify-between p-2 rounded hover:bg-[#eee] dark:hover:bg-[#3b3b3b] " +
           dropDownActiveClass(blockType === "bullet")
         }
         onClick={() => formatBulletList(editor, blockType)}
       >
-        <div className="icon-text-container">
-          <i className="icon bullet-list" />
+        <div className="flex items-center gap-3">
+          <List className="format w-4 text-[#1e1e1e] dark:text-white text-opacity-70" />
           <span className="text">Bullet List</span>
         </div>
         {/* <span className="shortcut">{SHORTCUTS.BULLET_LIST}</span> */}
       </DropDownItem>
       <DropDownItem
         className={
-          "item wide w-[250px] max-w-[250px] min-w-[100px] text-[15px] flex items-center justify-between p-2 rounded-lg  " +
+          "item wide w-[250px] max-w-[250px] min-w-[100px] text-[15px] flex items-center justify-between p-2 rounded hover:bg-[#eee] dark:hover:bg-[#3b3b3b]" +
           dropDownActiveClass(blockType === "number")
         }
         onClick={() => formatNumberedList(editor, blockType)}
       >
-        <div className="icon-text-container">
-          <i className="icon numbered-list" />
+        <div className="flex items-center gap-3">
+          <ListOrdered className="format w-4 text-[#1e1e1e] dark:text-white text-opacity-70" />
           <span className="text">Numbered List</span>
         </div>
         {/* <span className="shortcut">{SHORTCUTS.NUMBERED_LIST}</span> */}
       </DropDownItem>
       <DropDownItem
         className={
-          "item wide w-[250px] max-w-[250px] min-w-[100px] text-[15px] flex items-center justify-between p-2 rounded-lg  " +
+          "item wide w-[250px] max-w-[250px] min-w-[100px] text-[15px] flex items-center justify-between p-2 rounded hover:bg-[#eee] dark:hover:bg-[#3b3b3b] " +
           dropDownActiveClass(blockType === "check")
         }
         onClick={() => formatCheckList(editor, blockType)}
       >
-        <div className="icon-text-container">
-          <i className="icon check-list" />
+        <div className="flex items-center gap-3">
+          <ListChecks className="format w-4 text-[#1e1e1e] dark:text-white text-opacity-70" />
           <span className="text">Check List</span>
         </div>
         {/* <span className="shortcut">{SHORTCUTS.CHECK_LIST}</span> */}
       </DropDownItem>
       <DropDownItem
         className={
-          "item wide w-[250px] max-w-[250px] min-w-[100px] text-[15px] flex items-center justify-between p-2 rounded-lg  " +
+          "item wide w-[250px] max-w-[250px] min-w-[100px] text-[15px] flex items-center justify-between p-2 rounded hover:bg-[#eee] dark:hover:bg-[#3b3b3b] " +
           dropDownActiveClass(blockType === "quote")
         }
         onClick={() => formatQuote(editor, blockType)}
       >
-        <div className="icon-text-container">
-          <i className="icon quote" />
+        <div className="flex items-center gap-3">
+          <MessageSquareQuote className="format w-4 text-[#1e1e1e] dark:text-white text-opacity-70" />
           <span className="text">Quote</span>
         </div>
         {/* <span className="shortcut">{SHORTCUTS.QUOTE}</span> */}
       </DropDownItem>
       <DropDownItem
         className={
-          "item wide w-[250px] max-w-[250px] min-w-[100px] text-[15px] flex items-center justify-between p-2 rounded-lg  " +
+          "item wide w-[250px] max-w-[250px] min-w-[100px] text-[15px] flex items-center justify-between p-2 rounded hover:bg-[#eee] dark:hover:bg-[#3b3b3b] " +
           dropDownActiveClass(blockType === "code")
         }
         onClick={() => formatCode(editor, blockType)}
       >
-        <div className="icon-text-container">
-          <i className="icon code" />
+        <div className="flex items-center gap-3">
+          <Code className="format w-4 text-[#1e1e1e] dark:text-white text-opacity-70" />
           <span className="text">Code Block</span>
         </div>
         {/* <span className="shortcut">{SHORTCUTS.CODE_BLOCK}</span> */}

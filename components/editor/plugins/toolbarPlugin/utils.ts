@@ -35,14 +35,6 @@ export enum UpdateFontSizeType {
   decrement,
 }
 
-export function dropDownActiveClass(active: boolean) {
-  if (active) {
-    return "active dropdown-item-active";
-  } else {
-    return "";
-  }
-}
-
 /**
  * Calculates the new font size based on the update type.
  * @param currentFontSize - The current font size

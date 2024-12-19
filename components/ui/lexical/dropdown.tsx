@@ -139,7 +139,7 @@ function DropDownItems({
   return (
     <DropDownContext.Provider value={contextValue}>
       <div
-        className="dropdown fixed block z-[100] rounded-lg min-h-10 bg-white dark:bg-[#212121] p-2"
+        className="dropdown fixed z-[100] flex flex-col gap-1 rounded min-h-10 bg-white dark:bg-[#121212] p-2 shadow-lg dark:shadow-lg-dark"
         ref={dropDownRef}
         onKeyDown={handleKeyDown}
       >
@@ -247,7 +247,7 @@ export default function DropDown({
         aria-label={buttonAriaLabel || buttonLabel}
         className={cn(
           buttonClassName,
-          "flex items-center justify-between gap-2 p-2 rounded-lg hover:enabled:bg-[#eee] dark:hover:enabled:bg-[#3b3b3b] text-[#1e1e1e] dark:text-white"
+          "flex items-center justify-between gap-2 p-2 rounded hover:enabled:bg-[#eee] dark:hover:enabled:bg-[#3b3b3b] text-[#1e1e1e] dark:text-white"
         )}
         onClick={() => setShowDropDown(!showDropDown)}
         ref={buttonRef}

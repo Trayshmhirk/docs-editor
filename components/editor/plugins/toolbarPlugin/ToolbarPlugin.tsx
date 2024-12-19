@@ -1,7 +1,8 @@
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
-import { mergeRegister } from "@lexical/utils";
+import { $getNearestNodeOfType, mergeRegister } from "@lexical/utils";
+import { $isListNode, ListNode } from "@lexical/list";
+import { $isCodeNode, CODE_LANGUAGE_MAP } from "@lexical/code";
 import {
-  $createParagraphNode,
   $isRootOrShadowRoot,
   $getSelection,
   $isRangeSelection,
@@ -12,32 +13,18 @@ import {
   REDO_COMMAND,
   SELECTION_CHANGE_COMMAND,
   UNDO_COMMAND,
+  NodeKey,
 } from "lexical";
-import {
-  $createHeadingNode,
-  $createQuoteNode,
-  $isHeadingNode,
-} from "@lexical/rich-text";
-import { $setBlocksType } from "@lexical/selection";
+import { $isHeadingNode } from "@lexical/rich-text";
 import { $findMatchingParent } from "@lexical/utils";
 import React, { Dispatch } from "react";
-import {
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-  useSyncExternalStore,
-} from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
   AlignCenter,
   AlignJustify,
   AlignLeft,
   AlignRight,
   Bold,
-  Heading1,
-  Heading2,
-  Heading3,
-  Heading4,
   Italic,
   RotateCcw,
   RotateCw,
@@ -74,7 +61,10 @@ export default function ToolbarPlugin(
   const [isItalic, setIsItalic] = useState(false);
   const [isUnderline, setIsUnderline] = useState(false);
   const [isStrikethrough, setIsStrikethrough] = useState(false);
-  const activeBlock = useActiveBlock();
+
+  const [selectedElementKey, setSelectedElementKey] = useState<NodeKey | null>(
+    null
+  );
 
   const [isEditable, setIsEditable] = useState(() => editor.isEditable());
   const { toolbarState, updateToolbarState } = useToolbarState();
@@ -88,8 +78,59 @@ export default function ToolbarPlugin(
       setIsItalic(selection.hasFormat("italic"));
       setIsUnderline(selection.hasFormat("underline"));
       setIsStrikethrough(selection.hasFormat("strikethrough"));
+
+      ///// -------
+      const anchorNode = selection.anchor.getNode();
+      let element =
+        anchorNode.getKey() === "root"
+          ? anchorNode
+          : $findMatchingParent(anchorNode, (e) => {
+              const parent = e.getParent();
+              return parent !== null && $isRootOrShadowRoot(parent);
+            });
+
+      if (element === null) {
+        element = anchorNode.getTopLevelElementOrThrow();
+      }
+
+      const elementKey = element.getKey();
+      const elementDOM = activeEditor.getElementByKey(elementKey);
+
+      if (elementDOM !== null) {
+        setSelectedElementKey(elementKey);
+        if ($isListNode(element)) {
+          const parentList = $getNearestNodeOfType<ListNode>(
+            anchorNode,
+            ListNode
+          );
+          const type = parentList
+            ? parentList.getListType()
+            : element.getListType();
+
+          updateToolbarState("blockType", type);
+        } else {
+          const type = $isHeadingNode(element)
+            ? element.getTag()
+            : element.getType();
+          if (type in blockTypeToBlockName) {
+            updateToolbarState(
+              "blockType",
+              type as keyof typeof blockTypeToBlockName
+            );
+          }
+          if ($isCodeNode(element)) {
+            const language =
+              element.getLanguage() as keyof typeof CODE_LANGUAGE_MAP;
+            updateToolbarState(
+              "codeLanguage",
+              language ? CODE_LANGUAGE_MAP[language] || language : ""
+            );
+            return;
+          }
+        }
+      }
     }
-  }, []);
+  }, [updateToolbarState, activeEditor]);
 
   useEffect(() => {
     return mergeRegister(
@@ -125,33 +166,19 @@ export default function ToolbarPlugin(
     );
   }, [editor, $updateToolbar]);
 
-  function toggleBlock(type: "h1" | "h2" | "h3" | "h4" | "quote") {
-    const selection = $getSelection();
-
-    if (activeBlock === type) {
-      return $setBlocksType(selection, () => $createParagraphNode());
-    }
-
-    if (type === "h1") {
-      return $setBlocksType(selection, () => $createHeadingNode("h1"));
-    }
-
-    if (type === "h2") {
-      return $setBlocksType(selection, () => $createHeadingNode("h2"));
-    }
-
-    if (type === "h3") {
-      return $setBlocksType(selection, () => $createHeadingNode("h3"));
-    }
-
-    if (type === "h4") {
-      return $setBlocksType(selection, () => $createHeadingNode("h4"));
-    }
-
-    if (type === "quote") {
-      return $setBlocksType(selection, () => $createQuoteNode());
-    }
-  }
+  // const onCodeLanguageSelect = useCallback(
+  //   (value: string) => {
+  //     activeEditor.update(() => {
+  //       if (selectedElementKey !== null) {
+  //         const node = $getNodeByKey(selectedElementKey);
+  //         if ($isCodeNode(node)) {
+  //           node.setLanguage(value);
+  //         }
+  //       }
+  //     });
+  //   },
+  //   [activeEditor, selectedElementKey]
+  // );
 
   return (
     <div
@@ -191,35 +218,6 @@ export default function ToolbarPlugin(
             <Divider />
           </>
         )}
-      <Button
-        onClick={() => editor.update(() => toggleBlock("h1"))}
-        data-active={activeBlock === "h1" ? "" : undefined}
-        className={`toolbar-item toolbar-button ${activeBlock === "h1" ? "active" : ""}`}
-      >
-        <Heading1 className="format w-4 text-[#1e1e1e] dark:text-white text-opacity-70" />
-      </Button>
-      <Button
-        onClick={() => editor.update(() => toggleBlock("h2"))}
-        data-active={activeBlock === "h2" ? "" : undefined}
-        className={`toolbar-item toolbar-button ${activeBlock === "h2" ? "active" : ""}`}
-      >
-        <Heading2 className="format w-4 text-[#1e1e1e] dark:text-white text-opacity-70" />
-      </Button>
-      <Button
-        onClick={() => editor.update(() => toggleBlock("h3"))}
-        data-active={activeBlock === "h3" ? "" : undefined}
-        className={`toolbar-item toolbar-button ${activeBlock === "h3" ? "active" : ""}`}
-      >
-        <Heading3 className="format w-4 text-[#1e1e1e] dark:text-white text-opacity-70" />
-      </Button>
-      <Button
-        onClick={() => editor.update(() => toggleBlock("h4"))}
-        data-active={activeBlock === "h4" ? "" : undefined}
-        className={`toolbar-item toolbar-button ${activeBlock === "h4" ? "active" : ""}`}
-      >
-        <Heading4 className="format w-4 text-[#1e1e1e] dark:text-white text-opacity-70" />
-      </Button>
-      <Divider />
       <Button
         onClick={() => {
           editor.dispatchCommand(FORMAT_TEXT_COMMAND, "bold");
@@ -297,41 +295,41 @@ export default function ToolbarPlugin(
   );
 }
 
-function useActiveBlock() {
-  const [editor] = useLexicalComposerContext();
+// function useActiveBlock() {
+//   const [editor] = useLexicalComposerContext();
 
-  const subscribe = useCallback(
-    (onStoreChange: () => void) => {
-      return editor.registerUpdateListener(onStoreChange);
-    },
-    [editor]
-  );
+//   const subscribe = useCallback(
+//     (onStoreChange: () => void) => {
+//       return editor.registerUpdateListener(onStoreChange);
+//     },
+//     [editor]
+//   );
 
-  const getSnapshot = useCallback(() => {
-    return editor.getEditorState().read(() => {
-      const selection = $getSelection();
-      if (!$isRangeSelection(selection)) return null;
+//   const getSnapshot = useCallback(() => {
+//     return editor.getEditorState().read(() => {
+//       const selection = $getSelection();
+//       if (!$isRangeSelection(selection)) return null;
 
-      const anchor = selection.anchor.getNode();
-      let element =
-        anchor.getKey() === "root"
-          ? anchor
-          : $findMatchingParent(anchor, (e) => {
-              const parent = e.getParent();
-              return parent !== null && $isRootOrShadowRoot(parent);
-            });
+//       const anchor = selection.anchor.getNode();
+//       let element =
+//         anchor.getKey() === "root"
+//           ? anchor
+//           : $findMatchingParent(anchor, (e) => {
+//               const parent = e.getParent();
+//               return parent !== null && $isRootOrShadowRoot(parent);
+//             });
 
-      if (element === null) {
-        element = anchor.getTopLevelElementOrThrow();
-      }
+//       if (element === null) {
+//         element = anchor.getTopLevelElementOrThrow();
+//       }
 
-      if ($isHeadingNode(element)) {
-        return element.getTag();
-      }
+//       if ($isHeadingNode(element)) {
+//         return element.getTag();
+//       }
 
-      return element.getType();
-    });
-  }, [editor]);
+//       return element.getType();
+//     });
+//   }, [editor]);
 
-  return useSyncExternalStore(subscribe, getSnapshot, getSnapshot);
-}
+//   return useSyncExternalStore(subscribe, getSnapshot, getSnapshot);
+// }
