@@ -2,8 +2,8 @@
 
 import { editorTheme } from "./plugins/editorTheme";
 import ToolbarPlugin from "./plugins/toolbarPlugin/ToolbarPlugin";
-import { HeadingNode } from "@lexical/rich-text";
 import { AutoFocusPlugin } from "@lexical/react/LexicalAutoFocusPlugin";
+import { ListPlugin } from "@lexical/react/LexicalListPlugin";
 import { LexicalComposer } from "@lexical/react/LexicalComposer";
 import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
 import { ContentEditable } from "@lexical/react/LexicalContentEditable";
@@ -24,11 +24,12 @@ import DeleteModal from "@/components/modal/DeleteModal";
 import { ToggleTheme } from "../ui/common/ToggleTheme";
 import { useState } from "react";
 import { ToolbarContext } from "@/context/ToolbarContext";
+import PlaygroundNodes from "./nodes/playgroundNodes";
 
 export function Editor({ roomId, currentUserType }: Editorprops) {
   const initialConfig = liveblocksConfig({
     namespace: "MyEditor",
-    nodes: [HeadingNode],
+    nodes: [...PlaygroundNodes],
     theme: editorTheme,
     onError: (error: Error) => {
       console.error(error);
@@ -72,6 +73,7 @@ export function Editor({ roomId, currentUserType }: Editorprops) {
                 {currentUserType === "editor" && <FloatingToolbarPlugin />}
                 <HistoryPlugin />
                 <AutoFocusPlugin />
+                <ListPlugin />
               </div>
             ) : (
               <Loader />

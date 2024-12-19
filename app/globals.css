@@ -29,6 +29,16 @@ body {
   body {
     @apply bg-white text-[#1e1e1e] dark:bg-[#111111] dark:text-white;
   }
+
+  ul {
+    list-style: disc;
+    list-style-type: disc;
+  }
+
+  ol {
+    list-style: decimal;
+    list-style-type: decimal;
+  }
 }
 
 @layer utilities {
