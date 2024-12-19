@@ -4,6 +4,7 @@ import { editorTheme } from "./plugins/editorTheme";
 import ToolbarPlugin from "./plugins/toolbarPlugin/ToolbarPlugin";
 import { AutoFocusPlugin } from "@lexical/react/LexicalAutoFocusPlugin";
 import { ListPlugin } from "@lexical/react/LexicalListPlugin";
+import { CheckListPlugin } from "@lexical/react/LexicalCheckListPlugin";
 import { LexicalComposer } from "@lexical/react/LexicalComposer";
 import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
 import { ContentEditable } from "@lexical/react/LexicalContentEditable";
@@ -74,6 +75,7 @@ export function Editor({ roomId, currentUserType }: Editorprops) {
                 <HistoryPlugin />
                 <AutoFocusPlugin />
                 <ListPlugin />
+                <CheckListPlugin />
               </div>
             ) : (
               <Loader />
