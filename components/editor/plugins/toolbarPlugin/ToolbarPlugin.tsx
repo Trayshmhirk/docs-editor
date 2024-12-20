@@ -193,7 +193,7 @@ export default function ToolbarPlugin(
         className="toolbar-item toolbar-button"
         aria-label="Undo"
       >
-        <RotateCcw className="format w-4 text-[#1e1e1e] dark:text-white text-opacity-70" />
+        <RotateCcw className="format icon" />
       </button>
       <button
         disabled={!canRedo}
@@ -203,7 +203,7 @@ export default function ToolbarPlugin(
         className="toolbar-item toolbar-button"
         aria-label="Redo"
       >
-        <RotateCw className="format w-4 text-[#1e1e1e] dark:text-white text-opacity-70" />
+        <RotateCw className="format icon" />
       </button>
       <Divider />
       {toolbarState.blockType in blockTypeToBlockName &&
@@ -225,7 +225,7 @@ export default function ToolbarPlugin(
         className={`toolbar-item toolbar-button ${isBold ? "active" : ""}`}
         aria-label="Format Bold"
       >
-        <Bold className="format w-4 text-[#1e1e1e] dark:text-white text-opacity-70" />
+        <Bold className="format icon" />
       </Button>
       <Button
         onClick={() => {
@@ -234,7 +234,7 @@ export default function ToolbarPlugin(
         className={`toolbar-item toolbar-button ${isItalic ? "active" : ""}`}
         aria-label="Format Italics"
       >
-        <Italic className="format w-4 text-[#1e1e1e] dark:text-white text-opacity-70" />
+        <Italic className="format icon" />
       </Button>
       <Button
         onClick={() => {
@@ -243,7 +243,7 @@ export default function ToolbarPlugin(
         className={`toolbar-item toolbar-button ${isUnderline ? "active" : ""}`}
         aria-label="Format Underline"
       >
-        <Underline className="format w-4 text-[#1e1e1e] dark:text-white text-opacity-70" />
+        <Underline className="format icon" />
       </Button>
       <Button
         onClick={() => {
@@ -252,7 +252,7 @@ export default function ToolbarPlugin(
         className={`toolbar-item toolbar-button ${isStrikethrough ? "active" : ""}`}
         aria-label="Format Strikethrough"
       >
-        <Strikethrough className="format w-4 text-[#1e1e1e] dark:text-white text-opacity-70" />
+        <Strikethrough className="format icon" />
       </Button>
       <Divider />
       <Button
@@ -262,7 +262,7 @@ export default function ToolbarPlugin(
         className="toolbar-item toolbar-button"
         aria-label="Left Align"
       >
-        <AlignLeft className="format w-4 text-[#1e1e1e] dark:text-white text-opacity-70" />
+        <AlignLeft className="format icon" />
       </Button>
       <Button
         onClick={() => {
@@ -271,7 +271,7 @@ export default function ToolbarPlugin(
         className="toolbar-item toolbar-button"
         aria-label="Center Align"
       >
-        <AlignCenter className="format w-4 text-[#1e1e1e] dark:text-white text-opacity-70" />
+        <AlignCenter className="format icon" />
       </Button>
       <Button
         onClick={() => {
@@ -280,7 +280,7 @@ export default function ToolbarPlugin(
         className="toolbar-item toolbar-button"
         aria-label="Right Align"
       >
-        <AlignRight className="format w-4 text-[#1e1e1e] dark:text-white text-opacity-70" />
+        <AlignRight className="format icon" />
       </Button>
       <Button
         onClick={() => {
@@ -289,7 +289,7 @@ export default function ToolbarPlugin(
         className="toolbar-item toolbar-button"
         aria-label="Justify Align"
       >
-        <AlignJustify className="format w-4 text-[#1e1e1e] dark:text-white text-opacity-70" />
+        <AlignJustify className="format icon" />
       </Button>
     </div>
   );

@@ -78,6 +78,10 @@ body {
     opacity: 0.2;
   }
 
+  .format.icon {
+    @apply size-[18px] text-[#1e1e1e] dark:text-white;
+  }
+
   .editor-input {
     min-height: 400px;
     resize: none;

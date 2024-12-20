@@ -63,7 +63,7 @@ export default function BlockFormatDropDown({
         onClick={() => formatParagraph(editor)}
       >
         <div className="flex items-center gap-3">
-          <Text className="format size-4 text-[#1e1e1e] dark:text-white text-opacity-70" />
+          <Text className="format icon" />
           <span className="text">Normal</span>
         </div>
         {/* <span className="shortcut">{SHORTCUTS.NORMAL}</span> */}
@@ -76,7 +76,7 @@ export default function BlockFormatDropDown({
         onClick={() => formatHeading(editor, blockType, "h1")}
       >
         <div className="flex items-center gap-3">
-          <Heading1 className="format w-4 text-[#1e1e1e] dark:text-white text-opacity-70" />
+          <Heading1 className="format icon" />
           <span className="text">Heading 1</span>
         </div>
         {/* <span className="shortcut">{SHORTCUTS.HEADING1}</span> */}
@@ -89,7 +89,7 @@ export default function BlockFormatDropDown({
         onClick={() => formatHeading(editor, blockType, "h2")}
       >
         <div className="flex items-center gap-3">
-          <Heading2 className="format w-4 text-[#1e1e1e] dark:text-white text-opacity-70" />
+          <Heading2 className="format icon" />
           <span className="text">Heading 2</span>
         </div>
         {/* <span className="shortcut">{SHORTCUTS.HEADING2}</span> */}
@@ -102,7 +102,7 @@ export default function BlockFormatDropDown({
         onClick={() => formatHeading(editor, blockType, "h3")}
       >
         <div className="flex items-center gap-3">
-          <Heading3 className="format w-4 text-[#1e1e1e] dark:text-white text-opacity-70" />
+          <Heading3 className="format icon" />
           <span className="text">Heading 3</span>
         </div>
         {/* <span className="shortcut">{SHORTCUTS.HEADING3}</span> */}
@@ -115,7 +115,7 @@ export default function BlockFormatDropDown({
         onClick={() => formatBulletList(editor, blockType)}
       >
         <div className="flex items-center gap-3">
-          <List className="format w-4 text-[#1e1e1e] dark:text-white text-opacity-70" />
+          <List className="format icon" />
           <span className="text">Bullet List</span>
         </div>
         {/* <span className="shortcut">{SHORTCUTS.BULLET_LIST}</span> */}
@@ -128,7 +128,7 @@ export default function BlockFormatDropDown({
         onClick={() => formatNumberedList(editor, blockType)}
       >
         <div className="flex items-center gap-3">
-          <ListOrdered className="format w-4 text-[#1e1e1e] dark:text-white text-opacity-70" />
+          <ListOrdered className="format icon" />
           <span className="text">Numbered List</span>
         </div>
         {/* <span className="shortcut">{SHORTCUTS.NUMBERED_LIST}</span> */}
@@ -141,7 +141,7 @@ export default function BlockFormatDropDown({
         onClick={() => formatCheckList(editor, blockType)}
       >
         <div className="flex items-center gap-3">
-          <ListChecks className="format w-4 text-[#1e1e1e] dark:text-white text-opacity-70" />
+          <ListChecks className="format icon" />
           <span className="text">Check List</span>
         </div>
         {/* <span className="shortcut">{SHORTCUTS.CHECK_LIST}</span> */}
@@ -154,7 +154,7 @@ export default function BlockFormatDropDown({
         onClick={() => formatQuote(editor, blockType)}
       >
         <div className="flex items-center gap-3">
-          <MessageSquareQuote className="format w-4 text-[#1e1e1e] dark:text-white text-opacity-70" />
+          <MessageSquareQuote className="format icon" />
           <span className="text">Quote</span>
         </div>
         {/* <span className="shortcut">{SHORTCUTS.QUOTE}</span> */}
@@ -167,7 +167,7 @@ export default function BlockFormatDropDown({
         onClick={() => formatCode(editor, blockType)}
       >
         <div className="flex items-center gap-3">
-          <Code className="format w-4 text-[#1e1e1e] dark:text-white text-opacity-70" />
+          <Code className="format icon" />
           <span className="text">Code Block</span>
         </div>
         {/* <span className="shortcut">{SHORTCUTS.CODE_BLOCK}</span> */}
