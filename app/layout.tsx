@@ -25,6 +25,7 @@ export default function RootLayout({
             defaultTheme="system"
             enableSystem={true}
             storageKey="theme"
+            forcedTheme={typeof window === "undefined" ? "dark" : undefined}
           >
             <Provider>{children}</Provider>
           </ThemeProvider>
