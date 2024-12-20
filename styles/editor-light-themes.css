@@ -68,7 +68,7 @@ body {
   line-height: 14px;
 }
 
-.editor-code {
+html.light .editor-code {
   background-color: rgb(240, 242, 245);
   font-family: Menlo, Consolas, Monaco, monospace;
   display: block;
@@ -84,7 +84,7 @@ body {
   position: relative;
 }
 
-.editor-code:before {
+html.light .editor-code:before {
   content: attr(data-gutter);
   position: absolute;
   background-color: #eee;
@@ -98,7 +98,7 @@ body {
   min-width: 25px;
 }
 
-.editor-code:after {
+html.light .editor-code:after {
   content: attr(data-highlight-language);
   top: 0;
   right: 3px;

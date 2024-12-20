@@ -68,8 +68,8 @@ body {
   line-height: 14px;
 }
 
-.editor-code {
-  background-color: rgb(240, 242, 245);
+html.dark .editor-code {
+  background-color: #121212;
   font-family: Menlo, Consolas, Monaco, monospace;
   display: block;
   padding: 8px 8px 8px 52px;
@@ -84,21 +84,21 @@ body {
   position: relative;
 }
 
-.editor-code:before {
+html.dark .editor-code:before {
   content: attr(data-gutter);
   position: absolute;
-  background-color: #eee;
+  background-color: #121212;
   left: 0;
   top: 0;
-  border-right: 1px solid #ccc;
+  border-right: 1px solid #555555;
   padding: 8px;
-  color: #777;
+  color: #888888;
   white-space: pre-wrap;
   text-align: right;
   min-width: 25px;
 }
 
-.editor-code:after {
+html.dark .editor-code:after {
   content: attr(data-highlight-language);
   top: 0;
   right: 3px;
@@ -106,7 +106,7 @@ body {
   font-size: 10px;
   text-transform: uppercase;
   position: absolute;
-  color: rgba(0, 0, 0, 0.5);
+  color: #777;
 }
 
 .editor-tokenComment {
