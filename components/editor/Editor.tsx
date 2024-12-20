@@ -2,6 +2,7 @@
 import { editorTheme } from "./plugins/editorTheme";
 import ToolbarPlugin from "./plugins/toolbarPlugin/ToolbarPlugin";
 import CodeHighlightPlugin from "./plugins/codeHighlightPlugin";
+import CodeActionMenuPlugin from "./plugins/codeActionMenuPlugin";
 
 import { AutoFocusPlugin } from "@lexical/react/LexicalAutoFocusPlugin";
 import { ListPlugin } from "@lexical/react/LexicalListPlugin";
@@ -24,9 +25,10 @@ import { useThreads } from "@liveblocks/react/suspense";
 import Comments from "@/components/ui/liveblocks/Comments";
 import DeleteModal from "@/components/modal/DeleteModal";
 import { ToggleTheme } from "../ui/common/ToggleTheme";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ToolbarContext } from "@/context/ToolbarContext";
 import PlaygroundNodes from "./nodes/playgroundNodes";
+import { CAN_USE_DOM } from "@lexical/utils";
 
 export function Editor({ roomId, currentUserType }: Editorprops) {
   const initialConfig = liveblocksConfig({
@@ -44,6 +46,34 @@ export function Editor({ roomId, currentUserType }: Editorprops) {
   const { threads } = useThreads();
   // isLinkEditMode
   const [, setIsLinkEditMode] = useState<boolean>(false);
+
+  const [floatingAnchorElem, setFloatingAnchorElem] =
+    useState<HTMLDivElement | null>(null);
+  const [isSmallWidthViewport, setIsSmallWidthViewport] =
+    useState<boolean>(false);
+
+  const onRef = (_floatingAnchorElem: HTMLDivElement) => {
+    if (_floatingAnchorElem !== null) {
+      setFloatingAnchorElem(_floatingAnchorElem);
+    }
+  };
+
+  useEffect(() => {
+    const updateViewPortWidth = () => {
+      const isNextSmallWidthViewport =
+        CAN_USE_DOM && window.matchMedia("(max-width: 1025px)").matches;
+
+      if (isNextSmallWidthViewport !== isSmallWidthViewport) {
+        setIsSmallWidthViewport(isNextSmallWidthViewport);
+      }
+    };
+    updateViewPortWidth();
+    window.addEventListener("resize", updateViewPortWidth);
+
+    return () => {
+      window.removeEventListener("resize", updateViewPortWidth);
+    };
+  }, [isSmallWidthViewport]);
 
   return (
     <LexicalComposer initialConfig={initialConfig}>
@@ -63,7 +93,9 @@ export function Editor({ roomId, currentUserType }: Editorprops) {
               <div className="min-h-[1100px] relative h-fit w-full max-w-[800px] bg-white dark:bg-[#212121] mb-5 rounded-[3px] shadow-lg">
                 <RichTextPlugin
                   contentEditable={
-                    <ContentEditable className="editor-input relative h-full text-[#1e1e1e] dark:text-white caret-[#1d1d1d] dark:caret-[#d8d8d8] px-7 py-8 md:p-10" />
+                    <div ref={onRef}>
+                      <ContentEditable className="editor-input relative h-full text-[#1e1e1e] dark:text-white caret-[#1d1d1d] dark:caret-[#d8d8d8] px-7 py-8 md:p-10" />
+                    </div>
                   }
                   placeholder={
                     <div className="editor-placeholder absolute top-10 left-10 inline-block text-[15px] text-[#888888] dark:text-[#aaaaaa]">
@@ -78,6 +110,9 @@ export function Editor({ roomId, currentUserType }: Editorprops) {
                 <ListPlugin />
                 <CheckListPlugin />
                 <CodeHighlightPlugin />
+                {floatingAnchorElem && !isSmallWidthViewport && (
+                  <CodeActionMenuPlugin anchorElem={floatingAnchorElem} />
+                )}
               </div>
             ) : (
               <Loader />
