@@ -4,7 +4,7 @@ import { SignedIn, UserButton } from "@clerk/nextjs";
 import { dark } from "@clerk/themes";
 import { useTheme } from "next-themes";
 
-const ClerkUserButton = () => {
+const ClerkSignedInUserButton = () => {
   const { resolvedTheme } = useTheme();
 
   return (
@@ -24,4 +24,4 @@ const ClerkUserButton = () => {
   );
 };
 
-export default ClerkUserButton;
+export default ClerkSignedInUserButton;

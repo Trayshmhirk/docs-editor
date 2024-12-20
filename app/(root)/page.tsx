@@ -11,7 +11,7 @@ import { RoomData } from "@liveblocks/node";
 import DeleteModal from "@/components/modal/DeleteModal";
 import Notifications from "@/components/ui/liveblocks/Notifications";
 import { ToggleTheme } from "@/components/ui/common/ToggleTheme";
-import ClerkUserButton from "@/components/ui/common/ClerkUserButton";
+import ClerkSignedInUserButton from "@/components/ui/common/ClerkSignedInUserButton";
 
 type RoomDocumentsProps = {
   data: RoomData[];
@@ -34,7 +34,7 @@ const Home = async () => {
         <div className="flex items-center gap-2 lg-gap-6">
           <Notifications />
 
-          <ClerkUserButton />
+          <ClerkSignedInUserButton />
         </div>
       </Header>
 

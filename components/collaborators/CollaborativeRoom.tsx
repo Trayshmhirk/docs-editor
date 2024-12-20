@@ -12,6 +12,7 @@ import { Input } from "@/components/ui/input";
 import { SquarePen } from "lucide-react";
 import { updateDocument } from "@/lib/actions/room.actions";
 import ShareModal from "@/components/modal/ShareModal";
+import ClerkSignedInUserButton from "../ui/common/ClerkSignedInUserButton";
 
 const CollaborativeRoom = ({
   roomId,
@@ -138,9 +139,7 @@ const CollaborativeRoom = ({
               <SignedOut>
                 <SignInButton />
               </SignedOut>
-              <SignedIn>
-                <UserButton />
-              </SignedIn>
+              <ClerkSignedInUserButton />
             </div>
           </Header>
           <Editor roomId={roomId} currentUserType={currentUserType} />
