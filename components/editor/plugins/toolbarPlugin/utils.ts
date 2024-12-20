@@ -29,6 +29,21 @@ import {
   MIN_ALLOWED_FONT_SIZE,
 } from "@/context/ToolbarContext";
 
+import {
+  Code,
+  Heading1,
+  Heading2,
+  Heading3,
+  Heading4,
+  Heading5,
+  Heading6,
+  List,
+  ListChecks,
+  ListOrdered,
+  MessageSquareQuote,
+  Text,
+} from "lucide-react";
+
 // eslint-disable-next-line no-shadow
 export enum UpdateFontSizeType {
   increment = 1,
@@ -283,3 +298,27 @@ export const clearFormatting = (editor: LexicalEditor) => {
     }
   });
 };
+
+export function getBlockTypeIcon(
+  blockType: string
+): React.FC<React.SVGProps<SVGSVGElement>> {
+  const blockTypeIcons: Record<
+    string,
+    React.FC<React.SVGProps<SVGSVGElement>>
+  > = {
+    paragraph: Text,
+    h1: Heading1,
+    h2: Heading2,
+    h3: Heading3,
+    h4: Heading4,
+    h5: Heading5,
+    h6: Heading6,
+    bullet: List,
+    check: ListChecks,
+    number: ListOrdered,
+    quote: MessageSquareQuote,
+    code: Code,
+  };
+
+  return blockTypeIcons[blockType] || Text; // Default to Text if blockType doesn't match
+}

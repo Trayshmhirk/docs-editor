@@ -21,6 +21,7 @@ import {
   MessageSquareQuote,
   Text,
 } from "lucide-react";
+import { getBlockTypeIcon } from "../utils";
 
 type rootTypeToRootName = {
   root: "Root";
@@ -50,7 +51,7 @@ export default function BlockFormatDropDown({
     <DropDown
       disabled={disabled}
       buttonClassName="toolbar-item"
-      buttonIconClassName={"icon block-type " + blockType}
+      buttonIcon={getBlockTypeIcon(blockType)}
       buttonLabel={blockTypeToBlockName[blockType]}
       buttonAriaLabel="Formatting options for text style"
     >

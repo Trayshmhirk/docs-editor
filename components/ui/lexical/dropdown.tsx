@@ -27,7 +27,6 @@ export function isDOMNode(x: unknown): x is Node {
     typeof x.nodeType === "number"
   );
 }
-
 export function DropDownItem({
   children,
   className,
@@ -154,14 +153,14 @@ export default function DropDown({
   buttonLabel,
   buttonAriaLabel,
   buttonClassName,
-  buttonIconClassName,
+  buttonIcon: ButtonIcon,
   children,
   stopCloseOnClickSelf,
 }: {
   disabled?: boolean;
   buttonAriaLabel?: string;
   buttonClassName: string;
-  buttonIconClassName?: string;
+  buttonIcon?: React.ComponentType<React.SVGProps<SVGSVGElement>>;
   buttonLabel?: string;
   children: ReactNode;
   stopCloseOnClickSelf?: boolean;
@@ -252,7 +251,9 @@ export default function DropDown({
         onClick={() => setShowDropDown(!showDropDown)}
         ref={buttonRef}
       >
-        {buttonIconClassName && <span className={buttonIconClassName} />}
+        {ButtonIcon && (
+          <ButtonIcon className="format w-4 text-[#1e1e1e] dark:text-white text-opacity-70" />
+        )}
         {buttonLabel && (
           <span className="text dropdown-button-text">{buttonLabel}</span>
         )}
