@@ -129,18 +129,23 @@ body {
   margin: 0;
   margin-bottom: 12px;
   padding: 0;
+  line-height: 36px;
 }
 
 .editor-heading-h2 {
   font-size: 1.5rem;
   margin: 0;
+  margin-bottom: 12px;
   padding: 0;
+  line-height: 27px;
 }
 
 .editor-heading-h3 {
   font-size: 1.25rem;
   margin: 0;
+  margin-bottom: 12px;
   padding: 0;
+  line-height: 22px;
 }
 
 .editor-quote {
