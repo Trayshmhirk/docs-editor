@@ -78,7 +78,7 @@ export function Editor({ roomId, currentUserType }: Editorprops) {
   return (
     <LexicalComposer initialConfig={initialConfig}>
       <ToolbarContext>
-        <div className="size-full rounded-sm text-black leading-5 text-left">
+        <div className="size-full rounded-sm  bg-[#f0f2f5] dark:bg-[#111111] text-black leading-5 text-left">
           <div className="toolbar-wrapper h-[50px] flex min-w-full justify-between items-center gap-5">
             <ToolbarPlugin setIsLinkEditMode={setIsLinkEditMode} />
 
