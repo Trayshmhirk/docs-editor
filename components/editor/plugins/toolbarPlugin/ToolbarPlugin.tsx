@@ -45,6 +45,8 @@ import {
 } from "@/context/ToolbarContext";
 import { CODE_LANGUAGE_OPTIONS, dropDownActiveClass } from "./utils";
 import DropDown, { DropDownItem } from "@/components/ui/lexical/dropdown";
+import { FontDropDown } from "./toolbarDropdown/FontDropdown";
+import { $getSelectionStyleValueForProperty } from "@lexical/selection";
 
 const LowPriority = 1;
 
@@ -137,6 +139,11 @@ export default function ToolbarPlugin(
           }
         }
       }
+
+      updateToolbarState(
+        "fontFamily",
+        $getSelectionStyleValueForProperty(selection, "font-family", "Arial")
+      );
     }
   }, [updateToolbarState, activeEditor]);
 
@@ -226,7 +233,7 @@ export default function ToolbarPlugin(
             <Divider />
           </>
         )}
-      {toolbarState.blockType === "code" && (
+      {toolbarState.blockType === "code" ? (
         <>
           <DropDown
             disabled={!isEditable}
@@ -248,83 +255,91 @@ export default function ToolbarPlugin(
               );
             })}
           </DropDown>
+        </>
+      ) : (
+        <>
+          <FontDropDown
+            disabled={!isEditable}
+            style={"font-family"}
+            value={toolbarState.fontFamily}
+            editor={activeEditor}
+          />
           <Divider />
+          <Button
+            onClick={() => {
+              editor.dispatchCommand(FORMAT_TEXT_COMMAND, "bold");
+            }}
+            className={`toolbar-item toolbar-button ${isBold ? "active" : ""}`}
+            aria-label="Format Bold"
+          >
+            <Bold className="format icon" />
+          </Button>
+          <Button
+            onClick={() => {
+              editor.dispatchCommand(FORMAT_TEXT_COMMAND, "italic");
+            }}
+            className={`toolbar-item toolbar-button ${isItalic ? "active" : ""}`}
+            aria-label="Format Italics"
+          >
+            <Italic className="format icon" />
+          </Button>
+          <Button
+            onClick={() => {
+              editor.dispatchCommand(FORMAT_TEXT_COMMAND, "underline");
+            }}
+            className={`toolbar-item toolbar-button ${isUnderline ? "active" : ""}`}
+            aria-label="Format Underline"
+          >
+            <Underline className="format icon" />
+          </Button>
+          <Button
+            onClick={() => {
+              editor.dispatchCommand(FORMAT_TEXT_COMMAND, "strikethrough");
+            }}
+            className={`toolbar-item toolbar-button ${isStrikethrough ? "active" : ""}`}
+            aria-label="Format Strikethrough"
+          >
+            <Strikethrough className="format icon" />
+          </Button>
+          <Divider />
+          <Button
+            onClick={() => {
+              editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "left");
+            }}
+            className="toolbar-item toolbar-button"
+            aria-label="Left Align"
+          >
+            <AlignLeft className="format icon" />
+          </Button>
+          <Button
+            onClick={() => {
+              editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "center");
+            }}
+            className="toolbar-item toolbar-button"
+            aria-label="Center Align"
+          >
+            <AlignCenter className="format icon" />
+          </Button>
+          <Button
+            onClick={() => {
+              editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "right");
+            }}
+            className="toolbar-item toolbar-button"
+            aria-label="Right Align"
+          >
+            <AlignRight className="format icon" />
+          </Button>
+          <Button
+            onClick={() => {
+              editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "justify");
+            }}
+            className="toolbar-item toolbar-button"
+            aria-label="Justify Align"
+          >
+            <AlignJustify className="format icon" />
+          </Button>
         </>
       )}
-
-      <Button
-        onClick={() => {
-          editor.dispatchCommand(FORMAT_TEXT_COMMAND, "bold");
-        }}
-        className={`toolbar-item toolbar-button ${isBold ? "active" : ""}`}
-        aria-label="Format Bold"
-      >
-        <Bold className="format icon" />
-      </Button>
-      <Button
-        onClick={() => {
-          editor.dispatchCommand(FORMAT_TEXT_COMMAND, "italic");
-        }}
-        className={`toolbar-item toolbar-button ${isItalic ? "active" : ""}`}
-        aria-label="Format Italics"
-      >
-        <Italic className="format icon" />
-      </Button>
-      <Button
-        onClick={() => {
-          editor.dispatchCommand(FORMAT_TEXT_COMMAND, "underline");
-        }}
-        className={`toolbar-item toolbar-button ${isUnderline ? "active" : ""}`}
-        aria-label="Format Underline"
-      >
-        <Underline className="format icon" />
-      </Button>
-      <Button
-        onClick={() => {
-          editor.dispatchCommand(FORMAT_TEXT_COMMAND, "strikethrough");
-        }}
-        className={`toolbar-item toolbar-button ${isStrikethrough ? "active" : ""}`}
-        aria-label="Format Strikethrough"
-      >
-        <Strikethrough className="format icon" />
-      </Button>
-      <Divider />
-      <Button
-        onClick={() => {
-          editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "left");
-        }}
-        className="toolbar-item toolbar-button"
-        aria-label="Left Align"
-      >
-        <AlignLeft className="format icon" />
-      </Button>
-      <Button
-        onClick={() => {
-          editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "center");
-        }}
-        className="toolbar-item toolbar-button"
-        aria-label="Center Align"
-      >
-        <AlignCenter className="format icon" />
-      </Button>
-      <Button
-        onClick={() => {
-          editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "right");
-        }}
-        className="toolbar-item toolbar-button"
-        aria-label="Right Align"
-      >
-        <AlignRight className="format icon" />
-      </Button>
-      <Button
-        onClick={() => {
-          editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "justify");
-        }}
-        className="toolbar-item toolbar-button"
-        aria-label="Justify Align"
-      >
-        <AlignJustify className="format icon" />
-      </Button>
     </div>
   );
 }

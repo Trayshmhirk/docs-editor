@@ -9,7 +9,6 @@
 @import "@/styles/editor/index.css";
 @import "@/styles/liveblocks/index.css";
 
-
 body {
   font-family: Arial, Helvetica, sans-serif;
 }
@@ -81,6 +80,21 @@ body {
 
   .format.icon {
     @apply size-[18px] text-[#1e1e1e] dark:text-white;
+  }
+
+  .toolbar .toolbar-item .text {
+    display: flex;
+    line-height: 20px;
+    vertical-align: middle;
+    font-size: 14px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    height: 20px;
+    text-align: left;
+  }
+
+  .toolbar-item.font-family .text {
+    max-width: 40px;
   }
 }
 
