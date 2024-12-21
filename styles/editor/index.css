@@ -82,6 +82,42 @@ body {
   line-height: 14px;
 }
 
+.editor-code {
+  font-family: Menlo, Consolas, Monaco, monospace;
+  display: block;
+  padding: 8px 8px 8px 52px;
+  line-height: 1.53;
+  font-size: 13px;
+  margin: 0;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  tab-size: 2;
+  white-space: pre;
+  overflow-x: auto;
+  position: relative;
+}
+
+.editor-code:before {
+  content: attr(data-gutter);
+  position: absolute;
+  left: 0;
+  top: 0;
+  padding: 8px;
+  white-space: pre-wrap;
+  text-align: right;
+  min-width: 25px;
+}
+
+.editor-code:after {
+  content: attr(data-highlight-language);
+  top: 0;
+  right: 3px;
+  padding: 3px;
+  font-size: 10px;
+  text-transform: uppercase;
+  position: absolute;
+}
+
 .editor-tokenComment {
   color: slategray;
 }
