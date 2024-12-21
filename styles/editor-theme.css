@@ -1,3 +1,6 @@
+@import "@/styles/editor-dark-themes.css";
+@import "@/styles/editor-light-themes.css";
+
 body {
   margin: 0;
   font-family:

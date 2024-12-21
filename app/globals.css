@@ -6,9 +6,8 @@
 @import "@liveblocks/react-lexical/styles.css";
 @import "@liveblocks/react-ui/styles/dark/attributes.css";
 @import "@liveblocks/react-ui/styles/dark/media-query.css";
-@import "../styles/editor-theme.css";
-@import "../styles/editor-dark-themes.css";
-@import "../styles/editor-light-themes.css";
+@import "@/styles/editor-theme.css";
+
 
 body {
   font-family: Arial, Helvetica, sans-serif;
