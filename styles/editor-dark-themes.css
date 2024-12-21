@@ -171,8 +171,7 @@ html.dark .editor-code:after {
 }
 
 .editor-quote {
-  margin: 0;
-  margin-left: 20px;
+  margin: 0 0 10px 20px;
   font-size: 15px;
   color: rgb(101, 103, 107);
   border-left-color: rgb(206, 208, 212);
@@ -197,6 +196,80 @@ html.dark .editor-code:after {
 
 .editor-nested-listitem {
   list-style-type: none;
+}
+
+.editor-listItem {
+  margin: 0 32px;
+}
+
+/* ------------ check list styles */
+
+.editor-listItemChecked,
+.editor-listItemUnchecked {
+  position: relative;
+  margin-left: 8px !important;
+  margin-right: 8px !important;
+  padding-left: 24px;
+  padding-right: 24px;
+  list-style-type: none;
+  outline: none;
+}
+
+.editor-listItemChecked {
+  text-decoration: line-through;
+}
+
+.editor-listItemUnchecked:before,
+.editor-listItemChecked:before {
+  content: '';
+  width: 17px;
+  height: 17px;
+  top: 2px;
+  left: 0;
+  cursor: pointer;
+  display: block;
+  background-size: cover;
+  position: absolute;
+}
+
+.editor-listItemUnchecked[dir='rtl']:before,
+.editor-listItemChecked[dir='rtl']:before {
+  left: auto;
+  right: 0;
+}
+
+.editor-listItemUnchecked:focus:before,
+.editor-listItemChecked:focus:before {
+  box-shadow: 0 0 0 2px #a6cdfe;
+  border-radius: 2px;
+}
+
+.editor-listItemUnchecked:before {
+  border: 1px solid #999;
+  border-radius: 2px;
+}
+
+.editor-listItemChecked:before {
+  border: 1px solid rgb(61, 135, 245);
+  border-radius: 2px;
+  background-color: #3d87f5;
+  background-repeat: no-repeat;
+}
+
+.editor-listItemChecked:after {
+  content: '';
+  cursor: pointer;
+  border-color: #fff;
+  border-style: solid;
+  position: absolute;
+  display: block;
+  top: 5px;
+  width: 5px;
+  left: 6px;
+  right: 7px;
+  height: 9px;
+  transform: rotate(45deg);
+  border-width: 0 2px 2px 0;
 }
 
 pre::-webkit-scrollbar {

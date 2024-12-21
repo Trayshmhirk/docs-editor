@@ -1,4 +1,6 @@
-export const editorTheme = {
+import { EditorThemeClasses } from "lexical";
+
+export const editorTheme: EditorThemeClasses = {
   ltr: "ltr",
   rtl: "rtl",
   paragraph: "editor-paragraph",
@@ -16,8 +18,18 @@ export const editorTheme = {
       listitem: "editor-nested-listitem",
     },
     ol: "editor-list-ol",
+    olDepth: [
+      "editor-list-ol1",
+      "editor-list-ol2",
+      "editor-list-ol3",
+      "editor-list-ol4",
+      "editor-list-ol5",
+    ],
     ul: "editor-list-ul",
     listitem: "editor-listItem",
+    checklist: "editor-checklist",
+    listitemChecked: "editor-listItemChecked",
+    listitemUnchecked: "editor-listItemUnchecked",
   },
   image: "editor-image",
   link: "editor-link",

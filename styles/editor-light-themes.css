@@ -171,8 +171,7 @@ html.light .editor-code:after {
 }
 
 .editor-quote {
-  margin: 0;
-  margin-left: 20px;
+  margin: 0 0 10px 20px;
   font-size: 15px;
   color: rgb(101, 103, 107);
   border-left-color: rgb(206, 208, 212);
