@@ -6,6 +6,7 @@
 @import "@liveblocks/react-lexical/styles.css";
 @import "@liveblocks/react-ui/styles/dark/attributes.css";
 @import "@liveblocks/react-ui/styles/dark/media-query.css";
+@import "../styles/editor-theme.css";
 @import "../styles/editor-dark-themes.css";
 @import "../styles/editor-light-themes.css";
 
@@ -80,17 +81,6 @@ body {
 
   .format.icon {
     @apply size-[18px] text-[#1e1e1e] dark:text-white;
-  }
-
-  .editor-input {
-    min-height: 400px;
-    resize: none;
-    tab-size: 1;
-    outline: 0;
-  }
-
-  .editor-placeholder {
-    pointer-events: none;
   }
 }
 
@@ -186,52 +176,33 @@ html.dark .lb-composer-mention {
   border-radius: 4px;
   padding: 3px 4px;
 }
-html.light
-  .lb-button:where(
-    [data-variant="default"]:not(
-        :is(
-            :enabled:hover,
-            :enabled:focus-visible,
-            [aria-expanded="true"],
-            [aria-selected="true"]
-          )
-      )
-  ) {
+
+html.light .lb-button:where([data-variant="default"]:not( :is( :enabled:hover,
+      :enabled:focus-visible,
+      [aria-expanded="true"],
+      [aria-selected="true"]))) {
   color: #1e1e1e;
 }
 
-html.dark
-  .lb-button:where(
-    [data-variant="default"]:not(
-        :is(
-            :enabled:hover,
-            :enabled:focus-visible,
-            [aria-expanded="true"],
-            [aria-selected="true"]
-          )
-      )
-  ) {
+html.dark .lb-button:where([data-variant="default"]:not( :is( :enabled:hover,
+      :enabled:focus-visible,
+      [aria-expanded="true"],
+      [aria-selected="true"]))) {
   color: #ffffff;
 }
 
-html.light
-  .lb-button:where(
-    :enabled:hover,
-    :enabled:focus-visible,
-    [aria-expanded="true"],
-    [aria-selected="true"]
-  ) {
+html.light .lb-button:where( :enabled:hover,
+  :enabled:focus-visible,
+  [aria-expanded="true"],
+  [aria-selected="true"]) {
   --lb-button-background: #eeeeee;
   color: #1e1e1e;
 }
 
-html.dark
-  .lb-button:where(
-    :enabled:hover,
-    :enabled:focus-visible,
-    [aria-expanded="true"],
-    [aria-selected="true"]
-  ) {
+html.dark .lb-button:where( :enabled:hover,
+  :enabled:focus-visible,
+  [aria-expanded="true"],
+  [aria-selected="true"]) {
   --lb-button-background: #4a4a4a;
   color: #ffffff;
 }
@@ -311,21 +282,15 @@ html.dark .lb-lexical-thread-mark {
   color: #fafafa;
 }
 
-html.light
-  :is(
-    .lb-dropdown-item,
-    .lb-composer-suggestions-list-item,
-    .lb-emoji-picker-emoji
-  ):where([data-highlighted], [data-selected]) {
+html.light :is(.lb-dropdown-item,
+  .lb-composer-suggestions-list-item,
+  .lb-emoji-picker-emoji):where([data-highlighted], [data-selected]) {
   background-color: #dcdcdc;
 }
 
-html.dark
-  :is(
-    .lb-dropdown-item,
-    .lb-composer-suggestions-list-item,
-    .lb-emoji-picker-emoji
-  ):where([data-highlighted], [data-selected]) {
+html.dark :is(.lb-dropdown-item,
+  .lb-composer-suggestions-list-item,
+  .lb-emoji-picker-emoji):where([data-highlighted], [data-selected]) {
   background-color: #444444;
 }
 
