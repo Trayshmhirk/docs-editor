@@ -49,6 +49,10 @@ function CodeActionMenuContainer({
   const debouncedOnMouseMove = useDebounce(
     (event: MouseEvent) => {
       const { codeDOMNode, isOutside } = getMouseInfo(event);
+
+      console.log("Mouse Event Target:", event.target);
+      console.log("Detected Code Node:", getMouseInfo(event));
+
       if (isOutside) {
         setShown(false);
         return;
@@ -103,29 +107,25 @@ function CodeActionMenuContainer({
   }, [shouldListenMouseMove, debouncedOnMouseMove]);
 
   useEffect(() => {
-    return editor.registerMutationListener(
-      CodeNode,
-      (mutations) => {
-        editor.getEditorState().read(() => {
-          for (const [key, type] of mutations) {
-            switch (type) {
-              case "created":
-                codeSetRef.current.add(key);
-                break;
+    return editor.registerMutationListener(CodeNode, (mutations) => {
+      editor.getEditorState().read(() => {
+        for (const [key, type] of mutations) {
+          switch (type) {
+            case "created":
+              codeSetRef.current.add(key);
+              break;
 
-              case "destroyed":
-                codeSetRef.current.delete(key);
-                break;
+            case "destroyed":
+              codeSetRef.current.delete(key);
+              break;
 
-              default:
-                break;
-            }
+            default:
+              break;
           }
-        });
-        setShouldListenMouseMove(codeSetRef.current.size > 0);
-      }
-      // {skipInitialization: false},
-    );
+        }
+      });
+      setShouldListenMouseMove(codeSetRef.current.size > 0);
+    });
   }, [editor]);
 
   const normalizedLang = normalizeCodeLang(lang);
@@ -155,20 +155,14 @@ function getMouseInfo(event: MouseEvent): {
   isOutside: boolean;
 } {
   const target = event.target as HTMLElement;
+  console.log("Mouse Target:", event.target);
 
-  if (isHTMLElement(target)) {
-    const codeDOMNode = target.closest<HTMLElement>(
-      "code.PlaygroundEditorTheme__code"
-    );
-    const isOutside = !(
-      codeDOMNode ||
-      target.closest<HTMLElement>("div.code-action-menu-container")
-    );
+  const codeDOMNode = target.closest<HTMLElement>(".editor-code");
+  const isOutside = !(
+    codeDOMNode || target.closest<HTMLElement>("div.code-action-menu-container")
+  );
 
-    return { codeDOMNode, isOutside };
-  } else {
-    return { codeDOMNode: null, isOutside: true };
-  }
+  return { codeDOMNode, isOutside };
 }
 
 export default function CodeActionMenuPlugin({

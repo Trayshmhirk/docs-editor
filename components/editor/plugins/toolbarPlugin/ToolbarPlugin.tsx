@@ -1,7 +1,12 @@
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import { $getNearestNodeOfType, mergeRegister } from "@lexical/utils";
 import { $isListNode, ListNode } from "@lexical/list";
-import { $isCodeNode, CODE_LANGUAGE_MAP } from "@lexical/code";
+import {
+  $isCodeNode,
+  CODE_LANGUAGE_MAP,
+  getLanguageFriendlyName,
+  CODE_LANGUAGE_FRIENDLY_NAME_MAP,
+} from "@lexical/code";
 import {
   $isRootOrShadowRoot,
   $getSelection,
@@ -14,6 +19,7 @@ import {
   SELECTION_CHANGE_COMMAND,
   UNDO_COMMAND,
   NodeKey,
+  $getNodeByKey,
 } from "lexical";
 import { $isHeadingNode } from "@lexical/rich-text";
 import { $findMatchingParent } from "@lexical/utils";
@@ -37,6 +43,8 @@ import {
   blockTypeToBlockName,
   useToolbarState,
 } from "@/context/ToolbarContext";
+import { CODE_LANGUAGE_OPTIONS, dropDownActiveClass } from "./utils";
+import DropDown, { DropDownItem } from "@/components/ui/lexical/dropdown";
 
 const LowPriority = 1;
 
@@ -166,19 +174,19 @@ export default function ToolbarPlugin(
     );
   }, [editor, $updateToolbar]);
 
-  // const onCodeLanguageSelect = useCallback(
-  //   (value: string) => {
-  //     activeEditor.update(() => {
-  //       if (selectedElementKey !== null) {
-  //         const node = $getNodeByKey(selectedElementKey);
-  //         if ($isCodeNode(node)) {
-  //           node.setLanguage(value);
-  //         }
-  //       }
-  //     });
-  //   },
-  //   [activeEditor, selectedElementKey]
-  // );
+  const onCodeLanguageSelect = useCallback(
+    (value: string) => {
+      activeEditor.update(() => {
+        if (selectedElementKey !== null) {
+          const node = $getNodeByKey(selectedElementKey);
+          if ($isCodeNode(node)) {
+            node.setLanguage(value);
+          }
+        }
+      });
+    },
+    [activeEditor, selectedElementKey]
+  );
 
   return (
     <div
@@ -218,6 +226,32 @@ export default function ToolbarPlugin(
             <Divider />
           </>
         )}
+      {toolbarState.blockType === "code" && (
+        <>
+          <DropDown
+            disabled={!isEditable}
+            buttonClassName="toolbar-item code-language"
+            buttonLabel={getLanguageFriendlyName(toolbarState.codeLanguage)}
+            buttonAriaLabel="Select language"
+          >
+            {CODE_LANGUAGE_OPTIONS.map(([value, name]) => {
+              return (
+                <DropDownItem
+                  className={`item min-w-[100px] text-sm flex items-center justify-between py-1 px-2 rounded hover:enabled:bg-[#eee] dark:hover:enabled:bg-[#3b3b3b]  ${dropDownActiveClass(
+                    value === toolbarState.codeLanguage
+                  )}`}
+                  onClick={() => onCodeLanguageSelect(value)}
+                  key={value}
+                >
+                  <span className="text">{name}</span>
+                </DropDownItem>
+              );
+            })}
+          </DropDown>
+          <Divider />
+        </>
+      )}
+
       <Button
         onClick={() => {
           editor.dispatchCommand(FORMAT_TEXT_COMMAND, "bold");

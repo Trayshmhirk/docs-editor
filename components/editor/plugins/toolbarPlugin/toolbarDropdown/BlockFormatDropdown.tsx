@@ -22,19 +22,12 @@ import {
   Text,
 } from "lucide-react";
 import { getBlockTypeIcon } from "../utils";
+import { dropDownActiveClass } from "../utils";
 
 type rootTypeToRootName = {
   root: "Root";
   table: "Table";
 };
-
-function dropDownActiveClass(active: boolean) {
-  if (active) {
-    return "active bg-[#00a1c93e] dark:bg-[#00a1c998]";
-  } else {
-    return "";
-  }
-}
 
 export default function BlockFormatDropDown({
   editor,

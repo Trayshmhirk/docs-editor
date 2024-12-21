@@ -1,4 +1,7 @@
-import { $createCodeNode } from "@lexical/code";
+import {
+  $createCodeNode,
+  CODE_LANGUAGE_FRIENDLY_NAME_MAP,
+} from "@lexical/code";
 import {
   INSERT_CHECK_LIST_COMMAND,
   INSERT_ORDERED_LIST_COMMAND,
@@ -299,6 +302,14 @@ export const clearFormatting = (editor: LexicalEditor) => {
   });
 };
 
+export function dropDownActiveClass(active: boolean) {
+  if (active) {
+    return "active bg-[#00a1c93e] dark:bg-[#00a1c998]";
+  } else {
+    return "";
+  }
+}
+
 export function getBlockTypeIcon(
   blockType: string
 ): React.FC<React.SVGProps<SVGSVGElement>> {
@@ -322,3 +333,17 @@ export function getBlockTypeIcon(
 
   return blockTypeIcons[blockType] || Text; // Default to Text if blockType doesn't match
 }
+
+function getCodeLanguageOptions(): [string, string][] {
+  const options: [string, string][] = [];
+
+  for (const [lang, friendlyName] of Object.entries(
+    CODE_LANGUAGE_FRIENDLY_NAME_MAP
+  )) {
+    options.push([lang, friendlyName]);
+  }
+
+  return options;
+}
+
+export const CODE_LANGUAGE_OPTIONS = getCodeLanguageOptions();
