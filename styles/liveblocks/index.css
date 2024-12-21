@@ -1,0 +1,87 @@
+@import "@/styles/liveblocks/dark-theme.css";
+@import "@/styles/liveblocks/light-theme.css";
+
+.lb-root {
+  --lb-radius: 6px;
+}
+
+.lb-comment-content {
+  margin-top: 16px;
+  padding: 12px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.lb-comment-mention,
+.lb-composer-mention {
+  color: white;
+  border-radius: 4px;
+  padding: 3px 4px;
+}
+
+.lb-lexical-thread-mark {
+  padding: 0 2px;
+}
+
+.lb-emoji-picker-category-header {
+  background-color: #00a1c9c0;
+}
+
+.lb-emoji-picker-category-header-title {
+  color: #fafafa;
+}
+
+.lb-file-attachment :where(.lb-attachment-name) {
+  font-weight: 600;
+}
+
+.lb-button {
+  --lb-foreground-moderate: #444444;
+}
+
+.lb-button:where([data-variant="primary"]) {
+  color: #ffffff;
+}
+
+.lb-composer-action {
+  padding: 8px;
+}
+
+.lb-inbox-notification-list-item:where(:not(:last-of-type)) {
+  border-bottom: none;
+}
+
+.data-liveblocks-portal {
+  color: #dfdfdf !important;
+}
+
+.lb-root:where(:not(.lb-root .lb-root)) {
+  --lb-dynamic-background: #121212;
+  color: #fff;
+}
+
+.lb-composer-editor :where([data-placeholder]) {
+  color: #dfdfdf;
+}
+
+.lb-composer-editor {
+  font-size: 14px;
+}
+
+.lb-lexical-floating-threads-thread:where([data-resolved]) {
+  opacity: 40%;
+}
+
+.lb-composer-footer {
+  block-size: auto !important;
+  margin-block-start: auto !important;
+}
+
+.lb-inbox-notification-unread-indicator {
+  background: #00afdb;
+}
+
+.lb-inbox-notification-title {
+  font-size: 14px;
+}

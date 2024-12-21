@@ -1,0 +1,86 @@
+html.dark .lb-root {
+  --lb-accent-subtle: #010409;
+  --lb-dynamic-background: #121212;
+  --lb-accent: #6f6f6f;
+  --lb-accent-moderate: #9b9b9b;
+}
+
+html.dark .lb-comment,
+html.dark .lb-thread-comments,
+html.dark .lb-composer,
+html.dark .lb-comment-reaction {
+  background-color: #212121;
+  color: #fff;
+}
+
+html.dark .lb-comment-content {
+  background: #121212;
+}
+
+html.dark .lb-comment-mention,
+html.dark .lb-composer-mention {
+  background: #0081a4;
+}
+
+html.dark .lb-thread-composer:after {
+  border-block-start-color: #444444;
+}
+
+html.dark
+  .lb-button:where(
+    [data-variant="default"]:not(
+        :is(
+            :enabled:hover,
+            :enabled:focus-visible,
+            [aria-expanded="true"],
+            [aria-selected="true"]
+          )
+      )
+  ) {
+  color: #ffffff;
+}
+
+html.dark
+  .lb-button:where(
+    :enabled:hover,
+    :enabled:focus-visible,
+    [aria-expanded="true"],
+    [aria-selected="true"]
+  ) {
+  --lb-button-background: #4a4a4a;
+  color: #ffffff;
+}
+
+html.dark .lb-comment-date,
+html.dark .lb-lexical-mention-suggestion-user,
+html.dark .lb-composer-suggestions-list-item,
+html.dark .lb-comment-author,
+html.dark .lb-emoji-picker-search-icon,
+html.dark .lb-emoji-picker-search::placeholder {
+  color: #dfdfdf;
+}
+
+html.dark .lb-lexical-mention-suggestion-user,
+html.dark .lb-composer-suggestions-list-item {
+  background-color: #121212;
+}
+
+html.dark .lb-elevation {
+  background: #212121;
+  box-shadow: 0 4px 7px 0px rgb(0 0 0 / 0.7);
+}
+
+html.dark .lb-lexical-thread-mark {
+  background-color: #00a1c9b2;
+  color: white;
+  text-decoration-color: #00a1c9;
+}
+
+html.dark
+  :is(
+    .lb-dropdown-item,
+    .lb-composer-suggestions-list-item,
+    .lb-emoji-picker-emoji
+  ):where([data-highlighted], [data-selected]) {
+  background-color: #444444;
+}
