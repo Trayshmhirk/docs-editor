@@ -63,13 +63,11 @@ export function CopyButton({ editor, getCodeDOMNode }: Props) {
     <button className="menu-item" onClick={handleClick} aria-label="copy">
       {isCopyCompleted ? (
         <>
-          <i className="format icon success" />
-          <Check />
+          <Check className="format icon" />
         </>
       ) : (
         <>
-          <i className="format icon copy" />
-          <Copy />
+          <Copy className="format icon" />
         </>
       )}
     </button>
