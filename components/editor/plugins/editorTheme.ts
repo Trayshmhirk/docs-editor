@@ -15,7 +15,7 @@ export const editorTheme: EditorThemeClasses = {
   },
   list: {
     nested: {
-      listitem: "editor-nested-listitem",
+      listitem: "editor-nestedListItem",
     },
     ol: "editor-list-ol",
     olDepth: [

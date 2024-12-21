@@ -160,16 +160,12 @@ body {
   margin: 0;
 }
 
-.editor-listitem {
+.editor-listItem {
   margin: 8px 32px 8px 32px;
 }
 
-.editor-nested-listitem {
+.editor-nestedListItem {
   list-style-type: none;
-}
-
-.editor-listItem {
-  margin: 0 32px;
 }
 
 .editor-listItemChecked,
