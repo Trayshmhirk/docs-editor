@@ -251,11 +251,15 @@ export default function DropDown({
         onClick={() => setShowDropDown(!showDropDown)}
         ref={buttonRef}
       >
-        {ButtonIcon && <ButtonIcon className="format icon" />}
+        <div className="flex-1">
+          {ButtonIcon && <ButtonIcon className="format icon" />}
+        </div>
         {buttonLabel && (
           <span className="text dropdown-button-text">{buttonLabel}</span>
         )}
-        <ChevronDown className="size-4" />
+        <div className="flex-1">
+          <ChevronDown className="size-4" />
+        </div>
       </button>
 
       {showDropDown &&
