@@ -1,6 +1,7 @@
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import { $getNearestNodeOfType, mergeRegister } from "@lexical/utils";
 import { $isListNode, ListNode } from "@lexical/list";
+import { $isLinkNode } from "@lexical/link";
 import {
   $isCodeNode,
   CODE_LANGUAGE_MAP,
@@ -20,16 +21,13 @@ import {
   UNDO_COMMAND,
   NodeKey,
   $getNodeByKey,
+  $isElementNode,
 } from "lexical";
 import { $isHeadingNode } from "@lexical/rich-text";
 import { $findMatchingParent } from "@lexical/utils";
 import React, { Dispatch } from "react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import {
-  AlignCenter,
-  AlignJustify,
-  AlignLeft,
-  AlignRight,
   Bold,
   Italic,
   RotateCcw,
@@ -43,10 +41,15 @@ import {
   blockTypeToBlockName,
   useToolbarState,
 } from "@/context/ToolbarContext";
-import { CODE_LANGUAGE_OPTIONS, dropDownActiveClass } from "./utils";
+import {
+  CODE_LANGUAGE_OPTIONS,
+  dropDownActiveClass,
+  getSelectedNode,
+} from "./utils";
 import DropDown, { DropDownItem } from "@/components/ui/lexical/dropdown";
 import { FontDropDown } from "./toolbarDropdown/FontDropdown";
 import { $getSelectionStyleValueForProperty } from "@lexical/selection";
+import { ElementFormatDropdown } from "./toolbarDropdown/ElementFormatDropdown";
 
 const LowPriority = 1;
 
@@ -106,6 +109,10 @@ export default function ToolbarPlugin(
       const elementKey = element.getKey();
       const elementDOM = activeEditor.getElementByKey(elementKey);
 
+      // Update links
+      const node = getSelectedNode(selection);
+      const parent = node.getParent();
+
       if (elementDOM !== null) {
         setSelectedElementKey(elementKey);
         if ($isListNode(element)) {
@@ -143,6 +150,25 @@ export default function ToolbarPlugin(
       updateToolbarState(
         "fontFamily",
         $getSelectionStyleValueForProperty(selection, "font-family", "Arial")
+      );
+
+      let matchingParent;
+      if ($isLinkNode(parent)) {
+        // If node is a link, we need to fetch the parent paragraph node to set format
+        matchingParent = $findMatchingParent(
+          node,
+          (parentNode) => $isElementNode(parentNode) && !parentNode.isInline()
+        );
+      }
+
+      // If matchingParent is a valid node, pass it's format type
+      updateToolbarState(
+        "elementFormat",
+        $isElementNode(matchingParent)
+          ? matchingParent.getFormatType()
+          : $isElementNode(node)
+            ? node.getFormatType()
+            : parent?.getFormatType() || "left"
       );
     }
   }, [updateToolbarState, activeEditor]);
@@ -301,45 +327,14 @@ export default function ToolbarPlugin(
           >
             <Strikethrough className="format icon" />
           </Button>
-          <Divider />
-          <Button
-            onClick={() => {
-              editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "left");
-            }}
-            className="toolbar-item toolbar-button"
-            aria-label="Left Align"
-          >
-            <AlignLeft className="format icon" />
-          </Button>
-          <Button
-            onClick={() => {
-              editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "center");
-            }}
-            className="toolbar-item toolbar-button"
-            aria-label="Center Align"
-          >
-            <AlignCenter className="format icon" />
-          </Button>
-          <Button
-            onClick={() => {
-              editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "right");
-            }}
-            className="toolbar-item toolbar-button"
-            aria-label="Right Align"
-          >
-            <AlignRight className="format icon" />
-          </Button>
-          <Button
-            onClick={() => {
-              editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "justify");
-            }}
-            className="toolbar-item toolbar-button"
-            aria-label="Justify Align"
-          >
-            <AlignJustify className="format icon" />
-          </Button>
         </>
       )}
+      <Divider />
+      <ElementFormatDropdown
+        disabled={!isEditable}
+        value={toolbarState.elementFormat}
+        editor={activeEditor}
+      />
     </div>
   );
 }

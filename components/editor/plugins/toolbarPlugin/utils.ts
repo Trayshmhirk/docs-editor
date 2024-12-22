@@ -15,7 +15,11 @@ import {
   $isQuoteNode,
   HeadingTagType,
 } from "@lexical/rich-text";
-import { $patchStyleText, $setBlocksType } from "@lexical/selection";
+import {
+  $patchStyleText,
+  $setBlocksType,
+  $isAtNodeEnd,
+} from "@lexical/selection";
 import { $isTableSelection } from "@lexical/table";
 import { $getNearestBlockElementAncestorOrThrow } from "@lexical/utils";
 import {
@@ -24,6 +28,9 @@ import {
   $isRangeSelection,
   $isTextNode,
   LexicalEditor,
+  ElementNode,
+  RangeSelection,
+  TextNode,
 } from "lexical";
 
 import {
@@ -347,3 +354,21 @@ function getCodeLanguageOptions(): [string, string][] {
 }
 
 export const CODE_LANGUAGE_OPTIONS = getCodeLanguageOptions();
+
+export function getSelectedNode(
+  selection: RangeSelection
+): TextNode | ElementNode {
+  const anchor = selection.anchor;
+  const focus = selection.focus;
+  const anchorNode = selection.anchor.getNode();
+  const focusNode = selection.focus.getNode();
+  if (anchorNode === focusNode) {
+    return anchorNode;
+  }
+  const isBackward = selection.isBackward();
+  if (isBackward) {
+    return $isAtNodeEnd(focus) ? anchorNode : focusNode;
+  } else {
+    return $isAtNodeEnd(anchor) ? anchorNode : focusNode;
+  }
+}
