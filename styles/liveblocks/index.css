@@ -62,7 +62,7 @@
 }
 
 .lb-composer-editor :where([data-placeholder]) {
-  color: #dfdfdf;
+  color: #b0b0b0;
 }
 
 .lb-composer-editor {
