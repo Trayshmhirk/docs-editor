@@ -65,7 +65,7 @@ export default function ToolbarPlugin(
   }
 ): JSX.Element {
   const [editor] = useLexicalComposerContext();
-  const [activeEditor, setActiveEditor] = useState(editor);
+  // const [activeEditor, setActiveEditor] = useState(editor);
 
   const toolbarRef = useRef(null);
   const [canUndo, setCanUndo] = useState(false);
@@ -107,7 +107,7 @@ export default function ToolbarPlugin(
       }
 
       const elementKey = element.getKey();
-      const elementDOM = activeEditor.getElementByKey(elementKey);
+      const elementDOM = editor.getElementByKey(elementKey);
 
       // Update links
       const node = getSelectedNode(selection);
@@ -171,10 +171,13 @@ export default function ToolbarPlugin(
             : parent?.getFormatType() || "left"
       );
     }
-  }, [updateToolbarState, activeEditor]);
+  }, [updateToolbarState, editor]);
 
   useEffect(() => {
     return mergeRegister(
+      editor.registerEditableListener((editable) => {
+        setIsEditable(editable);
+      }),
       editor.registerUpdateListener(({ editorState }) => {
         editorState.read(() => {
           $updateToolbar();
@@ -209,7 +212,7 @@ export default function ToolbarPlugin(
 
   const onCodeLanguageSelect = useCallback(
     (value: string) => {
-      activeEditor.update(() => {
+      editor.update(() => {
         if (selectedElementKey !== null) {
           const node = $getNodeByKey(selectedElementKey);
           if ($isCodeNode(node)) {
@@ -218,7 +221,7 @@ export default function ToolbarPlugin(
         }
       });
     },
-    [activeEditor, selectedElementKey]
+    [editor, selectedElementKey]
   );
 
   return (
@@ -247,18 +250,17 @@ export default function ToolbarPlugin(
         <RotateCw className="format icon" />
       </button>
       <Divider />
-      {toolbarState.blockType in blockTypeToBlockName &&
-        activeEditor === editor && (
-          <>
-            <BlockFormatDropDown
-              disabled={!isEditable}
-              blockType={toolbarState.blockType}
-              rootType={toolbarState.rootType}
-              editor={activeEditor}
-            />
-            <Divider />
-          </>
-        )}
+      {toolbarState.blockType in blockTypeToBlockName && editor && (
+        <>
+          <BlockFormatDropDown
+            disabled={!isEditable}
+            blockType={toolbarState.blockType}
+            rootType={toolbarState.rootType}
+            editor={editor}
+          />
+          <Divider />
+        </>
+      )}
       {toolbarState.blockType === "code" ? (
         <>
           <DropDown
@@ -288,7 +290,7 @@ export default function ToolbarPlugin(
             disabled={!isEditable}
             style={"font-family"}
             value={toolbarState.fontFamily}
-            editor={activeEditor}
+            editor={editor}
           />
           <Divider />
           <Button
@@ -333,7 +335,7 @@ export default function ToolbarPlugin(
       <ElementFormatDropdown
         disabled={!isEditable}
         value={toolbarState.elementFormat}
-        editor={activeEditor}
+        editor={editor}
       />
     </div>
   );
