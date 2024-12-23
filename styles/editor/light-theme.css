@@ -8,7 +8,3 @@ html.light .editor-code:before {
   border-right: 1px solid #ccc;
   color: #777;
 }
-
-html.light .editor-code:after {
-  color: rgba(0, 0, 0, 0.5);
-}

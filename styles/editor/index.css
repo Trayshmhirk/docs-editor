@@ -108,16 +108,6 @@ body {
   min-width: 25px;
 }
 
-.editor-code:after {
-  content: attr(data-highlight-language);
-  top: 0;
-  right: 3px;
-  padding: 3px;
-  font-size: 10px;
-  text-transform: uppercase;
-  position: absolute;
-}
-
 .editor-tokenComment {
   color: slategray;
 }
