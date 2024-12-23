@@ -44,14 +44,10 @@ function CodeActionMenuContainer({
     (event: MouseEvent) => {
       const { codeDOMNode, isOutside } = getMouseInfo(event);
 
-      console.log("Mouse Event Target:", event.target);
-      console.log("Detected Code Node:", getMouseInfo(event));
-
       if (isOutside) {
         setShown(false);
         return;
       }
-
       if (!codeDOMNode) {
         return;
       }
@@ -90,7 +86,6 @@ function CodeActionMenuContainer({
     if (!shouldListenMouseMove) {
       return;
     }
-
     document.addEventListener("mousemove", debouncedOnMouseMove);
 
     return () => {
@@ -141,7 +136,6 @@ function getMouseInfo(event: MouseEvent): {
   isOutside: boolean;
 } {
   const target = event.target as HTMLElement;
-  console.log("Mouse Target:", event.target);
 
   const codeDOMNode = target.closest<HTMLElement>(".editor-code");
   const isOutside = !(
