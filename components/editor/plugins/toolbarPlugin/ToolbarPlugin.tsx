@@ -22,6 +22,7 @@ import {
   NodeKey,
   $getNodeByKey,
   $isElementNode,
+  $isTextNode,
 } from "lexical";
 import { $isHeadingNode } from "@lexical/rich-text";
 import { $findMatchingParent } from "@lexical/utils";
@@ -50,6 +51,9 @@ import DropDown, { DropDownItem } from "@/components/ui/lexical/dropdown";
 import { FontDropDown } from "./toolbarDropdown/FontDropdown";
 import { $getSelectionStyleValueForProperty } from "@lexical/selection";
 import { ElementFormatDropdown } from "./toolbarDropdown/ElementFormatDropdown";
+import TextFormatDropdown, {
+  TEXT_TRANSFORM_COMMAND,
+} from "./toolbarDropdown/TextFormatDropdown";
 
 const LowPriority = 1;
 
@@ -65,15 +69,10 @@ export default function ToolbarPlugin(
   }
 ): JSX.Element {
   const [editor] = useLexicalComposerContext();
-  // const [activeEditor, setActiveEditor] = useState(editor);
 
   const toolbarRef = useRef(null);
   const [canUndo, setCanUndo] = useState(false);
   const [canRedo, setCanRedo] = useState(false);
-  const [isBold, setIsBold] = useState(false);
-  const [isItalic, setIsItalic] = useState(false);
-  const [isUnderline, setIsUnderline] = useState(false);
-  const [isStrikethrough, setIsStrikethrough] = useState(false);
 
   const [selectedElementKey, setSelectedElementKey] = useState<NodeKey | null>(
     null
@@ -87,13 +86,32 @@ export default function ToolbarPlugin(
 
     if ($isRangeSelection(selection)) {
       // Update text format
-      setIsBold(selection.hasFormat("bold"));
-      setIsItalic(selection.hasFormat("italic"));
-      setIsUnderline(selection.hasFormat("underline"));
-      setIsStrikethrough(selection.hasFormat("strikethrough"));
+      updateToolbarState("isBold", selection.hasFormat("bold"));
+      updateToolbarState("isItalic", selection.hasFormat("italic"));
+      updateToolbarState("isUnderline", selection.hasFormat("underline"));
+      updateToolbarState(
+        "isStrikethrough",
+        selection.hasFormat("strikethrough")
+      );
+      updateToolbarState("isSubscript", selection.hasFormat("subscript"));
+      updateToolbarState("isSuperscript", selection.hasFormat("superscript"));
 
       ///// -------
       const anchorNode = selection.anchor.getNode();
+
+      if ($isTextNode(anchorNode)) {
+        const textContent = anchorNode.getTextContent();
+        const isLowercase = textContent === textContent.toLowerCase();
+        const isUppercase = textContent === textContent.toUpperCase();
+        const isCapitalize =
+          textContent ===
+          textContent.replace(/\b\w/g, (char) => char.toUpperCase());
+
+        updateToolbarState("isLowercase", isLowercase);
+        updateToolbarState("isUppercase", isUppercase);
+        updateToolbarState("isCapitalize", isCapitalize && !isUppercase);
+      }
+
       let element =
         anchorNode.getKey() === "root"
           ? anchorNode
@@ -206,8 +224,41 @@ export default function ToolbarPlugin(
           return false;
         },
         LowPriority
+      ),
+      editor.registerCommand(
+        TEXT_TRANSFORM_COMMAND,
+        (transform: "lowercase" | "uppercase" | "capitalize") => {
+          const selection = $getSelection();
+          if ($isRangeSelection(selection)) {
+            selection.getNodes().forEach((node) => {
+              if ($isTextNode(node)) {
+                const textContent = node.getTextContent();
+                let transformedText = textContent;
+                if (transform === "lowercase") {
+                  transformedText = textContent.toLowerCase();
+                } else if (transform === "uppercase") {
+                  transformedText = textContent.toUpperCase();
+                } else if (transform === "capitalize") {
+                  // Ensure proper capitalization even if the text is fully uppercase
+                  transformedText = textContent
+                    .toLowerCase() // Start by converting the whole text to lowercase
+                    .replace(/\b\w/g, (char) => char.toUpperCase()); // Capitalize the first letter of each word
+                }
+                node.setTextContent(transformedText);
+              }
+            });
+          }
+          return true;
+        },
+        LowPriority
       )
     );
+  }, [editor, $updateToolbar]);
+
+  useEffect(() => {
+    editor.getEditorState().read(() => {
+      $updateToolbar();
+    });
   }, [editor, $updateToolbar]);
 
   const onCodeLanguageSelect = useCallback(
@@ -294,33 +345,36 @@ export default function ToolbarPlugin(
           />
           <Divider />
           <Button
+            disabled={!isEditable}
             onClick={() => {
               editor.dispatchCommand(FORMAT_TEXT_COMMAND, "bold");
             }}
-            className={`toolbar-item toolbar-button ${isBold ? "active" : ""}`}
+            className={`toolbar-item toolbar-button ${toolbarState.isBold ? "active" : ""}`}
             aria-label="Format Bold"
           >
             <Bold className="format icon" />
           </Button>
           <Button
+            disabled={!isEditable}
             onClick={() => {
               editor.dispatchCommand(FORMAT_TEXT_COMMAND, "italic");
             }}
-            className={`toolbar-item toolbar-button ${isItalic ? "active" : ""}`}
+            className={`toolbar-item toolbar-button ${toolbarState.isItalic ? "active" : ""}`}
             aria-label="Format Italics"
           >
             <Italic className="format icon" />
           </Button>
           <Button
+            disabled={!isEditable}
             onClick={() => {
               editor.dispatchCommand(FORMAT_TEXT_COMMAND, "underline");
             }}
-            className={`toolbar-item toolbar-button ${isUnderline ? "active" : ""}`}
+            className={`toolbar-item toolbar-button ${toolbarState.isUnderline ? "active" : ""}`}
             aria-label="Format Underline"
           >
             <Underline className="format icon" />
           </Button>
-          <Button
+          {/* <Button
             onClick={() => {
               editor.dispatchCommand(FORMAT_TEXT_COMMAND, "strikethrough");
             }}
@@ -328,7 +382,13 @@ export default function ToolbarPlugin(
             aria-label="Format Strikethrough"
           >
             <Strikethrough className="format icon" />
-          </Button>
+            </Button> */}
+
+          <TextFormatDropdown
+            editor={editor}
+            disabled={!isEditable}
+            toolbarState={toolbarState}
+          />
         </>
       )}
       <Divider />

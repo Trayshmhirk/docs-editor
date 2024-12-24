@@ -156,11 +156,13 @@ export default function DropDown({
   buttonIcon: ButtonIcon,
   children,
   stopCloseOnClickSelf,
+  buttonIconClassName,
 }: {
   disabled?: boolean;
   buttonAriaLabel?: string;
   buttonClassName: string;
   buttonIcon?: React.ComponentType<React.SVGProps<SVGSVGElement>>;
+  buttonIconClassName?: string;
   buttonLabel?: string;
   children: ReactNode;
   stopCloseOnClickSelf?: boolean;
@@ -252,7 +254,9 @@ export default function DropDown({
         ref={buttonRef}
       >
         <div className="flex-1">
-          {ButtonIcon && <ButtonIcon className="format icon" />}
+          {ButtonIcon && (
+            <ButtonIcon className={cn(buttonIconClassName, "format icon")} />
+          )}
         </div>
         {buttonLabel && (
           <span className="text dropdown-button-text">{buttonLabel}</span>
