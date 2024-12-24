@@ -1,7 +1,7 @@
 import DropDown, { DropDownItem } from "@/components/ui/lexical/dropdown";
 import { FORMAT_TEXT_COMMAND, LexicalEditor } from "lexical";
 import React from "react";
-import { dropDownActiveClass } from "../utils";
+import { clearFormatting, dropDownActiveClass } from "../utils";
 import {
   CaseLower,
   CaseSensitive,
@@ -9,6 +9,7 @@ import {
   Strikethrough,
   Subscript,
   Superscript,
+  Trash2,
 } from "lucide-react";
 import { ToolbarState } from "@/context/ToolbarContext";
 import { createCommand } from "lexical";
@@ -138,18 +139,17 @@ const TextFormatDropdown = ({
         {/* <span className="shortcut">{SHORTCUTS.SUPERSCRIPT}</span> */}
       </DropDownItem>
 
-      {/* <DropDownItem
+      <DropDownItem
         onClick={() => clearFormatting(editor)}
         className="item min-w-[100px] text-sm flex items-center justify-between py-1 px-2 rounded hover:enabled:bg-[#eee] dark:hover:enabled:bg-[#3b3b3b]"
         title="Clear text formatting"
         aria-label="Clear all text formatting"
       >
         <div className="flex items-center gap-3">
-          <i className="icon clear" />
           <Trash2 className="format icon" />
           <span className="text">Clear Formatting</span>
         </div>
-      </DropDownItem> */}
+      </DropDownItem>
     </DropDown>
   );
 };
