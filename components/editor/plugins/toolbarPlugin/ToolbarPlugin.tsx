@@ -374,15 +374,6 @@ export default function ToolbarPlugin(
           >
             <Underline className="format icon" />
           </Button>
-          {/* <Button
-            onClick={() => {
-              editor.dispatchCommand(FORMAT_TEXT_COMMAND, "strikethrough");
-            }}
-            className={`toolbar-item toolbar-button ${isStrikethrough ? "active" : ""}`}
-            aria-label="Format Strikethrough"
-          >
-            <Strikethrough className="format icon" />
-            </Button> */}
 
           <TextFormatDropdown
             editor={editor}
