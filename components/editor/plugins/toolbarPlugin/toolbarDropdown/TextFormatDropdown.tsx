@@ -2,7 +2,14 @@ import DropDown, { DropDownItem } from "@/components/ui/lexical/dropdown";
 import { FORMAT_TEXT_COMMAND, LexicalEditor } from "lexical";
 import React from "react";
 import { dropDownActiveClass } from "../utils";
-import { CaseSensitive } from "lucide-react";
+import {
+  CaseLower,
+  CaseSensitive,
+  CaseUpper,
+  Strikethrough,
+  Subscript,
+  Superscript,
+} from "lucide-react";
 import { ToolbarState } from "@/context/ToolbarContext";
 import { createCommand } from "lexical";
 
@@ -39,8 +46,8 @@ const TextFormatDropdown = ({
         title="Lowercase"
         aria-label="Format text to lowercase"
       >
-        <div className="icon-text-container">
-          <i className="icon lowercase" />
+        <div className="flex items-center gap-3">
+          <CaseLower className="format icon" />
           <span className="text">Lowercase</span>
         </div>
         {/* <span className="shortcut">{SHORTCUTS.LOWERCASE}</span> */}
@@ -56,8 +63,8 @@ const TextFormatDropdown = ({
         title="Uppercase"
         aria-label="Format text to uppercase"
       >
-        <div className="icon-text-container">
-          <i className="icon uppercase" />
+        <div className="flex items-center gap-3">
+          <CaseUpper className="format icon" />
           <span className="text">Uppercase</span>
         </div>
         {/* <span className="shortcut">{SHORTCUTS.UPPERCASE}</span> */}
@@ -73,8 +80,8 @@ const TextFormatDropdown = ({
         title="Capitalize"
         aria-label="Format text to capitalize"
       >
-        <div className="icon-text-container">
-          <i className="icon capitalize" />
+        <div className="flex items-center gap-3">
+          <CaseSensitive className="format icon" />
           <span className="text">Capitalize</span>
         </div>
         {/* <span className="shortcut">{SHORTCUTS.CAPITALIZE}</span> */}
@@ -90,8 +97,8 @@ const TextFormatDropdown = ({
         title="Strikethrough"
         aria-label="Format text with a strikethrough"
       >
-        <div className="icon-text-container">
-          <i className="icon strikethrough" />
+        <div className="flex items-center gap-3">
+          <Strikethrough className="format icon" />
           <span className="text">Strikethrough</span>
         </div>
         {/* <span className="shortcut">{SHORTCUTS.STRIKETHROUGH}</span> */}
@@ -107,8 +114,8 @@ const TextFormatDropdown = ({
         title="Subscript"
         aria-label="Format text with a subscript"
       >
-        <div className="icon-text-container">
-          <i className="icon subscript" />
+        <div className="flex items-center gap-3">
+          <Subscript className="format icon" />
           <span className="text">Subscript</span>
         </div>
         {/* <span className="shortcut">{SHORTCUTS.SUBSCRIPT}</span> */}
@@ -124,8 +131,8 @@ const TextFormatDropdown = ({
         title="Superscript"
         aria-label="Format text with a superscript"
       >
-        <div className="icon-text-container">
-          <i className="icon superscript" />
+        <div className="flex items-center gap-3">
+          <Superscript className="format icon" />
           <span className="text">Superscript</span>
         </div>
         {/* <span className="shortcut">{SHORTCUTS.SUPERSCRIPT}</span> */}
@@ -137,8 +144,9 @@ const TextFormatDropdown = ({
         title="Clear text formatting"
         aria-label="Clear all text formatting"
       >
-        <div className="icon-text-container">
+        <div className="flex items-center gap-3">
           <i className="icon clear" />
+          <Trash2 className="format icon" />
           <span className="text">Clear Formatting</span>
         </div>
       </DropDownItem> */}
