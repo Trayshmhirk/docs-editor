@@ -29,6 +29,9 @@ import { useEffect, useState } from "react";
 import { ToolbarContext } from "@/context/ToolbarContext";
 import PlaygroundNodes from "./nodes/playgroundNodes";
 import { CAN_USE_DOM } from "@lexical/utils";
+import LinkPlugin from "./plugins/linkPlugin";
+import { useSettings } from "@/context/SettingsContext";
+import FloatingLinkEditorPlugin from "./plugins/floatingLinkEditorPlugin";
 
 export function Editor({ roomId, currentUserType }: Editorprops) {
   const initialConfig = liveblocksConfig({
@@ -42,10 +45,13 @@ export function Editor({ roomId, currentUserType }: Editorprops) {
     editable: currentUserType === "editor",
   });
 
+  const {
+    settings: { hasLinkAttributes },
+  } = useSettings();
+
   const ready = useIsEditorReady();
   const { threads } = useThreads();
-  // isLinkEditMode
-  const [, setIsLinkEditMode] = useState<boolean>(false);
+  const [isLinkEditMode, setIsLinkEditMode] = useState<boolean>(false);
 
   const [floatingAnchorElem, setFloatingAnchorElem] =
     useState<HTMLDivElement | null>(null);
@@ -111,8 +117,16 @@ export function Editor({ roomId, currentUserType }: Editorprops) {
                 <CheckListPlugin />
                 <CodeHighlightPlugin />
                 {floatingAnchorElem && !isSmallWidthViewport && (
-                  <CodeActionMenuPlugin anchorElem={floatingAnchorElem} />
+                  <>
+                    <CodeActionMenuPlugin anchorElem={floatingAnchorElem} />
+                    <FloatingLinkEditorPlugin
+                      anchorElem={floatingAnchorElem}
+                      isLinkEditMode={isLinkEditMode}
+                      setIsLinkEditMode={setIsLinkEditMode}
+                    />
+                  </>
                 )}
+                <LinkPlugin hasLinkAttributes={hasLinkAttributes} />
               </div>
             ) : (
               <Loader />

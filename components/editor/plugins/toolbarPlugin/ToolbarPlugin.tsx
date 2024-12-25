@@ -1,12 +1,11 @@
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import { $getNearestNodeOfType, mergeRegister } from "@lexical/utils";
 import { $isListNode, ListNode } from "@lexical/list";
-import { $isLinkNode } from "@lexical/link";
+import { $isLinkNode, TOGGLE_LINK_COMMAND } from "@lexical/link";
 import {
   $isCodeNode,
   CODE_LANGUAGE_MAP,
   getLanguageFriendlyName,
-  CODE_LANGUAGE_FRIENDLY_NAME_MAP,
 } from "@lexical/code";
 import {
   $isRootOrShadowRoot,
@@ -14,7 +13,6 @@ import {
   $isRangeSelection,
   CAN_REDO_COMMAND,
   CAN_UNDO_COMMAND,
-  FORMAT_ELEMENT_COMMAND,
   FORMAT_TEXT_COMMAND,
   REDO_COMMAND,
   SELECTION_CHANGE_COMMAND,
@@ -31,9 +29,9 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import {
   Bold,
   Italic,
+  Link,
   RotateCcw,
   RotateCw,
-  Strikethrough,
   Underline,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -54,6 +52,7 @@ import { ElementFormatDropdown } from "./toolbarDropdown/ElementFormatDropdown";
 import TextFormatDropdown, {
   TEXT_TRANSFORM_COMMAND,
 } from "./toolbarDropdown/TextFormatDropdown";
+import { sanitizeUrl } from "@/lib/utils";
 
 const LowPriority = 1;
 
@@ -61,13 +60,11 @@ function Divider() {
   return <div className="w-[1px] h-full bg-[#dedede] dark:bg-[#3b3b3b] mx-1" />;
 }
 
-export default function ToolbarPlugin(
-  {
-    // setIsLinkEditMode,
-  }: {
-    setIsLinkEditMode: Dispatch<boolean>;
-  }
-): JSX.Element {
+export default function ToolbarPlugin({
+  setIsLinkEditMode,
+}: {
+  setIsLinkEditMode: Dispatch<boolean>;
+}): JSX.Element {
   const [editor] = useLexicalComposerContext();
 
   const toolbarRef = useRef(null);
@@ -261,6 +258,16 @@ export default function ToolbarPlugin(
     });
   }, [editor, $updateToolbar]);
 
+  const insertLink = useCallback(() => {
+    if (!toolbarState.isLink) {
+      setIsLinkEditMode(true);
+      editor.dispatchCommand(TOGGLE_LINK_COMMAND, sanitizeUrl("https://"));
+    } else {
+      setIsLinkEditMode(false);
+      editor.dispatchCommand(TOGGLE_LINK_COMMAND, null);
+    }
+  }, [editor, setIsLinkEditMode, toolbarState.isLink]);
+
   const onCodeLanguageSelect = useCallback(
     (value: string) => {
       editor.update(() => {
@@ -374,7 +381,19 @@ export default function ToolbarPlugin(
           >
             <Underline className="format icon" />
           </Button>
-
+          <Button
+            disabled={!isEditable}
+            onClick={insertLink}
+            className={
+              "toolbar-item toolbar-button spaced " +
+              (toolbarState.isLink ? "active" : "")
+            }
+            aria-label="Insert link"
+            // title={`Insert link (${SHORTCUTS.INSERT_LINK})`}
+            type="button"
+          >
+            <Link className="format icon transform rotate-45" />
+          </Button>
           <TextFormatDropdown
             editor={editor}
             disabled={!isEditable}
