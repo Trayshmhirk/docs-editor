@@ -36,6 +36,7 @@ import { createPortal } from "react-dom";
 import { getSelectedNode } from "../toolbarPlugin/utils";
 import { setFloatingElemPositionForLinkEditor } from "@/lib/utils";
 import { sanitizeUrl } from "@/lib/utils";
+import { CircleCheck, CircleX, PenBox, Trash2 } from "lucide-react";
 
 function preventDefault(
   event: React.KeyboardEvent<HTMLInputElement> | React.MouseEvent<HTMLElement>
@@ -229,10 +230,10 @@ function FloatingLinkEditor({
   return (
     <div ref={editorRef} className="link-editor">
       {!isLink ? null : isLinkEditMode ? (
-        <>
+        <div className="w-full flex items-center gap-4 p-3">
           <input
             ref={inputRef}
-            className="link-input"
+            className="link-input w-full"
             value={editedLinkUrl}
             onChange={(event) => {
               setEditedLinkUrl(event.target.value);
@@ -241,55 +242,67 @@ function FloatingLinkEditor({
               monitorInputInteraction(event);
             }}
           />
-          <div>
+          <div className="flex gap-2 w-fit">
             <div
-              className="link-cancel"
+              className="link-confirm flex items-center"
+              role="button"
+              tabIndex={0}
+              onMouseDown={preventDefault}
+              onClick={handleLinkSubmission}
+            >
+              <CircleCheck className="size-5" />
+            </div>
+
+            <div
+              className="link-cancel flex items-center"
               role="button"
               tabIndex={0}
               onMouseDown={preventDefault}
               onClick={() => {
                 setIsLinkEditMode(false);
               }}
-            />
-
-            <div
-              className="link-confirm"
-              role="button"
-              tabIndex={0}
-              onMouseDown={preventDefault}
-              onClick={handleLinkSubmission}
-            />
+            >
+              <CircleX className="size-5" />
+            </div>
           </div>
-        </>
+        </div>
       ) : (
-        <div className="link-view">
+        <div className="link-view w-full flex items-center gap-4 m-3">
           <a
             href={sanitizeUrl(linkUrl)}
             target="_blank"
             rel="noopener noreferrer"
+            className="w-full"
           >
             {linkUrl}
           </a>
-          <div
-            className="link-edit"
-            role="button"
-            tabIndex={0}
-            onMouseDown={preventDefault}
-            onClick={(event) => {
-              event.preventDefault();
-              setEditedLinkUrl(linkUrl);
-              setIsLinkEditMode(true);
-            }}
-          />
-          <div
-            className="link-trash"
-            role="button"
-            tabIndex={0}
-            onMouseDown={preventDefault}
-            onClick={() => {
-              editor.dispatchCommand(TOGGLE_LINK_COMMAND, null);
-            }}
-          />
+
+          <div className="flex gap-2 w-fit">
+            <div
+              className="link-edit"
+              role="button"
+              tabIndex={0}
+              onMouseDown={preventDefault}
+              onClick={(event) => {
+                event.preventDefault();
+                setEditedLinkUrl(linkUrl);
+                setIsLinkEditMode(true);
+              }}
+            >
+              <PenBox className="size-5" />
+            </div>
+            <div
+              className="link-trash"
+              role="button"
+              tabIndex={0}
+              onMouseDown={preventDefault}
+              onClick={() => {
+                editor.dispatchCommand(TOGGLE_LINK_COMMAND, null);
+              }}
+            >
+              <Trash2 className="size-5" />
+            </div>
+          </div>
         </div>
       )}
     </div>

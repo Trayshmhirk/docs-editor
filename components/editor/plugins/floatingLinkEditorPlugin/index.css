@@ -14,6 +14,79 @@
   will-change: transform;
 }
 
+.link-editor .button.active,
+.toolbar .button.active {
+  background-color: rgb(223, 232, 250);
+}
+
+.link-editor .link-input {
+  box-sizing: border-box;
+  padding: 8px 12px;
+  border-radius: 15px;
+  background-color: #eee;
+  font-size: 15px;
+  color: rgb(5, 5, 5);
+  border: 0;
+  outline: 0;
+  position: relative;
+  font-family: inherit;
+}
+
+.link-editor .link-view {
+  /* width: calc(100% - 24px); */
+  padding: 8px 12px;
+  border-radius: 15px;
+  font-size: 15px;
+  color: rgb(5, 5, 5);
+  border: 0;
+  outline: 0;
+  position: relative;
+  font-family: inherit;
+}
+
+.link-editor .link-view a {
+  display: block;
+  word-break: break-word;
+  color: #0000EE;
+}
+
+.link-editor div.link-cancel,
+.link-editor div.link-confirm,
+.link-editor div.link-edit,
+.link-editor div.link-trash {
+  background-size: 16px;
+  background-position: center;
+  background-repeat: no-repeat;
+  vertical-align: -0.25em;
+  cursor: pointer;
+}
+
+.link-editor .link-input a {
+  color: rgb(33, 111, 219);
+  text-decoration: underline;
+  white-space: nowrap;
+  overflow: hidden;
+  margin-right: 30px;
+  text-overflow: ellipsis;
+}
+
+.link-editor .link-input a:hover {
+  text-decoration: underline;
+}
+
+.link-editor .font-size-wrapper,
+.link-editor .font-family-wrapper {
+  display: flex;
+  margin: 0 4px;
+}
+
+.link-editor select {
+  padding: 6px;
+  border: none;
+  background-color: rgba(0, 0, 0, 0.075);
+  border-radius: 4px;
+}
+
 .link-editor .button {
   width: 20px;
   height: 20px;
@@ -29,13 +102,4 @@
   height: 20px;
   display: inline-block;
   background-color: #eee;
-}
-
-.link-editor .button i,
-.actions i {
-  background-size: contain;
-  display: inline-block;
-  height: 20px;
-  width: 20px;
-  vertical-align: -0.25em;
 }

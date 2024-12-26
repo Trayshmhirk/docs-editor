@@ -282,6 +282,8 @@ export default function ToolbarPlugin({
     [editor, selectedElementKey]
   );
 
+  console.log(toolbarState.isLink);
+
   return (
     <div
       className="toolbar h-full flex gap-[2px] bg-[#fcfcfc] dark:bg-[#1e1e1e] p-1 rounded-t-lg"
