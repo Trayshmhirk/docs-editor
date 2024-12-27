@@ -1,10 +1,3 @@
-/**
- * Copyright (c) Meta Platforms, Inc. and affiliates.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- *
- */
 import "./index.css";
 
 import {
@@ -228,12 +221,15 @@ function FloatingLinkEditor({
   };
 
   return (
-    <div ref={editorRef} className="link-editor">
+    <div
+      ref={editorRef}
+      className="link-editor bg-[#ffffff] dark:bg-[#373737] shadow-lg dark:shadow-lg-dark"
+    >
       {!isLink ? null : isLinkEditMode ? (
         <div className="w-full flex items-center gap-4 p-3">
           <input
             ref={inputRef}
-            className="link-input w-full"
+            className="link-input bg-[#eee] dark:bg-[#212121] text-[#111111] dark:text-white w-full"
             value={editedLinkUrl}
             onChange={(event) => {
               setEditedLinkUrl(event.target.value);
@@ -250,7 +246,7 @@ function FloatingLinkEditor({
               onMouseDown={preventDefault}
               onClick={handleLinkSubmission}
             >
-              <CircleCheck className="size-5" />
+              <CircleCheck className="size-5 stroke-[#1e1e1e] dark:stroke-white" />
             </div>
 
             <div
@@ -262,7 +258,7 @@ function FloatingLinkEditor({
                 setIsLinkEditMode(false);
               }}
             >
-              <CircleX className="size-5" />
+              <CircleX className="size-5 stroke-[#1e1e1e] dark:stroke-white" />
             </div>
           </div>
         </div>
@@ -272,7 +268,7 @@ function FloatingLinkEditor({
             href={sanitizeUrl(linkUrl)}
             target="_blank"
             rel="noopener noreferrer"
-            className="w-full"
+            className="w-full text-[#0000ee] dark:text-[#216FDB]"
           >
             {linkUrl}
           </a>
@@ -289,7 +285,7 @@ function FloatingLinkEditor({
                 setIsLinkEditMode(true);
               }}
             >
-              <PenBox className="size-5" />
+              <PenBox className="size-5 stroke-[#1e1e1e] dark:stroke-white" />
             </div>
             <div
               className="link-trash"
@@ -300,7 +296,7 @@ function FloatingLinkEditor({
                 editor.dispatchCommand(TOGGLE_LINK_COMMAND, null);
               }}
             >
-              <Trash2 className="size-5" />
+              <Trash2 className="size-5 stroke-[#1e1e1e] dark:stroke-white" />
             </div>
           </div>
         </div>
