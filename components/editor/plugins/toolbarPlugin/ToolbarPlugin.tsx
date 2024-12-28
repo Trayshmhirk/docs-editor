@@ -114,6 +114,8 @@ export default function ToolbarPlugin({
       // Update links
       const node = getSelectedNode(selection);
       const parent = node.getParent();
+      const isLink = $isLinkNode(parent) || $isLinkNode(node);
+      updateToolbarState("isLink", isLink);
 
       if (elementDOM !== null) {
         setSelectedElementKey(elementKey);

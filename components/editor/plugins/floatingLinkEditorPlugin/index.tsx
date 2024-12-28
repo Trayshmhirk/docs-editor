@@ -273,7 +273,7 @@ function FloatingLinkEditor({
             {linkUrl}
           </a>
 
-          <div className="flex gap-2 w-fit">
+          <div className="flex items-center gap-2 w-fit">
             <div
               className="link-edit"
               role="button"
@@ -285,7 +285,7 @@ function FloatingLinkEditor({
                 setIsLinkEditMode(true);
               }}
             >
-              <PenBox className="size-5 stroke-[#1e1e1e] dark:stroke-white" />
+              <PenBox className="size-5 stroke-[#1e1e1e] dark:stroke-white mt-[2px]" />
             </div>
             <div
               className="link-trash"
