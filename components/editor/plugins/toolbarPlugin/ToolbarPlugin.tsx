@@ -20,7 +20,6 @@ import {
   NodeKey,
   $getNodeByKey,
   $isElementNode,
-  $isTextNode,
 } from "lexical";
 import { $isHeadingNode } from "@lexical/rich-text";
 import { $findMatchingParent } from "@lexical/utils";
@@ -49,9 +48,7 @@ import DropDown, { DropDownItem } from "@/components/ui/lexical/dropdown";
 import { FontDropDown } from "./toolbarDropdown/FontDropdown";
 import { $getSelectionStyleValueForProperty } from "@lexical/selection";
 import { ElementFormatDropdown } from "./toolbarDropdown/ElementFormatDropdown";
-import TextFormatDropdown, {
-  TEXT_TRANSFORM_COMMAND,
-} from "./toolbarDropdown/TextFormatDropdown";
+import TextFormatDropdown from "./toolbarDropdown/TextFormatDropdown";
 import { sanitizeUrl } from "@/lib/utils";
 
 const LowPriority = 1;
@@ -92,22 +89,12 @@ export default function ToolbarPlugin({
       );
       updateToolbarState("isSubscript", selection.hasFormat("subscript"));
       updateToolbarState("isSuperscript", selection.hasFormat("superscript"));
+      updateToolbarState("isLowercase", selection.hasFormat("lowercase"));
+      updateToolbarState("isUppercase", selection.hasFormat("uppercase"));
+      updateToolbarState("isCapitalize", selection.hasFormat("capitalize"));
 
-      ///// -------
+      //
       const anchorNode = selection.anchor.getNode();
-
-      if ($isTextNode(anchorNode)) {
-        const textContent = anchorNode.getTextContent();
-        const isLowercase = textContent === textContent.toLowerCase();
-        const isUppercase = textContent === textContent.toUpperCase();
-        const isCapitalize =
-          textContent ===
-          textContent.replace(/\b\w/g, (char) => char.toUpperCase());
-
-        updateToolbarState("isLowercase", isLowercase);
-        updateToolbarState("isUppercase", isUppercase);
-        updateToolbarState("isCapitalize", isCapitalize && !isUppercase);
-      }
 
       let element =
         anchorNode.getKey() === "root"
@@ -221,33 +208,6 @@ export default function ToolbarPlugin({
           return false;
         },
         LowPriority
-      ),
-      editor.registerCommand(
-        TEXT_TRANSFORM_COMMAND,
-        (transform: "lowercase" | "uppercase" | "capitalize") => {
-          const selection = $getSelection();
-          if ($isRangeSelection(selection)) {
-            selection.getNodes().forEach((node) => {
-              if ($isTextNode(node)) {
-                const textContent = node.getTextContent();
-                let transformedText = textContent;
-                if (transform === "lowercase") {
-                  transformedText = textContent.toLowerCase();
-                } else if (transform === "uppercase") {
-                  transformedText = textContent.toUpperCase();
-                } else if (transform === "capitalize") {
-                  // Ensure proper capitalization even if the text is fully uppercase
-                  transformedText = textContent
-                    .toLowerCase() // Start by converting the whole text to lowercase
-                    .replace(/\b\w/g, (char) => char.toUpperCase()); // Capitalize the first letter of each word
-                }
-                node.setTextContent(transformedText);
-              }
-            });
-          }
-          return true;
-        },
-        LowPriority
       )
     );
   }, [editor, $updateToolbar]);
@@ -282,7 +242,7 @@ export default function ToolbarPlugin({
     [editor, selectedElementKey]
   );
 
-  console.log(toolbarState.isLink);
+  console.log(toolbarState);
 
   return (
     <div

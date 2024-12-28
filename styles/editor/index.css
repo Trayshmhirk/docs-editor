@@ -61,6 +61,18 @@ body {
   font-size: 94%;
 }
 
+.editor-textLowercase {
+  text-transform: lowercase;
+}
+
+.editor-textUppercase {
+  text-transform: uppercase;
+}
+
+.editor-textCapitalize {
+  text-transform: capitalize;
+}
+
 .editor-link {
   color: rgb(33, 111, 219);
   text-decoration: none;
@@ -78,7 +90,7 @@ body {
 }
 
 .editor-blockCursor:after {
-  content: '';
+  content: "";
   display: block;
   position: absolute;
   top: -2px;

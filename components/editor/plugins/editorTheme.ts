@@ -42,6 +42,9 @@ export const editorTheme: EditorThemeClasses = {
     overflowed: "editor-textOverflowed",
     underline: "editor-textUnderline",
     underlineStrikethrough: "editor-textUnderlineStrikethrough",
+    capitalize: "editor-textCapitalize",
+    lowercase: "editor-textLowercase",
+    uppercase: "editor-textUppercase",
   },
   code: "editor-code",
   codeHighlight: {

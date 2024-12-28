@@ -12,11 +12,6 @@ import {
   Trash2,
 } from "lucide-react";
 import { ToolbarState } from "@/context/ToolbarContext";
-import { createCommand } from "lexical";
-
-export const TEXT_TRANSFORM_COMMAND = createCommand<
-  "lowercase" | "uppercase" | "capitalize"
->();
 
 const TextFormatDropdown = ({
   editor,
@@ -38,7 +33,7 @@ const TextFormatDropdown = ({
     >
       <DropDownItem
         onClick={() => {
-          editor.dispatchCommand(TEXT_TRANSFORM_COMMAND, "lowercase");
+          editor.dispatchCommand(FORMAT_TEXT_COMMAND, "lowercase");
         }}
         className={
           "item min-w-[100px] text-sm flex items-center justify-between py-1 px-2 rounded hover:enabled:bg-[#eee] dark:hover:enabled:bg-[#3b3b3b] " +
@@ -55,7 +50,7 @@ const TextFormatDropdown = ({
       </DropDownItem>
       <DropDownItem
         onClick={() => {
-          editor.dispatchCommand(TEXT_TRANSFORM_COMMAND, "uppercase");
+          editor.dispatchCommand(FORMAT_TEXT_COMMAND, "uppercase");
         }}
         className={
           "item min-w-[100px] text-sm flex items-center justify-between py-1 px-2 rounded hover:enabled:bg-[#eee] dark:hover:enabled:bg-[#3b3b3b] " +
@@ -72,7 +67,7 @@ const TextFormatDropdown = ({
       </DropDownItem>
       <DropDownItem
         onClick={() => {
-          editor.dispatchCommand(TEXT_TRANSFORM_COMMAND, "capitalize");
+          editor.dispatchCommand(FORMAT_TEXT_COMMAND, "capitalize");
         }}
         className={
           "item min-w-[100px] text-sm flex items-center justify-between py-1 px-2 rounded hover:enabled:bg-[#eee] dark:hover:enabled:bg-[#3b3b3b] " +
