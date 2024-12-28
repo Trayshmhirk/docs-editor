@@ -223,7 +223,7 @@ function FloatingLinkEditor({
   return (
     <div
       ref={editorRef}
-      className="link-editor bg-[#ffffff] dark:bg-[#373737] shadow-lg dark:shadow-lg-dark"
+      className="link-editor bg-[#ffffff] dark:bg-[#373737] shadow-[0_5px_10px_#0000004d] dark:shadow-[0_5px_10px_0px_rgb(0,0,0,0.8)]"
     >
       {!isLink ? null : isLinkEditMode ? (
         <div className="w-full flex items-center gap-4 p-3">
