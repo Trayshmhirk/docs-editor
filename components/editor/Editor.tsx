@@ -3,6 +3,7 @@ import { editorTheme } from "./plugins/editorTheme";
 import ToolbarPlugin from "./plugins/toolbarPlugin/ToolbarPlugin";
 import CodeHighlightPlugin from "./plugins/codeHighlightPlugin";
 import CodeActionMenuPlugin from "./plugins/codeActionMenuPlugin";
+import DraggableBlockPlugin from "./plugins/draggableBlockPlugin";
 
 import { AutoFocusPlugin } from "@lexical/react/LexicalAutoFocusPlugin";
 import { ListPlugin } from "@lexical/react/LexicalListPlugin";
@@ -19,6 +20,7 @@ import {
   LiveblocksPlugin,
   useIsEditorReady,
 } from "@liveblocks/react-lexical";
+
 import Loader from "@/components/ui/common/Loader";
 import FloatingToolbarPlugin from "./plugins/FloatingToolbarPlugin";
 import { useThreads } from "@liveblocks/react/suspense";
@@ -124,6 +126,7 @@ export function Editor({ roomId, currentUserType }: Editorprops) {
                       isLinkEditMode={isLinkEditMode}
                       setIsLinkEditMode={setIsLinkEditMode}
                     />
+                    <DraggableBlockPlugin anchorElem={floatingAnchorElem} />
                   </>
                 )}
                 <LinkPlugin hasLinkAttributes={hasLinkAttributes} />

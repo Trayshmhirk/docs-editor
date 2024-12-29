@@ -1,0 +1,29 @@
+.draggable-block-menu {
+  border-radius: 4px;
+  padding: 2px 1px;
+  cursor: grab;
+  opacity: 0;
+  position: absolute;
+  left: 0;
+  top: 0;
+  will-change: transform;
+}
+
+.draggable-block-menu:active {
+  cursor: grabbing;
+}
+
+.draggable-block-menu:hover {
+  @apply bg-[#eee] dark:bg-[#555555];
+}
+
+.draggable-block-target-line {
+  pointer-events: none;
+  background: #00a2c9;
+  height: 4px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  will-change: transform;
+}
