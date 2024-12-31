@@ -157,3 +157,12 @@ html.dark .cl-internal-1pz8pdy {
 html.dark .cl-internal-1v9xsvw {
   color: #8f92a4;
 }
+
+html.dark .cl-internal-6lplep {
+  background-color: #222222;
+  @apply shadow-md-dark;
+}
+
+html.dark .cl-internal-vox37u {
+  color: #fff;
+}
