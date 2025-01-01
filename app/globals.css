@@ -8,6 +8,7 @@
 @import "@liveblocks/react-ui/styles/dark/media-query.css";
 @import "@/styles/editor/index.css";
 @import "@/styles/liveblocks/index.css";
+@import "@/styles/clerk/index.css";
 
 body {
   font-family: Arial, Helvetica, sans-serif;
@@ -96,73 +97,4 @@ body {
   .toolbar-item.font-family .text {
     max-width: 40px;
   }
-}
-
-/* ------------ Clerk Override ------------- */
-.cl-internal-piyvrh,
-.cl-internal-16vtwdp,
-.cl-internal-lk7758,
-.cl-internal-13u79ez {
-  display: none;
-}
-
-.cl-internal-w4f4gh,
-.cl-internal-19lj6gi {
-  background: none;
-}
-
-.cl-internal-wf8x4b {
-  line-height: unset;
-}
-
-.cl-avatarBox {
-  width: 36px;
-  height: 36px;
-  border: 2px solid #2196f3;
-}
-
-html.dark .cl-internal-13lvar6 {
-  background: #151515;
-}
-
-html.dark .cl-internal-pp7u0o {
-  color: rgb(188, 188, 207);
-}
-
-html.dark .cl-internal-168uxhv {
-  color: rgb(154, 155, 162);
-}
-
-html.dark .cl-internal-c2xpfh {
-  background-color: #292929;
-  @apply shadow-lg-dark;
-}
-
-html.dark .cl-internal-q7chm5 {
-  background-color: #333;
-  color: #bbbbbb;
-}
-
-html.dark .cl-internal-1j5cao4 {
-  color: #bbbbbb;
-}
-
-html.dark .cl-internal-190cjq9,
-html.dark .cl-internal-1y71s3o,
-html.dark .cl-internal-1yzyqwe,
-html.dark .cl-internal-1pz8pdy {
-  color: #eeeeee;
-}
-
-html.dark .cl-internal-1v9xsvw {
-  color: #8f92a4;
-}
-
-html.dark .cl-internal-6lplep {
-  background-color: #222222;
-  @apply shadow-md-dark;
-}
-
-html.dark .cl-internal-vox37u {
-  color: #fff;
 }
