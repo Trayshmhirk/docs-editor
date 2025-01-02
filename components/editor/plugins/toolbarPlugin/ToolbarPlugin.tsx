@@ -50,6 +50,7 @@ import { $getSelectionStyleValueForProperty } from "@lexical/selection";
 import { ElementFormatDropdown } from "./toolbarDropdown/ElementFormatDropdown";
 import TextFormatDropdown from "./toolbarDropdown/TextFormatDropdown";
 import { sanitizeUrl } from "@/lib/utils";
+import FontSize from "./fontSize";
 
 const LowPriority = 1;
 
@@ -92,6 +93,10 @@ export default function ToolbarPlugin({
       updateToolbarState("isLowercase", selection.hasFormat("lowercase"));
       updateToolbarState("isUppercase", selection.hasFormat("uppercase"));
       updateToolbarState("isCapitalize", selection.hasFormat("capitalize"));
+      updateToolbarState(
+        "fontSize",
+        $getSelectionStyleValueForProperty(selection, "font-size", "15px")
+      );
 
       //
       const anchorNode = selection.anchor.getNode();
@@ -311,6 +316,12 @@ export default function ToolbarPlugin({
             style={"font-family"}
             value={toolbarState.fontFamily}
             editor={editor}
+          />
+          <Divider />
+          <FontSize
+            selectionFontSize={toolbarState.fontSize.slice(0, -2)}
+            editor={editor}
+            disabled={!isEditable}
           />
           <Divider />
           <Button
