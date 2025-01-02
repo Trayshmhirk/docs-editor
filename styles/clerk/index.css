@@ -45,18 +45,22 @@ html.dark .cl-internal-q7chm5 {
 
 html.dark .cl-internal-1j5cao4,
 html.dark .cl-internal-1u67iw4,
-html.dark .cl-internal-10dnmwk {
+html.dark .cl-internal-10dnmwk,
+html.dark .cl-internal-ajnh64,
+html.dark .cl-internal-1940az2 {
   color: #bbbbbb;
 }
 
 html.dark .cl-internal-190cjq9,
 html.dark .cl-internal-1y71s3o,
 html.dark .cl-internal-1yzyqwe,
-html.dark .cl-internal-1pz8pdy {
+html.dark .cl-internal-1pz8pdy,
+html.dark .cl-internal-1s0h3cl {
   color: #eeeeee;
 }
 
-html.dark .cl-internal-1v9xsvw {
+html.dark .cl-internal-1v9xsvw,
+html.dark .cl-internal-23zfou {
   color: #8f92a4;
 }
 
@@ -71,7 +75,8 @@ html.dark .cl-internal-vox37u {
 
 html.dark .cl-internal-1u67iw4:hover,
 html.dark .cl-internal-vox37u:hover,
-html.dark .cl-internal-10dnmwk:hover {
+html.dark .cl-internal-10dnmwk:hover,
+html.dark .cl-internal-ajnh64:hover {
   background-color: #393939;
   @apply shadow-sm-dark;
 }
@@ -79,4 +84,13 @@ html.dark .cl-internal-10dnmwk:hover {
 html.dark .cl-internal-1mdgqw8,
 html.dark .cl-internal-1q1j6io {
   border-color: #444444;
+}
+
+html.dark .cl-internal-1e217up {
+  background-color: #393939;
+  @apply shadow-md-dark;
+}
+
+html.dark .cl-internal-1940az2 {
+  @apply shadow-sm-dark;
 }
