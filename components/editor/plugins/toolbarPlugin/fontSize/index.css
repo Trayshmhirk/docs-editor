@@ -10,6 +10,11 @@
   align-self: center;
 }
 
+html.dark .font-size-input {
+  color: #ffffff;
+  /* @apply focus-visible:ring-[#595959]; */
+}
+
 .font-size-input:disabled {
   opacity: 0.2;
   cursor: not-allowed;
