@@ -17,19 +17,19 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider>
-      <html lang="en" suppressHydrationWarning={true}>
-        <body className="min-h-screen overflow-hidden">
+    <html lang="en" suppressHydrationWarning={true}>
+      <body className="min-h-screen overflow-hidden">
+        <ClerkProvider>
           <ThemeProvider
             attribute="class"
-            defaultTheme="system"
+            defaultTheme="dark"
             enableSystem={true}
             storageKey="theme"
           >
             <Provider>{children}</Provider>
           </ThemeProvider>
-        </body>
-      </html>
-    </ClerkProvider>
+        </ClerkProvider>
+      </body>
+    </html>
   );
 }

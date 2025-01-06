@@ -98,10 +98,10 @@ export function Editor({ roomId, currentUserType }: Editorprops) {
 
           <div className="editor-wrapper flex flex-col items-center justify-start gap-5 overflow-auto p-4 pb-8 lg:flex-row lg:items-start lg:justify-center md:p-6 md:pt-7 md:pb-8 xl:gap-10">
             {ready ? (
-              <div className="min-h-[1100px] relative h-fit w-full max-w-[800px] bg-white dark:bg-[#212121] mb-5 rounded-[3px] shadow-lg">
+              <div className="min-h-[1100px] relative h-full w-full max-w-[800px] bg-white dark:bg-[#212121] mb-5 rounded-[3px] shadow-lg">
                 <RichTextPlugin
                   contentEditable={
-                    <div className="editor" ref={onRef}>
+                    <div className="editor h-full" ref={onRef}>
                       <ContentEditable className="editor-input relative h-full text-[#1e1e1e] dark:text-white caret-[#1d1d1d] dark:caret-[#d8d8d8] px-7 py-8 md:p-10" />
                     </div>
                   }
