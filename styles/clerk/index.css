@@ -55,7 +55,8 @@ html.dark .cl-internal-190cjq9,
 html.dark .cl-internal-1y71s3o,
 html.dark .cl-internal-1yzyqwe,
 html.dark .cl-internal-1pz8pdy,
-html.dark .cl-internal-1s0h3cl {
+html.dark .cl-internal-1s0h3cl,
+html.dark .cl-internal-13p2l65 {
   color: #eeeeee;
 }
 
@@ -86,7 +87,8 @@ html.dark .cl-internal-1q1j6io {
   border-color: #444444;
 }
 
-html.dark .cl-internal-1e217up {
+html.dark .cl-internal-1e217up,
+html.dark .cl-internal-18n5pfw {
   background-color: #393939;
   @apply shadow-md-dark;
 }
@@ -97,4 +99,9 @@ html.dark .cl-internal-1940az2 {
 
 html.dark .cl-internal-1are3ma:hover {
   background-color: #ef444427;
+}
+
+html.dark .cl-internal-1lerq0t {
+  background-color: #bbbbbb;
+  @apply rounded-full;
 }
