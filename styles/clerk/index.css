@@ -29,8 +29,9 @@ html.dark .cl-internal-pp7u0o {
   color: rgb(188, 188, 207);
 }
 
-html.dark .cl-internal-168uxhv {
-  color: rgb(154, 155, 162);
+html.dark .cl-internal-168uxhv,
+html.dark .cl-internal-zpbffa {
+  color: #9a9ba2;
 }
 
 html.dark .cl-internal-c2xpfh {
@@ -56,7 +57,8 @@ html.dark .cl-internal-1y71s3o,
 html.dark .cl-internal-1yzyqwe,
 html.dark .cl-internal-1pz8pdy,
 html.dark .cl-internal-1s0h3cl,
-html.dark .cl-internal-13p2l65 {
+html.dark .cl-internal-13p2l65,
+html.dark .cl-internal-rvg68x {
   color: #eeeeee;
 }
 
@@ -97,11 +99,16 @@ html.dark .cl-internal-1940az2 {
   @apply shadow-sm-dark;
 }
 
-html.dark .cl-internal-1are3ma:hover {
+html.dark .cl-internal-1are3ma:hover,
+html.dark .cl-internal-156ribv:hover {
   background-color: #ef444427;
 }
 
 html.dark .cl-internal-1lerq0t {
   background-color: #bbbbbb;
   @apply rounded-full;
+}
+
+html.dark .cl-internal-zpbffa {
+  border-color: #adadad;
 }
