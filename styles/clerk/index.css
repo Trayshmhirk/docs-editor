@@ -21,12 +21,21 @@
   border: 2px solid #2196f3;
 }
 
-html.dark .cl-internal-13lvar6 {
+html.dark .cl-internal-13lvar6,
+html.dark .cl-internal-1cftg7i,
+html.dark .cl-internal-to9o31 {
   background: #151515;
 }
 
-html.dark .cl-internal-pp7u0o {
-  color: rgb(188, 188, 207);
+html.dark .cl-internal-k7p5wl {
+  background: #202020;
+  border-color: #474747;
+  @apply shadow-lg-dark;
+}
+
+html.dark .cl-internal-pp7u0o,
+html.dark .cl-internal-tn25c7 {
+  color: #bcbccf;
 }
 
 html.dark .cl-internal-168uxhv,
