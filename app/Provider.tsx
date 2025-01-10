@@ -12,11 +12,11 @@ const Provider = ({ children }: { children: React.ReactNode }) => {
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
-    setIsClient(true); // Ensure this runs only on the client
+    setIsClient(true);
   }, []);
 
   if (!isClient) {
-    return <Loader />; // Show a loader or null during SSR
+    return <Loader />;
   }
 
   return (
