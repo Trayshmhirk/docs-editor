@@ -59,7 +59,6 @@ export default function BlockFormatDropDown({
           <Text className="format icon" />
           <span className="text">Normal</span>
         </div>
-        {/* <span className="shortcut">{SHORTCUTS.NORMAL}</span> */}
       </DropDownItem>
       <DropDownItem
         className={
@@ -72,7 +71,6 @@ export default function BlockFormatDropDown({
           <Heading1 className="format icon" />
           <span className="text">Heading 1</span>
         </div>
-        {/* <span className="shortcut">{SHORTCUTS.HEADING1}</span> */}
       </DropDownItem>
       <DropDownItem
         className={
@@ -85,7 +83,6 @@ export default function BlockFormatDropDown({
           <Heading2 className="format icon" />
           <span className="text">Heading 2</span>
         </div>
-        {/* <span className="shortcut">{SHORTCUTS.HEADING2}</span> */}
       </DropDownItem>
       <DropDownItem
         className={
@@ -98,7 +95,6 @@ export default function BlockFormatDropDown({
           <Heading3 className="format icon" />
           <span className="text">Heading 3</span>
         </div>
-        {/* <span className="shortcut">{SHORTCUTS.HEADING3}</span> */}
       </DropDownItem>
       <DropDownItem
         className={
@@ -111,7 +107,6 @@ export default function BlockFormatDropDown({
           <List className="format icon" />
           <span className="text">Bullet List</span>
         </div>
-        {/* <span className="shortcut">{SHORTCUTS.BULLET_LIST}</span> */}
       </DropDownItem>
       <DropDownItem
         className={
@@ -124,7 +119,6 @@ export default function BlockFormatDropDown({
           <ListOrdered className="format icon" />
           <span className="text">Numbered List</span>
         </div>
-        {/* <span className="shortcut">{SHORTCUTS.NUMBERED_LIST}</span> */}
       </DropDownItem>
       <DropDownItem
         className={
@@ -137,7 +131,6 @@ export default function BlockFormatDropDown({
           <ListChecks className="format icon" />
           <span className="text">Check List</span>
         </div>
-        {/* <span className="shortcut">{SHORTCUTS.CHECK_LIST}</span> */}
       </DropDownItem>
       <DropDownItem
         className={
@@ -150,7 +143,6 @@ export default function BlockFormatDropDown({
           <MessageSquareQuote className="format icon" />
           <span className="text">Quote</span>
         </div>
-        {/* <span className="shortcut">{SHORTCUTS.QUOTE}</span> */}
       </DropDownItem>
       <DropDownItem
         className={
@@ -163,7 +155,6 @@ export default function BlockFormatDropDown({
           <Code className="format icon" />
           <span className="text">Code Block</span>
         </div>
-        {/* <span className="shortcut">{SHORTCUTS.CODE_BLOCK}</span> */}
       </DropDownItem>
     </DropDown>
   );

@@ -362,7 +362,6 @@ export default function ToolbarPlugin({
               (toolbarState.isLink ? "active" : "")
             }
             aria-label="Insert link"
-            // title={`Insert link (${SHORTCUTS.INSERT_LINK})`}
             type="button"
           >
             <Link className="format icon transform rotate-45" />

@@ -46,7 +46,6 @@ const TextFormatDropdown = ({
           <CaseLower className="format icon" />
           <span className="text">Lowercase</span>
         </div>
-        {/* <span className="shortcut">{SHORTCUTS.LOWERCASE}</span> */}
       </DropDownItem>
       <DropDownItem
         onClick={() => {
@@ -63,7 +62,6 @@ const TextFormatDropdown = ({
           <CaseUpper className="format icon" />
           <span className="text">Uppercase</span>
         </div>
-        {/* <span className="shortcut">{SHORTCUTS.UPPERCASE}</span> */}
       </DropDownItem>
       <DropDownItem
         onClick={() => {
@@ -80,7 +78,6 @@ const TextFormatDropdown = ({
           <CaseSensitive className="format icon" />
           <span className="text">Capitalize</span>
         </div>
-        {/* <span className="shortcut">{SHORTCUTS.CAPITALIZE}</span> */}
       </DropDownItem>
       <DropDownItem
         onClick={() => {
@@ -97,7 +94,6 @@ const TextFormatDropdown = ({
           <Strikethrough className="format icon" />
           <span className="text">Strikethrough</span>
         </div>
-        {/* <span className="shortcut">{SHORTCUTS.STRIKETHROUGH}</span> */}
       </DropDownItem>
       <DropDownItem
         onClick={() => {
@@ -114,7 +110,6 @@ const TextFormatDropdown = ({
           <Subscript className="format icon" />
           <span className="text">Subscript</span>
         </div>
-        {/* <span className="shortcut">{SHORTCUTS.SUBSCRIPT}</span> */}
       </DropDownItem>
       <DropDownItem
         onClick={() => {
@@ -131,7 +126,6 @@ const TextFormatDropdown = ({
           <Superscript className="format icon" />
           <span className="text">Superscript</span>
         </div>
-        {/* <span className="shortcut">{SHORTCUTS.SUPERSCRIPT}</span> */}
       </DropDownItem>
 
       <DropDownItem
@@ -150,5 +144,3 @@ const TextFormatDropdown = ({
 };
 
 export default TextFormatDropdown;
-
-/* <span className="shortcut">{SHORTCUTS.CLEAR_FORMATTING}</span> */

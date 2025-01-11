@@ -82,7 +82,6 @@ export function ElementFormatDropdown({
           <AlignLeft className="format icon" />
           <span className="text">Left Align</span>
         </div>
-        {/* <span className="shortcut">{SHORTCUTS.LEFT_ALIGN}</span> */}
       </DropDownItem>
       <DropDownItem
         onClick={() => {
@@ -94,7 +93,6 @@ export function ElementFormatDropdown({
           <AlignCenter className="format icon" />
           <span className="text">Center Align</span>
         </div>
-        {/* <span className="shortcut">{SHORTCUTS.CENTER_ALIGN}</span> */}
       </DropDownItem>
       <DropDownItem
         onClick={() => {
@@ -106,7 +104,6 @@ export function ElementFormatDropdown({
           <AlignRight className="format icon" />
           <span className="text">Right Align</span>
         </div>
-        {/* <span className="shortcut">{SHORTCUTS.RIGHT_ALIGN}</span> */}
       </DropDownItem>
       <DropDownItem
         onClick={() => {
@@ -118,34 +115,7 @@ export function ElementFormatDropdown({
           <AlignJustify className="format icon" />
           <span className="text">Justify Align</span>
         </div>
-        {/* <span className="shortcut">{SHORTCUTS.JUSTIFY_ALIGN}</span> */}
       </DropDownItem>
     </DropDown>
   );
 }
-
-// <Divider />
-// <DropDownItem
-//   onClick={() => {
-//     editor.dispatchCommand(OUTDENT_CONTENT_COMMAND, undefined);
-//   }}
-//   className="item min-w-[100px] text-sm flex items-center justify-between py-1 px-2 rounded hover:enabled:bg-[#eee] dark:hover:enabled:bg-[#3b3b3b]"
-// >
-//   <div className="icon-text-container flex items-center gap-3">
-//     <i className={"icon " + (isRTL ? "indent" : "outdent")} />
-//     <span className="text">Outdent</span>
-//   </div>
-//   {/* <span className="shortcut">{SHORTCUTS.OUTDENT}</span> */}
-// </DropDownItem>
-// <DropDownItem
-//   onClick={() => {
-//     editor.dispatchCommand(INDENT_CONTENT_COMMAND, undefined);
-//   }}
-//   className="item min-w-[100px] text-sm flex items-center justify-between py-1 px-2 rounded hover:enabled:bg-[#eee] dark:hover:enabled:bg-[#3b3b3b]"
-// >
-//   <div className="icon-text-container flex items-center gap-3">
-//     <i className={"icon " + (isRTL ? "outdent" : "indent")} />
-//     <span className="text">Indent</span>
-//   </div>
-//   {/* <span className="shortcut">{SHORTCUTS.INDENT}</span> */}
-// </DropDownItem>
