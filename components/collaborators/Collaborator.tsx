@@ -6,6 +6,7 @@ import {
   removeCollaborator,
   updateDocumentAccess,
 } from "@/lib/actions/room.actions";
+import { BeatLoader } from "react-spinners";
 
 const Collaborator = ({
   roomId,
@@ -55,7 +56,12 @@ const Collaborator = ({
           <p className="flex gap-2 line-clamp-1 text-sm font-semibold leading-4 text-[#555555] dark:text-[#efefef]">
             {collaborator.name}
             <span className="text-[10px] font-normal text-text-[#efefef]">
-              {loading && "updating..."}
+              {loading && (
+                <>
+                  Updating
+                  <BeatLoader />
+                </>
+              )}
             </span>
           </p>
           <p className="text-sm font-light text-text-[#efefef]">
