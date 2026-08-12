@@ -1,0 +1,64 @@
+# --- Dependencies & Package Managers ---
+
+node_modules/
+.pnpm-store/
+.yarn/
+
+# --- Next.js Build Outputs & Cache ---
+
+.next/
+out/
+dist/
+build/
+.turbo/
+
+# --- Auto-Generated Shadcn / Component Artifacts ---
+
+# (Ignore if you don't edit these components directly to save context)
+
+components/ui/
+
+# --- Tailwind & PostCSS Artifacts ---
+
+# Prevents the AI from reading massive compiled CSS utility sheets
+
+.tailwindcss/
+_.css.map
+_.min.css
+
+# --- TypeScript Caches & Declarations ---
+
+\*.tsbuildinfo
+.tsc/
+
+# --- Environment & Sensitive Files ---
+
+# Keeps your API keys private and stops token-wasting env file reads
+
+.env\*
+!.env.example
+
+# --- Media, Static Assets & Fonts ---
+
+# AI cannot read binary images; indexing these wastes token budget
+
+public/fonts/
+public/images/
+public/assets/
+_.png
+_.jpg
+_.jpeg
+_.gif
+_.svg
+_.ico
+_.webp
+_.mp4
+\*.webm
+
+# --- System & IDE Files ---
+
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+.git/
