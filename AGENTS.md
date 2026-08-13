@@ -28,9 +28,8 @@ Before starting a phase, read its plan file and work through the checklist.
 - **100 characters max** per line in commit messages
 - Describe **functional impact**, not implementation details
 - Run `git status` + `git diff` before writing any commit message
-- **Never commit or push** unless the user explicitly asks
+- **Commit when asked** — show the message for approval, then commit; do not push unless asked
 - **Never use `--trailer` on git commit** — no `Co-authored-by` or other trailers
-- **Never add `Co-authored-by`** or any commit message trailer
 
 ## PR rules (summary)
 

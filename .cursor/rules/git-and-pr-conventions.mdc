@@ -11,9 +11,8 @@ These rules apply to every commit and pull request in this repository.
 
 1. Run `git status` and `git diff` (or `git diff --cached` for staged changes).
 2. Derive the message from the **actual diff**, never from intent or memory.
-3. Do **not** commit unless the user explicitly asks.
-4. Do **not** push unless the user explicitly asks.
-5. Exclude unrelated files from staging.
+3. **Commit workflow:** when the user asks for a commit, present the message for approval first, then run `git commit` once approved. Do not push unless the user explicitly asks.
+4. Exclude unrelated files from staging.
 
 ## Conventional commits
 
@@ -158,8 +157,11 @@ Development roadmap plans live in `docs/plans/`. Before starting work on a phase
 
 ## Agent behavior
 
+- Commit when the user asks, after showing the message for approval unless they pre-approved it.
+- Do not push unless the user explicitly asks.
+- Never use `--trailer` on `git commit`.
+- Never add `Co-authored-by` or any other commit message trailer.
 - Never amend commits unless the user explicitly requests it and git safety rules allow it.
 - Never force-push to `master` or `main`.
 - Never skip git hooks (`--no-verify`) unless the user explicitly requests it.
 - Never update git config.
-- Never add `Co-authored-by` or any other commit message trailer.

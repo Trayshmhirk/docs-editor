@@ -219,7 +219,7 @@ Agents working in this repo must follow:
 - [`AGENTS.md`](../AGENTS.md)
 - [`.cursor/rules/git-and-pr-conventions.mdc`](../.cursor/rules/git-and-pr-conventions.mdc)
 
-Agents must not commit or push without explicit user request.
+Agents may commit when the user asks. Present the commit message for approval first, then run `git commit`. Do not push unless the user explicitly requests it. Never add `Co-authored-by` or other commit trailers.
 
 ## Questions
 
