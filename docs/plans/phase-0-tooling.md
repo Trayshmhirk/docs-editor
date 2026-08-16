@@ -122,7 +122,7 @@ Create `.github/workflows/ci.yml`:
   - **typecheck** — `npm run typecheck`
   - **build** — `npm run build`
 - [ ] Cache npm dependencies
-- [ ] Provide build-time env vars via GitHub secrets (see 0.8)
+- [ ] Provide build-time env vars via GitHub secrets (see env list below and §0.10 `.env.example`)
 - [ ] Add CI status badge to README
 
 ### Required secrets for build (placeholders OK for CI if build allows)
@@ -147,13 +147,107 @@ SENTRY_AUTH_TOKEN (if source map upload in CI)
 
 ---
 
-## 0.8 GitHub Actions — CD (optional)
+## 0.8 Continuous Deployment (CD)
 
-Defer full CD until CI is green. When ready:
+**Goal:** Complete the CI/CD pipeline — CI verifies code; CD deploys after verification.
 
-- [ ] Vercel Git integration (simplest) **or** GitHub Action deploy workflow
-- [ ] Preview deployments on PRs
-- [ ] Production deploy from `master`
+**Depends on:** §0.6 CI green; Vercel project linked to the GitHub repo.
+
+### CI vs CD
+
+|                    | **CI (§0.6)**                         | **CD (this section)**                       |
+| ------------------ | ------------------------------------- | ------------------------------------------- |
+| **When**           | Every push / PR                       | After CI passes (or in parallel via Vercel) |
+| **Does**           | Lint, format, typecheck, build, audit | Deploy the app to a hosted environment      |
+| **Goal**           | Catch bugs before merge               | Ship working code to preview or production  |
+| **Where to watch** | GitHub Actions tab → job logs         | Vercel dashboard, PR deploy comments        |
+
+### Pipeline overview
+
+| Trigger          | CI (GitHub Actions)                   | CD (Vercel)                     |
+| ---------------- | ------------------------------------- | ------------------------------- |
+| PR → `dev`       | lint, format, typecheck, build, audit | Preview deployment (unique URL) |
+| Push → `dev`     | Same                                  | Optional staging URL            |
+| Merge → `master` | Same (required check before merge)    | Production deployment           |
+
+```txt
+Push / PR
+    ↓
+CI (GitHub Actions) — verify code quality and security
+    ↓ (pass)
+CD (Vercel) — deploy preview (PR) or production (master)
+```
+
+### Recommended approach: Vercel Git integration
+
+Best for learning and for Next.js — Vercel handles builds and deploys on git events.
+
+- [ ] Create Vercel project linked to `Trayshmhirk/docs-editor`
+- [ ] Set **Production Branch** to `master` in Vercel project settings
+- [ ] Enable **Preview Deployments** for pull requests (all branches or PRs only)
+- [ ] Add environment variables in Vercel (**Production** + **Preview** scopes):
+  - `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY`
+  - `CLERK_SECRET_KEY`
+  - `NEXT_PUBLIC_LIVEBLOCKS_PUBLIC_KEY`
+  - `LIVEBLOCKS_SECRET_KEY`
+  - `SENTRY_AUTH_TOKEN` / `SENTRY_DSN` (optional for preview)
+- [ ] Add Clerk allowed origins for Vercel preview and production URLs
+- [ ] Verify Liveblocks auth works on deployed preview URLs
+- [ ] Add deploy status to branch protection on `master` (optional)
+- [ ] Document preview/prod URLs and env setup in README
+
+### Optional: GitHub Actions deploy workflow
+
+Use only if not relying on Vercel Git integration, or for explicit CD control:
+
+- [ ] Add `.github/workflows/deploy.yml`
+- [ ] Trigger on push to `master` after CI workflow succeeds (`workflow_run` or job dependency)
+- [ ] Deploy via Vercel CLI: `vercel deploy --prod` with `VERCEL_TOKEN` GitHub secret
+- [ ] Store `VERCEL_ORG_ID` and `VERCEL_PROJECT_ID` as GitHub secrets
+
+### Environment flow
+
+```txt
+Local (.env.local)
+    ↓
+Preview (Vercel env: Preview)      ← every PR
+    ↓
+Production (Vercel env: Production) ← master only
+```
+
+Use separate Clerk/Liveblocks keys per environment where providers require it.
+
+### What to watch when things fail
+
+| Layer                   | Symptom                | Where to look                                    |
+| ----------------------- | ---------------------- | ------------------------------------------------ |
+| Pre-commit / commitlint | Commit blocked locally | Terminal output from Husky                       |
+| CI lint / build         | Red check on PR        | GitHub Actions → failed job logs                 |
+| `npm audit`             | Security step fails    | CI log — package name and severity               |
+| Preview deploy          | No URL on PR           | Vercel dashboard → Deployments                   |
+| Preview app broken      | 500 or auth fails      | Vercel function logs; Clerk/Liveblocks dashboard |
+| Production deploy       | Prod not updated       | Vercel → Promote previous deployment to rollback |
+
+### Learning notes
+
+- **Preview deploy:** every PR gets a unique URL — test sign-in, editing, and share before merge
+- **Production deploy:** automatic on merge to `master` (or manual promote in Vercel)
+- **Failed CI should block merge** via branch protection; do not merge broken code to `dev`/`master`
+- **Rollback:** Vercel → Deployments → select previous deployment → Promote to Production
+
+### Files to create (optional CD workflow)
+
+```txt
+.github/workflows/deploy.yml   ← only if not using Vercel Git integration
+```
+
+### CD acceptance criteria
+
+- [ ] Opening a PR produces a Vercel preview URL within ~2–5 minutes
+- [ ] Preview URL loads the app, Clerk sign-in works, and Liveblocks connects
+- [ ] Merging to `master` updates production automatically
+- [ ] Failed CI prevents merging broken code (branch protection)
+- [ ] README documents how preview and production deploys work
 
 ---
 
@@ -212,6 +306,7 @@ commitlint.config.js
 .husky/pre-commit
 .husky/commit-msg
 .github/workflows/ci.yml
+.github/workflows/deploy.yml       (optional — Vercel CLI CD)
 .github/dependabot.yml
 .github/pull_request_template.md
 docs/CONTRIBUTING.md
@@ -230,7 +325,9 @@ AGENTS.md
 - [ ] Commit-msg hook rejects non-conventional commit messages over 100 chars
 - [ ] CI runs on PRs to `dev` and passes on a clean checkout
 - [ ] Dependabot opens dependency PRs
-- [ ] README and CONTRIBUTING explain how to contribute
+- [ ] Preview deployments work on PRs via Vercel (see §0.8)
+- [ ] Production deploys from `master` via Vercel
+- [ ] README and CONTRIBUTING explain how to contribute and where to watch CI/CD logs
 - [x] PR template, CONTRIBUTING, AGENTS.md, and Cursor rules document conventions
 - [ ] GitHub branch protection requires PR + CI on `dev` and `master`
 
@@ -247,7 +344,8 @@ chore: add commitlint with conventional config
 fix: re-enable tailwindcss-animate plugin
 ci: add github actions workflow for lint typecheck and build
 ci: add dependabot configuration
-docs: add env example and update readme with setup and ci badges
+ci: connect vercel preview and production deployments
+docs: add env example and update readme with setup ci and cd badges
 ```
 
 ---
