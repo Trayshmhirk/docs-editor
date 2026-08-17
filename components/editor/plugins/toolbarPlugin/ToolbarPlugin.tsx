@@ -2,11 +2,7 @@ import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext
 import { $getNearestNodeOfType, mergeRegister } from "@lexical/utils";
 import { $isListNode, ListNode } from "@lexical/list";
 import { $isLinkNode, TOGGLE_LINK_COMMAND } from "@lexical/link";
-import {
-  $isCodeNode,
-  CODE_LANGUAGE_MAP,
-  getLanguageFriendlyName,
-} from "@lexical/code";
+import { $isCodeNode, CODE_LANGUAGE_MAP, getLanguageFriendlyName } from "@lexical/code";
 import {
   $isRootOrShadowRoot,
   $getSelection,
@@ -25,25 +21,11 @@ import { $isHeadingNode } from "@lexical/rich-text";
 import { $findMatchingParent } from "@lexical/utils";
 import React, { Dispatch } from "react";
 import { useCallback, useEffect, useRef, useState } from "react";
-import {
-  Bold,
-  Italic,
-  Link,
-  RotateCcw,
-  RotateCw,
-  Underline,
-} from "lucide-react";
+import { Bold, Italic, Link, RotateCcw, RotateCw, Underline } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import BlockFormatDropDown from "./toolbarDropdown/BlockFormatDropdown";
-import {
-  blockTypeToBlockName,
-  useToolbarState,
-} from "@/context/ToolbarContext";
-import {
-  CODE_LANGUAGE_OPTIONS,
-  dropDownActiveClass,
-  getSelectedNode,
-} from "./utils";
+import { blockTypeToBlockName, useToolbarState } from "@/context/ToolbarContext";
+import { CODE_LANGUAGE_OPTIONS, dropDownActiveClass, getSelectedNode } from "./utils";
 import DropDown, { DropDownItem } from "@/components/ui/lexical/dropdown";
 import { FontDropDown } from "./toolbarDropdown/FontDropdown";
 import { $getSelectionStyleValueForProperty } from "@lexical/selection";
@@ -55,7 +37,7 @@ import FontSize from "./fontSize";
 const LowPriority = 1;
 
 function Divider() {
-  return <div className="w-[1px] h-full bg-[#dedede] dark:bg-[#3b3b3b] mx-1" />;
+  return <div className="mx-1 h-full w-[1px] bg-[#dedede] dark:bg-[#3b3b3b]" />;
 }
 
 export default function ToolbarPlugin({
@@ -69,9 +51,7 @@ export default function ToolbarPlugin({
   const [canUndo, setCanUndo] = useState(false);
   const [canRedo, setCanRedo] = useState(false);
 
-  const [selectedElementKey, setSelectedElementKey] = useState<NodeKey | null>(
-    null
-  );
+  const [selectedElementKey, setSelectedElementKey] = useState<NodeKey | null>(null);
 
   const [isEditable, setIsEditable] = useState(() => editor.isEditable());
   const { toolbarState, updateToolbarState } = useToolbarState();
@@ -84,10 +64,7 @@ export default function ToolbarPlugin({
       updateToolbarState("isBold", selection.hasFormat("bold"));
       updateToolbarState("isItalic", selection.hasFormat("italic"));
       updateToolbarState("isUnderline", selection.hasFormat("underline"));
-      updateToolbarState(
-        "isStrikethrough",
-        selection.hasFormat("strikethrough")
-      );
+      updateToolbarState("isStrikethrough", selection.hasFormat("strikethrough"));
       updateToolbarState("isSubscript", selection.hasFormat("subscript"));
       updateToolbarState("isSuperscript", selection.hasFormat("superscript"));
       updateToolbarState("isLowercase", selection.hasFormat("lowercase"));
@@ -95,7 +72,7 @@ export default function ToolbarPlugin({
       updateToolbarState("isCapitalize", selection.hasFormat("capitalize"));
       updateToolbarState(
         "fontSize",
-        $getSelectionStyleValueForProperty(selection, "font-size", "15px")
+        $getSelectionStyleValueForProperty(selection, "font-size", "15px"),
       );
 
       //
@@ -125,31 +102,20 @@ export default function ToolbarPlugin({
       if (elementDOM !== null) {
         setSelectedElementKey(elementKey);
         if ($isListNode(element)) {
-          const parentList = $getNearestNodeOfType<ListNode>(
-            anchorNode,
-            ListNode
-          );
-          const type = parentList
-            ? parentList.getListType()
-            : element.getListType();
+          const parentList = $getNearestNodeOfType<ListNode>(anchorNode, ListNode);
+          const type = parentList ? parentList.getListType() : element.getListType();
 
           updateToolbarState("blockType", type);
         } else {
-          const type = $isHeadingNode(element)
-            ? element.getTag()
-            : element.getType();
+          const type = $isHeadingNode(element) ? element.getTag() : element.getType();
           if (type in blockTypeToBlockName) {
-            updateToolbarState(
-              "blockType",
-              type as keyof typeof blockTypeToBlockName
-            );
+            updateToolbarState("blockType", type as keyof typeof blockTypeToBlockName);
           }
           if ($isCodeNode(element)) {
-            const language =
-              element.getLanguage() as keyof typeof CODE_LANGUAGE_MAP;
+            const language = element.getLanguage() as keyof typeof CODE_LANGUAGE_MAP;
             updateToolbarState(
               "codeLanguage",
-              language ? CODE_LANGUAGE_MAP[language] || language : ""
+              language ? CODE_LANGUAGE_MAP[language] || language : "",
             );
             return;
           }
@@ -158,7 +124,7 @@ export default function ToolbarPlugin({
 
       updateToolbarState(
         "fontFamily",
-        $getSelectionStyleValueForProperty(selection, "font-family", "Arial")
+        $getSelectionStyleValueForProperty(selection, "font-family", "Arial"),
       );
 
       let matchingParent;
@@ -166,7 +132,7 @@ export default function ToolbarPlugin({
         // If node is a link, we need to fetch the parent paragraph node to set format
         matchingParent = $findMatchingParent(
           node,
-          (parentNode) => $isElementNode(parentNode) && !parentNode.isInline()
+          (parentNode) => $isElementNode(parentNode) && !parentNode.isInline(),
         );
       }
 
@@ -177,7 +143,7 @@ export default function ToolbarPlugin({
           ? matchingParent.getFormatType()
           : $isElementNode(node)
             ? node.getFormatType()
-            : parent?.getFormatType() || "left"
+            : parent?.getFormatType() || "left",
       );
     }
   }, [updateToolbarState, editor]);
@@ -198,7 +164,7 @@ export default function ToolbarPlugin({
           $updateToolbar();
           return false;
         },
-        LowPriority
+        LowPriority,
       ),
       editor.registerCommand(
         CAN_UNDO_COMMAND,
@@ -206,7 +172,7 @@ export default function ToolbarPlugin({
           setCanUndo(payload);
           return false;
         },
-        LowPriority
+        LowPriority,
       ),
       editor.registerCommand(
         CAN_REDO_COMMAND,
@@ -214,8 +180,8 @@ export default function ToolbarPlugin({
           setCanRedo(payload);
           return false;
         },
-        LowPriority
-      )
+        LowPriority,
+      ),
     );
   }, [editor, $updateToolbar]);
 
@@ -246,12 +212,12 @@ export default function ToolbarPlugin({
         }
       });
     },
-    [editor, selectedElementKey]
+    [editor, selectedElementKey],
   );
 
   return (
     <div
-      className="toolbar h-full flex gap-[2px] bg-[#fcfcfc] dark:bg-[#1e1e1e] p-1 rounded-t-lg"
+      className="toolbar flex h-full gap-[2px] rounded-t-lg bg-[#fcfcfc] p-1 dark:bg-[#1e1e1e]"
       ref={toolbarRef}
     >
       <button
@@ -297,8 +263,8 @@ export default function ToolbarPlugin({
             {CODE_LANGUAGE_OPTIONS.map(([value, name]) => {
               return (
                 <DropDownItem
-                  className={`item min-w-[100px] text-sm flex items-center justify-between py-1 px-2 rounded hover:enabled:bg-[#eee] dark:hover:enabled:bg-[#3b3b3b]  ${dropDownActiveClass(
-                    value === toolbarState.codeLanguage
+                  className={`item flex min-w-[100px] items-center justify-between rounded px-2 py-1 text-sm hover:enabled:bg-[#eee] dark:hover:enabled:bg-[#3b3b3b] ${dropDownActiveClass(
+                    value === toolbarState.codeLanguage,
                   )}`}
                   onClick={() => onCodeLanguageSelect(value)}
                   key={value}
@@ -358,19 +324,14 @@ export default function ToolbarPlugin({
             disabled={!isEditable}
             onClick={insertLink}
             className={
-              "toolbar-item toolbar-button spaced " +
-              (toolbarState.isLink ? "active" : "")
+              "toolbar-item toolbar-button spaced " + (toolbarState.isLink ? "active" : "")
             }
             aria-label="Insert link"
             type="button"
           >
-            <Link className="format icon transform rotate-45" />
+            <Link className="format icon rotate-45 transform" />
           </Button>
-          <TextFormatDropdown
-            editor={editor}
-            disabled={!isEditable}
-            toolbarState={toolbarState}
-          />
+          <TextFormatDropdown editor={editor} disabled={!isEditable} toolbarState={toolbarState} />
         </>
       )}
       <Divider />

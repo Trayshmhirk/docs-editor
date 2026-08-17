@@ -9,14 +9,7 @@
 import type { SettingName } from "@/types/appSettings";
 
 import * as React from "react";
-import {
-  createContext,
-  ReactNode,
-  useCallback,
-  useContext,
-  useMemo,
-  useState,
-} from "react";
+import { createContext, ReactNode, useCallback, useContext, useMemo, useState } from "react";
 
 import { DEFAULT_SETTINGS, INITIAL_SETTINGS } from "@/types/appSettings";
 
@@ -32,11 +25,7 @@ const Context: React.Context<SettingsContextShape> = createContext({
   settings: INITIAL_SETTINGS,
 });
 
-export const SettingsContext = ({
-  children,
-}: {
-  children: ReactNode;
-}): JSX.Element => {
+export const SettingsContext = ({ children }: { children: ReactNode }): JSX.Element => {
   const [settings, setSettings] = useState(INITIAL_SETTINGS);
 
   const setOption = useCallback((setting: SettingName, value: boolean) => {

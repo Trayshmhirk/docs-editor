@@ -26,27 +26,14 @@ html.dark .lb-thread-composer:after {
   border-block-start-color: #444444;
 }
 
-html.dark
-  .lb-button:where(
-    [data-variant="default"]:not(
-        :is(
-            :enabled:hover,
-            :enabled:focus-visible,
-            [aria-expanded="true"],
-            [aria-selected="true"]
-          )
-      )
-  ) {
+html.dark .lb-button:where([data-variant="default"]:not( :is(:enabled:hover, :enabled:focus-visible, [aria-expanded="true"], [aria-selected="true"]))) {
   color: #ffffff;
 }
 
-html.dark
-  .lb-button:where(
-    :enabled:hover,
-    :enabled:focus-visible,
-    [aria-expanded="true"],
-    [aria-selected="true"]
-  ) {
+html.dark .lb-button:where( :enabled:hover,
+  :enabled:focus-visible,
+  [aria-expanded="true"],
+  [aria-selected="true"]) {
   --lb-button-background: #4a4a4a;
   color: #ffffff;
 }
@@ -76,11 +63,7 @@ html.dark .lb-lexical-thread-mark {
   text-decoration-color: #00a1c9;
 }
 
-html.dark
-  :is(
-    .lb-dropdown-item,
-    .lb-composer-suggestions-list-item,
-    .lb-emoji-picker-emoji
-  ):where([data-highlighted], [data-selected]) {
+html.dark :is(.lb-dropdown-item, .lb-composer-suggestions-list-item, .lb-emoji-picker-emoji):where([data-highlighted],
+  [data-selected]) {
   background-color: #444444;
 }

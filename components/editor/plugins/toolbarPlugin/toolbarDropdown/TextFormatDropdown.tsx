@@ -36,7 +36,7 @@ const TextFormatDropdown = ({
           editor.dispatchCommand(FORMAT_TEXT_COMMAND, "lowercase");
         }}
         className={
-          "item min-w-[100px] text-sm flex items-center justify-between py-1 px-2 rounded hover:enabled:bg-[#eee] dark:hover:enabled:bg-[#3b3b3b] " +
+          "item flex min-w-[100px] items-center justify-between rounded px-2 py-1 text-sm hover:enabled:bg-[#eee] dark:hover:enabled:bg-[#3b3b3b] " +
           dropDownActiveClass(toolbarState.isLowercase)
         }
         title="Lowercase"
@@ -52,7 +52,7 @@ const TextFormatDropdown = ({
           editor.dispatchCommand(FORMAT_TEXT_COMMAND, "uppercase");
         }}
         className={
-          "item min-w-[100px] text-sm flex items-center justify-between py-1 px-2 rounded hover:enabled:bg-[#eee] dark:hover:enabled:bg-[#3b3b3b] " +
+          "item flex min-w-[100px] items-center justify-between rounded px-2 py-1 text-sm hover:enabled:bg-[#eee] dark:hover:enabled:bg-[#3b3b3b] " +
           dropDownActiveClass(toolbarState.isUppercase)
         }
         title="Uppercase"
@@ -68,7 +68,7 @@ const TextFormatDropdown = ({
           editor.dispatchCommand(FORMAT_TEXT_COMMAND, "capitalize");
         }}
         className={
-          "item min-w-[100px] text-sm flex items-center justify-between py-1 px-2 rounded hover:enabled:bg-[#eee] dark:hover:enabled:bg-[#3b3b3b] " +
+          "item flex min-w-[100px] items-center justify-between rounded px-2 py-1 text-sm hover:enabled:bg-[#eee] dark:hover:enabled:bg-[#3b3b3b] " +
           dropDownActiveClass(toolbarState.isCapitalize)
         }
         title="Capitalize"
@@ -84,7 +84,7 @@ const TextFormatDropdown = ({
           editor.dispatchCommand(FORMAT_TEXT_COMMAND, "strikethrough");
         }}
         className={
-          "item min-w-[100px] text-sm flex items-center justify-between py-1 px-2 rounded hover:enabled:bg-[#eee] dark:hover:enabled:bg-[#3b3b3b] " +
+          "item flex min-w-[100px] items-center justify-between rounded px-2 py-1 text-sm hover:enabled:bg-[#eee] dark:hover:enabled:bg-[#3b3b3b] " +
           dropDownActiveClass(toolbarState.isStrikethrough)
         }
         title="Strikethrough"
@@ -100,7 +100,7 @@ const TextFormatDropdown = ({
           editor.dispatchCommand(FORMAT_TEXT_COMMAND, "subscript");
         }}
         className={
-          "item min-w-[100px] text-sm flex items-center justify-between py-1 px-2 rounded hover:enabled:bg-[#eee] dark:hover:enabled:bg-[#3b3b3b] " +
+          "item flex min-w-[100px] items-center justify-between rounded px-2 py-1 text-sm hover:enabled:bg-[#eee] dark:hover:enabled:bg-[#3b3b3b] " +
           dropDownActiveClass(toolbarState.isSubscript)
         }
         title="Subscript"
@@ -116,7 +116,7 @@ const TextFormatDropdown = ({
           editor.dispatchCommand(FORMAT_TEXT_COMMAND, "superscript");
         }}
         className={
-          "item min-w-[100px] text-sm flex items-center justify-between py-1 px-2 rounded hover:enabled:bg-[#eee] dark:hover:enabled:bg-[#3b3b3b] " +
+          "item flex min-w-[100px] items-center justify-between rounded px-2 py-1 text-sm hover:enabled:bg-[#eee] dark:hover:enabled:bg-[#3b3b3b] " +
           dropDownActiveClass(toolbarState.isSuperscript)
         }
         title="Superscript"
@@ -130,7 +130,7 @@ const TextFormatDropdown = ({
 
       <DropDownItem
         onClick={() => clearFormatting(editor)}
-        className="item min-w-[100px] text-sm flex items-center justify-between py-1 px-2 rounded hover:enabled:bg-[#eee] dark:hover:enabled:bg-[#3b3b3b]"
+        className="item flex min-w-[100px] items-center justify-between rounded px-2 py-1 text-sm hover:enabled:bg-[#eee] dark:hover:enabled:bg-[#3b3b3b]"
         title="Clear text formatting"
         aria-label="Clear all text formatting"
       >

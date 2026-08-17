@@ -25,13 +25,13 @@ const Home = async () => {
   }
 
   const roomDocuments: RoomDocumentsProps = await getDocuments(
-    clerkUser.emailAddresses[0].emailAddress
+    clerkUser.emailAddresses[0].emailAddress,
   );
 
   return (
-    <main className="relative flex w-full h-screen flex-col items-center gap-5 sm:gap-10">
+    <main className="relative flex h-screen w-full flex-col items-center gap-5 sm:gap-10">
       <Header className="sticky left-0 top-0">
-        <div className="flex items-center gap-2 lg-gap-6">
+        <div className="lg-gap-6 flex items-center gap-2">
           <Notifications />
 
           <ClerkSignedInUserButton />
@@ -43,12 +43,10 @@ const Home = async () => {
       </div>
 
       {roomDocuments.data.length > 0 ? (
-        <div className="w-full flex justify-center px-4 sm:px-5 py-2 pb-10">
-          <div className="max-w-[730px] w-full flex flex-col items-center gap-8 sm:gap-10">
-            <div className="items-center flex w-full justify-between">
-              <h3 className="text-28text-[28px] font-semibold">
-                All documents
-              </h3>
+        <div className="flex w-full justify-center px-4 py-2 pb-10 sm:px-5">
+          <div className="flex w-full max-w-[730px] flex-col items-center gap-8 sm:gap-10">
+            <div className="flex w-full items-center justify-between">
+              <h3 className="text-28text-[28px] font-semibold">All documents</h3>
               <AddDocumentBtn
                 userId={clerkUser.id}
                 email={clerkUser.emailAddresses[0].emailAddress}
@@ -59,13 +57,13 @@ const Home = async () => {
               {roomDocuments.data.map(({ id, metadata, createdAt }) => (
                 <li
                   key={id}
-                  className="flex items-center justify-between gap-4 rounded-lg bg-white dark:bg-[#2A2A2A] px-5 py-4 border border-[#f1f1f1] dark:border-[#424242] shadow-md dark:shadow-lg-dark"
+                  className="flex items-center justify-between gap-4 rounded-lg border border-[#f1f1f1] bg-white px-5 py-4 shadow-md dark:border-[#424242] dark:bg-[#2A2A2A] dark:shadow-lg-dark"
                 >
                   <Link
                     href={`/documents/${id}`}
                     className="flex flex-1 items-center gap-3 sm:gap-4"
                   >
-                    <div className="size-11 sm:size-14 flex-shrink-0 flex-grow-0 rounded-md bg-[#f5f5f5] dark:bg-[#555555] p-2">
+                    <div className="size-11 flex-shrink-0 flex-grow-0 rounded-md bg-[#f5f5f5] p-2 dark:bg-[#555555] sm:size-14">
                       <Image
                         src="/assets/icons/doc.svg"
                         alt="Document File"
@@ -76,12 +74,11 @@ const Home = async () => {
                     </div>
 
                     <div className="flex flex-col gap-1">
-                      <p className="line-clamp-1 sm:text-lg font-medium sm:font-normal">
+                      <p className="line-clamp-1 font-medium sm:text-lg sm:font-normal">
                         {metadata.title}
                       </p>
-                      <p className="text-xs sm:text-sm font-light text-[#999999] dark:text-[#B8B8B8]">
-                        Created about{" "}
-                        {dateConverter(new Date(createdAt).toISOString())}
+                      <p className="text-xs font-light text-[#999999] dark:text-[#B8B8B8] sm:text-sm">
+                        Created about {dateConverter(new Date(createdAt).toISOString())}
                       </p>
                     </div>
                   </Link>
@@ -93,21 +90,12 @@ const Home = async () => {
           </div>
         </div>
       ) : (
-        <div className="flex w-full max-w-[730px] flex-col items-center justify-center gap-5 rounded-lg bg-white dark:bg-[#2A2A2A] px-10 py-6 border border-[#f1f1f1] dark:border-[#424242] shadow-md dark:shadow-lg-dark">
-          <div className="rounded-md bg-[#f5f5f5] dark:bg-[#555555] p-2">
-            <Image
-              src="/assets/icons/doc.svg"
-              alt="Document"
-              width={40}
-              height={40}
-              className=""
-            />
+        <div className="flex w-full max-w-[730px] flex-col items-center justify-center gap-5 rounded-lg border border-[#f1f1f1] bg-white px-10 py-6 shadow-md dark:border-[#424242] dark:bg-[#2A2A2A] dark:shadow-lg-dark">
+          <div className="rounded-md bg-[#f5f5f5] p-2 dark:bg-[#555555]">
+            <Image src="/assets/icons/doc.svg" alt="Document" width={40} height={40} className="" />
           </div>
 
-          <AddDocumentBtn
-            userId={clerkUser.id}
-            email={clerkUser.emailAddresses[0].emailAddress}
-          />
+          <AddDocumentBtn userId={clerkUser.id} email={clerkUser.emailAddresses[0].emailAddress} />
         </div>
       )}
     </main>

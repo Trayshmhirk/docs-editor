@@ -48,14 +48,14 @@ const ShareModal = ({
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button
-          className="h-9 flex items-center gap-1 bg-[#00afdb] dark:bg-[#00afdb] dark:text-white font-medium px-4 shadow-lg dark:shadow-lg-dark transition-all duration-300 ease-in-out hover:bg-[#0081a4] dark:hover:bg-[#0081a4]"
+          className="flex h-9 items-center gap-1 bg-[#00afdb] px-4 font-medium shadow-lg transition-all duration-300 ease-in-out hover:bg-[#0081a4] dark:bg-[#00afdb] dark:text-white dark:shadow-lg-dark dark:hover:bg-[#0081a4]"
           disabled={currentUserType !== "editor"}
         >
           <Share className="min-w-4 md:size-5" />
           <p className="hidden sm:block">Share</p>
         </Button>
       </DialogTrigger>
-      <DialogContent className="w-full max-w-[400px] flex flex-col gap-6 rounded-xl border-none dark:!gradient-darkgray px-5 py-7 shadow-xl sm:min-w-[500px]">
+      <DialogContent className="dark:!gradient-darkgray flex w-full max-w-[400px] flex-col gap-6 rounded-xl border-none px-5 py-7 shadow-xl sm:min-w-[500px]">
         <DialogHeader>
           <DialogTitle>Manage who can view this project</DialogTitle>
           <DialogDescription className="text-[#969696] dark:text-[#b0b0b0]">
@@ -73,7 +73,7 @@ const ShareModal = ({
                 id="email"
                 type="email"
                 placeholder="Enter email address"
-                className="h-11 flex-1 border-none bg-[#f5f5f5] dark:bg-[#404040] focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-[#a1a1a1]"
+                className="h-11 flex-1 border-none bg-[#f5f5f5] placeholder:text-[#a1a1a1] focus-visible:ring-0 focus-visible:ring-offset-0 dark:bg-[#404040]"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
@@ -83,7 +83,7 @@ const ShareModal = ({
             <Button
               type="submit"
               onClick={handleShareDocument}
-              className="h-11 px-5 bg-[#00afdb] dark:bg-[#00afdb] dark:text-white transition-colors duration-200 ease-in-out hover:bg-[#0081a4] dark:hover:bg-[#0081a4] shadow-lg dark:shadow-lg-dark"
+              className="h-11 bg-[#00afdb] px-5 shadow-lg transition-colors duration-200 ease-in-out hover:bg-[#0081a4] dark:bg-[#00afdb] dark:text-white dark:shadow-lg-dark dark:hover:bg-[#0081a4]"
               disabled={loading}
             >
               {loading ? "sending..." : "Invite"}

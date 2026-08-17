@@ -48,9 +48,7 @@ const ELEMENT_FORMAT_OPTIONS: {
 };
 
 function Divider() {
-  return (
-    <div className="w-full h-[1px] bg-[#dedede] dark:bg-[#3b3b3b] my-1 mx-2" />
-  );
+  return <div className="mx-2 my-1 h-[1px] w-full bg-[#dedede] dark:bg-[#3b3b3b]" />;
 }
 
 export function ElementFormatDropdown({
@@ -76,7 +74,7 @@ export function ElementFormatDropdown({
         onClick={() => {
           editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "left");
         }}
-        className="item min-w-[100px] text-sm flex items-center justify-between py-1 px-2 rounded hover:enabled:bg-[#eee] dark:hover:enabled:bg-[#3b3b3b]"
+        className="item flex min-w-[100px] items-center justify-between rounded px-2 py-1 text-sm hover:enabled:bg-[#eee] dark:hover:enabled:bg-[#3b3b3b]"
       >
         <div className="icon-text-container flex items-center gap-3">
           <AlignLeft className="format icon" />
@@ -87,7 +85,7 @@ export function ElementFormatDropdown({
         onClick={() => {
           editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "center");
         }}
-        className="item min-w-[100px] text-sm flex items-center justify-between py-1 px-2 rounded hover:enabled:bg-[#eee] dark:hover:enabled:bg-[#3b3b3b]"
+        className="item flex min-w-[100px] items-center justify-between rounded px-2 py-1 text-sm hover:enabled:bg-[#eee] dark:hover:enabled:bg-[#3b3b3b]"
       >
         <div className="icon-text-container flex items-center gap-3">
           <AlignCenter className="format icon" />
@@ -98,7 +96,7 @@ export function ElementFormatDropdown({
         onClick={() => {
           editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "right");
         }}
-        className="item min-w-[100px] text-sm flex items-center justify-between py-1 px-2 rounded hover:enabled:bg-[#eee] dark:hover:enabled:bg-[#3b3b3b]"
+        className="item flex min-w-[100px] items-center justify-between rounded px-2 py-1 text-sm hover:enabled:bg-[#eee] dark:hover:enabled:bg-[#3b3b3b]"
       >
         <div className="icon-text-container flex items-center gap-3">
           <AlignRight className="format icon" />
@@ -109,7 +107,7 @@ export function ElementFormatDropdown({
         onClick={() => {
           editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "justify");
         }}
-        className="item min-w-[100px] text-sm flex items-center justify-between py-1 px-2 rounded hover:enabled:bg-[#eee] dark:hover:enabled:bg-[#3b3b3b]"
+        className="item flex min-w-[100px] items-center justify-between rounded px-2 py-1 text-sm hover:enabled:bg-[#eee] dark:hover:enabled:bg-[#3b3b3b]"
       >
         <div className="icon-text-container flex items-center gap-3">
           <AlignJustify className="format icon" />

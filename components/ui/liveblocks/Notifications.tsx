@@ -2,30 +2,20 @@
 
 import React from "react";
 
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Bell } from "lucide-react";
 import {
   useInboxNotifications,
   useUnreadInboxNotificationsCount,
 } from "@liveblocks/react/suspense";
-import {
-  InboxNotification,
-  InboxNotificationList,
-  LiveblocksUIConfig,
-} from "@liveblocks/react-ui";
+import { InboxNotification, InboxNotificationList, LiveblocksUIConfig } from "@liveblocks/react-ui";
 import Image from "next/image";
 
 const Notifications = () => {
   const { inboxNotifications } = useInboxNotifications();
   const { count } = useUnreadInboxNotificationsCount();
 
-  const unreadNotifications = inboxNotifications.filter(
-    (notification) => !notification.readAt
-  );
+  const unreadNotifications = inboxNotifications.filter((notification) => !notification.readAt);
 
   return (
     <Popover>
@@ -38,13 +28,11 @@ const Notifications = () => {
       </PopoverTrigger>
       <PopoverContent
         align="end"
-        className="flex flex-col gap-2 max-w-[350px] sm:max-w-[460px] w-full border dark:bg-[#1f1f1f] border-[#eeeeee] dark:border-[#181818] ml-3 shadow-lg"
+        className="ml-3 flex w-full max-w-[350px] flex-col gap-2 border border-[#eeeeee] shadow-lg dark:border-[#181818] dark:bg-[#1f1f1f] sm:max-w-[460px]"
       >
         <LiveblocksUIConfig
           overrides={{
-            INBOX_NOTIFICATION_TEXT_MENTION: (user: React.ReactNode) => (
-              <>{user} mentioned you.</>
-            ),
+            INBOX_NOTIFICATION_TEXT_MENTION: (user: React.ReactNode) => <>{user} mentioned you.</>,
           }}
         >
           <InboxNotificationList className="flex flex-col gap-2">
@@ -58,7 +46,7 @@ const Notifications = () => {
                 <InboxNotification
                   key={notification.id}
                   inboxNotification={notification}
-                  className="flex flex-col gap-2 md:gap-3 sm:flex-row border border-[#eeeeee] dark:border-[#434343] bg-[#f7f7f7] dark:bg-[#2a2a2a] text-[#1e1e1e] dark:text-[white] py-3 rounded"
+                  className="flex flex-col gap-2 rounded border border-[#eeeeee] bg-[#f7f7f7] py-3 text-[#1e1e1e] dark:border-[#434343] dark:bg-[#2a2a2a] dark:text-[white] sm:flex-row md:gap-3"
                   href={`/documents/${notification.roomId}`}
                   showActions={false}
                   kinds={{
@@ -70,10 +58,7 @@ const Notifications = () => {
                       />
                     ),
                     textMention: (props) => (
-                      <InboxNotification.TextMention
-                        {...props}
-                        showRoomName={false}
-                      />
+                      <InboxNotification.TextMention {...props} showRoomName={false} />
                     ),
                     $documentAccess: (props) => (
                       <InboxNotification.Custom
@@ -87,8 +72,7 @@ const Notifications = () => {
                           <InboxNotification.Icon className="bg-transparent">
                             <Image
                               src={
-                                (props.inboxNotification.activities[0].data
-                                  .avatar as string) || ""
+                                (props.inboxNotification.activities[0].data.avatar as string) || ""
                               }
                               alt="avatar"
                               width={36}

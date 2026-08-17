@@ -173,10 +173,7 @@ const user = {
   },
 };
 
-await liveblocks.identifyUser(
-  { userId: user.info.email, groupIds: [] },
-  { userInfo: user.info },
-);
+await liveblocks.identifyUser({ userId: user.info.email, groupIds: [] }, { userInfo: user.info });
 ```
 
 > **Note:** `userId` for Liveblocks is currently the user's **email**. Any auth migration must plan for ID strategy (keep email vs migrate to UUID) to avoid breaking existing room access.

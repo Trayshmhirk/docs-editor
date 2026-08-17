@@ -1,14 +1,7 @@
 import { cn } from "@/lib/utils";
 import { ChevronDown } from "lucide-react";
 import * as React from "react";
-import {
-  ReactNode,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import { ReactNode, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 
 type DropDownContextType = {
@@ -20,12 +13,7 @@ const DropDownContext = React.createContext<DropDownContextType | null>(null);
 const dropDownPadding = 4;
 
 export function isDOMNode(x: unknown): x is Node {
-  return (
-    typeof x === "object" &&
-    x !== null &&
-    "nodeType" in x &&
-    typeof x.nodeType === "number"
-  );
+  return typeof x === "object" && x !== null && "nodeType" in x && typeof x.nodeType === "number";
 }
 export function DropDownItem({
   children,
@@ -55,13 +43,7 @@ export function DropDownItem({
   }, [ref, registerItem]);
 
   return (
-    <button
-      className={className}
-      onClick={onClick}
-      ref={ref}
-      title={title}
-      type="button"
-    >
+    <button className={className} onClick={onClick} ref={ref} title={title} type="button">
       {children}
     </button>
   );
@@ -77,14 +59,13 @@ function DropDownItems({
   onClose: () => void;
 }) {
   const [items, setItems] = useState<React.RefObject<HTMLButtonElement>[]>();
-  const [highlightedItem, setHighlightedItem] =
-    useState<React.RefObject<HTMLButtonElement>>();
+  const [highlightedItem, setHighlightedItem] = useState<React.RefObject<HTMLButtonElement>>();
 
   const registerItem = useCallback(
     (itemRef: React.RefObject<HTMLButtonElement>) => {
       setItems((prev) => (prev ? [...prev, itemRef] : [itemRef]));
     },
-    [setItems]
+    [setItems],
   );
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
@@ -122,7 +103,7 @@ function DropDownItems({
     () => ({
       registerItem,
     }),
-    [registerItem]
+    [registerItem],
   );
 
   useEffect(() => {
@@ -138,7 +119,7 @@ function DropDownItems({
   return (
     <DropDownContext.Provider value={contextValue}>
       <div
-        className="dropdown fixed z-[100] flex flex-col gap-1 rounded min-h-10 bg-white dark:bg-[#121212] p-2 shadow-lg dark:shadow-lg-dark"
+        className="dropdown fixed z-[100] flex min-h-10 flex-col gap-1 rounded bg-white p-2 shadow-lg dark:bg-[#121212] dark:shadow-lg-dark"
         ref={dropDownRef}
         onKeyDown={handleKeyDown}
       >
@@ -185,10 +166,7 @@ export default function DropDown({
     if (showDropDown && button !== null && dropDown !== null) {
       const { top, left } = button.getBoundingClientRect();
       dropDown.style.top = `${top + button.offsetHeight + dropDownPadding}px`;
-      dropDown.style.left = `${Math.min(
-        left,
-        window.innerWidth - dropDown.offsetWidth - 20
-      )}px`;
+      dropDown.style.left = `${Math.min(left, window.innerWidth - dropDown.offsetWidth - 20)}px`;
     }
   }, [dropDownRef, buttonRef, showDropDown]);
 
@@ -248,19 +226,15 @@ export default function DropDown({
         aria-label={buttonAriaLabel || buttonLabel}
         className={cn(
           buttonClassName,
-          "flex items-center justify-between gap-2 p-2 rounded hover:enabled:bg-[#eee] dark:hover:enabled:bg-[#3b3b3b] text-[#1e1e1e] dark:text-white"
+          "flex items-center justify-between gap-2 rounded p-2 text-[#1e1e1e] hover:enabled:bg-[#eee] dark:text-white dark:hover:enabled:bg-[#3b3b3b]",
         )}
         onClick={() => setShowDropDown(!showDropDown)}
         ref={buttonRef}
       >
         <div className="flex-1">
-          {ButtonIcon && (
-            <ButtonIcon className={cn(buttonIconClassName, "format icon")} />
-          )}
+          {ButtonIcon && <ButtonIcon className={cn(buttonIconClassName, "format icon")} />}
         </div>
-        {buttonLabel && (
-          <span className="text dropdown-button-text">{buttonLabel}</span>
-        )}
+        {buttonLabel && <span className="text dropdown-button-text">{buttonLabel}</span>}
         <div className="flex-1">
           <ChevronDown className="size-4" />
         </div>
@@ -271,7 +245,7 @@ export default function DropDown({
           <DropDownItems dropDownRef={dropDownRef} onClose={handleClose}>
             {children}
           </DropDownItems>,
-          document.body
+          document.body,
         )}
     </>
   );

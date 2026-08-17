@@ -7,9 +7,7 @@ type Props = {
   hasLinkAttributes?: boolean;
 };
 
-export default function LinkPlugin({
-  hasLinkAttributes = false,
-}: Props): JSX.Element {
+export default function LinkPlugin({ hasLinkAttributes = false }: Props): JSX.Element {
   return (
     <LexicalLinkPlugin
       validateUrl={validateUrl}

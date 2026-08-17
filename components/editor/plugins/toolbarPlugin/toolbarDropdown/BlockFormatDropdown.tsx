@@ -50,7 +50,7 @@ export default function BlockFormatDropDown({
     >
       <DropDownItem
         className={
-          "item wide w-[250px] max-w-[250px] min-w-[100px] text-[15px] flex items-center justify-between p-2 rounded hover:enabled:bg-[#eee] dark:hover:enabled:bg-[#3b3b3b] " +
+          "item wide flex w-[250px] min-w-[100px] max-w-[250px] items-center justify-between rounded p-2 text-[15px] hover:enabled:bg-[#eee] dark:hover:enabled:bg-[#3b3b3b] " +
           dropDownActiveClass(blockType === "paragraph")
         }
         onClick={() => formatParagraph(editor)}
@@ -62,7 +62,7 @@ export default function BlockFormatDropDown({
       </DropDownItem>
       <DropDownItem
         className={
-          "item wide w-[250px] max-w-[250px] min-w-[100px] text-[15px] flex items-center justify-between p-2 rounded hover:bg-[#eee] dark:hover:bg-[#3b3b3b] " +
+          "item wide flex w-[250px] min-w-[100px] max-w-[250px] items-center justify-between rounded p-2 text-[15px] hover:bg-[#eee] dark:hover:bg-[#3b3b3b] " +
           dropDownActiveClass(blockType === "h1")
         }
         onClick={() => formatHeading(editor, blockType, "h1")}
@@ -74,7 +74,7 @@ export default function BlockFormatDropDown({
       </DropDownItem>
       <DropDownItem
         className={
-          "item wide w-[250px] max-w-[250px] min-w-[100px] text-[15px] flex items-center justify-between p-2 rounded hover:bg-[#eee] dark:hover:bg-[#3b3b3b] " +
+          "item wide flex w-[250px] min-w-[100px] max-w-[250px] items-center justify-between rounded p-2 text-[15px] hover:bg-[#eee] dark:hover:bg-[#3b3b3b] " +
           dropDownActiveClass(blockType === "h2")
         }
         onClick={() => formatHeading(editor, blockType, "h2")}
@@ -86,7 +86,7 @@ export default function BlockFormatDropDown({
       </DropDownItem>
       <DropDownItem
         className={
-          "item wide w-[250px] max-w-[250px] min-w-[100px] text-[15px] flex items-center justify-between p-2 rounded hover:bg-[#eee] dark:hover:bg-[#3b3b3b] " +
+          "item wide flex w-[250px] min-w-[100px] max-w-[250px] items-center justify-between rounded p-2 text-[15px] hover:bg-[#eee] dark:hover:bg-[#3b3b3b] " +
           dropDownActiveClass(blockType === "h3")
         }
         onClick={() => formatHeading(editor, blockType, "h3")}
@@ -98,7 +98,7 @@ export default function BlockFormatDropDown({
       </DropDownItem>
       <DropDownItem
         className={
-          "item wide w-[250px] max-w-[250px] min-w-[100px] text-[15px] flex items-center justify-between p-2 rounded hover:bg-[#eee] dark:hover:bg-[#3b3b3b] " +
+          "item wide flex w-[250px] min-w-[100px] max-w-[250px] items-center justify-between rounded p-2 text-[15px] hover:bg-[#eee] dark:hover:bg-[#3b3b3b] " +
           dropDownActiveClass(blockType === "bullet")
         }
         onClick={() => formatBulletList(editor, blockType)}
@@ -110,7 +110,7 @@ export default function BlockFormatDropDown({
       </DropDownItem>
       <DropDownItem
         className={
-          "item wide w-[250px] max-w-[250px] min-w-[100px] text-[15px] flex items-center justify-between p-2 rounded hover:bg-[#eee] dark:hover:bg-[#3b3b3b]" +
+          "item wide flex w-[250px] min-w-[100px] max-w-[250px] items-center justify-between rounded p-2 text-[15px] hover:bg-[#eee] dark:hover:bg-[#3b3b3b]" +
           dropDownActiveClass(blockType === "number")
         }
         onClick={() => formatNumberedList(editor, blockType)}
@@ -122,7 +122,7 @@ export default function BlockFormatDropDown({
       </DropDownItem>
       <DropDownItem
         className={
-          "item wide w-[250px] max-w-[250px] min-w-[100px] text-[15px] flex items-center justify-between p-2 rounded hover:bg-[#eee] dark:hover:bg-[#3b3b3b] " +
+          "item wide flex w-[250px] min-w-[100px] max-w-[250px] items-center justify-between rounded p-2 text-[15px] hover:bg-[#eee] dark:hover:bg-[#3b3b3b] " +
           dropDownActiveClass(blockType === "check")
         }
         onClick={() => formatCheckList(editor, blockType)}
@@ -134,7 +134,7 @@ export default function BlockFormatDropDown({
       </DropDownItem>
       <DropDownItem
         className={
-          "item wide w-[250px] max-w-[250px] min-w-[100px] text-[15px] flex items-center justify-between p-2 rounded hover:bg-[#eee] dark:hover:bg-[#3b3b3b] " +
+          "item wide flex w-[250px] min-w-[100px] max-w-[250px] items-center justify-between rounded p-2 text-[15px] hover:bg-[#eee] dark:hover:bg-[#3b3b3b] " +
           dropDownActiveClass(blockType === "quote")
         }
         onClick={() => formatQuote(editor, blockType)}
@@ -146,7 +146,7 @@ export default function BlockFormatDropDown({
       </DropDownItem>
       <DropDownItem
         className={
-          "item wide w-[250px] max-w-[250px] min-w-[100px] text-[15px] flex items-center justify-between p-2 rounded hover:bg-[#eee] dark:hover:bg-[#3b3b3b] " +
+          "item wide flex w-[250px] min-w-[100px] max-w-[250px] items-center justify-between rounded p-2 text-[15px] hover:bg-[#eee] dark:hover:bg-[#3b3b3b] " +
           dropDownActiveClass(blockType === "code")
         }
         onClick={() => formatCode(editor, blockType)}

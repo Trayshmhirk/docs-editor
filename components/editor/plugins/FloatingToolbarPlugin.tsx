@@ -41,7 +41,7 @@ export default function FloatingToolbar() {
           anchor.getNode(),
           anchor.offset,
           focus.getNode(),
-          focus.offset
+          focus.offset,
         );
 
         setRange(range);
@@ -51,9 +51,7 @@ export default function FloatingToolbar() {
 
   if (range === null) return null;
 
-  return (
-    <Toolbar range={range} onRangeChange={setRange} container={document.body} />
-  );
+  return <Toolbar range={range} onRangeChange={setRange} container={document.body} />;
 }
 
 function Toolbar({
@@ -108,13 +106,10 @@ function Toolbar({
         minWidth: "max-content",
       }}
     >
-      <div className="flex w-full min-w-max items-center justify-center gap-2 rounded-lg bg-[#fdfdfd] dark:bg-[#373737] hover:bg-[#f3f3f3] dark:hover:bg-[#191919] border border-[#cccccc] dark:border-[#444444] p-1.5 shadow-md dark:shadow-md-dark transition-colors">
+      <div className="flex w-full min-w-max items-center justify-center gap-2 rounded-lg border border-[#cccccc] bg-[#fdfdfd] p-1.5 shadow-md transition-colors hover:bg-[#f3f3f3] dark:border-[#444444] dark:bg-[#373737] dark:shadow-md-dark dark:hover:bg-[#191919]">
         <button
           onClick={() => {
-            const isOpen = editor.dispatchCommand(
-              OPEN_FLOATING_COMPOSER_COMMAND,
-              undefined
-            );
+            const isOpen = editor.dispatchCommand(OPEN_FLOATING_COMPOSER_COMMAND, undefined);
             if (isOpen) {
               onRangeChange(null);
             }
@@ -125,7 +120,7 @@ function Toolbar({
         </button>
       </div>
     </div>,
-    container
+    container,
   );
 }
 
@@ -190,7 +185,7 @@ export function createDOMRange(
   anchorNode: LexicalNode,
   _anchorOffset: number,
   focusNode: LexicalNode,
-  _focusOffset: number
+  _focusOffset: number,
 ): Range | null {
   const anchorKey = anchorNode.getKey();
   const focusKey = focusNode.getKey();
@@ -245,10 +240,7 @@ export function createDOMRange(
     return null;
   }
 
-  if (
-    range.collapsed &&
-    (anchorOffset !== focusOffset || anchorKey !== focusKey)
-  ) {
+  if (range.collapsed && (anchorOffset !== focusOffset || anchorKey !== focusKey)) {
     // Range is backwards, we need to reverse it
     range.setStart(focusDOM, focusOffset);
     range.setEnd(anchorDOM, anchorOffset);

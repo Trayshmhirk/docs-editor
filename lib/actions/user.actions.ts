@@ -19,9 +19,7 @@ export const getClerkUsers = async ({ userIds }: { userIds: string[] }) => {
       avatar: user.imageUrl,
     }));
 
-    const sortedUsers = userIds.map((email) =>
-      users.find((user) => user.email === email)
-    );
+    const sortedUsers = userIds.map((email) => users.find((user) => user.email === email));
 
     return JSON.parse(JSON.stringify(sortedUsers));
   } catch (error) {
@@ -40,15 +38,13 @@ export const getDocumentUsers = async ({
 }) => {
   try {
     const room = await liveblocks.getRoom(roomId);
-    const users = Object.keys(room.usersAccesses).filter(
-      (email) => email !== currentUser
-    );
+    const users = Object.keys(room.usersAccesses).filter((email) => email !== currentUser);
 
     if (text.length) {
       const lowerCaseText = text.toLowerCase();
 
       const filteredUsers = users.filter((email) =>
-        email.toLocaleLowerCase().includes(lowerCaseText)
+        email.toLocaleLowerCase().includes(lowerCaseText),
       );
 
       return JSON.parse(JSON.stringify(filteredUsers));

@@ -20,10 +20,10 @@ export function ToggleTheme({ isEditor }: { isEditor?: boolean }) {
       <DropdownMenuTrigger asChild>
         <Button
           size="icon"
-          className={`text-[#1e1e1e] dark:text-white hover:bg-[#fcfcfc] dark:hover:bg-[#383838] transition-all   ${
+          className={`text-[#1e1e1e] transition-all hover:bg-[#fcfcfc] dark:text-white dark:hover:bg-[#383838] ${
             isEditor
-              ? "bg-transparent dark:bg-transparent hover-shadow"
-              : "bg-white dark:bg-[#2a2a2a] border border-[#d1d1d1] dark:border-[#7a7a7a]"
+              ? "hover-shadow bg-transparent dark:bg-transparent"
+              : "border border-[#d1d1d1] bg-white dark:border-[#7a7a7a] dark:bg-[#2a2a2a]"
           }`}
         >
           <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
@@ -33,7 +33,7 @@ export function ToggleTheme({ isEditor }: { isEditor?: boolean }) {
       </DropdownMenuTrigger>
       <DropdownMenuContent
         align="end"
-        className={`${isEditor ? "dark:bg-black" : "dark:bg-[#2a2a2a]"}  dark:border-[#555555]`}
+        className={`${isEditor ? "dark:bg-black" : "dark:bg-[#2a2a2a]"} dark:border-[#555555]`}
       >
         <DropdownMenuItem
           onClick={() => setTheme("light")}

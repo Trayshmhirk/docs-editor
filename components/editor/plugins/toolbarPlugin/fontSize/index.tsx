@@ -3,17 +3,10 @@ import "./index.css";
 import { LexicalEditor } from "lexical";
 import * as React from "react";
 
-import {
-  MAX_ALLOWED_FONT_SIZE,
-  MIN_ALLOWED_FONT_SIZE,
-} from "@/context/ToolbarContext";
+import { MAX_ALLOWED_FONT_SIZE, MIN_ALLOWED_FONT_SIZE } from "@/context/ToolbarContext";
 // import { SHORTCUTS } from "../ShortcutsPlugin/shortcuts";
 
-import {
-  updateFontSize,
-  updateFontSizeInSelection,
-  UpdateFontSizeType,
-} from "../utils";
+import { updateFontSize, updateFontSizeInSelection, UpdateFontSizeType } from "../utils";
 import { Minus, Plus } from "lucide-react";
 
 export function parseAllowedFontSize(input: string): string {
@@ -87,13 +80,9 @@ export default function FontSize({
       <button
         type="button"
         disabled={
-          disabled ||
-          (selectionFontSize !== "" &&
-            Number(inputValue) <= MIN_ALLOWED_FONT_SIZE)
+          disabled || (selectionFontSize !== "" && Number(inputValue) <= MIN_ALLOWED_FONT_SIZE)
         }
-        onClick={() =>
-          updateFontSize(editor, UpdateFontSizeType.decrement, inputValue)
-        }
+        onClick={() => updateFontSize(editor, UpdateFontSizeType.decrement, inputValue)}
         className="toolbar-item font-decrement"
         aria-label="Decrease font size"
         title={`Decrease font size ()`}
@@ -118,13 +107,9 @@ export default function FontSize({
       <button
         type="button"
         disabled={
-          disabled ||
-          (selectionFontSize !== "" &&
-            Number(inputValue) >= MAX_ALLOWED_FONT_SIZE)
+          disabled || (selectionFontSize !== "" && Number(inputValue) >= MAX_ALLOWED_FONT_SIZE)
         }
-        onClick={() =>
-          updateFontSize(editor, UpdateFontSizeType.increment, inputValue)
-        }
+        onClick={() => updateFontSize(editor, UpdateFontSizeType.increment, inputValue)}
         className="toolbar-item font-increment"
         aria-label="Increase font size"
         title={`Increase font size ()`}

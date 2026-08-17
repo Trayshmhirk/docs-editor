@@ -11,7 +11,7 @@ import { useMemo, useRef } from "react";
 export function useDebounce<T extends (...args: never[]) => void>(
   fn: T,
   ms: number,
-  maxWait?: number
+  maxWait?: number,
 ) {
   const funcRef = useRef<T | null>(null);
   funcRef.current = fn;
@@ -25,8 +25,8 @@ export function useDebounce<T extends (...args: never[]) => void>(
           }
         },
         ms,
-        { maxWait }
+        { maxWait },
       ),
-    [ms, maxWait]
+    [ms, maxWait],
   );
 }

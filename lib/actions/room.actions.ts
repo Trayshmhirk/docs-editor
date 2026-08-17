@@ -34,13 +34,7 @@ export const createDoc = async ({ userId, email }: CreateDocumentParams) => {
   }
 };
 
-export const getDocument = async ({
-  roomId,
-  userId,
-}: {
-  roomId: string;
-  userId: string;
-}) => {
+export const getDocument = async ({ roomId, userId }: { roomId: string; userId: string }) => {
   try {
     const room = await liveblocks.getRoom(roomId);
 
@@ -119,13 +113,7 @@ export const updateDocumentAccess = async ({
   }
 };
 
-export const removeCollaborator = async ({
-  roomId,
-  email,
-}: {
-  roomId: string;
-  email: string;
-}) => {
+export const removeCollaborator = async ({ roomId, email }: { roomId: string; email: string }) => {
   try {
     const room = await liveblocks.getRoom(roomId);
 
