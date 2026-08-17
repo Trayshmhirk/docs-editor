@@ -2,39 +2,82 @@
 
 [![CI](https://github.com/Trayshmhirk/docs-editor/actions/workflows/ci.yml/badge.svg)](https://github.com/Trayshmhirk/docs-editor/actions/workflows/ci.yml)
 
-Real-time collaborative document editor built with Next.js, Lexical, Liveblocks, and Clerk.
+A modern, real-time collaborative rich-text document editor built with Next.js, Lexical, Liveblocks, and Clerk.
+
+---
+
+## Tech Stack
+
+- **Framework:** [Next.js 15](https://nextjs.org/) (App Router)
+- **UI & Components:** React 18, Radix UI, Tailwind CSS
+- **Rich-Text Engine:** [Lexical](https://lexical.dev/)
+- **Real-Time Collaboration:** [Liveblocks](https://liveblocks.io/) (presence, live cursors, comments)
+- **Authentication:** [Clerk](https://clerk.com/)
+- **Monitoring:** [Sentry](https://sentry.io/)
+- **Code Quality & CI/CD:** ESLint, Prettier, Husky, commitlint, Gitleaks, GitHub Actions, Release Please
+
+---
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- Node.js >= 20.0.0 (see [`.nvmrc`](./.nvmrc))
+- npm >= 10.0.0
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Installation
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. **Clone the repository:**
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+   ```bash
+   git clone https://github.com/Trayshmhirk/docs-editor.git
+   cd docs-editor
+   ```
 
-## Learn More
+2. **Install dependencies:**
 
-To learn more about Next.js, take a look at the following resources:
+   ```bash
+   npm install
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+3. **Configure Environment Variables:**
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+   ```bash
+   cp .env.example .env.local
+   ```
 
-## Deploy on Vercel
+   Fill in your credentials from Clerk and Liveblocks.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+4. **Run the development server:**
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+   ```bash
+   npm run dev
+   ```
+
+   Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+---
+
+## Available Scripts
+
+| Command                      | Description                                     |
+| :--------------------------- | :---------------------------------------------- |
+| `npm run dev`                | Start development server at `localhost:3000`    |
+| `npm run build`              | Compile optimized production build              |
+| `npm run start`              | Start production server                         |
+| `npm run lint`               | Run Next.js ESLint checks                       |
+| `npm run format`             | Format all code with Prettier                   |
+| `npm run format:check`       | Check code formatting compliance                |
+| `npm run typecheck`          | Run TypeScript type checking (`tsc --noEmit`)   |
+| `npm run security:audit`     | Run dependency vulnerability scan               |
+| `npm run security:audit:fix` | Automatically apply non-breaking security fixes |
+| `npm run security:outdated`  | Check for outdated package versions             |
+| `npm run reset`              | Clean reinstall of `node_modules` and lockfile  |
+
+---
+
+## Development Roadmap & Contributing
+
+- **Roadmap:** Review our multi-phase roadmap in [`docs/plans/README.md`](./docs/plans/README.md).
+- **Contributing Guidelines:** Read commit conventions and workflow rules in [`docs/CONTRIBUTING.md`](./docs/CONTRIBUTING.md).
+- **Agent Instructions:** Guidelines for AI agents working in this repository are in [`AGENTS.md`](./AGENTS.md).

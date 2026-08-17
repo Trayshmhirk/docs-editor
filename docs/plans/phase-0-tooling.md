@@ -197,9 +197,9 @@ Releases (Release Please: bump version, update CHANGELOG.md, create GitHub Relea
 
 ### Automated Releases setup (Release Please)
 
-- [ ] Add `.github/workflows/release.yml` (`googleapis/release-please-action`)
-- [ ] Configure `release-please-config.json` and `.release-please-manifest.json` for Node.js / Next.js
-- [ ] Automated release workflow:
+- [x] Add `.github/workflows/release.yml` (`googleapis/release-please-action`)
+- [x] Configure `release-please-config.json` and `.release-please-manifest.json` for Node.js / Next.js
+- [x] Automated release workflow:
   1. On merge to `master`, Release Please creates/updates a release candidate PR
   2. Merging the release PR updates `CHANGELOG.md`, bumps `package.json`, and cuts a GitHub Release tag (e.g. `v0.1.0`)
 
@@ -207,19 +207,19 @@ Releases (Release Please: bump version, update CHANGELOG.md, create GitHub Relea
 
 Best for learning and for Next.js — Vercel handles builds and deploys on git events.
 
-- [ ] Create Vercel project linked to `Trayshmhirk/docs-editor`
-- [ ] Set **Production Branch** to `master` in Vercel project settings
-- [ ] Enable **Preview Deployments** for pull requests (all branches or PRs only)
-- [ ] Add environment variables in Vercel (**Production** + **Preview** scopes):
+- [x] Create Vercel project linked to `Trayshmhirk/docs-editor`
+- [x] Set **Production Branch** to `master` in Vercel project settings
+- [x] Enable **Preview Deployments** for pull requests (all branches or PRs only)
+- [x] Add environment variables in Vercel (**Production** + **Preview** scopes):
   - `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY`
   - `CLERK_SECRET_KEY`
   - `NEXT_PUBLIC_LIVEBLOCKS_PUBLIC_KEY`
   - `LIVEBLOCKS_SECRET_KEY`
   - `SENTRY_AUTH_TOKEN` / `SENTRY_DSN` (optional for preview)
-- [ ] Add Clerk allowed origins for Vercel preview and production URLs
-- [ ] Verify Liveblocks auth works on deployed preview URLs
-- [ ] Add deploy status to branch protection on `master` (optional)
-- [ ] Document preview/prod URLs and env setup in README
+- [x] Add Clerk allowed origins for Vercel preview and production URLs
+- [x] Verify Liveblocks auth works on deployed preview URLs
+- [x] Add deploy status to branch protection on `master` (optional)
+- [x] Document preview/prod URLs and env setup in README
 
 ### Optional: GitHub Actions deploy workflow
 
@@ -274,12 +274,12 @@ release-please-config.json
 
 ### CD & Release acceptance criteria
 
-- [ ] Opening a PR produces a Vercel preview URL within ~2–5 minutes
-- [ ] Preview URL loads the app, Clerk sign-in works, and Liveblocks connects
-- [ ] Merging to `master` updates production automatically
-- [ ] Release PR is created on `master` and tags GitHub releases upon merge
-- [ ] Failed CI prevents merging broken code (branch protection)
-- [ ] README documents how preview, production, and releases work
+- [x] Opening a PR produces a Vercel preview URL within ~2–5 minutes
+- [x] Preview URL loads the app, Clerk sign-in works, and Liveblocks connects
+- [x] Merging to `master` updates production automatically
+- [x] Release PR is created on `master` and tags GitHub releases upon merge
+- [x] Failed CI prevents merging broken code (branch protection)
+- [x] README documents how preview, production, and releases work
 
 ---
 
@@ -291,7 +291,7 @@ Establishes conventions before commitlint hooks enforce them mechanically.
 - [x] Add `.github/pull_request_template.md` — Summary + Key Changes + Test plan
 - [x] Add `.cursor/rules/git-and-pr-conventions.mdc` — always-on agent rules
 - [x] Add root `AGENTS.md` — agent entry point linking plans and conventions
-- [ ] Enable GitHub branch protection on `dev` and `master` (require PR, require CI)
+- [x] Enable GitHub branch protection on `dev` and `master` (require PR, require CI)
 
 ### Files created
 
@@ -306,13 +306,13 @@ AGENTS.md
 
 ## 0.10 Repo hygiene & Issue Templates
 
-- [ ] Add `.github/ISSUE_TEMPLATE/bug_report.yml` structured issue form
-- [ ] Add `.github/ISSUE_TEMPLATE/feature_request.yml` structured feature proposal form
-- [ ] Add `.github/ISSUE_TEMPLATE/config.yml` (links to discussions / security guidelines)
-- [ ] Add `.env.example` documenting all required environment variables
-- [ ] Add `.nvmrc` or `engines.node` in `package.json` (recommend Node 20 LTS)
-- [ ] Update root `README.md` (project overview, setup, scripts, link to plans, badges, and CONTRIBUTING)
-- [ ] Ensure `.cursorignore` is committed (already present locally)
+- [x] Add `.github/ISSUE_TEMPLATE/bug_report.yml` structured issue form
+- [x] Add `.github/ISSUE_TEMPLATE/feature_request.yml` structured feature proposal form
+- [x] Add `.github/ISSUE_TEMPLATE/config.yml` (links to discussions / security guidelines)
+- [x] Add `.env.example` documenting all required environment variables
+- [x] Add `.nvmrc` or `engines.node` in `package.json` (recommend Node 20 LTS)
+- [x] Update root `README.md` (project overview, setup, scripts, link to plans, badges, and CONTRIBUTING)
+- [x] Ensure `.cursorignore` is committed (already present locally)
 
 ### `.env.example` variables to document
 
@@ -366,22 +366,22 @@ AGENTS.md
 
 ## Acceptance criteria
 
-- [ ] `npm run lint`, `format:check`, `typecheck`, and `build` pass locally
-- [ ] Pre-commit hook blocks bad formatting/lint on staged files
-- [ ] Commit-msg hook rejects non-conventional commit messages over 100 chars
-- [ ] PR title workflow enforces conventional PR titles under 100 chars
-- [ ] Branch guard workflow blocks PRs to `master` originating from non-`dev` branches
-- [ ] CI runs on PRs to `dev` and passes on a clean checkout
-- [ ] Gitleaks scans for exposed credentials on every PR
-- [ ] Dependabot opens dependency PRs
-- [ ] Preview deployments work on PRs via Vercel (see §0.8)
-- [ ] Production deploys from `master` via Vercel
-- [ ] Release Please generates changelog and tags releases upon merge to `master`
-- [ ] VS Code / Cursor recommended extensions and format-on-save configured
-- [ ] Structured issue templates available for bug reports and feature requests
-- [ ] README and CONTRIBUTING explain how to contribute and where to watch CI/CD logs
+- [x] `npm run lint`, `format:check`, `typecheck`, and `build` pass locally
+- [x] Pre-commit hook blocks bad formatting/lint on staged files
+- [x] Commit-msg hook rejects non-conventional commit messages over 100 chars
+- [x] PR title workflow enforces conventional PR titles under 100 chars
+- [x] Branch guard workflow blocks PRs to `master` originating from non-`dev` branches
+- [x] CI runs on PRs to `dev` and passes on a clean checkout
+- [x] Gitleaks scans for exposed credentials on every PR
+- [x] Dependabot opens dependency PRs
+- [x] Preview deployments work on PRs via Vercel (see §0.8)
+- [x] Production deploys from `master` via Vercel
+- [x] Release Please generates changelog and tags releases upon merge to `master`
+- [x] VS Code / Cursor recommended extensions and format-on-save configured
+- [x] Structured issue templates available for bug reports and feature requests
+- [x] README and CONTRIBUTING explain how to contribute and where to watch CI/CD logs
 - [x] PR template, CONTRIBUTING, AGENTS.md, and Cursor rules document conventions
-- [ ] GitHub branch protection requires PR + CI on `dev` and `master`
+- [x] GitHub branch protection requires PR + CI on `dev` and `master`
 
 ---
 
