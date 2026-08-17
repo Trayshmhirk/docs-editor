@@ -1,0 +1,167 @@
+---
+description: Conventional commits and pull request format for docs-editor
+alwaysApply: true
+---
+
+# Git and PR conventions
+
+These rules apply to every commit and pull request in this repository.
+
+## Before any commit or PR
+
+1. Run `git status` and `git diff` (or `git diff --cached` for staged changes).
+2. Derive the message from the **actual diff**, never from intent or memory.
+3. **Commit workflow:** when the user asks for a commit, present the message for approval first, then run `git commit` once approved. Do not push unless the user explicitly asks.
+4. Exclude unrelated files from staging.
+
+## Conventional commits
+
+### Format
+
+```txt
+<type>[optional scope]: <subject>
+
+[optional body — flat bullet points, one change per line]
+```
+
+### Allowed types
+
+`feat` | `fix` | `docs` | `style` | `refactor` | `test` | `chore` | `ci` | `build`
+
+### Line length
+
+Every line (subject, body, bullets) must be **under 100 characters**.
+
+### Subject rules
+
+- Use imperative mood: "add feature" not "added feature"
+- No trailing period on the subject line
+- Lowercase subject (except proper nouns)
+
+### Body rules
+
+- Describe **what** changed functionally from a user or system perspective
+- Do **not** include implementation details:
+  - No JSX/HTML tags (e.g. `<div>`, `<form>`)
+  - No CSS or Tailwind class names (e.g. `bg-blue-500`, `flex-col`)
+  - No variable names, hook names, or function names (e.g. `useState`, `handleSubmit`)
+- Use **flat** bullet points for multi-part changes — no nested bullets
+- For moved or restructured files, document functional changes made during the move
+
+### Good vs bad examples
+
+```txt
+# Good
+feat(share): add email validation before document invite
+
+# Bad
+feat(share): add regex in ShareModal onClick with useState for email state
+
+# Good body bullet
+- Block invite when email format is invalid
+- Show error message in share dialog
+
+# Bad body bullet
+- Updated ShareModal.tsx line 34 with email regex validation
+```
+
+### Commit command format
+
+Use a HEREDOC for multiline messages:
+
+```bash
+git commit -m "$(cat <<'EOF'
+feat(scope): short subject line
+
+- First functional change
+- Second functional change
+EOF
+)"
+```
+
+## Pull requests
+
+### When to create
+
+Only when the user explicitly asks. Use `gh pr create` via the shell.
+
+### Before creating
+
+1. Run `git status`, `git diff`, `git log` against the base branch.
+2. Ensure the branch is pushed with `-u` if needed.
+3. Base PR content on **actual commit messages**, not assumptions.
+
+### PR title
+
+Conventional format, reflecting the primary change in the branch.
+
+### PR body structure
+
+```markdown
+## Summary
+
+One short paragraph describing the overall change and why.
+
+## Key Changes
+
+- Flat bullet one
+- Flat bullet two
+- Flat bullet three
+```
+
+### PR body rules
+
+- **Summary**: high-level purpose only
+- **Key Changes**: flat list — no nested or indented sub-bullets
+- Derive content from `git log` of commits in the branch
+- Include a **Test plan** checklist when the change affects runtime behavior
+
+### PR command format
+
+```bash
+gh pr create --title "feat(scope): short title" --body "$(cat <<'EOF'
+## Summary
+
+...
+
+## Key Changes
+
+- ...
+- ...
+
+## Test plan
+
+- [ ] ...
+EOF
+)"
+```
+
+## Branch strategy
+
+```txt
+master  ← production
+  └── dev  ← integration
+        └── feature/* or fix/*
+```
+
+- Open PRs into `dev` for development work.
+- Merge `dev` → `master` when a phase or milestone is stable.
+
+## Planning docs
+
+Development roadmap plans live in `docs/plans/`. Before starting work on a phase:
+
+1. Read `docs/plans/README.md`
+2. Read the relevant `docs/plans/phase-N-*.md` file
+3. Follow the phase checklist and update it as items ship
+
+## Agent behavior
+
+- Commit when the user asks, after showing the message for approval unless they pre-approved it.
+- Do not push unless the user explicitly asks.
+- Never use `--trailer` on `git commit`.
+- Never add `Co-authored-by` or any other commit message trailer.
+- Never amend commits unless the user explicitly requests it and git safety rules allow it.
+- Never force-push to `master` or `main`.
+- Never skip git hooks (`--no-verify`) unless the user explicitly requests it.
+- Never update git config.
