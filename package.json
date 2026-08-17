@@ -43,7 +43,7 @@
     "@radix-ui/react-popover": "^1.1.2",
     "@radix-ui/react-select": "^2.1.2",
     "@radix-ui/react-slot": "^1.1.0",
-    "@sentry/nextjs": "^8.40.0",
+    "@sentry/nextjs": "^10.70.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "lexical": "^0.22.0",
