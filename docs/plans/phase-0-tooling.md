@@ -128,6 +128,8 @@ Create `.github/workflows/ci.yml` and quality workflows:
 - [ ] Add `.github/workflows/pr-title.yml` (`amannn/action-semantic-pull-request`):
   - Validates PR title matches Conventional Commits (`type(scope): subject`)
   - Ensures line length limit under 100 characters
+- [ ] Add `.github/workflows/branch-guard.yml`:
+  - Enforces that pull requests targeting `master` must originate from the `dev` branch
 - [ ] Provide build-time env vars via GitHub secrets (see env list below and §0.10 `.env.example`)
 - [ ] Add CI status badge to README
 
@@ -335,6 +337,7 @@ commitlint.config.js
 .husky/commit-msg
 .github/workflows/ci.yml
 .github/workflows/pr-title.yml
+.github/workflows/branch-guard.yml
 .github/workflows/gitleaks.yml
 .github/workflows/release.yml
 release-please-config.json
@@ -360,6 +363,7 @@ AGENTS.md
 - [ ] Pre-commit hook blocks bad formatting/lint on staged files
 - [ ] Commit-msg hook rejects non-conventional commit messages over 100 chars
 - [ ] PR title workflow enforces conventional PR titles under 100 chars
+- [ ] Branch guard workflow blocks PRs to `master` originating from non-`dev` branches
 - [ ] CI runs on PRs to `dev` and passes on a clean checkout
 - [ ] Gitleaks scans for exposed credentials on every PR
 - [ ] Dependabot opens dependency PRs
