@@ -93,10 +93,10 @@ docs/CONTRIBUTING.md
 
 > Tailwind **v4 migration is Phase 1**. Here we only stabilize the existing setup.
 
-- [ ] Re-enable `tailwindcss-animate` plugin in `tailwind.config.ts` (currently commented out)
-- [ ] Verify `content` globs cover `app/`, `components/`, and any other TSX dirs
-- [ ] Confirm `prettier-plugin-tailwindcss` works with Tailwind 3 class sorting
-- [ ] Fix any broken animations after re-enabling the plugin
+- [x] Re-enable `tailwindcss-animate` plugin in `tailwind.config.ts` (currently commented out)
+- [x] Verify `content` globs cover `app/`, `components/`, and any other TSX dirs
+- [x] Confirm `prettier-plugin-tailwindcss` works with Tailwind 3 class sorting
+- [x] Fix any broken animations after re-enabling the plugin
 
 ### Files to modify
 

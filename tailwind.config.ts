@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import tailwindcssAnimate from "tailwindcss-animate";
 
 export default {
   darkMode: ["class"],
@@ -69,5 +70,5 @@ export default {
       "xl-dark": "0 6px 10px 2px rgb(0 0 0 / 0.8)", // Extra large shadow (dark mode)
     },
   },
-  // plugins: [require("tailwindcss-animate")],
+  plugins: [tailwindcssAnimate],
 } satisfies Config;
