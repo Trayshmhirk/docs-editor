@@ -35,9 +35,7 @@ master  ← production-ready releases
 | `npm run lint`         | Run ESLint                    |
 | `npm run format`       | Format codebase with Prettier |
 | `npm run format:check` | Check formatting (CI-safe)    |
-| `npm run typecheck`    | TypeScript check (TBD)        |
-
-Scripts marked TBD will be added in later Phase 0 steps.
+| `npm run typecheck`    | Run TypeScript type checking  |
 
 ## Commit conventions
 

@@ -109,9 +109,9 @@ postcss.config.mjs
 
 ## 0.5 TypeScript strictness (optional but recommended)
 
-- [ ] Add `typecheck` script: `tsc --noEmit`
-- [ ] Ensure CI runs typecheck (see 0.6)
-- [ ] Fix any blocking type errors surfaced by `tsc`
+- [x] Add `typecheck` script: `tsc --noEmit`
+- [x] Ensure CI runs typecheck (see 0.6)
+- [x] Fix any blocking type errors surfaced by `tsc`
 
 ---
 
