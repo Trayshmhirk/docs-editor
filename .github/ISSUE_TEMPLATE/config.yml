@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Development Roadmap
+    url: https://github.com/Trayshmhirk/docs-editor/tree/master/docs/plans
+    about: Review our planned phases and development milestones.
+  - name: Contributor Guidelines
+    url: https://github.com/Trayshmhirk/docs-editor/blob/master/docs/CONTRIBUTING.md
+    about: Read conventions for conventional commits, PRs, and tooling.
