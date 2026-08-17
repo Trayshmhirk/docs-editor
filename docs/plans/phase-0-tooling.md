@@ -8,11 +8,13 @@
 
 ---
 
-## 0.1 Code formatting (Prettier)
+## 0.1 Code formatting (Prettier) & Workspace Config
 
 - [ ] Install `prettier`, `eslint-config-prettier`, `prettier-plugin-tailwindcss`
 - [ ] Add `.prettierrc` (or `prettier.config.mjs`) with project defaults
 - [ ] Add `.prettierignore` (`.next`, `node_modules`, `package-lock.json`, etc.)
+- [ ] Add `.vscode/extensions.json` with recommended extensions (ESLint, Prettier, Tailwind CSS, CSpell)
+- [ ] Add `.vscode/settings.json` with workspace defaults (format on save, ESLint fix on save)
 - [ ] Add scripts to `package.json`:
   - `format` — write formatted files
   - `format:check` — CI-safe check only
@@ -24,6 +26,8 @@
 ```txt
 .prettierrc
 .prettierignore
+.vscode/extensions.json
+.vscode/settings.json
 package.json
 .eslintrc.json
 ```
@@ -111,17 +115,19 @@ postcss.config.mjs
 
 ---
 
-## 0.6 GitHub Actions — CI
+## 0.6 GitHub Actions — CI & Quality Checks
 
-Create `.github/workflows/ci.yml`:
+Create `.github/workflows/ci.yml` and quality workflows:
 
-- [ ] Trigger on `push` and `pull_request` to `dev` and `master`
-- [ ] Job matrix or sequential jobs:
+- [ ] Add `.github/workflows/ci.yml` triggered on `push` and `pull_request` to `dev` and `master`:
   - **lint** — `npm run lint`
   - **format** — `npm run format:check`
   - **typecheck** — `npm run typecheck`
   - **build** — `npm run build`
-- [ ] Cache npm dependencies
+- [ ] Cache npm dependencies in CI
+- [ ] Add `.github/workflows/pr-title.yml` (`amannn/action-semantic-pull-request`):
+  - Validates PR title matches Conventional Commits (`type(scope): subject`)
+  - Ensures line length limit under 100 characters
 - [ ] Provide build-time env vars via GitHub secrets (see env list below and §0.10 `.env.example`)
 - [ ] Add CI status badge to README
 
@@ -137,46 +143,56 @@ SENTRY_AUTH_TOKEN (if source map upload in CI)
 
 ---
 
-## 0.7 GitHub Actions — Security
+## 0.7 GitHub Actions — Security & Leak Detection
 
-- [ ] Add `.github/dependabot.yml` for npm and GitHub Actions
+- [ ] Add `.github/dependabot.yml` for npm and GitHub Actions ecosystem
+- [ ] Add `.github/workflows/gitleaks.yml` (or secret scanning step in CI) to prevent leaked API keys
 - [ ] Add `npm audit` step in CI (start with `--audit-level=high`, warn-only if needed)
 - [ ] Optional: CodeQL analysis workflow (`.github/workflows/codeql.yml`)
-- [ ] Optional: secret scanning / gitleaks in CI
-- [ ] Pin GitHub Actions to commit SHAs where practical
+- [ ] Pin GitHub Actions to commit SHAs or major versions where practical
 
 ---
 
-## 0.8 Continuous Deployment (CD)
+## 0.8 Continuous Deployment (CD) & Automated Releases
 
-**Goal:** Complete the CI/CD pipeline — CI verifies code; CD deploys after verification.
+**Goal:** Complete the CI/CD pipeline — CI verifies code; CD deploys after verification; releases and changelogs are automated on `master`.
 
 **Depends on:** §0.6 CI green; Vercel project linked to the GitHub repo.
 
-### CI vs CD
+### CI vs CD vs Releases
 
-|                    | **CI (§0.6)**                         | **CD (this section)**                       |
-| ------------------ | ------------------------------------- | ------------------------------------------- |
-| **When**           | Every push / PR                       | After CI passes (or in parallel via Vercel) |
-| **Does**           | Lint, format, typecheck, build, audit | Deploy the app to a hosted environment      |
-| **Goal**           | Catch bugs before merge               | Ship working code to preview or production  |
-| **Where to watch** | GitHub Actions tab → job logs         | Vercel dashboard, PR deploy comments        |
+|                    | **CI (§0.6)**                         | **CD (§0.8)**                               | **Releases (§0.8)**                         |
+| ------------------ | ------------------------------------- | ------------------------------------------- | ------------------------------------------- |
+| **When**           | Every push / PR                       | After CI passes (or in parallel via Vercel) | On merge to `master`                        |
+| **Does**           | Lint, format, typecheck, build, audit | Deploy the app to a hosted environment      | Bump semver, write CHANGELOG, tag Git / PR  |
+| **Goal**           | Catch bugs before merge               | Ship working code to preview or production  | Milestone tracking, audit trail, changelogs |
+| **Where to watch** | GitHub Actions tab → job logs         | Vercel dashboard, PR deploy comments        | GitHub Releases tab & CHANGELOG.md          |
 
 ### Pipeline overview
 
-| Trigger          | CI (GitHub Actions)                   | CD (Vercel)                     |
-| ---------------- | ------------------------------------- | ------------------------------- |
-| PR → `dev`       | lint, format, typecheck, build, audit | Preview deployment (unique URL) |
-| Push → `dev`     | Same                                  | Optional staging URL            |
-| Merge → `master` | Same (required check before merge)    | Production deployment           |
+| Trigger          | CI (GitHub Actions)                   | CD (Vercel)                     | Releases (Release Please)         |
+| ---------------- | ------------------------------------- | ------------------------------- | --------------------------------- |
+| PR → `dev`       | lint, format, typecheck, build, audit | Preview deployment (unique URL) | —                                 |
+| Push → `dev`     | Same                                  | Optional staging URL            | —                                 |
+| Merge → `master` | Same (required check before merge)    | Production deployment           | Creates/updates Release PR & tags |
 
 ```txt
 Push / PR
     ↓
-CI (GitHub Actions) — verify code quality and security
+CI (GitHub Actions: lint, format, typecheck, build, gitleaks, audit)
     ↓ (pass)
-CD (Vercel) — deploy preview (PR) or production (master)
+CD (Vercel: preview URL on PR, production on master merge)
+    ↓ (on master merge)
+Releases (Release Please: bump version, update CHANGELOG.md, create GitHub Release)
 ```
+
+### Automated Releases setup (Release Please)
+
+- [ ] Add `.github/workflows/release.yml` (`googleapis/release-please-action`)
+- [ ] Configure `release-please-config.json` and `.release-please-manifest.json` for Node.js / Next.js
+- [ ] Automated release workflow:
+  1. On merge to `master`, Release Please creates/updates a release candidate PR
+  2. Merging the release PR updates `CHANGELOG.md`, bumps `package.json`, and cuts a GitHub Release tag (e.g. `v0.1.0`)
 
 ### Recommended approach: Vercel Git integration
 
@@ -222,7 +238,9 @@ Use separate Clerk/Liveblocks keys per environment where providers require it.
 | Layer                   | Symptom                | Where to look                                    |
 | ----------------------- | ---------------------- | ------------------------------------------------ |
 | Pre-commit / commitlint | Commit blocked locally | Terminal output from Husky                       |
+| PR title check          | PR title check red     | GitHub Actions → Semantic PR job log             |
 | CI lint / build         | Red check on PR        | GitHub Actions → failed job logs                 |
+| Gitleaks                | Secret leak flagged    | GitHub Actions → Gitleaks log                    |
 | `npm audit`             | Security step fails    | CI log — package name and severity               |
 | Preview deploy          | No URL on PR           | Vercel dashboard → Deployments                   |
 | Preview app broken      | 500 or auth fails      | Vercel function logs; Clerk/Liveblocks dashboard |
@@ -232,22 +250,27 @@ Use separate Clerk/Liveblocks keys per environment where providers require it.
 
 - **Preview deploy:** every PR gets a unique URL — test sign-in, editing, and share before merge
 - **Production deploy:** automatic on merge to `master` (or manual promote in Vercel)
+- **Automated releases:** Conventional commits on `master` trigger automatic changelog and semver tags
 - **Failed CI should block merge** via branch protection; do not merge broken code to `dev`/`master`
 - **Rollback:** Vercel → Deployments → select previous deployment → Promote to Production
 
-### Files to create (optional CD workflow)
+### Files to create (Releases & CD)
 
 ```txt
+.github/workflows/release.yml
+release-please-config.json
+.release-please-manifest.json
 .github/workflows/deploy.yml   ← only if not using Vercel Git integration
 ```
 
-### CD acceptance criteria
+### CD & Release acceptance criteria
 
 - [ ] Opening a PR produces a Vercel preview URL within ~2–5 minutes
 - [ ] Preview URL loads the app, Clerk sign-in works, and Liveblocks connects
 - [ ] Merging to `master` updates production automatically
+- [ ] Release PR is created on `master` and tags GitHub releases upon merge
 - [ ] Failed CI prevents merging broken code (branch protection)
-- [ ] README documents how preview and production deploys work
+- [ ] README documents how preview, production, and releases work
 
 ---
 
@@ -272,11 +295,14 @@ AGENTS.md
 
 ---
 
-## 0.10 Repo hygiene
+## 0.10 Repo hygiene & Issue Templates
 
+- [ ] Add `.github/ISSUE_TEMPLATE/bug_report.yml` structured issue form
+- [ ] Add `.github/ISSUE_TEMPLATE/feature_request.yml` structured feature proposal form
+- [ ] Add `.github/ISSUE_TEMPLATE/config.yml` (links to discussions / security guidelines)
 - [ ] Add `.env.example` documenting all required environment variables
 - [ ] Add `.nvmrc` or `engines.node` in `package.json` (recommend Node 20 LTS)
-- [ ] Update root `README.md` (project overview, setup, scripts, link to plans and CONTRIBUTING)
+- [ ] Update root `README.md` (project overview, setup, scripts, link to plans, badges, and CONTRIBUTING)
 - [ ] Ensure `.cursorignore` is committed (already present locally)
 
 ### `.env.example` variables to document
@@ -302,13 +328,23 @@ SENTRY_DSN=
 ```txt
 .prettierrc
 .prettierignore
+.vscode/extensions.json
+.vscode/settings.json
 commitlint.config.js
 .husky/pre-commit
 .husky/commit-msg
 .github/workflows/ci.yml
+.github/workflows/pr-title.yml
+.github/workflows/gitleaks.yml
+.github/workflows/release.yml
+release-please-config.json
+.release-please-manifest.json
 .github/workflows/deploy.yml       (optional — Vercel CLI CD)
 .github/dependabot.yml
 .github/pull_request_template.md
+.github/ISSUE_TEMPLATE/bug_report.yml
+.github/ISSUE_TEMPLATE/feature_request.yml
+.github/ISSUE_TEMPLATE/config.yml
 docs/CONTRIBUTING.md
 .cursor/rules/git-and-pr-conventions.mdc
 AGENTS.md
@@ -323,10 +359,15 @@ AGENTS.md
 - [ ] `npm run lint`, `format:check`, `typecheck`, and `build` pass locally
 - [ ] Pre-commit hook blocks bad formatting/lint on staged files
 - [ ] Commit-msg hook rejects non-conventional commit messages over 100 chars
+- [ ] PR title workflow enforces conventional PR titles under 100 chars
 - [ ] CI runs on PRs to `dev` and passes on a clean checkout
+- [ ] Gitleaks scans for exposed credentials on every PR
 - [ ] Dependabot opens dependency PRs
 - [ ] Preview deployments work on PRs via Vercel (see §0.8)
 - [ ] Production deploys from `master` via Vercel
+- [ ] Release Please generates changelog and tags releases upon merge to `master`
+- [ ] VS Code / Cursor recommended extensions and format-on-save configured
+- [ ] Structured issue templates available for bug reports and feature requests
 - [ ] README and CONTRIBUTING explain how to contribute and where to watch CI/CD logs
 - [x] PR template, CONTRIBUTING, AGENTS.md, and Cursor rules document conventions
 - [ ] GitHub branch protection requires PR + CI on `dev` and `master`
@@ -337,15 +378,16 @@ AGENTS.md
 
 ```txt
 docs: add git and pr convention rules for agents and contributors
-chore: add prettier and eslint-config-prettier
+chore: add prettier eslint-config-prettier and vscode workspace config
 style: apply prettier formatting
 chore: add husky and lint-staged
 chore: add commitlint with conventional config
 fix: re-enable tailwindcss-animate plugin
-ci: add github actions workflow for lint typecheck and build
-ci: add dependabot configuration
+ci: add github actions workflow for lint typecheck build and pr titles
+ci: add gitleaks secret scanning and dependabot configuration
+ci: add release please workflow for automated changelog and releases
 ci: connect vercel preview and production deployments
-docs: add env example and update readme with setup ci and cd badges
+docs: add issue templates env example and update readme with badges
 ```
 
 ---
