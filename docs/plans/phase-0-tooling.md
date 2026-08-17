@@ -62,10 +62,10 @@ package.json
 
 ## 0.3 Conventional commits (commitlint)
 
-- [ ] Install `@commitlint/cli`, `@commitlint/config-conventional`
-- [ ] Add `commitlint.config.js` extending conventional config with 100-char line limits
-- [ ] **commit-msg** Husky hook runs `commitlint --edit $1`
-- [ ] Document commit types and examples in CONTRIBUTING.md
+- [x] Install `@commitlint/cli`, `@commitlint/config-conventional`
+- [x] Add `commitlint.config.js` extending conventional config with 100-char line limits
+- [x] **commit-msg** Husky hook runs `commitlint --edit $1`
+- [x] Document commit types and examples in CONTRIBUTING.md
 
 ### commitlint.config.js (target config)
 
