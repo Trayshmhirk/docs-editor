@@ -36,11 +36,11 @@ package.json
 
 ## 0.2 Git hooks (Husky + lint-staged)
 
-- [ ] Install `husky`, `lint-staged`
-- [ ] Run `husky init` and configure hooks
-- [ ] **pre-commit:** lint-staged runs Prettier + ESLint on staged files only
-- [ ] Add `prepare` script in `package.json` for Husky install on `npm install`
-- [ ] Document hook behavior in CONTRIBUTING.md
+- [x] Install `husky`, `lint-staged`
+- [x] Run `husky init` and configure hooks
+- [x] **pre-commit:** lint-staged runs Prettier + ESLint on staged files only
+- [x] Add `prepare` script in `package.json` for Husky install on `npm install`
+- [x] Document hook behavior in CONTRIBUTING.md
 
 ### lint-staged example scope
 
