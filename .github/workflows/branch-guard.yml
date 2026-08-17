@@ -1,0 +1,16 @@
+name: Branch Guard
+
+on:
+  pull_request:
+    branches: [master]
+
+jobs:
+  check-source-branch:
+    name: Verify Source Branch
+    runs-on: ubuntu-latest
+    steps:
+      - name: Enforce master PRs originate from dev
+        if: github.head_ref != 'dev'
+        run: |
+          echo "::error::Direct pull requests to 'master' are restricted. Pull requests to 'master' must originate from the 'dev' integration branch (current head: '${{ github.head_ref }}')."
+          exit 1

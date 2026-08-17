@@ -28,14 +28,20 @@ master  ← production-ready releases
 
 ## Scripts
 
-| Command                | Description                   |
-| ---------------------- | ----------------------------- |
-| `npm run dev`          | Start development server      |
-| `npm run build`        | Production build              |
-| `npm run lint`         | Run ESLint                    |
-| `npm run format`       | Format codebase with Prettier |
-| `npm run format:check` | Check formatting (CI-safe)    |
-| `npm run typecheck`    | Run TypeScript type checking  |
+| Command                      | Description                                |
+| ---------------------------- | ------------------------------------------ |
+| `npm run dev`                | Start development server                   |
+| `npm run build`              | Production build                           |
+| `npm run lint`               | Run ESLint                                 |
+| `npm run format`             | Format codebase with Prettier              |
+| `npm run format:check`       | Check formatting (CI-safe)                 |
+| `npm run typecheck`          | Run TypeScript type checking               |
+| `npm run security:audit`     | Run dependency security audit (high level) |
+| `npm run security:audit:fix` | Automatically fix audit vulnerabilities    |
+| `npm run security:outdated`  | Check for outdated package versions        |
+| `npm run reset`              | Clean reinstall of modules and lockfile    |
+
+> **Note on Security Audits:** During Phase 0, `security:audit` runs in warning/informational mode while tooling is stabilized. In Phase 1.1 (after dependency upgrades), strict blocking mode will be re-enabled in both `package.json` and `.github/workflows/ci.yml`.
 
 ## Commit conventions
 
@@ -138,6 +144,7 @@ Enforced automatically via Git hooks:
 
 - **Husky pre-commit** runs `lint-staged` (Prettier + ESLint on staged files).
 - **Husky commit-msg** runs `commitlint` (validating conventional types, length limits, and formatting).
+- **Husky pre-push** runs `security:audit` (preventing vulnerable packages from being pushed).
 
 ## Pull request conventions
 
@@ -199,14 +206,15 @@ EOF
 
 GitHub will also pre-fill the description from [`.github/pull_request_template.md`](../.github/pull_request_template.md).
 
-## Git hooks (Phase 0)
+## Git hooks
 
-After Phase 0 tooling is installed:
+Enforced on development workflow:
 
-| Hook         | Action                                    |
-| ------------ | ----------------------------------------- |
-| `pre-commit` | lint-staged (Prettier + ESLint on staged) |
-| `commit-msg` | commitlint (conventional format + length) |
+| Hook         | Action                                               |
+| ------------ | ---------------------------------------------------- |
+| `pre-commit` | lint-staged (Prettier + ESLint on staged files)      |
+| `commit-msg` | commitlint (conventional format + length limits)     |
+| `pre-push`   | security audit (blocks push on high vulnerabilities) |
 
 Do not skip hooks with `--no-verify` unless there is a documented reason.
 

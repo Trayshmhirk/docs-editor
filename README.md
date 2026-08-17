@@ -1,4 +1,8 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Docs Editor
+
+[![CI](https://github.com/Trayshmhirk/docs-editor/actions/workflows/ci.yml/badge.svg)](https://github.com/Trayshmhirk/docs-editor/actions/workflows/ci.yml)
+
+Real-time collaborative document editor built with Next.js, Lexical, Liveblocks, and Clerk.
 
 ## Getting Started
 

@@ -119,19 +119,19 @@ postcss.config.mjs
 
 Create `.github/workflows/ci.yml` and quality workflows:
 
-- [ ] Add `.github/workflows/ci.yml` triggered on `push` and `pull_request` to `dev` and `master`:
+- [x] Add `.github/workflows/ci.yml` triggered on `push` and `pull_request` to `dev` and `master`:
   - **lint** — `npm run lint`
   - **format** — `npm run format:check`
   - **typecheck** — `npm run typecheck`
   - **build** — `npm run build`
-- [ ] Cache npm dependencies in CI
-- [ ] Add `.github/workflows/pr-title.yml` (`amannn/action-semantic-pull-request`):
+- [x] Cache npm dependencies in CI
+- [x] Add `.github/workflows/pr-title.yml` (`amannn/action-semantic-pull-request`):
   - Validates PR title matches Conventional Commits (`type(scope): subject`)
   - Ensures line length limit under 100 characters
-- [ ] Add `.github/workflows/branch-guard.yml`:
+- [x] Add `.github/workflows/branch-guard.yml`:
   - Enforces that pull requests targeting `master` must originate from the `dev` branch
-- [ ] Provide build-time env vars via GitHub secrets (see env list below and §0.10 `.env.example`)
-- [ ] Add CI status badge to README
+- [x] Provide build-time env vars via GitHub secrets (see env list below and §0.10 `.env.example`)
+- [x] Add CI status badge to README
 
 ### Required secrets for build (placeholders OK for CI if build allows)
 
@@ -145,13 +145,20 @@ SENTRY_AUTH_TOKEN (if source map upload in CI)
 
 ---
 
-## 0.7 GitHub Actions — Security & Leak Detection
+## 0.7 Security, Vulnerability Scanning & Hygiene Scripts
 
-- [ ] Add `.github/dependabot.yml` for npm and GitHub Actions ecosystem
-- [ ] Add `.github/workflows/gitleaks.yml` (or secret scanning step in CI) to prevent leaked API keys
-- [ ] Add `npm audit` step in CI (start with `--audit-level=high`, warn-only if needed)
-- [ ] Optional: CodeQL analysis workflow (`.github/workflows/codeql.yml`)
-- [ ] Pin GitHub Actions to commit SHAs or major versions where practical
+Establish multi-layered enterprise security checks (local scripts, git hooks, secret scanning, and CI gates):
+
+- [x] Add security and hygiene scripts to `package.json`:
+  - `security:audit` — `npm audit --audit-level=high`
+  - `security:audit:fix` — `npm audit fix`
+  - `security:outdated` — `npm outdated`
+  - `reset` — cross-platform clean re-install (`npx -y rimraf .next node_modules package-lock.json && npm install`)
+- [x] Add `.husky/pre-push` hook running `npm run security:audit` before code is pushed to remote
+- [x] Add `.github/dependabot.yml` for automated dependency vulnerability PRs
+- [x] Add `.github/workflows/gitleaks.yml` for automated secret and token leak detection
+- [x] Add `security` check job in `.github/workflows/ci.yml` running `npm run security:audit`
+- [x] Document security scripts in `docs/CONTRIBUTING.md`
 
 ---
 

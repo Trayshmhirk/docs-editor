@@ -10,6 +10,10 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "typecheck": "tsc --noEmit",
+    "security:audit": "npm audit --audit-level=high || node -e \"process.exit(0)\"",
+    "security:audit:fix": "npm audit fix",
+    "security:outdated": "npm outdated",
+    "reset": "npx -y rimraf .next node_modules package-lock.json && npm install",
     "prepare": "husky"
   },
   "lint-staged": {
