@@ -28,15 +28,16 @@ master  ← production-ready releases
 
 ## Scripts
 
-| Command             | Description                |
-| ------------------- | -------------------------- |
-| `npm run dev`       | Start development server   |
-| `npm run build`     | Production build           |
-| `npm run lint`      | Run ESLint                 |
-| `npm run format`    | Format with Prettier (TBD) |
-| `npm run typecheck` | TypeScript check (TBD)     |
+| Command                | Description                   |
+| ---------------------- | ----------------------------- |
+| `npm run dev`          | Start development server      |
+| `npm run build`        | Production build              |
+| `npm run lint`         | Run ESLint                    |
+| `npm run format`       | Format codebase with Prettier |
+| `npm run format:check` | Check formatting (CI-safe)    |
+| `npm run typecheck`    | TypeScript check (TBD)        |
 
-Scripts marked TBD will be added in [Phase 0](./plans/phase-0-tooling.md).
+Scripts marked TBD will be added in later Phase 0 steps.
 
 ## Commit conventions
 
@@ -59,17 +60,20 @@ We use [Conventional Commits](https://www.conventionalcommits.org/).
 | `docs`     | Documentation only                  |
 | `style`    | Formatting, no logic change         |
 | `refactor` | Code change that is not feat or fix |
+| `perf`     | Performance improvement             |
 | `test`     | Adding or updating tests            |
 | `chore`    | Tooling, deps, config               |
 | `ci`       | CI/CD changes                       |
 | `build`    | Build system changes                |
+| `revert`   | Reverting previous commits          |
 
 ### Rules
 
 1. **Every line must be under 100 characters** (subject, body, and bullets).
 2. **Describe what changed functionally**, not how it was implemented.
 3. Use **imperative mood** in the subject: "add feature" not "added feature".
-4. Use **flat bullet points** in the body for multi-part changes — no nested bullets.
+4. **No trailing period** on the subject line.
+5. Use **flat bullet points** in the body for multi-part changes — no nested bullets.
 
 ### Do not include in commit messages
 
@@ -132,10 +136,10 @@ EOF
 
 ### Enforcement
 
-Once Phase 0 is complete:
+Enforced automatically via Git hooks:
 
-- **Husky** runs lint-staged on pre-commit (Prettier + ESLint).
-- **commitlint** validates commit message format on commit-msg hook.
+- **Husky pre-commit** runs `lint-staged` (Prettier + ESLint on staged files).
+- **Husky commit-msg** runs `commitlint` (validating conventional types, length limits, and formatting).
 
 ## Pull request conventions
 

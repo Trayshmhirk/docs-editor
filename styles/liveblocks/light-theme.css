@@ -27,14 +27,22 @@ html.light .lb-thread-composer:after {
   border-block-start-color: #cccccc;
 }
 
-html.light .lb-button:where([data-variant="default"]:not( :is(:enabled:hover, :enabled:focus-visible, [aria-expanded="true"], [aria-selected="true"]))) {
+html.light
+  .lb-button:where(
+    [data-variant="default"]:not(
+      :is(:enabled:hover, :enabled:focus-visible, [aria-expanded="true"], [aria-selected="true"])
+    )
+  ) {
   color: #1e1e1e;
 }
 
-html.light .lb-button:where( :enabled:hover,
-  :enabled:focus-visible,
-  [aria-expanded="true"],
-  [aria-selected="true"]) {
+html.light
+  .lb-button:where(
+    :enabled:hover,
+    :enabled:focus-visible,
+    [aria-expanded="true"],
+    [aria-selected="true"]
+  ) {
   --lb-button-background: #eeeeee;
   color: #1e1e1e;
 }
@@ -71,8 +79,11 @@ html.light .lb-lexical-thread-mark {
   text-decoration-color: #00a1c9a1;
 }
 
-html.light :is(.lb-dropdown-item, .lb-composer-suggestions-list-item, .lb-emoji-picker-emoji):where([data-highlighted],
-  [data-selected]) {
+html.light
+  :is(.lb-dropdown-item, .lb-composer-suggestions-list-item, .lb-emoji-picker-emoji):where(
+    [data-highlighted],
+    [data-selected]
+  ) {
   background-color: #dcdcdc;
 }
 
