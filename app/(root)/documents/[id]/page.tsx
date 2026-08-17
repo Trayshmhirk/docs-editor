@@ -27,14 +27,12 @@ const Document = async ({ params }: { params: Promise<{ id: string }> }) => {
 
   const usersData = users.map((user: User) => ({
     ...user,
-    userType: room.usersAccesses[user.email]?.includes("room:write")
-      ? "editor"
-      : "viewer",
+    userType: room.usersAccesses[user.email]?.includes("room:write") ? "editor" : "viewer",
   }));
 
-  const currentUserType = room.usersAccesses[
-    clerkUser.emailAddresses[0].emailAddress
-  ]?.includes("room:write")
+  const currentUserType = room.usersAccesses[clerkUser.emailAddresses[0].emailAddress]?.includes(
+    "room:write",
+  )
     ? "editor"
     : "viewer";
 

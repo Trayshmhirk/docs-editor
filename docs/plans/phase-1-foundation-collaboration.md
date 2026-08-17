@@ -31,6 +31,7 @@ Upgrade incrementally; run CI after each major bump.
 - [ ] Upgrade Clerk; update middleware and server imports if needed
 - [ ] Upgrade Next.js + React
 - [ ] Remove or update `package.json` `overrides` block if no longer needed
+- [ ] Re-enable strict security audits: remove Phase 0 transitional bypasses (`continue-on-error: true` in `.github/workflows/ci.yml` and exit fallback in `package.json`)
 - [ ] Run full manual test: sign-in, create doc, edit, share, comments
 - [ ] Fix any TypeScript errors from upgraded types
 

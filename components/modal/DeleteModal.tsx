@@ -30,22 +30,19 @@ const DeleteModal = ({ roomId }: { roomId: string }) => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button className="min-w-9 rounded bg-transparent dark:bg-transparent p-2 transition-all hover:bg-[#fcfcfc] dark:hover:bg-[#383838] hover-shadow">
+        <Button className="hover-shadow min-w-9 rounded bg-transparent p-2 transition-all hover:bg-[#fcfcfc] dark:bg-transparent dark:hover:bg-[#383838]">
           <Trash2 className="size-5 text-red-600 dark:text-red-600" />
         </Button>
       </DialogTrigger>
-      <DialogContent className="w-full md:max-w-[400px] flex flex-col gap-6 rounded-xl border-none dark:!gradient-darkgray px-5 py-7 shadow-xl">
-        <DialogHeader className="items-center sm:text-center gap-4 space-y-0">
-          <div className="size-12 rounded-full flex items-center justify-center border-8 border-[#c46060] dark:border-[#603333] bg-[#772d2d] dark:bg-[#2c1616]">
+      <DialogContent className="dark:!gradient-darkgray flex w-full flex-col gap-6 rounded-xl border-none px-5 py-7 shadow-xl md:max-w-[400px]">
+        <DialogHeader className="items-center gap-4 space-y-0 sm:text-center">
+          <div className="flex size-12 items-center justify-center rounded-full border-8 border-[#c46060] bg-[#772d2d] dark:border-[#603333] dark:bg-[#2c1616]">
             <Trash2 className="size-5 text-[#f84141] dark:text-[#ed4b4b]" />
           </div>
 
-          <DialogTitle className="text-[#666666] dark:text-[#dcdcdc]">
-            Delete document
-          </DialogTitle>
+          <DialogTitle className="text-[#666666] dark:text-[#dcdcdc]">Delete document</DialogTitle>
           <DialogDescription className="max-w-[400px] text-[#888888] dark:text-[#b0b0b0]">
-            Are you sure you want to delete this document? this action cant be
-            undone
+            Are you sure you want to delete this document? this action cant be undone
           </DialogDescription>
         </DialogHeader>
 
@@ -53,7 +50,7 @@ const DeleteModal = ({ roomId }: { roomId: string }) => {
           <Button
             variant="destructive"
             onClick={handleDeleteDocument}
-            className="w-full bg-[#ef4444] dark:bg-[#f34242] hover:bg-[] dark:hover:bg-[]"
+            className="w-full bg-[#ef4444] hover:bg-[] dark:bg-[#f34242] dark:hover:bg-[]"
           >
             {loading ? "Deleting..." : "Delete"}
           </Button>

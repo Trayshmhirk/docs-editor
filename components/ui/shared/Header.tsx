@@ -6,18 +6,13 @@ const Header = ({ children, className }: HeaderProps) => {
   return (
     <header
       className={cn(
-        "min-h-16 min-w-full flex-nowrap bg-[#F5F5F5] dark:bg-black flex w-full items-center justify-between gap-2 px-4 md:px-6",
-        className
+        "flex min-h-16 w-full min-w-full flex-nowrap items-center justify-between gap-2 bg-[#F5F5F5] px-4 dark:bg-black md:px-6",
+        className,
       )}
     >
-      <Link href="/" className="flex gap-2 items-center">
-        <Image
-          src="/assets/images/logo.png"
-          alt="Logo"
-          width={32}
-          height={32}
-        />
-        <span className="hidden md:block font-bold">Docs Editor</span>
+      <Link href="/" className="flex items-center gap-2">
+        <Image src="/assets/images/logo.png" alt="Logo" width={32} height={32} />
+        <span className="hidden font-bold md:block">Docs Editor</span>
       </Link>
       {children}
     </header>

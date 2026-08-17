@@ -13,12 +13,10 @@ const SignUpPage = () => {
         appearance={{
           baseTheme: resolvedTheme === "dark" ? dark : undefined,
           elements: {
-            cardBox:
-              "border border-[#eeeeee] dark:border-[#181818] shadow-xl dark:shadow-xl-dark",
+            cardBox: "border border-[#eeeeee] dark:border-[#181818] shadow-xl dark:shadow-xl-dark",
             card: "dark:bg-[#1f1f1f] shadow-sm dark:shadow-md-dark",
             footer: "dark:bg-[#0f0f0f]",
-            socialButtonsBlockButton:
-              "hover:shadow-md dark:hover:shadow-sm-dark duration-300",
+            socialButtonsBlockButton: "hover:shadow-md dark:hover:shadow-sm-dark duration-300",
           },
         }}
       />

@@ -1,0 +1,4 @@
+# Gitleaks ignore list
+# Format: <commit-sha>:<file-path>:<rule-id>:<line-number>
+b989fbc278239a842e61b00b3417721626720842:.github/workflows/ci.yml:generic-api-key:94
+b989fbc278239a842e61b00b3417721626720842:.github/workflows/ci.yml:stripe-access-token:95

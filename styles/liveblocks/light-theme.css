@@ -30,13 +30,8 @@ html.light .lb-thread-composer:after {
 html.light
   .lb-button:where(
     [data-variant="default"]:not(
-        :is(
-            :enabled:hover,
-            :enabled:focus-visible,
-            [aria-expanded="true"],
-            [aria-selected="true"]
-          )
-      )
+      :is(:enabled:hover, :enabled:focus-visible, [aria-expanded="true"], [aria-selected="true"])
+    )
   ) {
   color: #1e1e1e;
 }
@@ -85,11 +80,10 @@ html.light .lb-lexical-thread-mark {
 }
 
 html.light
-  :is(
-    .lb-dropdown-item,
-    .lb-composer-suggestions-list-item,
-    .lb-emoji-picker-emoji
-  ):where([data-highlighted], [data-selected]) {
+  :is(.lb-dropdown-item, .lb-composer-suggestions-list-item, .lb-emoji-picker-emoji):where(
+    [data-highlighted],
+    [data-selected]
+  ) {
   background-color: #dcdcdc;
 }
 

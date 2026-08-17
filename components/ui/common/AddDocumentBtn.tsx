@@ -24,10 +24,10 @@ const AddDocumentBtn = ({ userId, email }: AddDocumentBtnProps) => {
     <Button
       type="submit"
       onClick={addDocumentHandler}
-      className="flex gap-2 shadow-lg dark:shadow-lg-dark bg-[#00afdb] dark:bg-[#00afdb] transition-all duration-300 ease-in-out hover:bg-[#0081a4] dark:hover:bg-[#0081a4]"
+      className="flex gap-2 bg-[#00afdb] shadow-lg transition-all duration-300 ease-in-out hover:bg-[#0081a4] dark:bg-[#00afdb] dark:shadow-lg-dark dark:hover:bg-[#0081a4]"
     >
-      <Plus className="w-6 h-6 text-white" />
-      <p className="hidden sm:block text-white">Start a blank document</p>
+      <Plus className="h-6 w-6 text-white" />
+      <p className="hidden text-white sm:block">Start a blank document</p>
     </Button>
   );
 };

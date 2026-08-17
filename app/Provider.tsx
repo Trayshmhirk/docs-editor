@@ -32,9 +32,7 @@ const Provider = ({ children }: { children: React.ReactNode }) => {
         if (!roomId || !text) return [];
         const roomUsers = await getDocumentUsers({
           roomId,
-          currentUser: clerkUser
-            ? clerkUser.emailAddresses[0].emailAddress
-            : "",
+          currentUser: clerkUser ? clerkUser.emailAddresses[0].emailAddress : "",
           text,
         });
         return roomUsers;

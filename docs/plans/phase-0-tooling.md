@@ -10,16 +10,16 @@
 
 ## 0.1 Code formatting (Prettier) & Workspace Config
 
-- [ ] Install `prettier`, `eslint-config-prettier`, `prettier-plugin-tailwindcss`
-- [ ] Add `.prettierrc` (or `prettier.config.mjs`) with project defaults
-- [ ] Add `.prettierignore` (`.next`, `node_modules`, `package-lock.json`, etc.)
-- [ ] Add `.vscode/extensions.json` with recommended extensions (ESLint, Prettier, Tailwind CSS, CSpell)
-- [ ] Add `.vscode/settings.json` with workspace defaults (format on save, ESLint fix on save)
-- [ ] Add scripts to `package.json`:
+- [x] Install `prettier`, `eslint-config-prettier`, `prettier-plugin-tailwindcss`
+- [x] Add `.prettierrc` (or `prettier.config.mjs`) with project defaults
+- [x] Add `.prettierignore` (`.next`, `node_modules`, `package-lock.json`, etc.)
+- [x] Add `.vscode/extensions.json` with recommended extensions (ESLint, Prettier, Tailwind CSS, CSpell)
+- [x] Add `.vscode/settings.json` with workspace defaults (format on save, ESLint fix on save)
+- [x] Add scripts to `package.json`:
   - `format` — write formatted files
   - `format:check` — CI-safe check only
-- [ ] Extend ESLint config to disable rules that conflict with Prettier
-- [ ] Run initial format pass on codebase (single dedicated commit: `style: apply prettier formatting`)
+- [x] Extend ESLint config to disable rules that conflict with Prettier
+- [x] Run initial format pass on codebase (single dedicated commit: `style: apply prettier formatting`)
 
 ### Files to create/modify
 
@@ -36,11 +36,11 @@ package.json
 
 ## 0.2 Git hooks (Husky + lint-staged)
 
-- [ ] Install `husky`, `lint-staged`
-- [ ] Run `husky init` and configure hooks
-- [ ] **pre-commit:** lint-staged runs Prettier + ESLint on staged files only
-- [ ] Add `prepare` script in `package.json` for Husky install on `npm install`
-- [ ] Document hook behavior in CONTRIBUTING.md
+- [x] Install `husky`, `lint-staged`
+- [x] Run `husky init` and configure hooks
+- [x] **pre-commit:** lint-staged runs Prettier + ESLint on staged files only
+- [x] Add `prepare` script in `package.json` for Husky install on `npm install`
+- [x] Document hook behavior in CONTRIBUTING.md
 
 ### lint-staged example scope
 
@@ -62,10 +62,10 @@ package.json
 
 ## 0.3 Conventional commits (commitlint)
 
-- [ ] Install `@commitlint/cli`, `@commitlint/config-conventional`
-- [ ] Add `commitlint.config.js` extending conventional config with 100-char line limits
-- [ ] **commit-msg** Husky hook runs `commitlint --edit $1`
-- [ ] Document commit types and examples in CONTRIBUTING.md
+- [x] Install `@commitlint/cli`, `@commitlint/config-conventional`
+- [x] Add `commitlint.config.js` extending conventional config with 100-char line limits
+- [x] **commit-msg** Husky hook runs `commitlint --edit $1`
+- [x] Document commit types and examples in CONTRIBUTING.md
 
 ### commitlint.config.js (target config)
 
@@ -93,10 +93,10 @@ docs/CONTRIBUTING.md
 
 > Tailwind **v4 migration is Phase 1**. Here we only stabilize the existing setup.
 
-- [ ] Re-enable `tailwindcss-animate` plugin in `tailwind.config.ts` (currently commented out)
-- [ ] Verify `content` globs cover `app/`, `components/`, and any other TSX dirs
-- [ ] Confirm `prettier-plugin-tailwindcss` works with Tailwind 3 class sorting
-- [ ] Fix any broken animations after re-enabling the plugin
+- [x] Re-enable `tailwindcss-animate` plugin in `tailwind.config.ts` (currently commented out)
+- [x] Verify `content` globs cover `app/`, `components/`, and any other TSX dirs
+- [x] Confirm `prettier-plugin-tailwindcss` works with Tailwind 3 class sorting
+- [x] Fix any broken animations after re-enabling the plugin
 
 ### Files to modify
 
@@ -109,9 +109,9 @@ postcss.config.mjs
 
 ## 0.5 TypeScript strictness (optional but recommended)
 
-- [ ] Add `typecheck` script: `tsc --noEmit`
-- [ ] Ensure CI runs typecheck (see 0.6)
-- [ ] Fix any blocking type errors surfaced by `tsc`
+- [x] Add `typecheck` script: `tsc --noEmit`
+- [x] Ensure CI runs typecheck (see 0.6)
+- [x] Fix any blocking type errors surfaced by `tsc`
 
 ---
 
@@ -119,19 +119,19 @@ postcss.config.mjs
 
 Create `.github/workflows/ci.yml` and quality workflows:
 
-- [ ] Add `.github/workflows/ci.yml` triggered on `push` and `pull_request` to `dev` and `master`:
+- [x] Add `.github/workflows/ci.yml` triggered on `push` and `pull_request` to `dev` and `master`:
   - **lint** — `npm run lint`
   - **format** — `npm run format:check`
   - **typecheck** — `npm run typecheck`
   - **build** — `npm run build`
-- [ ] Cache npm dependencies in CI
-- [ ] Add `.github/workflows/pr-title.yml` (`amannn/action-semantic-pull-request`):
+- [x] Cache npm dependencies in CI
+- [x] Add `.github/workflows/pr-title.yml` (`amannn/action-semantic-pull-request`):
   - Validates PR title matches Conventional Commits (`type(scope): subject`)
   - Ensures line length limit under 100 characters
-- [ ] Add `.github/workflows/branch-guard.yml`:
+- [x] Add `.github/workflows/branch-guard.yml`:
   - Enforces that pull requests targeting `master` must originate from the `dev` branch
-- [ ] Provide build-time env vars via GitHub secrets (see env list below and §0.10 `.env.example`)
-- [ ] Add CI status badge to README
+- [x] Provide build-time env vars via GitHub secrets (see env list below and §0.10 `.env.example`)
+- [x] Add CI status badge to README
 
 ### Required secrets for build (placeholders OK for CI if build allows)
 
@@ -145,13 +145,20 @@ SENTRY_AUTH_TOKEN (if source map upload in CI)
 
 ---
 
-## 0.7 GitHub Actions — Security & Leak Detection
+## 0.7 Security, Vulnerability Scanning & Hygiene Scripts
 
-- [ ] Add `.github/dependabot.yml` for npm and GitHub Actions ecosystem
-- [ ] Add `.github/workflows/gitleaks.yml` (or secret scanning step in CI) to prevent leaked API keys
-- [ ] Add `npm audit` step in CI (start with `--audit-level=high`, warn-only if needed)
-- [ ] Optional: CodeQL analysis workflow (`.github/workflows/codeql.yml`)
-- [ ] Pin GitHub Actions to commit SHAs or major versions where practical
+Establish multi-layered enterprise security checks (local scripts, git hooks, secret scanning, and CI gates):
+
+- [x] Add security and hygiene scripts to `package.json`:
+  - `security:audit` — `npm audit --audit-level=high`
+  - `security:audit:fix` — `npm audit fix`
+  - `security:outdated` — `npm outdated`
+  - `reset` — cross-platform clean re-install (`npx -y rimraf .next node_modules package-lock.json && npm install`)
+- [x] Add `.husky/pre-push` hook running `npm run security:audit` before code is pushed to remote
+- [x] Add `.github/dependabot.yml` for automated dependency vulnerability PRs
+- [x] Add `.github/workflows/gitleaks.yml` for automated secret and token leak detection
+- [x] Add `security` check job in `.github/workflows/ci.yml` running `npm run security:audit`
+- [x] Document security scripts in `docs/CONTRIBUTING.md`
 
 ---
 

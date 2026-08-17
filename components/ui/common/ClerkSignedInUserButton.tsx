@@ -13,8 +13,7 @@ const ClerkSignedInUserButton = () => {
         appearance={{
           baseTheme: resolvedTheme === "dark" ? dark : undefined,
           elements: {
-            userButtonPopoverMain:
-              "dark:bg-[#1f1f1f] shadow-sm dark:shadow-md-dark",
+            userButtonPopoverMain: "dark:bg-[#1f1f1f] shadow-sm dark:shadow-md-dark",
             userButtonPopoverFooter: "dark:bg-[#0f0f0f]",
           },
         }}

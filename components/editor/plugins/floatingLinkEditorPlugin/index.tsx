@@ -1,11 +1,6 @@
 import "./index.css";
 
-import {
-  $createLinkNode,
-  $isAutoLinkNode,
-  $isLinkNode,
-  TOGGLE_LINK_COMMAND,
-} from "@lexical/link";
+import { $createLinkNode, $isAutoLinkNode, $isLinkNode, TOGGLE_LINK_COMMAND } from "@lexical/link";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import { $findMatchingParent, mergeRegister } from "@lexical/utils";
 import {
@@ -32,7 +27,7 @@ import { sanitizeUrl } from "@/lib/utils";
 import { CircleCheck, CircleX, PenBox, Trash2 } from "lucide-react";
 
 function preventDefault(
-  event: React.KeyboardEvent<HTMLInputElement> | React.MouseEvent<HTMLElement>
+  event: React.KeyboardEvent<HTMLInputElement> | React.MouseEvent<HTMLElement>,
 ): void {
   event.preventDefault();
 }
@@ -56,9 +51,7 @@ function FloatingLinkEditor({
   const inputRef = useRef<HTMLInputElement>(null);
   const [linkUrl, setLinkUrl] = useState("");
   const [editedLinkUrl, setEditedLinkUrl] = useState("https://");
-  const [lastSelection, setLastSelection] = useState<BaseSelection | null>(
-    null
-  );
+  const [lastSelection, setLastSelection] = useState<BaseSelection | null>(null);
 
   const $updateLinkEditor = useCallback(() => {
     const selection = $getSelection();
@@ -151,7 +144,7 @@ function FloatingLinkEditor({
           $updateLinkEditor();
           return true;
         },
-        COMMAND_PRIORITY_LOW
+        COMMAND_PRIORITY_LOW,
       ),
       editor.registerCommand(
         KEY_ESCAPE_COMMAND,
@@ -162,8 +155,8 @@ function FloatingLinkEditor({
           }
           return false;
         },
-        COMMAND_PRIORITY_HIGH
-      )
+        COMMAND_PRIORITY_HIGH,
+      ),
     );
   }, [editor, $updateLinkEditor, setIsLink, isLink]);
 
@@ -179,9 +172,7 @@ function FloatingLinkEditor({
     }
   }, [isLinkEditMode, isLink]);
 
-  const monitorInputInteraction = (
-    event: React.KeyboardEvent<HTMLInputElement>
-  ) => {
+  const monitorInputInteraction = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
       handleLinkSubmission(event);
     } else if (event.key === "Escape") {
@@ -191,16 +182,13 @@ function FloatingLinkEditor({
   };
 
   const handleLinkSubmission = (
-    event: React.KeyboardEvent<HTMLInputElement> | React.MouseEvent<HTMLElement>
+    event: React.KeyboardEvent<HTMLInputElement> | React.MouseEvent<HTMLElement>,
   ) => {
     event.preventDefault();
     if (lastSelection !== null) {
       if (linkUrl !== "") {
         editor.update(() => {
-          editor.dispatchCommand(
-            TOGGLE_LINK_COMMAND,
-            sanitizeUrl(editedLinkUrl)
-          );
+          editor.dispatchCommand(TOGGLE_LINK_COMMAND, sanitizeUrl(editedLinkUrl));
           const selection = $getSelection();
           if ($isRangeSelection(selection)) {
             const parent = getSelectedNode(selection).getParent();
@@ -223,13 +211,13 @@ function FloatingLinkEditor({
   return (
     <div
       ref={editorRef}
-      className="link-editor bg-[#ffffff] dark:bg-[#373737] shadow-[0_5px_10px_#0000004d] dark:shadow-[0_5px_10px_0px_rgb(0,0,0,0.8)]"
+      className="link-editor bg-[#ffffff] shadow-[0_5px_10px_#0000004d] dark:bg-[#373737] dark:shadow-[0_5px_10px_0px_rgb(0,0,0,0.8)]"
     >
       {!isLink ? null : isLinkEditMode ? (
-        <div className="w-full flex items-center gap-4 p-3">
+        <div className="flex w-full items-center gap-4 p-3">
           <input
             ref={inputRef}
-            className="link-input bg-[#eee] dark:bg-[#212121] text-[#111111] dark:text-white w-full"
+            className="link-input w-full bg-[#eee] text-[#111111] dark:bg-[#212121] dark:text-white"
             value={editedLinkUrl}
             onChange={(event) => {
               setEditedLinkUrl(event.target.value);
@@ -238,7 +226,7 @@ function FloatingLinkEditor({
               monitorInputInteraction(event);
             }}
           />
-          <div className="flex gap-2 w-fit">
+          <div className="flex w-fit gap-2">
             <div
               className="link-confirm flex items-center"
               role="button"
@@ -263,7 +251,7 @@ function FloatingLinkEditor({
           </div>
         </div>
       ) : (
-        <div className="link-view w-full flex items-center gap-4 m-3">
+        <div className="link-view m-3 flex w-full items-center gap-4">
           <a
             href={sanitizeUrl(linkUrl)}
             target="_blank"
@@ -273,7 +261,7 @@ function FloatingLinkEditor({
             {linkUrl}
           </a>
 
-          <div className="flex items-center gap-2 w-fit">
+          <div className="flex w-fit items-center gap-2">
             <div
               className="link-edit"
               role="button"
@@ -285,7 +273,7 @@ function FloatingLinkEditor({
                 setIsLinkEditMode(true);
               }}
             >
-              <PenBox className="size-5 stroke-[#1e1e1e] dark:stroke-white mt-[2px]" />
+              <PenBox className="mt-[2px] size-5 stroke-[#1e1e1e] dark:stroke-white" />
             </div>
             <div
               className="link-trash"
@@ -309,7 +297,7 @@ function useFloatingLinkEditorToolbar(
   editor: LexicalEditor,
   anchorElem: HTMLElement,
   isLinkEditMode: boolean,
-  setIsLinkEditMode: Dispatch<boolean>
+  setIsLinkEditMode: Dispatch<boolean>,
 ): JSX.Element | null {
   const [activeEditor, setActiveEditor] = useState(editor);
   const [isLink, setIsLink] = useState(false);
@@ -320,10 +308,7 @@ function useFloatingLinkEditorToolbar(
       if ($isRangeSelection(selection)) {
         const focusNode = getSelectedNode(selection);
         const focusLinkNode = $findMatchingParent(focusNode, $isLinkNode);
-        const focusAutoLinkNode = $findMatchingParent(
-          focusNode,
-          $isAutoLinkNode
-        );
+        const focusAutoLinkNode = $findMatchingParent(focusNode, $isAutoLinkNode);
         if (!(focusLinkNode || focusAutoLinkNode)) {
           setIsLink(false);
           return;
@@ -339,8 +324,7 @@ function useFloatingLinkEditorToolbar(
               (linkNode && !linkNode.is(focusLinkNode)) ||
               (focusAutoLinkNode && !focusAutoLinkNode.is(autoLinkNode)) ||
               (autoLinkNode &&
-                (!autoLinkNode.is(focusAutoLinkNode) ||
-                  autoLinkNode.getIsUnlinked()))
+                (!autoLinkNode.is(focusAutoLinkNode) || autoLinkNode.getIsUnlinked()))
             );
           });
         if (!badNode) {
@@ -363,7 +347,7 @@ function useFloatingLinkEditorToolbar(
           setActiveEditor(newEditor);
           return false;
         },
-        COMMAND_PRIORITY_CRITICAL
+        COMMAND_PRIORITY_CRITICAL,
       ),
       editor.registerCommand(
         CLICK_COMMAND,
@@ -379,8 +363,8 @@ function useFloatingLinkEditorToolbar(
           }
           return false;
         },
-        COMMAND_PRIORITY_LOW
-      )
+        COMMAND_PRIORITY_LOW,
+      ),
     );
   }, [editor]);
 
@@ -393,7 +377,7 @@ function useFloatingLinkEditorToolbar(
       isLinkEditMode={isLinkEditMode}
       setIsLinkEditMode={setIsLinkEditMode}
     />,
-    anchorElem
+    anchorElem,
   );
 }
 
@@ -407,10 +391,5 @@ export default function FloatingLinkEditorPlugin({
   setIsLinkEditMode: Dispatch<boolean>;
 }): JSX.Element | null {
   const [editor] = useLexicalComposerContext();
-  return useFloatingLinkEditorToolbar(
-    editor,
-    anchorElem,
-    isLinkEditMode,
-    setIsLinkEditMode
-  );
+  return useFloatingLinkEditorToolbar(editor, anchorElem, isLinkEditMode, setIsLinkEditMode);
 }

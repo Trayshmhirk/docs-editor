@@ -2,19 +2,10 @@ import Image from "next/image";
 import React, { useState } from "react";
 import UserTypeSelector from "../ui/common/UserTypeSelector";
 import { Button } from "../ui/button";
-import {
-  removeCollaborator,
-  updateDocumentAccess,
-} from "@/lib/actions/room.actions";
+import { removeCollaborator, updateDocumentAccess } from "@/lib/actions/room.actions";
 import { BeatLoader } from "react-spinners";
 
-const Collaborator = ({
-  roomId,
-  email,
-  creatorId,
-  collaborator,
-  user,
-}: CollaboratorProps) => {
+const Collaborator = ({ roomId, email, creatorId, collaborator, user }: CollaboratorProps) => {
   const [userType, setUserType] = useState(collaborator.userType || "viewer");
   const [loading, setLoading] = useState(false);
 
@@ -53,9 +44,9 @@ const Collaborator = ({
         />
 
         <div>
-          <p className="flex gap-2 line-clamp-1 text-sm font-semibold leading-4 text-[#555555] dark:text-[#efefef]">
+          <p className="line-clamp-1 flex gap-2 text-sm font-semibold leading-4 text-[#555555] dark:text-[#efefef]">
             {collaborator.name}
-            <span className="text-[10px] font-normal text-text-[#efefef]">
+            <span className="text-text-[#efefef] text-[10px] font-normal">
               {loading && (
                 <>
                   Updating
@@ -64,9 +55,7 @@ const Collaborator = ({
               )}
             </span>
           </p>
-          <p className="text-sm font-light text-text-[#efefef]">
-            {collaborator.email}
-          </p>
+          <p className="text-text-[#efefef] text-sm font-light">{collaborator.email}</p>
         </div>
       </div>
 
@@ -81,7 +70,7 @@ const Collaborator = ({
           />
           <Button
             type="button"
-            className="bg-[#ef4444] dark:bg-[#f87171] hover:bg-[#e52828] dark:hover:bg-[#ef4444] dark:text-white transition-all duration-200 ease-in-out"
+            className="bg-[#ef4444] transition-all duration-200 ease-in-out hover:bg-[#e52828] dark:bg-[#f87171] dark:text-white dark:hover:bg-[#ef4444]"
             onClick={() => removeDocumentHandler(collaborator.email)}
           >
             Remove

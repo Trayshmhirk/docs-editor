@@ -16,11 +16,11 @@ body {
 
 @layer base {
   ::-webkit-scrollbar {
-    @apply w-1 h-[3px] rounded-[50px];
+    @apply h-[3px] w-1 rounded-[50px];
   }
 
   ::-webkit-scrollbar-thumb {
-    @apply bg-[#bbbbbb] dark:bg-[#444444] rounded-[50px];
+    @apply rounded-[50px] bg-[#bbbbbb] dark:bg-[#444444];
   }
 
   ::-webkit-scrollbar-track {
@@ -48,7 +48,7 @@ body {
   }
 
   .toolbar-wrapper {
-    @apply z-50 w-screen overflow-x-auto overflow-y-hidden border-y border-[#d1d1d1] dark:border-[#2A2A2A] bg-[#F5F5F5] dark:bg-[#000000] px-2 md:px-4 shadow-md;
+    @apply z-50 w-screen overflow-x-auto overflow-y-hidden border-y border-[#d1d1d1] bg-[#F5F5F5] px-2 shadow-md dark:border-[#2A2A2A] dark:bg-[#000000] md:px-4;
   }
 
   .editor-wrapper {
@@ -64,7 +64,7 @@ body {
   }
 
   .toolbar button.toolbar-button {
-    @apply flex items-center bg-transparent rounded p-2 border-none hover:enabled:bg-[#eeeeee] dark:hover:enabled:bg-[#3b3b3b] cursor-pointer;
+    @apply flex cursor-pointer items-center rounded border-none bg-transparent p-2 hover:enabled:bg-[#eeeeee] dark:hover:enabled:bg-[#3b3b3b];
   }
 
   .toolbar button.toolbar-item.active {

@@ -55,10 +55,8 @@ export function Editor({ roomId, currentUserType }: Editorprops) {
   const { threads } = useThreads();
   const [isLinkEditMode, setIsLinkEditMode] = useState<boolean>(false);
 
-  const [floatingAnchorElem, setFloatingAnchorElem] =
-    useState<HTMLDivElement | null>(null);
-  const [isSmallWidthViewport, setIsSmallWidthViewport] =
-    useState<boolean>(false);
+  const [floatingAnchorElem, setFloatingAnchorElem] = useState<HTMLDivElement | null>(null);
+  const [isSmallWidthViewport, setIsSmallWidthViewport] = useState<boolean>(false);
 
   const onRef = (_floatingAnchorElem: HTMLDivElement) => {
     if (_floatingAnchorElem !== null) {
@@ -86,27 +84,27 @@ export function Editor({ roomId, currentUserType }: Editorprops) {
   return (
     <LexicalComposer initialConfig={initialConfig}>
       <ToolbarContext>
-        <div className="size-full rounded-sm  bg-[#f0f2f5] dark:bg-[#111111] text-black leading-5 text-left">
-          <div className="toolbar-wrapper h-[50px] flex min-w-full justify-between items-center gap-5">
+        <div className="size-full rounded-sm bg-[#f0f2f5] text-left leading-5 text-black dark:bg-[#111111]">
+          <div className="toolbar-wrapper flex h-[50px] min-w-full items-center justify-between gap-5">
             <ToolbarPlugin setIsLinkEditMode={setIsLinkEditMode} />
 
-            <div className="flex gap-1 items-center">
+            <div className="flex items-center gap-1">
               <ToggleTheme isEditor />
               {currentUserType === "editor" && <DeleteModal roomId={roomId} />}
             </div>
           </div>
 
-          <div className="editor-wrapper flex flex-col items-center justify-start gap-5 overflow-auto p-4 pb-8 lg:flex-row lg:items-start lg:justify-center md:p-6 md:pt-7 md:pb-8 xl:gap-10">
+          <div className="editor-wrapper flex flex-col items-center justify-start gap-5 overflow-auto p-4 pb-8 md:p-6 md:pb-8 md:pt-7 lg:flex-row lg:items-start lg:justify-center xl:gap-10">
             {ready ? (
-              <div className="min-h-[1100px] relative h-full w-full max-w-[800px] bg-white dark:bg-[#212121] mb-5 rounded-[3px] shadow-lg">
+              <div className="relative mb-5 h-full min-h-[1100px] w-full max-w-[800px] rounded-[3px] bg-white shadow-lg dark:bg-[#212121]">
                 <RichTextPlugin
                   contentEditable={
                     <div className="editor h-full" ref={onRef}>
-                      <ContentEditable className="editor-input relative h-full text-[#1e1e1e] dark:text-white caret-[#1d1d1d] dark:caret-[#d8d8d8] px-7 py-8 md:p-10" />
+                      <ContentEditable className="editor-input relative h-full px-7 py-8 text-[#1e1e1e] caret-[#1d1d1d] dark:text-white dark:caret-[#d8d8d8] md:p-10" />
                     </div>
                   }
                   placeholder={
-                    <div className="editor-placeholder absolute top-10 left-10 inline-block text-[15px] text-[#888888] dark:text-[#aaaaaa]">
+                    <div className="editor-placeholder absolute left-10 top-10 inline-block text-[15px] text-[#888888] dark:text-[#aaaaaa]">
                       Enter some rich text...
                     </div>
                   }
@@ -137,7 +135,7 @@ export function Editor({ roomId, currentUserType }: Editorprops) {
 
             {/* liveblocks plugin */}
             <LiveblocksPlugin>
-              <FloatingComposer className="w-[350px] border border-[#cccccc] dark:border-[#444444] rounded-md overflow-hidden" />
+              <FloatingComposer className="w-[350px] overflow-hidden rounded-md border border-[#cccccc] dark:border-[#444444]" />
               <FloatingThreads
                 threads={threads}
                 className="border border-[#cccccc] dark:border-[#444444]"

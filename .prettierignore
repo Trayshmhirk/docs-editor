@@ -1,0 +1,13 @@
+# Next.js build and dependencies
+.next
+node_modules
+package-lock.json
+dist
+build
+public
+.vercel
+
+# TypeScript & tooling
+*.tsbuildinfo
+next-env.d.ts
+.env*

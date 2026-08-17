@@ -28,15 +28,20 @@ master  ← production-ready releases
 
 ## Scripts
 
-| Command             | Description                |
-| ------------------- | -------------------------- |
-| `npm run dev`       | Start development server   |
-| `npm run build`     | Production build           |
-| `npm run lint`      | Run ESLint                 |
-| `npm run format`    | Format with Prettier (TBD) |
-| `npm run typecheck` | TypeScript check (TBD)     |
+| Command                      | Description                                |
+| ---------------------------- | ------------------------------------------ |
+| `npm run dev`                | Start development server                   |
+| `npm run build`              | Production build                           |
+| `npm run lint`               | Run ESLint                                 |
+| `npm run format`             | Format codebase with Prettier              |
+| `npm run format:check`       | Check formatting (CI-safe)                 |
+| `npm run typecheck`          | Run TypeScript type checking               |
+| `npm run security:audit`     | Run dependency security audit (high level) |
+| `npm run security:audit:fix` | Automatically fix audit vulnerabilities    |
+| `npm run security:outdated`  | Check for outdated package versions        |
+| `npm run reset`              | Clean reinstall of modules and lockfile    |
 
-Scripts marked TBD will be added in [Phase 0](./plans/phase-0-tooling.md).
+> **Note on Security Audits:** During Phase 0, `security:audit` runs in warning/informational mode while tooling is stabilized. In Phase 1.1 (after dependency upgrades), strict blocking mode will be re-enabled in both `package.json` and `.github/workflows/ci.yml`.
 
 ## Commit conventions
 
@@ -59,17 +64,20 @@ We use [Conventional Commits](https://www.conventionalcommits.org/).
 | `docs`     | Documentation only                  |
 | `style`    | Formatting, no logic change         |
 | `refactor` | Code change that is not feat or fix |
+| `perf`     | Performance improvement             |
 | `test`     | Adding or updating tests            |
 | `chore`    | Tooling, deps, config               |
 | `ci`       | CI/CD changes                       |
 | `build`    | Build system changes                |
+| `revert`   | Reverting previous commits          |
 
 ### Rules
 
 1. **Every line must be under 100 characters** (subject, body, and bullets).
 2. **Describe what changed functionally**, not how it was implemented.
 3. Use **imperative mood** in the subject: "add feature" not "added feature".
-4. Use **flat bullet points** in the body for multi-part changes — no nested bullets.
+4. **No trailing period** on the subject line.
+5. Use **flat bullet points** in the body for multi-part changes — no nested bullets.
 
 ### Do not include in commit messages
 
@@ -132,10 +140,11 @@ EOF
 
 ### Enforcement
 
-Once Phase 0 is complete:
+Enforced automatically via Git hooks:
 
-- **Husky** runs lint-staged on pre-commit (Prettier + ESLint).
-- **commitlint** validates commit message format on commit-msg hook.
+- **Husky pre-commit** runs `lint-staged` (Prettier + ESLint on staged files).
+- **Husky commit-msg** runs `commitlint` (validating conventional types, length limits, and formatting).
+- **Husky pre-push** runs `security:audit` (preventing vulnerable packages from being pushed).
 
 ## Pull request conventions
 
@@ -197,14 +206,15 @@ EOF
 
 GitHub will also pre-fill the description from [`.github/pull_request_template.md`](../.github/pull_request_template.md).
 
-## Git hooks (Phase 0)
+## Git hooks
 
-After Phase 0 tooling is installed:
+Enforced on development workflow:
 
-| Hook         | Action                                    |
-| ------------ | ----------------------------------------- |
-| `pre-commit` | lint-staged (Prettier + ESLint on staged) |
-| `commit-msg` | commitlint (conventional format + length) |
+| Hook         | Action                                               |
+| ------------ | ---------------------------------------------------- |
+| `pre-commit` | lint-staged (Prettier + ESLint on staged files)      |
+| `commit-msg` | commitlint (conventional format + length limits)     |
+| `pre-push`   | security audit (blocks push on high vulnerabilities) |
 
 Do not skip hooks with `--no-verify` unless there is a documented reason.
 

@@ -27,9 +27,7 @@ const CollaborativeRoom = ({
   const containerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const updateTitleHandler = async (
-    e: React.KeyboardEvent<HTMLInputElement>
-  ) => {
+  const updateTitleHandler = async (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       setLoading(true);
 
@@ -115,10 +113,7 @@ const CollaborativeRoom = ({
               )}
 
               {currentUserType === "editor" && !editing && (
-                <SquarePen
-                  className="size-5 cursor-pointer"
-                  onClick={() => setEditing(true)}
-                />
+                <SquarePen className="size-5 cursor-pointer" onClick={() => setEditing(true)} />
               )}
               {currentUserType !== "editor" && !editing && (
                 <p className="rounded-md bg-dark-400/50 px-2 py-0.5 text-xs text-blue-100/50">
@@ -128,7 +123,7 @@ const CollaborativeRoom = ({
               {loading && <p className="text-sm text-gray-100">saving...</p>}
             </div>
 
-            <div className="flex items-center gap-2 md:gap-4 justify-center">
+            <div className="flex items-center justify-center gap-2 md:gap-4">
               <ActiveCollaborators />
               <ShareModal
                 roomId={roomId}
