@@ -10,16 +10,16 @@
 
 ## 0.1 Code formatting (Prettier) & Workspace Config
 
-- [ ] Install `prettier`, `eslint-config-prettier`, `prettier-plugin-tailwindcss`
-- [ ] Add `.prettierrc` (or `prettier.config.mjs`) with project defaults
-- [ ] Add `.prettierignore` (`.next`, `node_modules`, `package-lock.json`, etc.)
-- [ ] Add `.vscode/extensions.json` with recommended extensions (ESLint, Prettier, Tailwind CSS, CSpell)
-- [ ] Add `.vscode/settings.json` with workspace defaults (format on save, ESLint fix on save)
-- [ ] Add scripts to `package.json`:
+- [x] Install `prettier`, `eslint-config-prettier`, `prettier-plugin-tailwindcss`
+- [x] Add `.prettierrc` (or `prettier.config.mjs`) with project defaults
+- [x] Add `.prettierignore` (`.next`, `node_modules`, `package-lock.json`, etc.)
+- [x] Add `.vscode/extensions.json` with recommended extensions (ESLint, Prettier, Tailwind CSS, CSpell)
+- [x] Add `.vscode/settings.json` with workspace defaults (format on save, ESLint fix on save)
+- [x] Add scripts to `package.json`:
   - `format` — write formatted files
   - `format:check` — CI-safe check only
-- [ ] Extend ESLint config to disable rules that conflict with Prettier
-- [ ] Run initial format pass on codebase (single dedicated commit: `style: apply prettier formatting`)
+- [x] Extend ESLint config to disable rules that conflict with Prettier
+- [x] Run initial format pass on codebase (single dedicated commit: `style: apply prettier formatting`)
 
 ### Files to create/modify
 
