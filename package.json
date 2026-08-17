@@ -35,7 +35,7 @@
     "@liveblocks/client": "^2.15.1",
     "@liveblocks/node": "^2.15.1",
     "@liveblocks/react": "^2.15.1",
-    "@liveblocks/react-lexical": "^2.15.1",
+    "@liveblocks/react-lexical": "^3.23.1",
     "@liveblocks/react-ui": "^2.15.1",
     "@radix-ui/react-dialog": "^1.1.2",
     "@radix-ui/react-dropdown-menu": "^2.1.2",
