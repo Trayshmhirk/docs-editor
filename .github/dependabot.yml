@@ -1,15 +1,17 @@
 version: 2
 updates:
+  # Temporarily paused during Phase 0 — structured dependency upgrades are planned in Phase 1.1
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
       interval: "weekly"
-    open-pull-requests-limit: 10
+    open-pull-requests-limit: 0
     target-branch: "dev"
 
+  # Keep GitHub Actions workflows up to date
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
       interval: "weekly"
-    open-pull-requests-limit: 10
+    open-pull-requests-limit: 3
     target-branch: "dev"
