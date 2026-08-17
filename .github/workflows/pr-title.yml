@@ -35,5 +35,4 @@ jobs:
             revert
           requireScope: false
           validateSingleCommit: false
-          headerPattern: '^(\\w+)(?:\\(([\\w$\\.\\-\\*\\s]+)\\))?\\: (.*)$'
-          headerPatternCorrespondence: type,scope,subject
+          validateSingleCommitMatchesPrTitle: false
