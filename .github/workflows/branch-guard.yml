@@ -9,8 +9,8 @@ jobs:
     name: Verify Source Branch
     runs-on: ubuntu-latest
     steps:
-      - name: Enforce master PRs originate from dev
-        if: github.head_ref != 'dev'
+      - name: Enforce master PRs originate from dev or release-please
+        if: github.head_ref != 'dev' && !startsWith(github.head_ref, 'release-please')
         run: |
-          echo "::error::Direct pull requests to 'master' are restricted. Pull requests to 'master' must originate from the 'dev' integration branch (current head: '${{ github.head_ref }}')."
+          echo "::error::Direct pull requests to 'master' are restricted. Pull requests to 'master' must originate from 'dev' or automated 'release-please' branches (current head: '${{ github.head_ref }}')."
           exit 1
