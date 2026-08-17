@@ -91,9 +91,9 @@ jobs:
     needs: [lint, format, typecheck, security]
     runs-on: ubuntu-latest
     env:
-      NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: ${{ secrets.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY || 'pk_test_ZG9jcy1lZGl0b3IuY2xlcmsuYWNjb3VudHMuZGV2JA==' }}
-      CLERK_SECRET_KEY: ${{ secrets.CLERK_SECRET_KEY || 'sk_test_dummySecretKeyForBuildValidation123456789' }}
-      LIVEBLOCKS_SECRET_KEY: ${{ secrets.LIVEBLOCKS_SECRET_KEY || 'sk_dev_dummyLiveblocksSecretKey123456789' }}
+      NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: ${{ secrets.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY }}
+      CLERK_SECRET_KEY: ${{ secrets.CLERK_SECRET_KEY }}
+      LIVEBLOCKS_SECRET_KEY: ${{ secrets.LIVEBLOCKS_SECRET_KEY }}
       NEXT_TELEMETRY_DISABLED: 1
     steps:
       - name: Checkout repository

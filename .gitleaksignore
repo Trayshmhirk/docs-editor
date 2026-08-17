@@ -1,0 +1,4 @@
+# Gitleaks ignore list
+# Ignores previous commits that contained dummy test placeholders in CI config
+c5a76f6dfa872a47269bae4fa69bf1c3ed64357f
+b989fbc278239a842e61b00b3417721626720842
