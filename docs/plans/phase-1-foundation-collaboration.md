@@ -58,25 +58,25 @@ Tailwind v4 is CSS-first: theme tokens move into CSS; `tailwind.config.ts` is re
 
 ### Checklist for tailwind v4
 
-- [ ] Install `tailwindcss@4` and `@tailwindcss/postcss`
-- [ ] Update `postcss.config.mjs` to use `@tailwindcss/postcss`
-- [ ] Replace `@tailwind` directives in `app/globals.css` with `@import "tailwindcss"`
-- [ ] Migrate theme from `tailwind.config.ts` to `@theme` in CSS:
+- [x] Install `tailwindcss@4` and `@tailwindcss/postcss`
+- [x] Update `postcss.config.mjs` to use `@tailwindcss/postcss`
+- [x] Replace `@tailwind` directives in `app/globals.css` with `@import "tailwindcss"`
+- [x] Migrate theme from `tailwind.config.ts` to `@theme` in CSS:
   - Custom colors (`blue`, `red`, `dark`)
   - Breakpoints (`xs`, `sm`, `md`, `lg`, `xl`)
   - Keyframes / animations (`accordion-down`, `accordion-up`)
   - Custom box shadows (`sm-dark`, `lg-dark`, etc.)
-- [ ] Configure dark mode via `@custom-variant dark` (class strategy)
-- [ ] Migrate `tailwindcss-animate` usage to v4-compatible approach
-- [ ] Delete `tailwind.config.ts`
-- [ ] Update `prettier-plugin-tailwindcss` to version supporting Tailwind v4
-- [ ] Visual regression pass:
+- [x] Configure dark mode via `@custom-variant dark` (class strategy)
+- [x] Migrate `tailwindcss-animate` usage to v4-compatible approach
+- [x] Delete `tailwind.config.ts`
+- [x] Update `prettier-plugin-tailwindcss` to version supporting Tailwind v4
+- [x] Visual regression pass:
   - Home / document list
   - Editor toolbar and content area
   - Clerk sign-in/up pages
   - Liveblocks comments UI
   - Dark and light themes
-- [ ] Update editor-specific CSS in `styles/editor/` and `styles/liveblocks/` if needed
+- [x] Update editor-specific CSS in `styles/editor/` and `styles/liveblocks/` if needed
 
 ### Files to modify
 
