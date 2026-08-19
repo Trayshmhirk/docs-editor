@@ -1,100 +1,141 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
 @import "@liveblocks/react-ui/styles.css";
 @import "@liveblocks/react-lexical/styles.css";
 @import "@liveblocks/react-ui/styles/dark/attributes.css";
 @import "@liveblocks/react-ui/styles/dark/media-query.css";
-@import "@/styles/editor/index.css";
-@import "@/styles/liveblocks/index.css";
-@import "@/styles/clerk/index.css";
+@import "../styles/editor/index.css";
+@import "../styles/liveblocks/index.css";
+@import "../styles/clerk/index.css";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --breakpoint-xs: 404px;
+  --breakpoint-sm: 576px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1200px;
+  --breakpoint-2xl: 1400px;
+
+  --color-blue-100: #b4c6ee;
+  --color-blue-400: #417bff;
+  --color-blue-500: #3371ff;
+
+  --color-red-400: #dd4f56;
+  --color-red-500: #dc4349;
+
+  --color-dark-100: #09111f;
+  --color-dark-200: #0b1527;
+  --color-dark-300: #0f1c34;
+  --color-dark-350: #12213b;
+  --color-dark-400: #27344d;
+  --color-dark-500: #2e3d5b;
+
+  --shadow-sm-dark: 0 1px 3px 0px rgb(0 0 0 / 0.5);
+  --shadow-md-dark: 0 2px 5px 0px rgb(0 0 0 / 0.6);
+  --shadow-lg-dark: 0 4px 7px 0px rgb(0 0 0 / 0.7);
+  --shadow-xl-dark: 0 6px 10px 2px rgb(0 0 0 / 0.8);
+
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+
+  @keyframes accordion-down {
+    from {
+      height: 0;
+    }
+    to {
+      height: var(--radix-accordion-content-height);
+    }
+  }
+  @keyframes accordion-up {
+    from {
+      height: var(--radix-accordion-content-height);
+    }
+    to {
+      height: 0;
+    }
+  }
+}
 
 body {
   font-family: Arial, Helvetica, sans-serif;
+  @apply bg-white text-[#1e1e1e] dark:bg-[#111111] dark:text-white;
 }
 
-@layer base {
-  ::-webkit-scrollbar {
-    @apply h-[3px] w-1 rounded-[50px];
-  }
-
-  ::-webkit-scrollbar-thumb {
-    @apply rounded-[50px] bg-[#bbbbbb] dark:bg-[#444444];
-  }
-
-  ::-webkit-scrollbar-track {
-    @apply bg-[#f5f5f5] dark:bg-[#09090a];
-  }
-
-  body {
-    @apply bg-white text-[#1e1e1e] dark:bg-[#111111] dark:text-white;
-  }
-
-  ul {
-    list-style: disc;
-    list-style-type: disc;
-  }
-
-  ol {
-    list-style: decimal;
-    list-style-type: decimal;
-  }
+::-webkit-scrollbar {
+  @apply h-[3px] w-1 rounded-[50px];
 }
 
-@layer utilities {
-  .hover-shadow {
-    @apply transition-all duration-300 ease-in-out hover:shadow-md dark:hover:shadow-md-dark;
-  }
+::-webkit-scrollbar-thumb {
+  @apply rounded-[50px] bg-[#bbbbbb] dark:bg-[#444444];
+}
 
-  .toolbar-wrapper {
-    @apply z-50 w-screen overflow-x-auto overflow-y-hidden border-y border-[#d1d1d1] bg-[#F5F5F5] px-2 shadow-md dark:border-[#2A2A2A] dark:bg-[#000000] md:px-4;
-  }
+::-webkit-scrollbar-track {
+  @apply bg-[#f5f5f5] dark:bg-[#09090a];
+}
 
-  .editor-wrapper {
-    @apply h-[calc(100vh-114px)];
-  }
+ul {
+  list-style: disc;
+  list-style-type: disc;
+}
 
-  .gradient-darkgray {
-    background: linear-gradient(to top, #222222, #1c1c1c) !important;
-  }
+ol {
+  list-style: decimal;
+  list-style-type: decimal;
+}
 
-  .document-title-input {
-    @apply min-w-[78px] flex-1 border-none bg-transparent px-0 text-left text-base font-semibold leading-[24px] focus-visible:ring-0 focus-visible:ring-offset-0 disabled:text-black sm:text-xl md:text-center !important;
-  }
+.hover-shadow {
+  @apply dark:hover:shadow-md-dark transition-all duration-300 ease-in-out hover:shadow-md;
+}
 
-  .toolbar button.toolbar-button {
-    @apply flex cursor-pointer items-center rounded border-none bg-transparent p-2 hover:enabled:bg-[#eeeeee] dark:hover:enabled:bg-[#3b3b3b];
-  }
+.toolbar-wrapper {
+  @apply z-50 w-screen overflow-x-auto overflow-y-hidden border-y border-[#d1d1d1] bg-[#F5F5F5] px-2 shadow-md md:px-4 dark:border-[#2A2A2A] dark:bg-[#000000];
+}
 
-  .toolbar button.toolbar-item.active {
-    @apply bg-[#eeeeee] dark:bg-[#3b3b3b];
-  }
+.editor-wrapper {
+  @apply h-[calc(100vh-114px)];
+}
 
-  .toolbar button.toolbar-item:disabled {
-    cursor: not-allowed;
-  }
+.gradient-darkgray {
+  background: linear-gradient(to top, #222222, #1c1c1c) !important;
+}
 
-  .toolbar button.toolbar-item:disabled svg {
-    opacity: 0.2;
-  }
+.document-title-input {
+  @apply min-w-[78px] flex-1 border-none bg-transparent px-0 text-left text-base leading-[24px] font-semibold focus-visible:ring-0 focus-visible:ring-offset-0 disabled:text-black sm:text-xl md:text-center;
+}
 
-  .format.icon {
-    @apply size-[18px] text-[#1e1e1e] dark:text-white;
-  }
+.toolbar button.toolbar-button {
+  @apply flex cursor-pointer items-center rounded border-none bg-transparent p-2 hover:enabled:bg-[#eeeeee] dark:hover:enabled:bg-[#3b3b3b];
+}
 
-  .toolbar .toolbar-item .text {
-    display: flex;
-    line-height: 20px;
-    vertical-align: middle;
-    font-size: 14px;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    height: 20px;
-    text-align: left;
-  }
+.toolbar button.toolbar-item.active {
+  @apply bg-[#eeeeee] dark:bg-[#3b3b3b];
+}
 
-  .toolbar-item.font-family .text {
-    max-width: 40px;
-  }
+.toolbar button.toolbar-item:disabled {
+  cursor: not-allowed;
+}
+
+.toolbar button.toolbar-item:disabled svg {
+  opacity: 0.2;
+}
+
+.format.icon {
+  @apply size-[18px] text-[#1e1e1e] dark:text-white;
+}
+
+.toolbar .toolbar-item .text {
+  display: flex;
+  line-height: 20px;
+  vertical-align: middle;
+  font-size: 14px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  height: 20px;
+  text-align: left;
+}
+
+.toolbar-item.font-family .text {
+  max-width: 40px;
 }
