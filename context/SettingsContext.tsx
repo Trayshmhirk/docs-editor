@@ -25,7 +25,7 @@ const Context: React.Context<SettingsContextShape> = createContext({
   settings: INITIAL_SETTINGS,
 });
 
-export const SettingsContext = ({ children }: { children: ReactNode }): JSX.Element => {
+export const SettingsContext = ({ children }: { children: ReactNode }): React.JSX.Element => {
   const [settings, setSettings] = useState(INITIAL_SETTINGS);
 
   const setOption = useCallback((setting: SettingName, value: boolean) => {

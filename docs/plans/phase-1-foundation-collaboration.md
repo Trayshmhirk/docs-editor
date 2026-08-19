@@ -25,15 +25,15 @@ Upgrade incrementally; run CI after each major bump.
 
 ### Checklist
 
-- [ ] Create upgrade branch from `dev`
-- [ ] Upgrade Liveblocks packages first; fix auth/room API changes
-- [ ] Upgrade Lexical packages; resolve `@liveblocks/react-lexical` compatibility
-- [ ] Upgrade Clerk; update middleware and server imports if needed
-- [ ] Upgrade Next.js + React
-- [ ] Remove or update `package.json` `overrides` block if no longer needed
-- [ ] Re-enable strict security audits: remove Phase 0 transitional bypasses (`continue-on-error: true` in `.github/workflows/ci.yml` and exit fallback in `package.json`)
+- [x] Create upgrade branch from `dev`
+- [x] Upgrade Liveblocks packages first; fix auth/room API changes
+- [x] Upgrade Lexical packages; resolve `@liveblocks/react-lexical` compatibility
+- [x] Upgrade Clerk; update middleware and server imports if needed
+- [x] Upgrade Next.js + React
+- [x] Remove or update `package.json` `overrides` block if no longer needed
+- [x] Re-enable strict security audits: remove Phase 0 transitional bypasses (`continue-on-error: true` in `.github/workflows/ci.yml` and exit fallback in `package.json`)
 - [ ] Run full manual test: sign-in, create doc, edit, share, comments
-- [ ] Fix any TypeScript errors from upgraded types
+- [x] Fix any TypeScript errors from upgraded types
 
 ### Key files
 

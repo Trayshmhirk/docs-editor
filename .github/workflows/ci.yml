@@ -71,8 +71,6 @@ jobs:
   security:
     name: Security Audit
     runs-on: ubuntu-latest
-    # Transitional Phase 0 warning mode: remove continue-on-error in Phase 1.1 after dependency upgrades
-    continue-on-error: true
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4

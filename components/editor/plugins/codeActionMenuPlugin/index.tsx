@@ -18,7 +18,7 @@ interface Position {
   right: string;
 }
 
-function CodeActionMenuContainer({ anchorElem }: { anchorElem: HTMLElement }): JSX.Element {
+function CodeActionMenuContainer({ anchorElem }: { anchorElem: HTMLElement }): React.JSX.Element {
   const [editor] = useLexicalComposerContext();
 
   const [lang, setLang] = useState("");
