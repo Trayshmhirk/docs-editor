@@ -107,7 +107,7 @@ const CollaborativeRoom = ({
                   className="document-title-input"
                 />
               ) : (
-                <p className="line-clamp-1 border-dark-400 text-sm font-semibold leading-[24px] sm:text-lg">
+                <p className="border-dark-400 line-clamp-1 text-sm leading-[24px] font-semibold sm:text-lg">
                   {documentTitle}
                 </p>
               )}
@@ -116,7 +116,7 @@ const CollaborativeRoom = ({
                 <SquarePen className="size-5 cursor-pointer" onClick={() => setEditing(true)} />
               )}
               {currentUserType !== "editor" && !editing && (
-                <p className="rounded-md bg-dark-400/50 px-2 py-0.5 text-xs text-blue-100/50">
+                <p className="bg-dark-400/50 rounded-md px-2 py-0.5 text-xs text-blue-100/50">
                   View only
                 </p>
               )}

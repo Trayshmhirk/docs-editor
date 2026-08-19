@@ -94,17 +94,17 @@ export function Editor({ roomId, currentUserType }: Editorprops) {
             </div>
           </div>
 
-          <div className="editor-wrapper flex flex-col items-center justify-start gap-5 overflow-auto p-4 pb-8 md:p-6 md:pb-8 md:pt-7 lg:flex-row lg:items-start lg:justify-center xl:gap-10">
+          <div className="editor-wrapper flex flex-col items-center justify-start gap-5 overflow-auto p-4 pb-8 md:p-6 md:pt-7 md:pb-8 lg:flex-row lg:items-start lg:justify-center xl:gap-10">
             {ready ? (
               <div className="relative mb-5 h-full min-h-[1100px] w-full max-w-[800px] rounded-[3px] bg-white shadow-lg dark:bg-[#212121]">
                 <RichTextPlugin
                   contentEditable={
                     <div className="editor h-full" ref={onRef}>
-                      <ContentEditable className="editor-input relative h-full px-7 py-8 text-[#1e1e1e] caret-[#1d1d1d] dark:text-white dark:caret-[#d8d8d8] md:p-10" />
+                      <ContentEditable className="editor-input relative h-full px-7 py-8 text-[#1e1e1e] caret-[#1d1d1d] md:p-10 dark:text-white dark:caret-[#d8d8d8]" />
                     </div>
                   }
                   placeholder={
-                    <div className="editor-placeholder absolute left-10 top-10 inline-block text-[15px] text-[#888888] dark:text-[#aaaaaa]">
+                    <div className="editor-placeholder absolute top-10 left-10 inline-block text-[15px] text-[#888888] dark:text-[#aaaaaa]">
                       Enter some rich text...
                     </div>
                   }

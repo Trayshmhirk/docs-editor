@@ -44,7 +44,7 @@ const Collaborator = ({ roomId, email, creatorId, collaborator, user }: Collabor
         />
 
         <div>
-          <p className="line-clamp-1 flex gap-2 text-sm font-semibold leading-4 text-[#555555] dark:text-[#efefef]">
+          <p className="line-clamp-1 flex gap-2 text-sm leading-4 font-semibold text-[#555555] dark:text-[#efefef]">
             {collaborator.name}
             <span className="text-text-[#efefef] text-[10px] font-normal">
               {loading && (

@@ -48,7 +48,7 @@ const ShareModal = ({
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button
-          className="flex h-9 items-center gap-1 bg-[#00afdb] px-4 font-medium shadow-lg transition-all duration-300 ease-in-out hover:bg-[#0081a4] dark:bg-[#00afdb] dark:text-white dark:shadow-lg-dark dark:hover:bg-[#0081a4]"
+          className="dark:shadow-lg-dark flex h-9 items-center gap-1 bg-[#00afdb] px-4 font-medium shadow-lg transition-all duration-300 ease-in-out hover:bg-[#0081a4] dark:bg-[#00afdb] dark:text-white dark:hover:bg-[#0081a4]"
           disabled={currentUserType !== "editor"}
         >
           <Share className="min-w-4 md:size-5" />
@@ -83,7 +83,7 @@ const ShareModal = ({
             <Button
               type="submit"
               onClick={handleShareDocument}
-              className="h-11 bg-[#00afdb] px-5 shadow-lg transition-colors duration-200 ease-in-out hover:bg-[#0081a4] dark:bg-[#00afdb] dark:text-white dark:shadow-lg-dark dark:hover:bg-[#0081a4]"
+              className="dark:shadow-lg-dark h-11 bg-[#00afdb] px-5 shadow-lg transition-colors duration-200 ease-in-out hover:bg-[#0081a4] dark:bg-[#00afdb] dark:text-white dark:hover:bg-[#0081a4]"
               disabled={loading}
             >
               {loading ? "sending..." : "Invite"}

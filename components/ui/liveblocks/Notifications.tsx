@@ -23,12 +23,12 @@ const Notifications = () => {
         <Bell className="size-6" />
 
         {count > 0 && (
-          <div className="absolute right-2 top-2 z-20 size-2 rounded-full bg-[#00afdb] text-white"></div>
+          <div className="absolute top-2 right-2 z-20 size-2 rounded-full bg-[#00afdb] text-white"></div>
         )}
       </PopoverTrigger>
       <PopoverContent
         align="end"
-        className="ml-3 flex w-full max-w-[350px] flex-col gap-2 border border-[#eeeeee] shadow-lg dark:border-[#181818] dark:bg-[#1f1f1f] sm:max-w-[460px]"
+        className="ml-3 flex w-full max-w-[350px] flex-col gap-2 border border-[#eeeeee] shadow-lg sm:max-w-[460px] dark:border-[#181818] dark:bg-[#1f1f1f]"
       >
         <LiveblocksUiConfig
           overrides={{
@@ -46,7 +46,7 @@ const Notifications = () => {
                 <InboxNotification
                   key={notification.id}
                   inboxNotification={notification}
-                  className="flex flex-col gap-2 rounded border border-[#eeeeee] bg-[#f7f7f7] py-3 text-[#1e1e1e] dark:border-[#434343] dark:bg-[#2a2a2a] dark:text-[white] sm:flex-row md:gap-3"
+                  className="flex flex-col gap-2 rounded border border-[#eeeeee] bg-[#f7f7f7] py-3 text-[#1e1e1e] sm:flex-row md:gap-3 dark:border-[#434343] dark:bg-[#2a2a2a] dark:text-[white]"
                   href={`/documents/${notification.roomId}`}
                   showActions={false}
                   kinds={{
