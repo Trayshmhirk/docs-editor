@@ -39,7 +39,7 @@ export default function BlockFormatDropDown({
   rootType: keyof rootTypeToRootName;
   editor: LexicalEditor;
   disabled?: boolean;
-}): JSX.Element {
+}): React.JSX.Element {
   return (
     <DropDown
       disabled={disabled}

@@ -73,3 +73,5 @@ declare type ShareDocumentDialogProps = {
   creatorId: string;
   currentUserType: UserType;
 };
+
+declare module "*.css";

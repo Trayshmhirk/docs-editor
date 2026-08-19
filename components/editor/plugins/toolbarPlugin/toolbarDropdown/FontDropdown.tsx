@@ -38,7 +38,7 @@ export function FontDropDown({
   value: string;
   style: string;
   disabled?: boolean;
-}): JSX.Element {
+}): React.JSX.Element {
   const handleClick = useCallback(
     (option: string) => {
       editor.update(() => {
