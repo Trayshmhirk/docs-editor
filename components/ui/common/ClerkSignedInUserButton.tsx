@@ -1,6 +1,6 @@
 "use client";
 
-import { SignedIn, UserButton } from "@clerk/nextjs";
+import { Show, UserButton } from "@clerk/nextjs";
 import { dark } from "@clerk/themes";
 import { useTheme } from "next-themes";
 
@@ -8,7 +8,7 @@ const ClerkSignedInUserButton = () => {
   const { resolvedTheme } = useTheme();
 
   return (
-    <SignedIn>
+    <Show when="signed-in">
       <UserButton
         appearance={{
           theme: resolvedTheme === "dark" ? dark : undefined,
@@ -18,7 +18,7 @@ const ClerkSignedInUserButton = () => {
           },
         }}
       />
-    </SignedIn>
+    </Show>
   );
 };
 

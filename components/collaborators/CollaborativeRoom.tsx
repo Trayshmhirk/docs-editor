@@ -4,7 +4,7 @@ import { RoomProvider } from "@liveblocks/react";
 import { ClientSideSuspense } from "@liveblocks/react/suspense";
 import { Editor } from "@/components/editor/Editor";
 import Header from "@/components/ui/shared/Header";
-import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
+import { Show, SignInButton } from "@clerk/nextjs";
 import ActiveCollaborators from "@/components/collaborators/ActiveCollaborators";
 import Loader from "@/components/ui/common/Loader";
 import { useEffect, useRef, useState } from "react";
@@ -131,9 +131,9 @@ const CollaborativeRoom = ({
                 creatorId={roomMetadata.creatorId}
                 currentUserType={currentUserType}
               />
-              <SignedOut>
+              <Show when="signed-out">
                 <SignInButton />
-              </SignedOut>
+              </Show>
               <ClerkSignedInUserButton />
             </div>
           </Header>
