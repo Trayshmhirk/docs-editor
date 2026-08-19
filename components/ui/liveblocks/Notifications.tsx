@@ -8,7 +8,7 @@ import {
   useInboxNotifications,
   useUnreadInboxNotificationsCount,
 } from "@liveblocks/react/suspense";
-import { InboxNotification, InboxNotificationList, LiveblocksUIConfig } from "@liveblocks/react-ui";
+import { InboxNotification, InboxNotificationList, LiveblocksUiConfig } from "@liveblocks/react-ui";
 import Image from "next/image";
 
 const Notifications = () => {
@@ -30,7 +30,7 @@ const Notifications = () => {
         align="end"
         className="ml-3 flex w-full max-w-[350px] flex-col gap-2 border border-[#eeeeee] shadow-lg dark:border-[#181818] dark:bg-[#1f1f1f] sm:max-w-[460px]"
       >
-        <LiveblocksUIConfig
+        <LiveblocksUiConfig
           overrides={{
             INBOX_NOTIFICATION_TEXT_MENTION: (user: React.ReactNode) => <>{user} mentioned you.</>,
           }}
@@ -89,7 +89,7 @@ const Notifications = () => {
                 />
               ))}
           </InboxNotificationList>
-        </LiveblocksUIConfig>
+        </LiveblocksUiConfig>
       </PopoverContent>
     </Popover>
   );
