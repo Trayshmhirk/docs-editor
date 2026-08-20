@@ -21,7 +21,16 @@ import { $isHeadingNode } from "@lexical/rich-text";
 import { $findMatchingParent } from "@lexical/utils";
 import React, { Dispatch } from "react";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Bold, Italic, Link, RotateCcw, RotateCw, Underline } from "lucide-react";
+import {
+  Bold,
+  Italic,
+  Link,
+  RotateCcw,
+  RotateCw,
+  Table as TableIcon,
+  Underline,
+} from "lucide-react";
+import { INSERT_TABLE_COMMAND } from "@lexical/table";
 import { Button } from "@/components/ui/button";
 import BlockFormatDropDown from "./toolbarDropdown/BlockFormatDropdown";
 import { blockTypeToBlockName, useToolbarState } from "@/context/ToolbarContext";
@@ -37,7 +46,7 @@ import FontSize from "./fontSize";
 const LowPriority = 1;
 
 function Divider() {
-  return <div className="mx-1 h-full w-[1px] bg-[#dedede] dark:bg-[#3b3b3b]" />;
+  return <div className="mx-1 h-full w-px bg-[#dedede] dark:bg-[#3b3b3b]" />;
 }
 
 export default function ToolbarPlugin({
@@ -201,6 +210,14 @@ export default function ToolbarPlugin({
     }
   }, [editor, setIsLinkEditMode, toolbarState.isLink]);
 
+  const insertTable = useCallback(() => {
+    editor.dispatchCommand(INSERT_TABLE_COMMAND, {
+      columns: "3",
+      rows: "3",
+      includeHeaders: true,
+    });
+  }, [editor]);
+
   const onCodeLanguageSelect = useCallback(
     (value: string) => {
       editor.update(() => {
@@ -217,7 +234,7 @@ export default function ToolbarPlugin({
 
   return (
     <div
-      className="toolbar flex h-full gap-[2px] rounded-t-lg bg-[#fcfcfc] p-1 dark:bg-[#1e1e1e]"
+      className="toolbar flex h-full gap-0.5 rounded-t-lg bg-[#fcfcfc] p-1 dark:bg-[#1e1e1e]"
       ref={toolbarRef}
     >
       <button
@@ -263,7 +280,7 @@ export default function ToolbarPlugin({
             {CODE_LANGUAGE_OPTIONS.map(([value, name]) => {
               return (
                 <DropDownItem
-                  className={`item flex min-w-[100px] items-center justify-between rounded px-2 py-1 text-sm hover:enabled:bg-[#eee] dark:hover:enabled:bg-[#3b3b3b] ${dropDownActiveClass(
+                  className={`item flex min-w-25 items-center justify-between rounded px-2 py-1 text-sm hover:enabled:bg-[#eee] dark:hover:enabled:bg-[#3b3b3b] ${dropDownActiveClass(
                     value === toolbarState.codeLanguage,
                   )}`}
                   onClick={() => onCodeLanguageSelect(value)}
@@ -330,6 +347,16 @@ export default function ToolbarPlugin({
             type="button"
           >
             <Link className="format icon rotate-45 transform" />
+          </Button>
+          <Button
+            disabled={!isEditable}
+            onClick={insertTable}
+            className="toolbar-item toolbar-button"
+            aria-label="Insert table"
+            type="button"
+            title="Insert Table"
+          >
+            <TableIcon className="format icon" />
           </Button>
           <TextFormatDropdown editor={editor} disabled={!isEditable} toolbarState={toolbarState} />
         </>

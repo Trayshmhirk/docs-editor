@@ -79,4 +79,12 @@ export const editorTheme: EditorThemeClasses = {
     url: "editor-tokenOperator",
     variable: "editor-tokenVariable",
   },
+  table: "editor-table",
+  tableCell: "editor-tableCell",
+  tableCellActionButton: "editor-tableCellActionButton",
+  tableCellActionButtonContainer: "editor-tableCellActionButtonContainer",
+  tableCellHeader: "editor-tableCellHeader",
+  tableCellResizer: "editor-tableCellResizer",
+  tableCellSelected: "editor-tableCellSelected",
+  tableRow: "editor-tableRow",
 };
