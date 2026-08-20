@@ -106,7 +106,7 @@ function Toolbar({
         minWidth: "max-content",
       }}
     >
-      <div className="flex w-full min-w-max items-center justify-center gap-2 rounded-lg border border-[#cccccc] bg-[#fdfdfd] p-1.5 shadow-md transition-colors hover:bg-[#f3f3f3] dark:border-[#444444] dark:bg-[#373737] dark:shadow-md-dark dark:hover:bg-[#191919]">
+      <div className="dark:shadow-md-dark flex w-full min-w-max items-center justify-center gap-2 rounded-lg border border-[#cccccc] bg-[#fdfdfd] p-1.5 shadow-md transition-colors hover:bg-[#f3f3f3] dark:border-[#444444] dark:bg-[#373737] dark:hover:bg-[#191919]">
         <button
           onClick={() => {
             const isOpen = editor.dispatchCommand(OPEN_FLOATING_COMPOSER_COMMAND, undefined);
@@ -114,7 +114,7 @@ function Toolbar({
               onRangeChange(null);
             }
           }}
-          className="relative inline-flex size-8 items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 disabled:pointer-events-none disabled:opacity-50"
+          className="relative inline-flex size-8 items-center justify-center rounded-md text-sm font-medium whitespace-nowrap transition-colors focus-visible:ring-1 focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50"
         >
           <MessageSquarePlus className="size-6" />
         </button>

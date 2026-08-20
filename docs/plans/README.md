@@ -35,13 +35,14 @@ feat(collaboration): add live cursors and presence
 
 ## Phases
 
-| Phase | File                                                                         | Focus                                                    | Depends on                 |
-| ----- | ---------------------------------------------------------------------------- | -------------------------------------------------------- | -------------------------- |
-| **0** | [phase-0-tooling.md](./phase-0-tooling.md)                                   | Prettier, Husky, commitlint, CI/CD, security             | —                          |
-| **1** | [phase-1-foundation-collaboration.md](./phase-1-foundation-collaboration.md) | Dependency upgrades, Tailwind v4, seamless collaboration | Phase 0                    |
-| **2** | [phase-2-core-product-features.md](./phase-2-core-product-features.md)       | Version history, search, export, Postgres metadata       | Phase 1                    |
-| **3** | [phase-3-ai-features.md](./phase-3-ai-features.md)                           | Inline AI editing, formatting, summarization             | Phase 1 (Phase 2 optional) |
-| **4** | [phase-4-auth-strategy.md](./phase-4-auth-strategy.md)                       | Clerk customization vs custom auth                       | Phase 0 (Phase 2 for DB)   |
+| Phase   | File                                                                         | Focus                                                    | Depends on                 |
+| ------- | ---------------------------------------------------------------------------- | -------------------------------------------------------- | -------------------------- |
+| **0**   | [phase-0-tooling.md](./phase-0-tooling.md)                                   | Prettier, Husky, commitlint, CI/CD, security             | —                          |
+| **1**   | [phase-1-foundation-collaboration.md](./phase-1-foundation-collaboration.md) | Dependency upgrades, Tailwind v4, seamless collaboration | Phase 0                    |
+| **1.5** | [performance-and-ui-revamp.md](./performance-and-ui-revamp.md)               | Dev speed (Turbopack), Google Docs sharing, UI revamp    | Phase 1                    |
+| **2**   | [phase-2-core-product-features.md](./phase-2-core-product-features.md)       | Version history, search, export, Postgres metadata       | Phase 1                    |
+| **3**   | [phase-3-ai-features.md](./phase-3-ai-features.md)                           | Inline AI editing, formatting, summarization             | Phase 1 (Phase 2 optional) |
+| **4**   | [phase-4-auth-strategy.md](./phase-4-auth-strategy.md)                       | Clerk customization vs custom auth                       | Phase 0 (Phase 2 for DB)   |
 
 ---
 

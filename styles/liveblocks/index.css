@@ -1,5 +1,5 @@
-@import "@/styles/liveblocks/dark-theme.css";
-@import "@/styles/liveblocks/light-theme.css";
+@import "./dark-theme.css";
+@import "./light-theme.css";
 
 .lb-root {
   --lb-radius: 6px;

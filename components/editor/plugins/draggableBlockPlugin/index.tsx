@@ -32,7 +32,7 @@ export default function DraggableBlockPlugin({
       targetLineRef={targetLineRef}
       menuComponent={
         <div ref={menuRef} className="draggable-block-menu">
-          <GripVertical className="size-[18px] text-[#1e1e1e] dark:text-white" />
+          <GripVertical className="size-4.5 text-[#1e1e1e] dark:text-white" />
         </div>
       }
       targetLineComponent={<div ref={targetLineRef} className="draggable-block-target-line" />}

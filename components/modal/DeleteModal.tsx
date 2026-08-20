@@ -50,7 +50,7 @@ const DeleteModal = ({ roomId }: { roomId: string }) => {
           <Button
             variant="destructive"
             onClick={handleDeleteDocument}
-            className="w-full bg-[#ef4444] hover:bg-[] dark:bg-[#f34242] dark:hover:bg-[]"
+            className="hover:bg-[] dark:hover:bg-[] w-full bg-[#ef4444] dark:bg-[#f34242]"
           >
             {loading ? "Deleting..." : "Delete"}
           </Button>

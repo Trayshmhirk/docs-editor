@@ -115,7 +115,7 @@ function DropDownItems({
   return (
     <DropDownContext.Provider value={contextValue}>
       <div
-        className="dropdown fixed z-[100] flex min-h-10 flex-col gap-1 rounded bg-white p-2 shadow-lg dark:bg-[#121212] dark:shadow-lg-dark"
+        className="dropdown dark:shadow-lg-dark fixed z-100 flex min-h-10 flex-col gap-1 rounded bg-white p-2 shadow-lg dark:bg-[#121212]"
         ref={dropDownRef}
         onKeyDown={handleKeyDown}
       >

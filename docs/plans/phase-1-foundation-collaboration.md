@@ -58,25 +58,25 @@ Tailwind v4 is CSS-first: theme tokens move into CSS; `tailwind.config.ts` is re
 
 ### Checklist for tailwind v4
 
-- [ ] Install `tailwindcss@4` and `@tailwindcss/postcss`
-- [ ] Update `postcss.config.mjs` to use `@tailwindcss/postcss`
-- [ ] Replace `@tailwind` directives in `app/globals.css` with `@import "tailwindcss"`
-- [ ] Migrate theme from `tailwind.config.ts` to `@theme` in CSS:
+- [x] Install `tailwindcss@4` and `@tailwindcss/postcss`
+- [x] Update `postcss.config.mjs` to use `@tailwindcss/postcss`
+- [x] Replace `@tailwind` directives in `app/globals.css` with `@import "tailwindcss"`
+- [x] Migrate theme from `tailwind.config.ts` to `@theme` in CSS:
   - Custom colors (`blue`, `red`, `dark`)
   - Breakpoints (`xs`, `sm`, `md`, `lg`, `xl`)
   - Keyframes / animations (`accordion-down`, `accordion-up`)
   - Custom box shadows (`sm-dark`, `lg-dark`, etc.)
-- [ ] Configure dark mode via `@custom-variant dark` (class strategy)
-- [ ] Migrate `tailwindcss-animate` usage to v4-compatible approach
-- [ ] Delete `tailwind.config.ts`
-- [ ] Update `prettier-plugin-tailwindcss` to version supporting Tailwind v4
-- [ ] Visual regression pass:
+- [x] Configure dark mode via `@custom-variant dark` (class strategy)
+- [x] Migrate `tailwindcss-animate` usage to v4-compatible approach
+- [x] Delete `tailwind.config.ts`
+- [x] Update `prettier-plugin-tailwindcss` to version supporting Tailwind v4
+- [x] Visual regression pass:
   - Home / document list
   - Editor toolbar and content area
   - Clerk sign-in/up pages
   - Liveblocks comments UI
   - Dark and light themes
-- [ ] Update editor-specific CSS in `styles/editor/` and `styles/liveblocks/` if needed
+- [x] Update editor-specific CSS in `styles/editor/` and `styles/liveblocks/` if needed
 
 ### Files to modify
 
@@ -100,11 +100,11 @@ Currently `Presence` in `liveblocks.config.ts` is empty and `ActiveCollaborators
 
 ### Checklist for live cursors
 
-- [ ] Define `Presence` type with cursor position, optional selection, name, color
-- [ ] Enable Lexical/Liveblocks cursor overlay components (or build custom)
-- [ ] Show collaborator name labels near cursors
-- [ ] Keep avatar stack in header (`ActiveCollaborators`) in sync with presence
-- [ ] Test with 2+ browser sessions simultaneously
+- [x] Define `Presence` type with cursor position, optional selection, name, color
+- [x] Enable Lexical/Liveblocks cursor overlay components (or build custom)
+- [x] Show collaborator name labels near cursors
+- [x] Keep avatar stack in header (`ActiveCollaborators`) in sync with presence
+- [x] Test with 2+ browser sessions simultaneously
 
 ### Files to modify for live cursors
 
@@ -120,10 +120,10 @@ components/editor/Editor.tsx
 
 ### Known issues
 
-- [ ] **CollaborativeRoom cleanup bug** — `useEffect` cleanup re-adds `mousedown` listener instead of removing it (`CollaborativeRoom.tsx` ~line 79)
-- [ ] Debounce or debounce-adjacent title saves; reduce redundant `updateDocument` calls
-- [ ] Add connection status indicator (connected / reconnecting / offline)
-- [ ] Improve viewer vs editor UX (clearer read-only state in toolbar)
+- [x] **CollaborativeRoom cleanup bug** — `useEffect` cleanup re-adds `mousedown` listener instead of removing it (`CollaborativeRoom.tsx` ~line 79)
+- [x] Debounce or debounce-adjacent title saves; reduce redundant `updateDocument` calls
+- [x] Add connection status indicator (connected / reconnecting / offline)
+- [x] Improve viewer vs editor UX (clearer read-only state in toolbar)
 
 ### Files to modify for bug fixes
 
@@ -139,10 +139,10 @@ components/editor/plugins/toolbarPlugin/ToolbarPlugin.tsx
 
 `TableNode`, `TableCellNode`, `TableRowNode` exist in `playgroundNodes.ts` but no `TablePlugin` is wired.
 
-- [ ] Add `@lexical/table` TablePlugin to `Editor.tsx`
-- [ ] Add table insert/control UI to toolbar
-- [ ] Verify tables sync correctly via Liveblocks
-- [ ] Style tables in editor theme CSS
+- [x] Add `@lexical/table` TablePlugin to `Editor.tsx`
+- [x] Add table insert/control UI to toolbar
+- [x] Verify tables sync correctly via Liveblocks
+- [x] Style tables in editor theme CSS
 
 ### Files to modify for enabling tables
 
@@ -156,11 +156,11 @@ styles/editor/index.css
 
 ## 1.6 Share flow improvements
 
-- [ ] Validate email format before invite
-- [ ] Handle invite for users not yet registered in Clerk (pending state / messaging)
-- [ ] Copy-link sharing (view-only link as quick win)
-- [ ] Close share modal and refresh collaborator list after successful invite
-- [ ] Improve error feedback on failed share
+- [x] Validate email format before invite
+- [x] Handle invite for users not yet registered in Clerk (pending state / messaging)
+- [x] Copy-link sharing (view-only link as quick win)
+- [x] Close share modal and refresh collaborator list after successful invite
+- [x] Improve error feedback on failed share
 
 ### Files to modify for flow improvements
 
@@ -174,12 +174,12 @@ lib/actions/user.actions.ts
 
 ## Acceptance criteria
 
-- [ ] All Phase 0 CI checks pass on upgraded stack
-- [ ] Tailwind v4 live; no `tailwind.config.ts`; editor UI matches pre-migration
-- [ ] Two users see each other's cursors while editing
-- [ ] Tables can be inserted and collaborate correctly
-- [ ] Share flow handles errors gracefully
-- [ ] No listener leaks in CollaborativeRoom
+- [x] All Phase 0 CI checks pass on upgraded stack
+- [x] Tailwind v4 live; no `tailwind.config.ts`; editor UI matches pre-migration
+- [x] Two users see each other's cursors while editing
+- [x] Tables can be inserted and collaborate correctly
+- [x] Share flow handles errors gracefully
+- [x] No listener leaks in CollaborativeRoom
 
 ---
 

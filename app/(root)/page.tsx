@@ -30,7 +30,7 @@ const Home = async () => {
 
   return (
     <main className="relative flex h-screen w-full flex-col items-center gap-5 sm:gap-10">
-      <Header className="sticky left-0 top-0">
+      <Header className="sticky top-0 left-0">
         <div className="lg-gap-6 flex items-center gap-2">
           <Notifications />
 
@@ -38,7 +38,7 @@ const Home = async () => {
         </div>
       </Header>
 
-      <div className="absolute bottom-10 right-7 md:bottom-10 md:right-10">
+      <div className="absolute right-7 bottom-10 md:right-10 md:bottom-10">
         <ToggleTheme />
       </div>
 
@@ -57,13 +57,13 @@ const Home = async () => {
               {roomDocuments.data.map(({ id, metadata, createdAt }) => (
                 <li
                   key={id}
-                  className="flex items-center justify-between gap-4 rounded-lg border border-[#f1f1f1] bg-white px-5 py-4 shadow-md dark:border-[#424242] dark:bg-[#2A2A2A] dark:shadow-lg-dark"
+                  className="dark:shadow-lg-dark flex items-center justify-between gap-4 rounded-lg border border-[#f1f1f1] bg-white px-5 py-4 shadow-md dark:border-[#424242] dark:bg-[#2A2A2A]"
                 >
                   <Link
                     href={`/documents/${id}`}
                     className="flex flex-1 items-center gap-3 sm:gap-4"
                   >
-                    <div className="size-11 flex-shrink-0 flex-grow-0 rounded-md bg-[#f5f5f5] p-2 dark:bg-[#555555] sm:size-14">
+                    <div className="size-11 flex-shrink-0 flex-grow-0 rounded-md bg-[#f5f5f5] p-2 sm:size-14 dark:bg-[#555555]">
                       <Image
                         src="/assets/icons/doc.svg"
                         alt="Document File"
@@ -77,7 +77,7 @@ const Home = async () => {
                       <p className="line-clamp-1 font-medium sm:text-lg sm:font-normal">
                         {metadata.title}
                       </p>
-                      <p className="text-xs font-light text-[#999999] dark:text-[#B8B8B8] sm:text-sm">
+                      <p className="text-xs font-light text-[#999999] sm:text-sm dark:text-[#B8B8B8]">
                         Created about {dateConverter(new Date(createdAt).toISOString())}
                       </p>
                     </div>
@@ -90,7 +90,7 @@ const Home = async () => {
           </div>
         </div>
       ) : (
-        <div className="flex w-full max-w-[730px] flex-col items-center justify-center gap-5 rounded-lg border border-[#f1f1f1] bg-white px-10 py-6 shadow-md dark:border-[#424242] dark:bg-[#2A2A2A] dark:shadow-lg-dark">
+        <div className="dark:shadow-lg-dark flex w-full max-w-[730px] flex-col items-center justify-center gap-5 rounded-lg border border-[#f1f1f1] bg-white px-10 py-6 shadow-md dark:border-[#424242] dark:bg-[#2A2A2A]">
           <div className="rounded-md bg-[#f5f5f5] p-2 dark:bg-[#555555]">
             <Image src="/assets/icons/doc.svg" alt="Document" width={40} height={40} className="" />
           </div>

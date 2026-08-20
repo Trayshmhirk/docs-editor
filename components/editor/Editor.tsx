@@ -13,6 +13,7 @@ import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
 import { ContentEditable } from "@lexical/react/LexicalContentEditable";
 import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
 import { LexicalErrorBoundary } from "@lexical/react/LexicalErrorBoundary";
+import { TablePlugin } from "@lexical/react/LexicalTablePlugin";
 import {
   FloatingComposer,
   FloatingThreads,
@@ -85,7 +86,7 @@ export function Editor({ roomId, currentUserType }: Editorprops) {
     <LexicalComposer initialConfig={initialConfig}>
       <ToolbarContext>
         <div className="size-full rounded-sm bg-[#f0f2f5] text-left leading-5 text-black dark:bg-[#111111]">
-          <div className="toolbar-wrapper flex h-[50px] min-w-full items-center justify-between gap-5">
+          <div className="toolbar-wrapper flex h-12.5 min-w-full items-center justify-between gap-5">
             <ToolbarPlugin setIsLinkEditMode={setIsLinkEditMode} />
 
             <div className="flex items-center gap-1">
@@ -94,17 +95,17 @@ export function Editor({ roomId, currentUserType }: Editorprops) {
             </div>
           </div>
 
-          <div className="editor-wrapper flex flex-col items-center justify-start gap-5 overflow-auto p-4 pb-8 md:p-6 md:pb-8 md:pt-7 lg:flex-row lg:items-start lg:justify-center xl:gap-10">
+          <div className="editor-wrapper flex flex-col items-center justify-start gap-5 overflow-auto p-4 pb-8 md:p-6 md:pt-7 md:pb-8 lg:flex-row lg:items-start lg:justify-center xl:gap-10">
             {ready ? (
-              <div className="relative mb-5 h-full min-h-[1100px] w-full max-w-[800px] rounded-[3px] bg-white shadow-lg dark:bg-[#212121]">
+              <div className="relative mb-5 h-full min-h-275 w-full max-w-200 rounded-[3px] bg-white shadow-lg dark:bg-[#212121]">
                 <RichTextPlugin
                   contentEditable={
                     <div className="editor h-full" ref={onRef}>
-                      <ContentEditable className="editor-input relative h-full px-7 py-8 text-[#1e1e1e] caret-[#1d1d1d] dark:text-white dark:caret-[#d8d8d8] md:p-10" />
+                      <ContentEditable className="editor-input relative h-full px-7 py-8 text-[#1e1e1e] caret-[#1d1d1d] md:p-10 dark:text-white dark:caret-[#d8d8d8]" />
                     </div>
                   }
                   placeholder={
-                    <div className="editor-placeholder absolute left-10 top-10 inline-block text-[15px] text-[#888888] dark:text-[#aaaaaa]">
+                    <div className="editor-placeholder absolute top-10 left-10 inline-block text-[15px] text-[#888888] dark:text-[#aaaaaa]">
                       Enter some rich text...
                     </div>
                   }
@@ -116,6 +117,7 @@ export function Editor({ roomId, currentUserType }: Editorprops) {
                 <ListPlugin />
                 <CheckListPlugin />
                 <CodeHighlightPlugin />
+                <TablePlugin />
                 {floatingAnchorElem && !isSmallWidthViewport && (
                   <>
                     <CodeActionMenuPlugin anchorElem={floatingAnchorElem} />
@@ -135,7 +137,7 @@ export function Editor({ roomId, currentUserType }: Editorprops) {
 
             {/* liveblocks plugin */}
             <LiveblocksPlugin>
-              <FloatingComposer className="w-[350px] overflow-hidden rounded-md border border-[#cccccc] dark:border-[#444444]" />
+              <FloatingComposer className="w-87.5 overflow-hidden rounded-md border border-[#cccccc] dark:border-[#444444]" />
               <FloatingThreads
                 threads={threads}
                 className="border border-[#cccccc] dark:border-[#444444]"

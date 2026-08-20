@@ -1,5 +1,5 @@
-@import "@/styles/editor/dark-theme.css";
-@import "@/styles/editor/light-theme.css";
+@import "./dark-theme.css";
+@import "./light-theme.css";
 
 body {
   margin: 0;
@@ -356,4 +356,46 @@ pre::-webkit-scrollbar-thumb {
 
 .debug-timetravel-button:hover {
   text-decoration: underline;
+}
+
+/* --------------  TABLES ---------------*/
+.editor-table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  max-width: 100%;
+  overflow-y: scroll;
+  table-layout: fixed;
+  width: calc(100% - 25px);
+  margin: 15px 0;
+}
+
+.editor-tableCell {
+  border: 1px solid #ccc;
+  min-width: 75px;
+  vertical-align: top;
+  text-align: start;
+  padding: 6px 8px;
+  position: relative;
+  outline: none;
+}
+
+.editor-tableCellHeader {
+  background-color: #f2f3f5;
+  font-weight: bold;
+}
+
+.editor-tableCellSelected {
+  background-color: #c9e2ff;
+}
+
+.dark .editor-tableCell {
+  border-color: #444;
+}
+
+.dark .editor-tableCellHeader {
+  background-color: #1e2638;
+}
+
+.dark .editor-tableCellSelected {
+  background-color: #1e3a5f;
 }
