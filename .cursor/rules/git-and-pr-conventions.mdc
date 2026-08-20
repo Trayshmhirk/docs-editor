@@ -157,7 +157,10 @@ Development roadmap plans live in `docs/plans/`. Before starting work on a phase
 
 ## Agent behavior
 
-- Commit when the user asks, after showing the message for approval unless they pre-approved it.
+- **Never proactively generate commit messages or PR commands.** When tasks are completed, only report the status and functional changes so the user can test.
+- **Only generate commit messages when the user explicitly asks** (e.g., "give me the commit message", "let's commit").
+- **Only generate PR commands when the user explicitly asks** for a pull request.
+- Show the message for approval before committing unless pre-approved.
 - Do not push unless the user explicitly asks.
 - Never use `--trailer` on `git commit`.
 - Never add `Co-authored-by` or any other commit message trailer.

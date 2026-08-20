@@ -28,11 +28,13 @@ Before starting a phase, read its plan file and work through the checklist.
 - **100 characters max** per line in commit messages
 - Describe **functional impact**, not implementation details
 - Run `git status` + `git diff` before writing any commit message
-- **Commit when asked** — show the message for approval, then commit; do not push unless asked
+- **Never generate commit messages proactively** — only provide commit messages when the user explicitly asks to commit
+- **Never commit or push automatically** — show message for approval when requested; never push unless explicitly asked
 - **Never use `--trailer` on git commit** — no `Co-authored-by` or other trailers
 
 ## PR rules (summary)
 
+- **Never generate PRs proactively** — only generate PR details when the user explicitly requests a PR
 - Title: conventional format
 - Body: **Summary** + flat **Key Changes** list (no nested bullets)
 - Derive content from actual `git log`, not assumptions
