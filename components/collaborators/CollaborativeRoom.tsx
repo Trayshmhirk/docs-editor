@@ -1,6 +1,6 @@
 "use client";
 
-import { RoomProvider } from "@liveblocks/react";
+import { RoomProvider, useStatus } from "@liveblocks/react";
 import { ClientSideSuspense } from "@liveblocks/react/suspense";
 import { Editor } from "@/components/editor/Editor";
 import Header from "@/components/ui/shared/Header";
@@ -13,6 +13,48 @@ import { SquarePen } from "lucide-react";
 import { updateDocument } from "@/lib/actions/room.actions";
 import ShareModal from "@/components/modal/ShareModal";
 import ClerkSignedInUserButton from "../ui/common/ClerkSignedInUserButton";
+
+function ConnectionStatusBadge() {
+  const status = useStatus();
+
+  if (status === "connected") {
+    return (
+      <span
+        title="Connected to collaboration server"
+        className="flex items-center gap-1.5 rounded-full bg-emerald-500/10 px-2 py-0.5 text-xs font-medium text-emerald-600 dark:text-emerald-400"
+      >
+        <span className="size-1.5 rounded-full bg-emerald-500" />
+        <span className="hidden md:inline">Connected</span>
+      </span>
+    );
+  }
+
+  if (status === "reconnecting" || status === "connecting") {
+    return (
+      <span
+        title="Connecting to collaboration server..."
+        className="flex items-center gap-1.5 rounded-full bg-amber-500/10 px-2 py-0.5 text-xs font-medium text-amber-600 dark:text-amber-400"
+      >
+        <span className="size-1.5 animate-pulse rounded-full bg-amber-500" />
+        <span className="hidden md:inline">Connecting</span>
+      </span>
+    );
+  }
+
+  if (status === "disconnected") {
+    return (
+      <span
+        title="Disconnected from collaboration server"
+        className="flex items-center gap-1.5 rounded-full bg-rose-500/10 px-2 py-0.5 text-xs font-medium text-rose-600 dark:text-rose-400"
+      >
+        <span className="size-1.5 rounded-full bg-rose-500" />
+        <span className="hidden md:inline">Offline</span>
+      </span>
+    );
+  }
+
+  return null;
+}
 
 const CollaborativeRoom = ({
   roomId,
@@ -33,7 +75,6 @@ const CollaborativeRoom = ({
 
       try {
         if (documentTitle !== roomMetadata.title) {
-          // update documents
           const updatedDocument = await updateDocument(roomId, documentTitle);
 
           if (updatedDocument) {
@@ -50,12 +91,8 @@ const CollaborativeRoom = ({
 
   useEffect(() => {
     const handleClickOutside = async (e: MouseEvent) => {
-      if (
-        editing && // Only proceed if the title is being edited
-        containerRef.current &&
-        !containerRef.current.contains(e.target as Node)
-      ) {
-        setLoading(true); // Show "saving..." only during editing
+      if (editing && containerRef.current && !containerRef.current.contains(e.target as Node)) {
+        setLoading(true);
         try {
           if (documentTitle !== roomMetadata.title) {
             await updateDocument(roomId, documentTitle);
@@ -63,8 +100,8 @@ const CollaborativeRoom = ({
         } catch (error) {
           console.error(`Error updating document title: ${error}`);
         } finally {
-          setLoading(false); // Hide loading after completing the update
-          setEditing(false); // Exit editing mode
+          setLoading(false);
+          setEditing(false);
         }
       }
 
@@ -74,7 +111,7 @@ const CollaborativeRoom = ({
     document.addEventListener("mousedown", handleClickOutside);
 
     return () => {
-      document.addEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [roomId, documentTitle, editing, roomMetadata.title]);
 
@@ -85,12 +122,11 @@ const CollaborativeRoom = ({
   }, [editing]);
 
   useEffect(() => {
-    // Dynamically update the document title
     document.title = `Docs Editor | ${documentTitle}`;
   }, [documentTitle]);
 
   return (
-    <RoomProvider id={roomId}>
+    <RoomProvider id={roomId} initialPresence={{ cursor: null }}>
       <ClientSideSuspense fallback={<Loader />}>
         <div className="flex size-full flex-1 flex-col items-center">
           <Header>
@@ -107,7 +143,7 @@ const CollaborativeRoom = ({
                   className="document-title-input"
                 />
               ) : (
-                <p className="border-dark-400 line-clamp-1 text-sm leading-[24px] font-semibold sm:text-lg">
+                <p className="border-dark-400 line-clamp-1 text-sm leading-6 font-semibold sm:text-lg">
                   {documentTitle}
                 </p>
               )}
@@ -124,6 +160,7 @@ const CollaborativeRoom = ({
             </div>
 
             <div className="flex items-center justify-center gap-2 md:gap-4">
+              <ConnectionStatusBadge />
               <ActiveCollaborators />
               <ShareModal
                 roomId={roomId}
