@@ -4,22 +4,22 @@
 
 import * as Sentry from "@sentry/nextjs";
 
+const isProduction = process.env.NODE_ENV === "production";
+
 Sentry.init({
   dsn: "https://4d6d7b1a01fd012f688f8a51ff6dc0b4@o4508349405134848.ingest.de.sentry.io/4508349413195856",
 
-  // Add optional integrations for additional features
-  integrations: [Sentry.replayIntegration()],
+  // Only enable heavy replay integration in production to optimize local dev performance
+  integrations: isProduction ? [Sentry.replayIntegration()] : [],
 
-  // Define how likely traces are sampled. Adjust this value in production, or use tracesSampler for greater control.
-  tracesSampleRate: 1,
+  // Sample traces only in production to eliminate dev instrumentation overhead
+  tracesSampleRate: isProduction ? 0.1 : 0,
 
-  // Define how likely Replay events are sampled.
-  // This sets the sample rate to be 10%. You may want this to be 100% while
-  // in development and sample at a lower rate in production
-  replaysSessionSampleRate: 0.1,
+  // Replays session sampling
+  replaysSessionSampleRate: 0,
 
-  // Define how likely Replay events are sampled when an error occurs.
-  replaysOnErrorSampleRate: 1.0,
+  // Sample replays only on error in production
+  replaysOnErrorSampleRate: isProduction ? 1.0 : 0,
 
   // Setting this option to true will print useful information to the console while you're setting up Sentry.
   debug: false,
