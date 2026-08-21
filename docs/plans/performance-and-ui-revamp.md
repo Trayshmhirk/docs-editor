@@ -10,7 +10,7 @@ deserialization, and completely modernize the Docs Editor user interface.
 
 ---
 
-## Performance Sections Overview
+## Sections Overview
 
 | Section | Focus                             | Impact Layer   |
 | ------- | --------------------------------- | -------------- |
@@ -20,6 +20,11 @@ deserialization, and completely modernize the Docs Editor user interface.
 | 1.5.4   | Liveblocks auth cold start fix    | **Production** |
 | 1.5.5   | React Compiler (auto-memoization) | **Production** |
 | 1.5.6   | Suspense boundaries & streaming   | **Production** |
+| 1.5.7   | Premium design system & fonts     | UI             |
+| 1.5.8   | Home dashboard revamp             | UI             |
+| 1.5.9   | Header & room navigation overhaul | UI             |
+| 1.5.10  | Toolbar & editor canvas           | UI             |
+| 1.5.11  | Share dialog polish               | UI             |
 
 ---
 
@@ -284,18 +289,87 @@ styles/editor/light-theme.css
 
 ---
 
-## 1.5.8 Header & Room Navigation Overhaul
+## 1.5.8 Home Dashboard Revamp
 
-Redesign the application header for both the home dashboard and document room.
+Transform the home page from a basic prototype list into a polished, Google Docs-inspired
+document dashboard. The goal is familiarity — not a direct replica — so users coming from
+Google Docs immediately understand the layout and feel at home.
+
+### Layout Architecture
+
+```txt
+┌─────────────────────────────────────────────────────────────┐
+│  Header: Logo │ Search (centered) │ Notifications + Avatar   │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  ┌── "Start a new document" ─────────────────────────────┐  │
+│  │  [ + Blank ]                                          │  │
+│  └───────────────────────────────────────────────────────┘  │
+│                                                             │
+│  Recent documents                       [Sort ▾] [⊞] [☰]   │
+│  ┌──────┐ ┌──────┐ ┌──────┐ ┌──────┐                       │
+│  │ doc  │ │ doc  │ │ doc  │ │ doc  │   (card grid)          │
+│  └──────┘ └──────┘ └──────┘ └──────┘                       │
+└─────────────────────────────────────────────────────────────┘
+```
+
+### Design Decisions
+
+- **No template cards** in the initial release — the "Start a new document" section contains
+  only the blank document creation button. Templates are a Phase 2+ concern.
+- **Card grid layout** for recent documents: visual page-thumbnail placeholders (document
+  icon + color accent) with title, owner, and last-opened date beneath each card. Users scan
+  by visual memory, not just text.
+- **List/grid toggle** in the recent documents section header so power users can switch to
+  a compact row view.
+- **Sort control** (Last opened, Last modified, Title A–Z) as a minimal dropdown.
+- **Search bar centered in the header** — this is a primary job-to-be-done; finding an
+  existing document should never require scrolling.
+- **Fully responsive:** three-column grid on large screens, two-column on tablet, single
+  column on mobile.
+
+### Checklist for home dashboard
+
+- [ ] Redesign `app/(root)/page.tsx` with the three-zone layout (header, new-doc section,
+      recent grid)
+- [ ] Extract the document list/grid into a `HomeDocumentGrid` client component to
+      keep the page server component clean
+- [ ] Build `NewDocumentSection` with a styled blank-document creation card (no templates)
+- [ ] Build `DocumentCard` component with page-thumbnail placeholder, title, date, and
+      three-dot action menu (Open, Delete)
+- [ ] Add grid/list view toggle state (localStorage-persisted) with smooth layout transition
+- [ ] Add sort dropdown (Last opened / Last modified / Title)
+- [ ] Extend `Header.tsx` with a centered search input (client-side filter by title for now;
+      full-text search lands in Phase 2)
+- [ ] Ensure dark mode and light mode both look polished across all new components
+- [ ] Verify empty state design (when a user has no documents yet)
+
+### Files to modify for home dashboard
+
+```txt
+app/(root)/page.tsx
+components/ui/common/AddDocumentBtn.tsx
+components/ui/shared/Header.tsx
+components/ui/home/HomeDocumentGrid.tsx       [NEW]
+components/ui/home/DocumentCard.tsx           [NEW]
+components/ui/home/NewDocumentSection.tsx     [NEW]
+components/ui/home/SortDropdown.tsx           [NEW]
+```
+
+---
+
+## 1.5.9 Header & Room Navigation Overhaul
+
+Redesign the document room header (distinct from the home header updated in 1.5.8).
 
 ### Checklist navigation overhaul
 
-- [ ] Build a sleek, floating room navigation header
+- [ ] Build a sleek, floating room navigation header with logo, document title, and actions
 - [ ] Add editable document title with seamless hover/focus transition and saving indicator
 - [ ] Redesign connection status pill (`• Connected`, `• Reconnecting`, `• Offline`) with
       pulsing state
 - [ ] Redesign collaborator avatar stack with smooth hover magnification and name badges
-- [ ] Add breadcrumbs / quick navigation back to home
+- [ ] Add breadcrumb / quick navigation back to home
 
 ### Files to modify navigation overhaul
 
@@ -307,7 +381,7 @@ components/collaborators/ActiveCollaborators.tsx
 
 ---
 
-## 1.5.9 Toolbar & Editor Canvas Modernization
+## 1.5.10 Toolbar & Editor Canvas Modernization
 
 Transform the Lexical toolbar into a fluid, grouped pill interface.
 
@@ -336,7 +410,7 @@ styles/editor/index.css
 
 ---
 
-## 1.5.10 Share Dialog UI & User Experience Polish
+## 1.5.11 Share Dialog UI & User Experience Polish
 
 Provide a refined sharing modal experience matching modern collaborative editors.
 
@@ -370,7 +444,10 @@ components/ui/dialog.tsx
 
 ### UI
 
-- [ ] Application header and document canvas feature polished dark and light themes
+- [ ] Home dashboard renders in three zones: header with search, new-document section,
+      recent documents grid
+- [ ] Recent documents support both card grid and compact list views with a persisted toggle
+- [ ] Application header and document room canvas feature polished dark and light themes
 - [ ] Toolbar controls are grouped into fluid pill sections with responsive active states
 - [ ] Share modal provides instant link copying and clear collaborator management
 
@@ -386,7 +463,8 @@ perf(auth): replace currentUser with auth to eliminate liveblocks cold start
 perf(compiler): enable react compiler for automatic component memoization
 perf(streaming): add suspense boundaries for streaming ssr on document room
 style(theme): establish modern dark slate tokens and typography with next/font
-style(header): redesign floating room header and live presence stack
+style(home): revamp home dashboard with search header and document grid
+style(header): redesign document room header and live presence stack
 style(toolbar): modernize editor toolbar with grouped pill formatting
 style(share): polish share dialog layout and copy-link interactions
 ```
