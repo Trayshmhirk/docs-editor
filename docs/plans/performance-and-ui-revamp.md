@@ -81,9 +81,9 @@ editors) can be split into asynchronous chunks to reduce the initial JS parse co
 
 ### Checklist for lexical bundle optimization
 
-- [ ] Lazy-load `CodeActionMenuPlugin` with `next/dynamic` (`{ ssr: false }`)
-- [ ] Lazy-load `DraggableBlockPlugin` to keep primary editor canvas light
-- [ ] Lazy-load `FloatingLinkEditorPlugin` with `next/dynamic` (`{ ssr: false }`)
+- [x] Lazy-load `CodeActionMenuPlugin` with `next/dynamic` (`{ ssr: false }`)
+- [x] Lazy-load `DraggableBlockPlugin` to keep primary editor canvas light
+- [x] Lazy-load `FloatingLinkEditorPlugin` with `next/dynamic` (`{ ssr: false }`)
 - [ ] Audit vendor chunk sizes on `/documents/[id]` using `ANALYZE=true npm run build`
 
 ### Files to modify for lexical bundle optimization
@@ -122,11 +122,11 @@ needed — `auth()` is always the right choice here.
 
 ### Checklist for auth cold start fix
 
-- [ ] Replace `currentUser()` with `auth()` in `app/api/liveblocks-auth/route.ts`
-- [ ] Source user name and avatar from `auth().sessionClaims` or a lightweight Clerk backend
+- [x] Replace `currentUser()` with `auth()` in `app/api/liveblocks-auth/route.ts`
+- [x] Source user name and avatar from `auth().sessionClaims` or a lightweight Clerk backend
       client call (not `currentUser()`)
-- [ ] Add `Cache-Control: no-store` header to the auth route to prevent CDN caching of tokens
-- [ ] Measure auth response time before and after (target: under 200ms)
+- [x] Add `Cache-Control: no-store` header to the auth route to prevent CDN caching of tokens
+- [x] Measure auth response time before and after (target: under 200ms)
 
 ### Files to modify for auth cold start fix
 
@@ -177,12 +177,12 @@ npm install --save-dev babel-plugin-react-compiler
 
 ### Checklist for React Compiler
 
-- [ ] Install `babel-plugin-react-compiler` as a dev dependency
-- [ ] Enable `experimental.reactCompiler: true` in `next.config.ts`
-- [ ] Verify no components use patterns that opt them out (mutable refs in render, direct DOM
+- [x] Install `babel-plugin-react-compiler` as a dev dependency
+- [x] Enable `experimental.reactCompiler: true` in `next.config.ts`
+- [x] Verify no components use patterns that opt them out (mutable refs in render, direct DOM
       mutations outside `useEffect`)
-- [ ] Run `npm run typecheck` and `npm run build` to confirm clean compilation
-- [ ] Smoke test editor interactions: typing, selection, formatting, table operations,
+- [x] Run `npm run typecheck` and `npm run build` to confirm clean compilation
+- [x] Smoke test editor interactions: typing, selection, formatting, table operations,
       collaborator cursors
 
 ### Files to modify for React Compiler
@@ -228,13 +228,13 @@ Phase 2 Dashboard:
 
 ### Checklist for Suspense & streaming
 
-- [ ] Wrap `CollaborativeRoom` in an explicit `<Suspense>` boundary in
+- [x] Wrap `CollaborativeRoom` in an explicit `<Suspense>` boundary in
       `app/(root)/documents/[id]/page.tsx` with a canvas skeleton fallback
-- [ ] Ensure the document room page shell renders before the Liveblocks connection is
+- [x] Ensure the document room page shell renders before the Liveblocks connection is
       established
-- [ ] Plan Phase 2 dashboard with per-section `<Suspense>` wrappers so each tab streams
+- [x] Plan Phase 2 dashboard with per-section `<Suspense>` wrappers so each tab streams
       independently
-- [ ] Verify `loading.tsx` files exist for all route segments to provide automatic Suspense
+- [x] Verify `loading.tsx` files exist for all route segments to provide automatic Suspense
       fallbacks at the route level
 
 ### Files to modify for Suspense & streaming
