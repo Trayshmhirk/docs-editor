@@ -1,8 +1,10 @@
 import DocumentClient from "@/components/ui/common/DocumentClient";
+import Loader from "@/components/ui/common/Loader";
 import { getDocument } from "@/lib/actions/room.actions";
 import { getClerkUsers } from "@/lib/actions/user.actions";
 import { currentUser } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
+import { Suspense } from "react";
 
 const Document = async ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = await params;
@@ -37,12 +39,14 @@ const Document = async ({ params }: { params: Promise<{ id: string }> }) => {
     : "viewer";
 
   return (
-    <DocumentClient
-      roomId={id}
-      roomMetadata={room.metadata}
-      users={usersData}
-      currentUserType={currentUserType}
-    />
+    <Suspense fallback={<Loader />}>
+      <DocumentClient
+        roomId={id}
+        roomMetadata={room.metadata}
+        users={usersData}
+        currentUserType={currentUserType}
+      />
+    </Suspense>
   );
 };
 
