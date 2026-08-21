@@ -1,9 +1,18 @@
 "use client";
+import dynamic from "next/dynamic";
 import { editorTheme } from "./plugins/editorTheme";
 import ToolbarPlugin from "./plugins/toolbarPlugin/ToolbarPlugin";
 import CodeHighlightPlugin from "./plugins/codeHighlightPlugin";
-import CodeActionMenuPlugin from "./plugins/codeActionMenuPlugin";
-import DraggableBlockPlugin from "./plugins/draggableBlockPlugin";
+
+const CodeActionMenuPlugin = dynamic(() => import("./plugins/codeActionMenuPlugin"), {
+  ssr: false,
+});
+const DraggableBlockPlugin = dynamic(() => import("./plugins/draggableBlockPlugin"), {
+  ssr: false,
+});
+const FloatingLinkEditorPlugin = dynamic(() => import("./plugins/floatingLinkEditorPlugin"), {
+  ssr: false,
+});
 
 import { AutoFocusPlugin } from "@lexical/react/LexicalAutoFocusPlugin";
 import { ListPlugin } from "@lexical/react/LexicalListPlugin";
@@ -34,7 +43,6 @@ import PlaygroundNodes from "./nodes/playgroundNodes";
 import { CAN_USE_DOM } from "@lexical/utils";
 import LinkPlugin from "./plugins/linkPlugin";
 import { useSettings } from "@/context/SettingsContext";
-import FloatingLinkEditorPlugin from "./plugins/floatingLinkEditorPlugin";
 
 export function Editor({ roomId, currentUserType }: Editorprops) {
   const initialConfig = liveblocksConfig({
