@@ -4,26 +4,43 @@ import { clerkClient } from "@clerk/nextjs/server";
 import { liveblocks } from "../liveblocks";
 
 export const getClerkUsers = async ({ userIds }: { userIds: string[] }) => {
-  const client = clerkClient();
   try {
-    const { data } = await (
-      await client
-    ).users.getUserList({
+    const client = await clerkClient();
+    const { data } = await client.users.getUserList({
       emailAddress: userIds,
     });
 
     const users = data.map((user) => ({
       id: user.id,
-      name: `${user.firstName} ${user.lastName}`,
-      email: user.emailAddresses[0].emailAddress,
+      name: user.firstName
+        ? `${user.firstName} ${user.lastName || ""}`.trim()
+        : user.emailAddresses[0]?.emailAddress || "Anonymous",
+      email: user.emailAddresses[0]?.emailAddress || "",
       avatar: user.imageUrl,
     }));
 
-    const sortedUsers = userIds.map((email) => users.find((user) => user.email === email));
+    const sortedUsers = userIds
+      .map((email) => {
+        const found = users.find((user) => user.email === email);
+        if (found) return found;
+        return {
+          id: email,
+          name: email.split("@")[0] || email,
+          email: email,
+          avatar: "",
+        };
+      })
+      .filter(Boolean);
 
     return JSON.parse(JSON.stringify(sortedUsers));
   } catch (error) {
     console.log(`Error fetching users: ${error}`);
+    return userIds.map((email) => ({
+      id: email,
+      name: email.split("@")[0] || email,
+      email: email,
+      avatar: "",
+    }));
   }
 };
 

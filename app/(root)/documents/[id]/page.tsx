@@ -25,9 +25,9 @@ const Document = async ({ params }: { params: Promise<{ id: string }> }) => {
 
   // TODO: Access permissions of users to access the document
   const userIds = Object.keys(room.usersAccesses);
-  const users = await getClerkUsers({ userIds });
+  const users = (await getClerkUsers({ userIds })) || [];
 
-  const usersData = users.map((user: User) => ({
+  const usersData = users.filter(Boolean).map((user: User) => ({
     ...user,
     userType: room.usersAccesses[user.email]?.includes("room:write") ? "editor" : "viewer",
   }));
