@@ -17,6 +17,9 @@
   --surface: #ffffff;
   --surface-hover: #f1f5f9;
   --surface-secondary: #f1f5f9;
+  /* Slightly tinted canvas surface (thumbnail previews, section bands) */
+  --surface-canvas: #f0f4f9;
+  --surface-canvas-hover: #f1f5f9;
 
   /* Borders & Dividers */
   --border: #e2e8f0;
@@ -42,6 +45,9 @@
   --surface: #0f172a;
   --surface-hover: #1e293b;
   --surface-secondary: #161f30;
+  /* Dark canvas surface (thumbnail previews, section bands) */
+  --surface-canvas: #0b1322;
+  --surface-canvas-hover: #0f172a;
 
   /* Elevated Dark Borders */
   --border: #1e293b;
@@ -78,6 +84,8 @@
   --color-surface: var(--surface);
   --color-surface-hover: var(--surface-hover);
   --color-surface-secondary: var(--surface-secondary);
+  --color-surface-canvas: var(--surface-canvas);
+  --color-surface-canvas-hover: var(--surface-canvas-hover);
   --color-border: var(--border);
   --color-border-hover: var(--border-hover);
 

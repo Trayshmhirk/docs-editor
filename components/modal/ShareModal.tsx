@@ -80,32 +80,34 @@ const ShareModal = ({
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button
-          className="dark:shadow-lg-dark flex h-9 items-center gap-1 bg-[#00afdb] px-4 font-medium shadow-lg transition-all duration-300 ease-in-out hover:bg-[#0081a4] dark:bg-[#00afdb] dark:text-white dark:hover:bg-[#0081a4]"
+          className="bg-primary text-primary-foreground hover:bg-primary-hover flex h-9 items-center gap-1.5 px-3.5 text-xs font-medium shadow-sm transition-all"
           disabled={currentUserType !== "editor"}
         >
-          <Share className="min-w-4 md:size-5" />
+          <Share className="size-4" />
           <p className="hidden sm:block">Share</p>
         </Button>
       </DialogTrigger>
-      <DialogContent className="dark:!gradient-darkgray flex w-full max-w-100 flex-col gap-6 rounded-xl border-none px-5 py-7 shadow-xl sm:min-w-125">
+      <DialogContent className="flex w-full max-w-lg flex-col gap-6 p-6">
         <DialogHeader>
-          <DialogTitle>Manage who can view this project</DialogTitle>
-          <DialogDescription className="text-[#969696] dark:text-[#b0b0b0]">
+          <DialogTitle className="text-foreground text-lg font-semibold">
+            Manage who can view this project
+          </DialogTitle>
+          <DialogDescription className="text-muted text-xs">
             Select which users can view and edit this document
           </DialogDescription>
         </DialogHeader>
 
-        <div className="flex flex-col gap-3">
-          <Label htmlFor="email" className="text-[#555555] dark:text-[#d8d8d8]">
+        <div className="flex flex-col gap-2.5">
+          <Label htmlFor="email" className="text-foreground text-xs font-medium">
             Email address
           </Label>
-          <div className="flex items-stretch gap-3">
-            <div className="flex flex-1 items-center rounded-md bg-[#f5f5f5] dark:bg-[#404040]">
+          <div className="flex items-stretch gap-2.5">
+            <div className="border-border bg-surface-secondary flex flex-1 items-center rounded-lg border">
               <Input
                 id="email"
                 type="email"
                 placeholder="Enter email address"
-                className="h-11 flex-1 border-none bg-[#f5f5f5] placeholder:text-[#a1a1a1] focus-visible:ring-0 focus-visible:ring-offset-0 dark:bg-[#404040]"
+                className="placeholder:text-muted h-10 flex-1 border-none bg-transparent px-3 text-xs focus-visible:ring-0 focus-visible:ring-offset-0"
                 value={email}
                 onChange={(e) => {
                   setEmail(e.target.value);
@@ -118,28 +120,26 @@ const ShareModal = ({
             <Button
               type="submit"
               onClick={handleShareDocument}
-              className="dark:shadow-lg-dark h-11 bg-[#00afdb] px-5 shadow-lg transition-colors duration-200 ease-in-out hover:bg-[#0081a4] dark:bg-[#00afdb] dark:text-white dark:hover:bg-[#0081a4]"
+              className="bg-primary text-primary-foreground hover:bg-primary-hover h-10 px-4 text-xs font-medium shadow-sm transition-colors"
               disabled={loading}
             >
-              {loading ? "sending..." : "Invite"}
+              {loading ? "Sending..." : "Invite"}
             </Button>
           </div>
-          {errorMessage && <p className="text-xs text-rose-500">{errorMessage}</p>}
+          {errorMessage && <p className="text-destructive text-xs">{errorMessage}</p>}
         </div>
 
-        <div className="flex items-center justify-between rounded-lg border border-[#e5e5e5] p-3 dark:border-[#333333]">
+        <div className="border-border bg-surface-canvas flex items-center justify-between rounded-xl border p-3.5">
           <div className="flex flex-col">
-            <p className="text-xs font-semibold text-[#1e1e1e] dark:text-white">Share link</p>
-            <p className="text-xs text-[#888888] dark:text-[#aaaaaa]">
-              Anyone with access can view this document
-            </p>
+            <p className="text-foreground text-xs font-medium">Share link</p>
+            <p className="text-muted text-xs">Anyone with access can view this document</p>
           </div>
           <Button
             type="button"
             variant="outline"
             size="sm"
             onClick={handleCopyLink}
-            className="flex items-center gap-1.5 border-[#cccccc] text-xs dark:border-[#555555]"
+            className="flex items-center gap-1.5 text-xs"
           >
             {copied ? (
               <>

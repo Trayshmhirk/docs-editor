@@ -19,16 +19,16 @@ const Notifications = () => {
 
   return (
     <Popover>
-      <PopoverTrigger className="relative flex size-10 items-center justify-center rounded-lg">
-        <Bell className="size-6" />
+      <PopoverTrigger className="text-foreground hover:bg-surface-hover relative flex size-10 items-center justify-center rounded-lg transition-colors">
+        <Bell className="size-5" />
 
         {count > 0 && (
-          <div className="absolute top-2 right-2 z-20 size-2 rounded-full bg-[#00afdb] text-white"></div>
+          <div className="bg-primary absolute top-2 right-2 z-20 size-2 rounded-full"></div>
         )}
       </PopoverTrigger>
       <PopoverContent
         align="end"
-        className="ml-3 flex w-full max-w-[350px] flex-col gap-2 border border-[#eeeeee] shadow-lg sm:max-w-[460px] dark:border-[#181818] dark:bg-[#1f1f1f]"
+        className="border-border bg-surface ml-3 flex w-full max-w-87.5 flex-col gap-2 shadow-lg sm:max-w-115"
       >
         <LiveblocksUiConfig
           overrides={{
@@ -37,16 +37,14 @@ const Notifications = () => {
         >
           <InboxNotificationList className="flex flex-col gap-2">
             {unreadNotifications.length === 0 && (
-              <p className="p-2 text-center text-[#bbbbbb] dark:text-[#656565]">
-                No new notifications
-              </p>
+              <p className="text-muted p-2 text-center text-sm">No new notifications</p>
             )}
             {unreadNotifications.length > 0 &&
               unreadNotifications.map((notification) => (
                 <InboxNotification
                   key={notification.id}
                   inboxNotification={notification}
-                  className="flex flex-col gap-2 rounded border border-[#eeeeee] bg-[#f7f7f7] py-3 text-[#1e1e1e] sm:flex-row md:gap-3 dark:border-[#434343] dark:bg-[#2a2a2a] dark:text-[white]"
+                  className="border-border bg-surface-hover text-foreground flex flex-col gap-2 rounded border py-3 sm:flex-row md:gap-3"
                   href={`/documents/${notification.roomId}`}
                   showActions={false}
                   kinds={{
