@@ -9,10 +9,12 @@ import ActiveCollaborators from "@/components/collaborators/ActiveCollaborators"
 import Loader from "@/components/ui/common/Loader";
 import { useEffect, useRef, useState } from "react";
 import { Input } from "@/components/ui/input";
-import { SquarePen } from "lucide-react";
+import { SquarePen, ChevronRight, Eye } from "lucide-react";
 import { updateDocument } from "@/lib/actions/room.actions";
 import ShareModal from "@/components/modal/ShareModal";
 import ClerkSignedInUserButton from "../ui/common/ClerkSignedInUserButton";
+import Notifications from "@/components/ui/liveblocks/Notifications";
+import { ToggleTheme } from "@/components/ui/common/ToggleTheme";
 
 function ConnectionStatusBadge() {
   const status = useStatus();
@@ -21,7 +23,7 @@ function ConnectionStatusBadge() {
     return (
       <span
         title="Connected to collaboration server"
-        className="flex items-center gap-1.5 rounded-full bg-emerald-500/10 px-2 py-0.5 text-xs font-medium text-emerald-600 dark:text-emerald-400"
+        className="flex items-center gap-1.5 rounded-full bg-emerald-500/10 px-2.5 py-1 text-xs font-medium text-emerald-600 dark:text-emerald-400"
       >
         <span className="size-1.5 rounded-full bg-emerald-500" />
         <span className="hidden md:inline">Connected</span>
@@ -33,7 +35,7 @@ function ConnectionStatusBadge() {
     return (
       <span
         title="Connecting to collaboration server..."
-        className="flex items-center gap-1.5 rounded-full bg-amber-500/10 px-2 py-0.5 text-xs font-medium text-amber-600 dark:text-amber-400"
+        className="flex items-center gap-1.5 rounded-full bg-amber-500/10 px-2.5 py-1 text-xs font-medium text-amber-600 dark:text-amber-400"
       >
         <span className="size-1.5 animate-pulse rounded-full bg-amber-500" />
         <span className="hidden md:inline">Connecting</span>
@@ -45,7 +47,7 @@ function ConnectionStatusBadge() {
     return (
       <span
         title="Disconnected from collaboration server"
-        className="flex items-center gap-1.5 rounded-full bg-rose-500/10 px-2 py-0.5 text-xs font-medium text-rose-600 dark:text-rose-400"
+        className="flex items-center gap-1.5 rounded-full bg-rose-500/10 px-2.5 py-1 text-xs font-medium text-rose-600 dark:text-rose-400"
       >
         <span className="size-1.5 rounded-full bg-rose-500" />
         <span className="hidden md:inline">Offline</span>
@@ -80,12 +82,14 @@ const CollaborativeRoom = ({
           if (updatedDocument) {
             setEditing(false);
           }
+        } else {
+          setEditing(false);
         }
       } catch (error) {
         console.error(`Error updating document title: ${error}`);
+      } finally {
+        setLoading(false);
       }
-
-      setLoading(false);
     }
   };
 
@@ -104,8 +108,6 @@ const CollaborativeRoom = ({
           setEditing(false);
         }
       }
-
-      setLoading(false);
     };
 
     document.addEventListener("mousedown", handleClickOutside);
@@ -130,36 +132,54 @@ const CollaborativeRoom = ({
       <ClientSideSuspense fallback={<Loader />}>
         <div className="flex size-full flex-1 flex-col items-center">
           <Header>
-            <div ref={containerRef} className="flex w-fit items-center gap-2">
-              {editing && !loading ? (
-                <Input
-                  type="text"
-                  value={documentTitle}
-                  ref={inputRef}
-                  placeholder="Enter title"
-                  onChange={(e) => setDocumentTitle(e.target.value)}
-                  onKeyDown={updateTitleHandler}
-                  disabled={!editing}
-                  className="document-title-input"
-                />
-              ) : (
-                <p className="border-dark-400 line-clamp-1 text-sm leading-6 font-semibold sm:text-lg">
-                  {documentTitle}
-                </p>
-              )}
+            {/* Left Zone: Breadcrumb & Editable Document Title */}
+            <div ref={containerRef} className="flex flex-1 items-center gap-2 overflow-hidden">
+              <ChevronRight className="text-muted hidden size-4 shrink-0 sm:block" />
 
-              {currentUserType === "editor" && !editing && (
-                <SquarePen className="size-5 cursor-pointer" onClick={() => setEditing(true)} />
-              )}
-              {currentUserType !== "editor" && !editing && (
-                <p className="bg-dark-400/50 rounded-md px-2 py-0.5 text-xs text-blue-100/50">
-                  View only
-                </p>
-              )}
-              {loading && <p className="text-sm text-gray-100">saving...</p>}
+              <div className="flex max-w-sm min-w-0 items-center gap-1.5 sm:max-w-md">
+                {editing && !loading ? (
+                  <Input
+                    type="text"
+                    value={documentTitle}
+                    ref={inputRef}
+                    placeholder="Enter document title"
+                    onChange={(e) => setDocumentTitle(e.target.value)}
+                    onKeyDown={updateTitleHandler}
+                    disabled={!editing}
+                    className="border-border bg-surface-secondary/80 text-foreground focus-visible:ring-primary/40 h-8 w-full max-w-xs rounded-md px-2.5 text-sm font-semibold shadow-xs focus-visible:ring-1"
+                  />
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => currentUserType === "editor" && setEditing(true)}
+                    disabled={currentUserType !== "editor"}
+                    className="group hover:bg-surface-secondary flex items-center gap-1.5 rounded-md px-2 py-1 text-left transition-colors focus:outline-none"
+                    title={currentUserType === "editor" ? "Click to rename" : undefined}
+                  >
+                    <span className="text-foreground truncate text-sm font-semibold">
+                      {documentTitle}
+                    </span>
+                    {currentUserType === "editor" && (
+                      <SquarePen className="text-muted group-hover:text-foreground size-3.5 shrink-0 opacity-0 transition-opacity group-hover:opacity-100" />
+                    )}
+                  </button>
+                )}
+
+                {currentUserType !== "editor" && (
+                  <span className="border-border bg-surface-secondary text-muted flex shrink-0 items-center gap-1 rounded-full border px-2 py-0.5 text-[11px] font-medium">
+                    <Eye className="size-3" />
+                    View only
+                  </span>
+                )}
+
+                {loading && (
+                  <span className="text-muted shrink-0 animate-pulse text-xs">Saving...</span>
+                )}
+              </div>
             </div>
 
-            <div className="flex items-center justify-center gap-2 md:gap-4">
+            {/* Right Zone: Status, Collaborators, Share, Notifications, Theme, Profile */}
+            <div className="flex shrink-0 items-center gap-2 md:gap-3">
               <ConnectionStatusBadge />
               <ActiveCollaborators />
               <ShareModal
@@ -168,6 +188,8 @@ const CollaborativeRoom = ({
                 creatorId={roomMetadata.creatorId}
                 currentUserType={currentUserType}
               />
+              <Notifications />
+              <ToggleTheme isEditor />
               <Show when="signed-out">
                 <SignInButton />
               </Show>
