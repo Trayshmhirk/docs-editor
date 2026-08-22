@@ -22,6 +22,7 @@ By the end of this phase the editor shell should feel unmistakably professional.
 | 2.5.3   | Comprehensive Insert menu           | Large  |
 | 2.5.4   | Comment thread spatial anchoring    | Small  |
 | 2.5.5   | Document outline sidebar            | Medium |
+| 2.5.6   | Home dashboard document previews    | Medium |
 
 ---
 
@@ -319,6 +320,65 @@ feat(nodes): implement PageBreakNode as dashed visual rule in canvas
 feat(nodes): implement YouTubeNode and TweetNode decorator embeds
 feat(comments): anchor liveblocks threads to right margin column beside page
 feat(outline): add collapsible document outline sidebar driven by heading nodes
+feat(home): render real document content previews inside home dashboard cards
+```
+
+---
+
+## 2.5.6 Home Dashboard Document Preview Thumbnails
+
+> **Context:** Phase 1.5.8 ships a simulated page thumbnail (decorative placeholder lines).
+> This section upgrades those cards to show real document content.
+
+To render a live preview of document content in the home dashboard card, we need to
+serialize and store a snapshot of each document's text content outside of Liveblocks
+storage (which is only accessible inside a `RoomProvider`). The approach:
+
+### Technical Strategy
+
+1. **Document Snapshot Storage:** When a document is saved or edited (debounced), serialize
+   the first ~300 characters of plain text and the first heading from Lexical's `EditorState`
+   using `editor.getEditorState().read()`. Store this snapshot in Liveblocks room metadata
+   (via `updateRoom` from the server action, extending `RoomMetadata` with a `preview` field).
+
+2. **Home Dashboard Reading:** `getDocuments()` already returns full `RoomData` including
+   `metadata`. Once `metadata.preview` exists, `DocumentCard` renders actual text lines
+   instead of placeholder bars.
+
+3. **Graceful Degradation:** If `metadata.preview` is absent (older documents), the
+   existing decorative placeholder lines are shown — no breaking change.
+
+### Preview Card Anatomy
+
+```txt
+┌──────────────────────┐
+│ ── Title Heading ──── │  ← first heading or doc title (font-semibold)
+│ Lorem ipsum dolor    │  ← first ~80 chars of body text (text-xs text-muted)
+│ sit amet consect...  │
+└──────────────────────┘
+  Document Title
+  Opened 2d ago
+```
+
+### Checklist for document previews
+
+- [ ] Extend `RoomMetadata` type with `preview?: string` and `previewHeading?: string`
+- [ ] Add a `saveDocumentPreview(roomId, preview, heading)` server action that calls
+      `liveblocks.updateRoom()` to patch metadata
+- [ ] In the Lexical `Editor` component, add a debounced `OnChangePlugin` that reads
+      plain-text content and fires `saveDocumentPreview` on change (max once per 30s)
+- [ ] Update `DocumentCard` to render `metadata.previewHeading` and `metadata.preview`
+      when available, falling back to the current decorative placeholder
+- [ ] Ensure the preview text is truncated safely and does not expose private content
+      to users who only have `room:read` access (server-side check)
+
+### Files to modify
+
+```txt
+types/index.d.ts                                  (extend RoomMetadata)
+lib/actions/room.actions.ts                       (saveDocumentPreview action)
+components/editor/Editor.tsx                      (debounced OnChangePlugin)
+components/ui/home/DocumentCard.tsx               (preview rendering)
 ```
 
 ---

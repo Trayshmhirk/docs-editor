@@ -279,6 +279,18 @@ Elevate the visual aesthetic from a prototype layout to a state-of-the-art SaaS 
       containers
 - [x] Polish scrollbars, tooltips, and micro-interaction animations
 
+### Theme Contract (enforced from 1.5.7 onwards)
+
+This project enforces a **zero-hardcoded-hex rule** across all components:
+
+- All colors MUST use Tailwind tokens backed by CSS custom properties from `app/globals.css`
+  (e.g. `bg-surface`, `text-muted`, `border-border`, `bg-surface-canvas`).
+- **Never** use `bg-[#xxxxxx]` or `dark:bg-[#xxxxxx]` directly in component JSX.
+- To update any color across the entire app (light and dark mode), change only the
+  corresponding CSS variable in `:root` or `.dark` inside `app/globals.css`.
+- New tokens should follow the existing naming conventions:
+  `--surface-*`, `--border-*`, `--primary-*`, `--muted`, `--destructive`.
+
 ### Files to modify for design system
 
 ```txt
@@ -331,19 +343,34 @@ Google Docs immediately understand the layout and feel at home.
 
 ### Checklist for home dashboard
 
-- [ ] Redesign `app/(root)/page.tsx` with the three-zone layout (header, new-doc section,
+- [x] Redesign `app/(root)/page.tsx` with the three-zone layout (header, new-doc section,
       recent grid)
-- [ ] Extract the document list/grid into a `HomeDocumentGrid` client component to
+- [x] Extract the document list/grid into a `HomeDocumentGrid` client component to
       keep the page server component clean
-- [ ] Build `NewDocumentSection` with a styled blank-document creation card (no templates)
-- [ ] Build `DocumentCard` component with page-thumbnail placeholder, title, date, and
+- [x] Build `NewDocumentSection` with a styled blank-document creation card (no templates)
+- [x] Build `DocumentCard` component with page-thumbnail placeholder, title, date, and
       three-dot action menu (Open, Delete)
-- [ ] Add grid/list view toggle state (localStorage-persisted) with smooth layout transition
-- [ ] Add sort dropdown (Last opened / Last modified / Title)
-- [ ] Extend `Header.tsx` with a centered search input (client-side filter by title for now;
+- [x] Add grid/list view toggle state (localStorage-persisted) with smooth layout transition
+- [x] Add sort dropdown (Last opened / Last modified / Title)
+- [x] Extend `Header.tsx` with a centered search input (client-side filter by title for now;
       full-text search lands in Phase 2)
-- [ ] Ensure dark mode and light mode both look polished across all new components
-- [ ] Verify empty state design (when a user has no documents yet)
+- [x] Ensure dark mode and light mode both look polished across all new components
+- [x] Verify empty state design (when a user has no documents yet)
+- [x] Migrate all new home components to use CSS variable tokens (zero hardcoded hex);
+      apply same rule to `DeleteModal`, `ToggleTheme`, `Notifications`, and
+      `ClerkSignedInUserButton` for uniform cross-page color consistency
+- [x] Add `--surface-canvas` / `--surface-canvas-hover` tokens to `globals.css` for
+      thumbnail preview areas and section band backgrounds
+- [x] Fix `ToggleTheme` dark mode: switched to `variant="ghost"` so default Button
+      dark styles (`dark:bg-slate-50`) no longer override custom surface tokens
+- [x] Migrate `styles/clerk/index.css` dark mode overrides from hardcoded hex to
+      CSS custom properties so Clerk dropdown color scheme is controlled by `globals.css`
+
+> **Deferred — Real Document Preview Thumbnails:** Rendering actual document content
+> inside card thumbnails (like Google Docs) requires access to the Liveblocks/Lexical
+> document state at list time, which is not available during home page load. This feature
+> will be implemented in Phase 2.5 (see `docs/plans/phase-2.5-enterprise-editor-canvas.md`)
+> as part of the document metadata / storage architecture work.
 
 ### Files to modify for home dashboard
 
@@ -355,6 +382,11 @@ components/ui/home/HomeDocumentGrid.tsx       [NEW]
 components/ui/home/DocumentCard.tsx           [NEW]
 components/ui/home/NewDocumentSection.tsx     [NEW]
 components/ui/home/SortDropdown.tsx           [NEW]
+components/modal/DeleteModal.tsx
+components/ui/common/ToggleTheme.tsx
+components/ui/liveblocks/Notifications.tsx
+components/ui/common/ClerkSignedInUserButton.tsx
+styles/clerk/index.css
 ```
 
 ---
