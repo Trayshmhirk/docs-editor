@@ -170,15 +170,11 @@ ol {
 }
 
 .toolbar-wrapper {
-  @apply z-50 w-screen overflow-x-auto overflow-y-hidden border-y border-[#e2e8f0] bg-[#f8fafc] px-2 shadow-xs md:px-4 dark:border-[#1e293b] dark:bg-[#090d16];
+  @apply border-border bg-surface z-30 w-full overflow-x-auto overflow-y-hidden border-b px-3 py-1 backdrop-blur-xs;
 }
 
 .editor-wrapper {
   @apply h-[calc(100vh-114px)];
-}
-
-.gradient-darkgray {
-  background: linear-gradient(to top, #1e293b, #0f172a) !important;
 }
 
 .document-title-input {
@@ -186,11 +182,11 @@ ol {
 }
 
 .toolbar button.toolbar-button {
-  @apply flex cursor-pointer items-center rounded-md border-none bg-transparent p-2 transition-colors hover:enabled:bg-[#e2e8f0] dark:hover:enabled:bg-[#1e293b];
+  @apply text-foreground hover:enabled:bg-surface-hover flex cursor-pointer items-center justify-center rounded-lg border-none bg-transparent p-1.5 transition-colors focus:outline-none;
 }
 
 .toolbar button.toolbar-item.active {
-  @apply text-primary dark:text-accent bg-[#e2e8f0] dark:bg-[#1e293b];
+  @apply bg-primary/15 text-primary dark:bg-primary/20 dark:text-accent font-semibold;
 }
 
 .toolbar button.toolbar-item:disabled {

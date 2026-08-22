@@ -48,7 +48,7 @@ const ELEMENT_FORMAT_OPTIONS: {
 };
 
 function Divider() {
-  return <div className="mx-2 my-1 h-[1px] w-full bg-[#dedede] dark:bg-[#3b3b3b]" />;
+  return <div className="bg-border mx-1 my-1 h-px w-full" />;
 }
 
 export function ElementFormatDropdown({
@@ -74,10 +74,10 @@ export function ElementFormatDropdown({
         onClick={() => {
           editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "left");
         }}
-        className="item flex min-w-[100px] items-center justify-between rounded px-2 py-1 text-sm hover:enabled:bg-[#eee] dark:hover:enabled:bg-[#3b3b3b]"
+        className="item text-foreground hover:enabled:bg-surface-hover flex min-w-32 items-center justify-between rounded-lg px-2.5 py-1.5 text-xs transition-colors"
       >
-        <div className="icon-text-container flex items-center gap-3">
-          <AlignLeft className="format icon" />
+        <div className="icon-text-container flex items-center gap-2.5">
+          <AlignLeft className="format icon size-4" />
           <span className="text">Left Align</span>
         </div>
       </DropDownItem>
@@ -85,10 +85,10 @@ export function ElementFormatDropdown({
         onClick={() => {
           editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "center");
         }}
-        className="item flex min-w-[100px] items-center justify-between rounded px-2 py-1 text-sm hover:enabled:bg-[#eee] dark:hover:enabled:bg-[#3b3b3b]"
+        className="item text-foreground hover:enabled:bg-surface-hover flex min-w-32 items-center justify-between rounded-lg px-2.5 py-1.5 text-xs transition-colors"
       >
-        <div className="icon-text-container flex items-center gap-3">
-          <AlignCenter className="format icon" />
+        <div className="icon-text-container flex items-center gap-2.5">
+          <AlignCenter className="format icon size-4" />
           <span className="text">Center Align</span>
         </div>
       </DropDownItem>
@@ -96,10 +96,10 @@ export function ElementFormatDropdown({
         onClick={() => {
           editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "right");
         }}
-        className="item flex min-w-[100px] items-center justify-between rounded px-2 py-1 text-sm hover:enabled:bg-[#eee] dark:hover:enabled:bg-[#3b3b3b]"
+        className="item text-foreground hover:enabled:bg-surface-hover flex min-w-32 items-center justify-between rounded-lg px-2.5 py-1.5 text-xs transition-colors"
       >
-        <div className="icon-text-container flex items-center gap-3">
-          <AlignRight className="format icon" />
+        <div className="icon-text-container flex items-center gap-2.5">
+          <AlignRight className="format icon size-4" />
           <span className="text">Right Align</span>
         </div>
       </DropDownItem>
@@ -107,10 +107,10 @@ export function ElementFormatDropdown({
         onClick={() => {
           editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "justify");
         }}
-        className="item flex min-w-[100px] items-center justify-between rounded px-2 py-1 text-sm hover:enabled:bg-[#eee] dark:hover:enabled:bg-[#3b3b3b]"
+        className="item text-foreground hover:enabled:bg-surface-hover flex min-w-32 items-center justify-between rounded-lg px-2.5 py-1.5 text-xs transition-colors"
       >
-        <div className="icon-text-container flex items-center gap-3">
-          <AlignJustify className="format icon" />
+        <div className="icon-text-container flex items-center gap-2.5">
+          <AlignJustify className="format icon size-4" />
           <span className="text">Justify Align</span>
         </div>
       </DropDownItem>

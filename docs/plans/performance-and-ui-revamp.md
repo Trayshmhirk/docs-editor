@@ -393,16 +393,16 @@ styles/clerk/index.css
 
 ## 1.5.9 Header & Room Navigation Overhaul
 
-Redesign the document room header (distinct from the home header updated in 1.5.8).
+Redesign the document room header (aligned with the home header updated in 1.5.8).
 
 ### Checklist navigation overhaul
 
-- [ ] Build a sleek, floating room navigation header with logo, document title, and actions
-- [ ] Add editable document title with seamless hover/focus transition and saving indicator
-- [ ] Redesign connection status pill (`• Connected`, `• Reconnecting`, `• Offline`) with
+- [x] Build a sleek, floating room navigation header with logo, document title, and actions
+- [x] Add editable document title with seamless hover/focus transition and saving indicator
+- [x] Redesign connection status pill (`• Connected`, `• Reconnecting`, `• Offline`) with
       pulsing state
-- [ ] Redesign collaborator avatar stack with smooth hover magnification and name badges
-- [ ] Add breadcrumb / quick navigation back to home
+- [x] Redesign collaborator avatar stack with smooth hover magnification and name badges
+- [x] Add breadcrumb / quick navigation back to home
 
 ### Files to modify navigation overhaul
 
@@ -420,25 +420,29 @@ Transform the Lexical toolbar into a fluid, grouped pill interface.
 
 ### Checklist toolbar modernization
 
-- [ ] Reorganize toolbar items into logical visual groups with subtle dividers:
+- [x] Reorganize toolbar items into logical visual groups with subtle dividers:
   - _History:_ Undo, Redo
-  - _Hierarchy:_ Block Format dropdown (Paragraph, H1, H2, Code, Quote)
+  - _Hierarchy:_ Block Format dropdown (Paragraph, H1, H2, H3, Bullet, Numbered, Check, Code, Quote)
   - _Typography:_ Font family, font size incrementer
-  - _Inline Styles:_ Bold, Italic, Underline, Strikethrough, Code, Sub/Superscript
-  - _Insert Tools:_ Link, Collaborative Table, Images/Dividers
+  - _Inline Styles:_ Bold, Italic, Underline, Strikethrough, Sub/Superscript, Case
+  - _Insert Tools:_ Link, Collaborative Table
   - _Alignment:_ Left, Center, Right, Justify
-- [ ] Style active buttons with prominent contrasting backdrops
-- [ ] Elevate editor canvas with crisp page margins, drop shadow, and dark mode contrast
-- [ ] Add smooth hover tooltips across all toolbar controls
+- [x] Style active buttons with prominent contrasting backdrops
+- [x] Elevate editor canvas with crisp page margins, drop shadow, and dark mode contrast
+- [x] Add smooth hover tooltips across all toolbar controls
 
 ### Files to modify toolbar modernization
 
 ```txt
+components/editor/Editor.tsx
 components/editor/plugins/toolbarPlugin/ToolbarPlugin.tsx
 components/editor/plugins/toolbarPlugin/toolbarDropdown/BlockFormatDropdown.tsx
 components/editor/plugins/toolbarPlugin/toolbarDropdown/FontDropdown.tsx
 components/editor/plugins/toolbarPlugin/toolbarDropdown/TextFormatDropdown.tsx
-styles/editor/index.css
+components/editor/plugins/toolbarPlugin/toolbarDropdown/ElementFormatDropdown.tsx
+components/editor/plugins/toolbarPlugin/fontSize/index.css
+components/ui/lexical/dropdown.tsx
+app/globals.css
 ```
 
 ---
