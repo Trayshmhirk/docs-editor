@@ -271,12 +271,13 @@ Elevate the visual aesthetic from a prototype layout to a state-of-the-art SaaS 
 
 ### Checklist for design system
 
-- [ ] Replace `font-family: Arial` in `globals.css` body rule with `next/font` variable font
-      (Inter or Outfit) configured in `app/layout.tsx`
-- [ ] Refine `@theme` token definitions in `app/globals.css`
-- [ ] Standardize text color contrast across all dark mode inputs, dropdowns, and canvas
+- [x] Replace `font-family: Arial` in `globals.css` body rule with self-hosted variable font
+      (`@fontsource-variable/inter`) configured in `app/globals.css` and `app/layout.tsx`
+- [x] Refine `@theme` token definitions in `app/globals.css` with semantic CSS variables
+      for centralized theme control
+- [x] Standardize text color contrast across all dark mode inputs, dropdowns, and canvas
       containers
-- [ ] Polish scrollbars, tooltips, and micro-interaction animations
+- [x] Polish scrollbars, tooltips, and micro-interaction animations
 
 ### Files to modify for design system
 
