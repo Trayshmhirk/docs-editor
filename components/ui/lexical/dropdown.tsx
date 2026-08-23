@@ -115,7 +115,7 @@ function DropDownItems({
   return (
     <DropDownContext.Provider value={contextValue}>
       <div
-        className="dropdown dark:shadow-lg-dark fixed z-100 flex min-h-10 flex-col gap-1 rounded bg-white p-2 shadow-lg dark:bg-[#121212]"
+        className="dropdown border-border bg-surface text-foreground fixed z-100 flex min-w-36 flex-col gap-0.5 rounded-xl border p-1.5 shadow-2xl"
         ref={dropDownRef}
         onKeyDown={handleKeyDown}
       >
@@ -222,7 +222,7 @@ export default function DropDown({
         aria-label={buttonAriaLabel || buttonLabel}
         className={cn(
           buttonClassName,
-          "flex items-center justify-between gap-2 rounded p-2 text-[#1e1e1e] hover:enabled:bg-[#eee] dark:text-white dark:hover:enabled:bg-[#3b3b3b]",
+          "text-foreground hover:enabled:bg-surface-hover flex cursor-pointer items-center justify-between gap-1.5 rounded-md px-2 py-1.5 text-xs transition-colors focus:outline-none",
         )}
         onClick={() => setShowDropDown(!showDropDown)}
         ref={buttonRef}
@@ -230,9 +230,11 @@ export default function DropDown({
         <div className="flex-1">
           {ButtonIcon && <ButtonIcon className={cn(buttonIconClassName, "format icon")} />}
         </div>
-        {buttonLabel && <span className="text dropdown-button-text">{buttonLabel}</span>}
+        {buttonLabel && (
+          <span className="text dropdown-button-text font-medium">{buttonLabel}</span>
+        )}
         <div className="flex-1">
-          <ChevronDown className="size-4" />
+          <ChevronDown className="text-muted size-3.5" />
         </div>
       </button>
 

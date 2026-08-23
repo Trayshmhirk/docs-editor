@@ -1,19 +1,6 @@
 @import "./dark-theme.css";
 @import "./light-theme.css";
 
-body {
-  margin: 0;
-  font-family:
-    system-ui,
-    -apple-system,
-    BlinkMacSystemFont,
-    ".SFNSText-Regular",
-    sans-serif;
-  font-weight: 500;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
 /* --------------  EDITOR ---------------*/
 .editor-input {
   min-height: 400px;

@@ -6,6 +6,9 @@ const nextConfig: NextConfig = {
   images: {
     remotePatterns: [{ protocol: "https", hostname: "img.clerk.com" }],
   },
+  experimental: {
+    reactCompiler: true,
+  },
 };
 
 export default withSentryConfig(nextConfig, {

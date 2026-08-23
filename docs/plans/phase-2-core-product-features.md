@@ -110,9 +110,18 @@ The home screen must be strictly tailored to the authenticated user, matching Go
 4. **Starred:** Quick-access bookmarked documents from `starred_documents`.
 5. **Trash:** Soft-deleted documents (`deleted_at IS NOT NULL`) with restore and permanent purge actions.
 
+### Dashboard Streaming & Suspense Architecture
+
+```txt
+Page Shell (Sticky Header + Search + Tab Navigation + Create Button) — Renders Instantly
+  └── <Suspense fallback={<DashboardDocumentSkeleton />}>
+        └── Active Tab Stream (Postgres query: Owned / Shared / Recent / Starred / Trash)
+```
+
 ### Checklist for multi-tenant dashboard
 
 - [ ] Rebuild home page (`app/(root)/page.tsx`) with dynamic tab filtering (_All_, _Owned by me_, _Shared with me_, _Recent_, _Trash_)
+- [ ] Wrap dashboard tab views in per-section `<Suspense>` boundaries with skeleton placeholders for streaming SSR
 - [ ] Implement document search bar and sorting options (Last modified, Title, Date created)
 - [ ] Add Grid and List view switcher for document cards
 - [ ] Build document action menu: Rename, Star, Duplicate, Move to Folder, Move to Trash
@@ -125,6 +134,7 @@ components/dashboard/DocumentGrid.tsx
 components/dashboard/DocumentList.tsx
 components/dashboard/DocumentCard.tsx
 components/dashboard/DashboardTabs.tsx
+components/dashboard/DashboardSkeleton.tsx
 components/dashboard/DocumentActionsMenu.tsx
 ```
 

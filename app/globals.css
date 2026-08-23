@@ -1,5 +1,5 @@
 @import "tailwindcss";
-
+@import "@fontsource-variable/inter";
 @import "@liveblocks/react-ui/styles.css";
 @import "@liveblocks/react-lexical/styles.css";
 @import "@liveblocks/react-ui/styles/dark/attributes.css";
@@ -10,7 +10,67 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+:root {
+  /* Core Surface & Text */
+  --background: #f8fafc;
+  --foreground: #0f172a;
+  --surface: #ffffff;
+  --surface-hover: #f1f5f9;
+  --surface-secondary: #f1f5f9;
+  /* Slightly tinted canvas surface (thumbnail previews, section bands) */
+  --surface-canvas: #f0f4f9;
+  --surface-canvas-hover: #f1f5f9;
+
+  /* Borders & Dividers */
+  --border: #e2e8f0;
+  --border-hover: #cbd5e1;
+
+  /* Brand / Primary Accent */
+  --primary: #00afdb;
+  --primary-hover: #0081a4;
+  --primary-foreground: #ffffff;
+  --accent: #38bdf8;
+
+  /* Text & Feedback */
+  --muted: #64748b;
+  --muted-foreground: #94a3b8;
+  --destructive: #dc2626;
+  --destructive-foreground: #ffffff;
+}
+
+.dark {
+  /* Dark Mode Slate/Obsidian Palette */
+  --background: #090d16;
+  --foreground: #f8fafc;
+  --surface: #0f172a;
+  --surface-hover: #1e293b;
+  --surface-secondary: #161f30;
+  /* Dark canvas surface (thumbnail previews, section bands) */
+  --surface-canvas: #0b1322;
+  --surface-canvas-hover: #0f172a;
+
+  /* Elevated Dark Borders */
+  --border: #1e293b;
+  --border-hover: #334155;
+
+  /* Brand Accents */
+  --primary: #00afdb;
+  --primary-hover: #38bdf8;
+  --primary-foreground: #ffffff;
+  --accent: #38bdf8;
+
+  /* Text & Feedback */
+  --muted: #94a3b8;
+  --muted-foreground: #64748b;
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+}
+
 @theme {
+  --font-sans:
+    "Inter Variable", "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    sans-serif;
+
   --breakpoint-xs: 404px;
   --breakpoint-sm: 576px;
   --breakpoint-md: 768px;
@@ -18,6 +78,27 @@
   --breakpoint-xl: 1200px;
   --breakpoint-2xl: 1400px;
 
+  /* Semantic Theme Tokens */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-surface: var(--surface);
+  --color-surface-hover: var(--surface-hover);
+  --color-surface-secondary: var(--surface-secondary);
+  --color-surface-canvas: var(--surface-canvas);
+  --color-surface-canvas-hover: var(--surface-canvas-hover);
+  --color-border: var(--border);
+  --color-border-hover: var(--border-hover);
+
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-accent: var(--accent);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+
+  /* Legacy utility colors preserved for backward compatibility */
   --color-blue-100: #b4c6ee;
   --color-blue-400: #417bff;
   --color-blue-500: #3371ff;
@@ -59,20 +140,19 @@
 }
 
 body {
-  font-family: Arial, Helvetica, sans-serif;
-  @apply bg-white text-[#1e1e1e] dark:bg-[#111111] dark:text-white;
+  @apply bg-background text-foreground transition-colors duration-150;
 }
 
 ::-webkit-scrollbar {
-  @apply h-[3px] w-1 rounded-[50px];
+  @apply h-1 w-1.5 rounded-[50px];
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply rounded-[50px] bg-[#bbbbbb] dark:bg-[#444444];
+  @apply rounded-[50px] bg-[#cbd5e1] hover:bg-[#94a3b8] dark:bg-[#334155] dark:hover:bg-[#475569];
 }
 
 ::-webkit-scrollbar-track {
-  @apply bg-[#f5f5f5] dark:bg-[#09090a];
+  @apply bg-transparent;
 }
 
 ul {
@@ -90,27 +170,19 @@ ol {
 }
 
 .toolbar-wrapper {
-  @apply z-50 w-screen overflow-x-auto overflow-y-hidden border-y border-[#d1d1d1] bg-[#F5F5F5] px-2 shadow-md md:px-4 dark:border-[#2A2A2A] dark:bg-[#000000];
-}
-
-.editor-wrapper {
-  @apply h-[calc(100vh-114px)];
-}
-
-.gradient-darkgray {
-  background: linear-gradient(to top, #222222, #1c1c1c) !important;
+  @apply border-border bg-surface z-30 w-full overflow-x-auto overflow-y-hidden border-b px-3 py-1 backdrop-blur-xs;
 }
 
 .document-title-input {
-  @apply min-w-[78px] flex-1 border-none bg-transparent px-0 text-left text-base leading-[24px] font-semibold focus-visible:ring-0 focus-visible:ring-offset-0 disabled:text-black sm:text-xl md:text-center;
+  @apply disabled:text-foreground min-w-19.5 flex-1 border-none bg-transparent px-0 text-left text-base leading-6 font-semibold focus-visible:ring-0 focus-visible:ring-offset-0 sm:text-xl md:text-center;
 }
 
 .toolbar button.toolbar-button {
-  @apply flex cursor-pointer items-center rounded border-none bg-transparent p-2 hover:enabled:bg-[#eeeeee] dark:hover:enabled:bg-[#3b3b3b];
+  @apply text-foreground hover:enabled:bg-surface-hover flex cursor-pointer items-center justify-center rounded-lg border-none bg-transparent p-1.5 transition-colors focus:outline-none;
 }
 
 .toolbar button.toolbar-item.active {
-  @apply bg-[#eeeeee] dark:bg-[#3b3b3b];
+  @apply bg-primary/15 text-primary dark:bg-primary/20 dark:text-accent font-semibold;
 }
 
 .toolbar button.toolbar-item:disabled {
@@ -122,7 +194,7 @@ ol {
 }
 
 .format.icon {
-  @apply size-[18px] text-[#1e1e1e] dark:text-white;
+  @apply text-foreground size-4.5;
 }
 
 .toolbar .toolbar-item .text {

@@ -9,7 +9,7 @@ const ActiveCollaborators = () => {
 
   return (
     <ul
-      className="hidden items-center justify-end -space-x-2 overflow-hidden sm:flex"
+      className="hidden items-center justify-end -space-x-2 overflow-visible sm:flex"
       title={`${collaborators.length} active collaborator${collaborators.length > 1 ? "s" : ""}`}
     >
       {collaborators.map(({ id, avatar, name, color }) => (
@@ -21,10 +21,10 @@ const ActiveCollaborators = () => {
             src={avatar}
             alt={name}
             title={name}
-            width={100}
-            height={100}
-            className="inline-block size-8 rounded-full ring-2 ring-white dark:ring-[#111111]"
-            style={{ border: `2px solid ${color}` }}
+            width={32}
+            height={32}
+            className="ring-surface size-7.5 rounded-full shadow-xs ring-2"
+            style={{ border: `2px solid ${color || "var(--primary)"}` }}
           />
         </li>
       ))}

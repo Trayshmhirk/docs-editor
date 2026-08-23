@@ -1,9 +1,18 @@
 "use client";
+import dynamic from "next/dynamic";
 import { editorTheme } from "./plugins/editorTheme";
 import ToolbarPlugin from "./plugins/toolbarPlugin/ToolbarPlugin";
 import CodeHighlightPlugin from "./plugins/codeHighlightPlugin";
-import CodeActionMenuPlugin from "./plugins/codeActionMenuPlugin";
-import DraggableBlockPlugin from "./plugins/draggableBlockPlugin";
+
+const CodeActionMenuPlugin = dynamic(() => import("./plugins/codeActionMenuPlugin"), {
+  ssr: false,
+});
+const DraggableBlockPlugin = dynamic(() => import("./plugins/draggableBlockPlugin"), {
+  ssr: false,
+});
+const FloatingLinkEditorPlugin = dynamic(() => import("./plugins/floatingLinkEditorPlugin"), {
+  ssr: false,
+});
 
 import { AutoFocusPlugin } from "@lexical/react/LexicalAutoFocusPlugin";
 import { ListPlugin } from "@lexical/react/LexicalListPlugin";
@@ -26,15 +35,12 @@ import Loader from "@/components/ui/common/Loader";
 import FloatingToolbarPlugin from "./plugins/FloatingToolbarPlugin";
 import { useThreads } from "@liveblocks/react/suspense";
 import Comments from "@/components/ui/liveblocks/Comments";
-import DeleteModal from "@/components/modal/DeleteModal";
-import { ToggleTheme } from "../ui/common/ToggleTheme";
 import { useEffect, useState } from "react";
 import { ToolbarContext } from "@/context/ToolbarContext";
 import PlaygroundNodes from "./nodes/playgroundNodes";
 import { CAN_USE_DOM } from "@lexical/utils";
 import LinkPlugin from "./plugins/linkPlugin";
 import { useSettings } from "@/context/SettingsContext";
-import FloatingLinkEditorPlugin from "./plugins/floatingLinkEditorPlugin";
 
 export function Editor({ roomId, currentUserType }: Editorprops) {
   const initialConfig = liveblocksConfig({
@@ -85,27 +91,23 @@ export function Editor({ roomId, currentUserType }: Editorprops) {
   return (
     <LexicalComposer initialConfig={initialConfig}>
       <ToolbarContext>
-        <div className="size-full rounded-sm bg-[#f0f2f5] text-left leading-5 text-black dark:bg-[#111111]">
-          <div className="toolbar-wrapper flex h-12.5 min-w-full items-center justify-between gap-5">
+        <div className="bg-surface-canvas text-foreground flex size-full flex-col overflow-hidden text-left leading-5">
+          <div className="toolbar-wrapper flex min-h-11 min-w-full items-center justify-between gap-4">
             <ToolbarPlugin setIsLinkEditMode={setIsLinkEditMode} />
-
-            <div className="flex items-center gap-1">
-              <ToggleTheme isEditor />
-              {currentUserType === "editor" && <DeleteModal roomId={roomId} />}
-            </div>
           </div>
 
-          <div className="editor-wrapper flex flex-col items-center justify-start gap-5 overflow-auto p-4 pb-8 md:p-6 md:pt-7 md:pb-8 lg:flex-row lg:items-start lg:justify-center xl:gap-10">
+          <div className="editor-wrapper flex flex-1 flex-col items-center justify-start gap-6 overflow-y-auto p-4 pb-12 sm:p-8 lg:flex-row lg:items-start lg:justify-center">
             {ready ? (
-              <div className="relative mb-5 h-full min-h-275 w-full max-w-200 rounded-[3px] bg-white shadow-lg dark:bg-[#212121]">
+              <div className="border-border/80 bg-surface relative mb-8 min-h-225 w-full max-w-4xl rounded-xl border p-6 shadow-xl transition-colors sm:p-12">
                 <RichTextPlugin
                   contentEditable={
                     <div className="editor h-full" ref={onRef}>
-                      <ContentEditable className="editor-input relative h-full px-7 py-8 text-[#1e1e1e] caret-[#1d1d1d] md:p-10 dark:text-white dark:caret-[#d8d8d8]" />
+                      <ContentEditable className="editor-input text-foreground relative h-full caret-current outline-none" />
                     </div>
                   }
+
                   placeholder={
-                    <div className="editor-placeholder absolute top-10 left-10 inline-block text-[15px] text-[#888888] dark:text-[#aaaaaa]">
+                    <div className="editor-placeholder text-muted pointer-events-none absolute top-6 left-6 inline-block text-sm sm:top-12 sm:left-12">
                       Enter some rich text...
                     </div>
                   }
@@ -137,10 +139,10 @@ export function Editor({ roomId, currentUserType }: Editorprops) {
 
             {/* liveblocks plugin */}
             <LiveblocksPlugin>
-              <FloatingComposer className="w-87.5 overflow-hidden rounded-md border border-[#cccccc] dark:border-[#444444]" />
+              <FloatingComposer className="border-border bg-surface w-87.5 overflow-hidden rounded-xl border shadow-2xl" />
               <FloatingThreads
                 threads={threads}
-                className="border border-[#cccccc] dark:border-[#444444]"
+                className="border-border bg-surface rounded-xl border shadow-2xl"
               />
               <Comments />
             </LiveblocksPlugin>

@@ -36,14 +36,14 @@ const TextFormatDropdown = ({
           editor.dispatchCommand(FORMAT_TEXT_COMMAND, "lowercase");
         }}
         className={
-          "item flex min-w-[100px] items-center justify-between rounded px-2 py-1 text-sm hover:enabled:bg-[#eee] dark:hover:enabled:bg-[#3b3b3b] " +
+          "item text-foreground hover:enabled:bg-surface-hover flex min-w-36 items-center justify-between rounded-lg px-2.5 py-1.5 text-xs transition-colors " +
           dropDownActiveClass(toolbarState.isLowercase)
         }
         title="Lowercase"
         aria-label="Format text to lowercase"
       >
-        <div className="flex items-center gap-3">
-          <CaseLower className="format icon" />
+        <div className="flex items-center gap-2.5">
+          <CaseLower className="format icon size-4" />
           <span className="text">Lowercase</span>
         </div>
       </DropDownItem>
@@ -52,14 +52,14 @@ const TextFormatDropdown = ({
           editor.dispatchCommand(FORMAT_TEXT_COMMAND, "uppercase");
         }}
         className={
-          "item flex min-w-[100px] items-center justify-between rounded px-2 py-1 text-sm hover:enabled:bg-[#eee] dark:hover:enabled:bg-[#3b3b3b] " +
+          "item text-foreground hover:enabled:bg-surface-hover flex min-w-36 items-center justify-between rounded-lg px-2.5 py-1.5 text-xs transition-colors " +
           dropDownActiveClass(toolbarState.isUppercase)
         }
         title="Uppercase"
         aria-label="Format text to uppercase"
       >
-        <div className="flex items-center gap-3">
-          <CaseUpper className="format icon" />
+        <div className="flex items-center gap-2.5">
+          <CaseUpper className="format icon size-4" />
           <span className="text">Uppercase</span>
         </div>
       </DropDownItem>
@@ -68,14 +68,14 @@ const TextFormatDropdown = ({
           editor.dispatchCommand(FORMAT_TEXT_COMMAND, "capitalize");
         }}
         className={
-          "item flex min-w-[100px] items-center justify-between rounded px-2 py-1 text-sm hover:enabled:bg-[#eee] dark:hover:enabled:bg-[#3b3b3b] " +
+          "item text-foreground hover:enabled:bg-surface-hover flex min-w-36 items-center justify-between rounded-lg px-2.5 py-1.5 text-xs transition-colors " +
           dropDownActiveClass(toolbarState.isCapitalize)
         }
         title="Capitalize"
         aria-label="Format text to capitalize"
       >
-        <div className="flex items-center gap-3">
-          <CaseSensitive className="format icon" />
+        <div className="flex items-center gap-2.5">
+          <CaseSensitive className="format icon size-4" />
           <span className="text">Capitalize</span>
         </div>
       </DropDownItem>
@@ -84,14 +84,14 @@ const TextFormatDropdown = ({
           editor.dispatchCommand(FORMAT_TEXT_COMMAND, "strikethrough");
         }}
         className={
-          "item flex min-w-[100px] items-center justify-between rounded px-2 py-1 text-sm hover:enabled:bg-[#eee] dark:hover:enabled:bg-[#3b3b3b] " +
+          "item text-foreground hover:enabled:bg-surface-hover flex min-w-36 items-center justify-between rounded-lg px-2.5 py-1.5 text-xs transition-colors " +
           dropDownActiveClass(toolbarState.isStrikethrough)
         }
         title="Strikethrough"
         aria-label="Format text with a strikethrough"
       >
-        <div className="flex items-center gap-3">
-          <Strikethrough className="format icon" />
+        <div className="flex items-center gap-2.5">
+          <Strikethrough className="format icon size-4" />
           <span className="text">Strikethrough</span>
         </div>
       </DropDownItem>
@@ -100,14 +100,14 @@ const TextFormatDropdown = ({
           editor.dispatchCommand(FORMAT_TEXT_COMMAND, "subscript");
         }}
         className={
-          "item flex min-w-[100px] items-center justify-between rounded px-2 py-1 text-sm hover:enabled:bg-[#eee] dark:hover:enabled:bg-[#3b3b3b] " +
+          "item text-foreground hover:enabled:bg-surface-hover flex min-w-36 items-center justify-between rounded-lg px-2.5 py-1.5 text-xs transition-colors " +
           dropDownActiveClass(toolbarState.isSubscript)
         }
         title="Subscript"
         aria-label="Format text with a subscript"
       >
-        <div className="flex items-center gap-3">
-          <Subscript className="format icon" />
+        <div className="flex items-center gap-2.5">
+          <Subscript className="format icon size-4" />
           <span className="text">Subscript</span>
         </div>
       </DropDownItem>
@@ -116,26 +116,26 @@ const TextFormatDropdown = ({
           editor.dispatchCommand(FORMAT_TEXT_COMMAND, "superscript");
         }}
         className={
-          "item flex min-w-[100px] items-center justify-between rounded px-2 py-1 text-sm hover:enabled:bg-[#eee] dark:hover:enabled:bg-[#3b3b3b] " +
+          "item text-foreground hover:enabled:bg-surface-hover flex min-w-36 items-center justify-between rounded-lg px-2.5 py-1.5 text-xs transition-colors " +
           dropDownActiveClass(toolbarState.isSuperscript)
         }
         title="Superscript"
         aria-label="Format text with a superscript"
       >
-        <div className="flex items-center gap-3">
-          <Superscript className="format icon" />
+        <div className="flex items-center gap-2.5">
+          <Superscript className="format icon size-4" />
           <span className="text">Superscript</span>
         </div>
       </DropDownItem>
 
       <DropDownItem
         onClick={() => clearFormatting(editor)}
-        className="item flex min-w-[100px] items-center justify-between rounded px-2 py-1 text-sm hover:enabled:bg-[#eee] dark:hover:enabled:bg-[#3b3b3b]"
+        className="item text-foreground hover:enabled:bg-surface-hover flex min-w-36 items-center justify-between rounded-lg px-2.5 py-1.5 text-xs transition-colors"
         title="Clear text formatting"
         aria-label="Clear all text formatting"
       >
-        <div className="flex items-center gap-3">
-          <Trash2 className="format icon" />
+        <div className="flex items-center gap-2.5">
+          <Trash2 className="format icon size-4" />
           <span className="text">Clear Formatting</span>
         </div>
       </DropDownItem>

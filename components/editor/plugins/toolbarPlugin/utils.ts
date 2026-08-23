@@ -298,7 +298,7 @@ export const clearFormatting = (editor: LexicalEditor) => {
 
 export function dropDownActiveClass(active: boolean) {
   if (active) {
-    return "active bg-[#00a1c93e] dark:bg-[#00a1c998]";
+    return "active bg-primary/15 text-primary font-semibold dark:bg-primary/20 dark:text-accent";
   } else {
     return "";
   }
