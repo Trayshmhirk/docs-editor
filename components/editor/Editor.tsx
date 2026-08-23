@@ -91,12 +91,12 @@ export function Editor({ roomId, currentUserType }: Editorprops) {
   return (
     <LexicalComposer initialConfig={initialConfig}>
       <ToolbarContext>
-        <div className="bg-surface-canvas text-foreground size-full text-left leading-5">
+        <div className="bg-surface-canvas text-foreground flex size-full flex-col overflow-hidden text-left leading-5">
           <div className="toolbar-wrapper flex min-h-11 min-w-full items-center justify-between gap-4">
             <ToolbarPlugin setIsLinkEditMode={setIsLinkEditMode} />
           </div>
 
-          <div className="editor-wrapper flex flex-col items-center justify-start gap-6 overflow-auto p-4 pb-12 sm:p-8 lg:flex-row lg:items-start lg:justify-center">
+          <div className="editor-wrapper flex flex-1 flex-col items-center justify-start gap-6 overflow-y-auto p-4 pb-12 sm:p-8 lg:flex-row lg:items-start lg:justify-center">
             {ready ? (
               <div className="border-border/80 bg-surface relative mb-8 min-h-225 w-full max-w-4xl rounded-xl border p-6 shadow-xl transition-colors sm:p-12">
                 <RichTextPlugin

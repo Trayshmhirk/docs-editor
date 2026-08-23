@@ -173,10 +173,6 @@ ol {
   @apply border-border bg-surface z-30 w-full overflow-x-auto overflow-y-hidden border-b px-3 py-1 backdrop-blur-xs;
 }
 
-.editor-wrapper {
-  @apply h-[calc(100vh-114px)];
-}
-
 .document-title-input {
   @apply disabled:text-foreground min-w-19.5 flex-1 border-none bg-transparent px-0 text-left text-base leading-6 font-semibold focus-visible:ring-0 focus-visible:ring-offset-0 sm:text-xl md:text-center;
 }

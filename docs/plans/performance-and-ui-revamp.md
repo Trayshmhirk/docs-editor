@@ -453,18 +453,45 @@ Provide a refined sharing modal experience matching modern collaborative editors
 
 ### Checklist for share dialog UI
 
-- [ ] Implement clear visual hierarchy: Document Access Summary, Email Invite Field,
+- [x] Implement clear visual hierarchy: Document Access Summary, Email Invite Field,
       Collaborator List
-- [ ] Add animated "Copy Link" button with instant success feedback
-- [ ] Polish collaborator list items with role dropdowns (Viewer / Editor) and owner badges
-- [ ] Add animated transitions for dialog open/close using Radix dialog primitives
+- [x] Add animated "Copy Link" button with instant success feedback
+- [x] Polish collaborator list items with role dropdowns (Viewer / Editor) and owner badges
+- [x] Add animated transitions for dialog open/close using Radix dialog primitives
 
 ### Files to modify for share dialog UI
 
 ```txt
 components/modal/ShareModal.tsx
 components/collaborators/Collaborator.tsx
+components/ui/common/UserTypeSelector.tsx
+components/ui/select.tsx
 components/ui/dialog.tsx
+```
+
+### Checklist for dark mode fixes & scroll containment (1.5.12)
+
+- [x] Tokenize `button.tsx` default/destructive/outline/secondary/ghost/link variants with
+      design tokens — no hardcoded `slate-*` colors
+- [x] Harmonize `styles/liveblocks/dark-theme.css` with `var(--surface)`, `var(--border)`,
+      `var(--foreground)`, `var(--muted)`, `var(--primary)` tokens
+- [x] Update `styles/liveblocks/index.css` base root background and button foreground to tokens
+- [x] Add `h-screen overflow-hidden` to `DocumentClient.tsx` `<main>` to contain scroll
+- [x] Add `overflow-hidden` to `CollaborativeRoom.tsx` root wrapper
+- [x] Restructure `Editor.tsx` outer div to `flex flex-col overflow-hidden` and `editor-wrapper`
+      to `flex-1 overflow-y-auto` (single scroll zone)
+- [x] Remove fixed `h-[calc(100vh-114px)]` from `.editor-wrapper` in `globals.css`
+
+### Files modified for 1.5.12
+
+```txt
+components/ui/button.tsx
+styles/liveblocks/dark-theme.css
+styles/liveblocks/index.css
+components/ui/common/DocumentClient.tsx
+components/collaborators/CollaborativeRoom.tsx
+components/editor/Editor.tsx
+app/globals.css
 ```
 
 ---
@@ -473,20 +500,23 @@ components/ui/dialog.tsx
 
 ### Performance (Production-Grade)
 
-- [ ] Local dev server starts and compiles routes in under 5 seconds with Turbopack
-- [ ] Sentry dev overhead is eliminated with no source map lag in development
-- [ ] `/api/liveblocks-auth` responds in under 200ms consistently (no Clerk network round-trip)
-- [ ] React Compiler is enabled; no manual `useMemo`/`useCallback` is required in new code
-- [ ] Document room page shell renders before the Liveblocks WebSocket is established
+- [x] Local dev server starts and compiles routes in under 5 seconds with Turbopack
+- [x] Sentry dev overhead is eliminated with no source map lag in development
+- [x] `/api/liveblocks-auth` responds in under 200ms consistently (no Clerk network round-trip)
+- [x] React Compiler is enabled; no manual `useMemo`/`useCallback` is required in new code
+- [x] Document room page shell renders before the Liveblocks WebSocket is established
 
 ### UI
 
-- [ ] Home dashboard renders in three zones: header with search, new-document section,
+- [x] Home dashboard renders in three zones: header with search, new-document section,
       recent documents grid
-- [ ] Recent documents support both card grid and compact list views with a persisted toggle
-- [ ] Application header and document room canvas feature polished dark and light themes
-- [ ] Toolbar controls are grouped into fluid pill sections with responsive active states
-- [ ] Share modal provides instant link copying and clear collaborator management
+- [x] Recent documents support both card grid and compact list views with a persisted toggle
+- [x] Application header and document room canvas feature polished dark and light themes
+- [x] Toolbar controls are grouped into fluid pill sections with responsive active states
+- [x] Share modal provides instant link copying and clear collaborator management
+- [x] All button variants use design tokens — Share button renders correctly in dark mode
+- [x] Liveblocks comments sidebar blends with the dark slate surface and border tokens
+- [x] Document room page has a single scrollbar — no duplicate outer scroll
 
 ---
 
@@ -503,7 +533,7 @@ style(theme): establish modern dark slate tokens and typography with next/font
 style(home): revamp home dashboard with search header and document grid
 style(header): redesign document room header and live presence stack
 style(toolbar): modernize editor toolbar with grouped pill formatting
-style(share): polish share dialog layout and copy-link interactions
+style(share): polish share dialog layout, copy-link, and dark mode fixes
 ```
 
 ---
