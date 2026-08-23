@@ -11,8 +11,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Check, Copy, Share } from "lucide-react";
-import { Label } from "@/components/ui/label";
+import { Check, Copy, Share2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import UserTypeSelector from "@/components/ui/common/UserTypeSelector";
 import Collaborator from "@/components/collaborators/Collaborator";
@@ -80,38 +79,43 @@ const ShareModal = ({
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button
-          className="bg-primary text-primary-foreground hover:bg-primary-hover flex h-9 items-center gap-1.5 px-3.5 text-xs font-medium shadow-sm transition-all"
+          className="bg-primary text-primary-foreground hover:bg-primary-hover flex h-9 items-center gap-1.5 rounded-lg px-3.5 text-xs font-medium shadow-xs transition-colors active:scale-[0.98]"
           disabled={currentUserType !== "editor"}
         >
-          <Share className="size-4" />
-          <p className="hidden sm:block">Share</p>
+          <Share2 className="size-3.5" />
+          <span className="hidden sm:inline">Share</span>
         </Button>
       </DialogTrigger>
-      <DialogContent className="flex w-full max-w-lg flex-col gap-6 p-6">
-        <DialogHeader>
-          <DialogTitle className="text-foreground text-lg font-semibold">
-            Manage who can view this project
+
+      <DialogContent className="flex w-full max-w-lg flex-col gap-5 rounded-lg p-6">
+        <DialogHeader className="">
+          <DialogTitle className="text-foreground text-base font-semibold sm:text-lg">
+            Share document
           </DialogTitle>
           <DialogDescription className="text-muted text-xs">
-            Select which users can view and edit this document
+            Invite collaborators to view or edit this document in real time.
           </DialogDescription>
         </DialogHeader>
 
-        <div className="flex flex-col gap-2.5">
-          <Label htmlFor="email" className="text-foreground text-xs font-medium">
-            Email address
-          </Label>
-          <div className="flex items-stretch gap-2.5">
-            <div className="border-border bg-surface-secondary flex flex-1 items-center rounded-lg border">
+        {/* Invite Bar */}
+        <div className="flex flex-col gap-2">
+          <div className="flex items-center gap-2">
+            <div className="border-border bg-surface-secondary/70 focus-within:border-primary/50 focus-within:ring-primary/40 flex flex-1 items-center rounded-xl border p-1 transition-all focus-within:ring-1">
               <Input
                 id="email"
                 type="email"
-                placeholder="Enter email address"
-                className="placeholder:text-muted h-10 flex-1 border-none bg-transparent px-3 text-xs focus-visible:ring-0 focus-visible:ring-offset-0"
+                placeholder="Add people by email..."
+                className="text-foreground placeholder:text-muted h-8 flex-1 border-none bg-transparent px-2 text-xs focus-visible:ring-0 focus-visible:ring-offset-0 dark:bg-transparent"
                 value={email}
                 onChange={(e) => {
                   setEmail(e.target.value);
                   if (errorMessage) setErrorMessage("");
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" && !loading) {
+                    e.preventDefault();
+                    handleShareDocument();
+                  }
                 }}
               />
               <UserTypeSelector userType={userType} setUserType={setUserType} />
@@ -120,43 +124,58 @@ const ShareModal = ({
             <Button
               type="submit"
               onClick={handleShareDocument}
-              className="bg-primary text-primary-foreground hover:bg-primary-hover h-10 px-4 text-xs font-medium shadow-sm transition-colors"
-              disabled={loading}
+              className="bg-primary text-primary-foreground hover:bg-primary-hover h-10 rounded-xl px-4 text-xs font-medium shadow-xs transition-colors disabled:opacity-50"
+              disabled={loading || !email.trim()}
             >
-              {loading ? "Sending..." : "Invite"}
+              {loading ? "Inviting..." : "Invite"}
             </Button>
           </div>
-          {errorMessage && <p className="text-destructive text-xs">{errorMessage}</p>}
+
+          {errorMessage && <p className="text-destructive text-xs font-medium">{errorMessage}</p>}
         </div>
 
+        {/* Share Link Card */}
         <div className="border-border bg-surface-canvas flex items-center justify-between rounded-xl border p-3.5">
-          <div className="flex flex-col">
-            <p className="text-foreground text-xs font-medium">Share link</p>
-            <p className="text-muted text-xs">Anyone with access can view this document</p>
+          <div className="flex items-center gap-3 overflow-hidden">
+            <div className="flex min-w-0 flex-col">
+              <p className="text-foreground text-xs font-medium">General access</p>
+              <p className="text-muted truncate text-xs">
+                Anyone with access can view this document
+              </p>
+            </div>
           </div>
+
           <Button
             type="button"
             variant="outline"
             size="sm"
             onClick={handleCopyLink}
-            className="flex items-center gap-1.5 text-xs"
+            className="border-border bg-surface text-foreground hover:bg-surface-hover flex shrink-0 items-center gap-1.5 rounded-lg px-3 text-xs shadow-xs transition-colors"
           >
             {copied ? (
               <>
                 <Check className="size-3.5 text-emerald-500" />
-                <span>Copied</span>
+                <span className="font-medium text-emerald-600">Copied</span>
               </>
             ) : (
               <>
-                <Copy className="size-3.5" />
-                <span>Copy Link</span>
+                <Copy className="text-muted size-3.5" />
+                <span>Copy link</span>
               </>
             )}
           </Button>
         </div>
 
-        <div className="flex flex-col gap-2">
-          <ul className="flex flex-col gap-1">
+        {/* Collaborators List */}
+        <div className="flex flex-col gap-2 pt-1">
+          <div className="flex items-center justify-between">
+            <p className="text-foreground text-xs font-semibold">People with access</p>
+            <span className="bg-surface-secondary text-muted rounded-full px-2 py-0.5 text-[11px] font-medium">
+              {collaborators.length}
+            </span>
+          </div>
+
+          <ul className="divide-border/50 flex max-h-56 flex-col divide-y overflow-y-auto pr-1">
             {collaborators.map((collaborator) => (
               <Collaborator
                 key={collaborator.id}
