@@ -5,17 +5,26 @@ const ActiveCollaborators = () => {
   const others = useOthers();
   const collaborators = others.map((other) => other.info);
 
+  if (!collaborators.length) return null;
+
   return (
-    <ul className="hidden items-center justify-end -space-x-3 overflow-hidden sm:flex">
+    <ul
+      className="hidden items-center justify-end -space-x-2 overflow-visible sm:flex"
+      title={`${collaborators.length} active collaborator${collaborators.length > 1 ? "s" : ""}`}
+    >
       {collaborators.map(({ id, avatar, name, color }) => (
-        <li key={id} className="">
+        <li
+          key={id}
+          className="relative transition-transform duration-200 hover:z-10 hover:scale-110"
+        >
           <Image
             src={avatar}
             alt={name}
-            width={100}
-            height={100}
-            className="inline-block size-8 rounded-full"
-            style={{ border: `2px solid ${color}` }}
+            title={name}
+            width={32}
+            height={32}
+            className="ring-surface size-7.5 rounded-full shadow-xs ring-2"
+            style={{ border: `2px solid ${color || "var(--primary)"}` }}
           />
         </li>
       ))}

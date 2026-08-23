@@ -30,27 +30,43 @@ const DeleteModal = ({ roomId }: { roomId: string }) => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button className="hover-shadow min-w-9 rounded bg-transparent p-2 transition-all hover:bg-[#fcfcfc] dark:bg-transparent dark:hover:bg-[#383838]">
-          <Trash2 className="size-5 text-red-600 dark:text-red-600" />
+        <Button
+          variant="ghost"
+          size="icon"
+          className="hover:bg-surface-hover hover:text-destructive text-muted size-8 rounded-lg transition-colors"
+          title="Delete document"
+        >
+          <Trash2 className="size-4" />
         </Button>
       </DialogTrigger>
-      <DialogContent className="dark:!gradient-darkgray flex w-full flex-col gap-6 rounded-xl border-none px-5 py-7 shadow-xl md:max-w-[400px]">
-        <DialogHeader className="items-center gap-4 space-y-0 sm:text-center">
-          <div className="flex size-12 items-center justify-center rounded-full border-8 border-[#c46060] bg-[#772d2d] dark:border-[#603333] dark:bg-[#2c1616]">
-            <Trash2 className="size-5 text-[#f84141] dark:text-[#ed4b4b]" />
+      <DialogContent className="flex w-full flex-col gap-6 p-6 sm:max-w-md">
+        <DialogHeader className="items-center gap-3 space-y-0 text-center">
+          <div className="bg-destructive/15 text-destructive flex size-14 items-center justify-center rounded-full">
+            <Trash2 className="size-6" />
           </div>
 
-          <DialogTitle className="text-[#666666] dark:text-[#dcdcdc]">Delete document</DialogTitle>
-          <DialogDescription className="max-w-[400px] text-[#888888] dark:text-[#b0b0b0]">
-            Are you sure you want to delete this document? this action cant be undone
+          <DialogTitle className="text-foreground text-lg font-semibold">
+            Delete document
+          </DialogTitle>
+          <DialogDescription className="text-muted max-w-xs text-xs">
+            Are you sure you want to delete this document? This action cannot be undone.
           </DialogDescription>
         </DialogHeader>
 
-        <DialogFooter>
+        <DialogFooter className="grid grid-cols-2 gap-3 sm:gap-2">
+          <Button
+            variant="outline"
+            onClick={() => setOpen(false)}
+            disabled={loading}
+            className="w-full text-xs"
+          >
+            Cancel
+          </Button>
           <Button
             variant="destructive"
             onClick={handleDeleteDocument}
-            className="w-full bg-[#ef4444] hover:bg-[] dark:bg-[#f34242] dark:hover:bg-[]"
+            disabled={loading}
+            className="w-full text-xs font-medium"
           >
             {loading ? "Deleting..." : "Delete"}
           </Button>

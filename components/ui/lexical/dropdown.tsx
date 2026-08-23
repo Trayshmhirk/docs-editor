@@ -5,7 +5,7 @@ import { ReactNode, useCallback, useEffect, useMemo, useRef, useState } from "re
 import { createPortal } from "react-dom";
 
 type DropDownContextType = {
-  registerItem: (ref: React.RefObject<HTMLButtonElement>) => void;
+  registerItem: (ref: React.RefObject<HTMLButtonElement | null>) => void;
 };
 
 const DropDownContext = React.createContext<DropDownContextType | null>(null);
@@ -55,23 +55,22 @@ function DropDownItems({
   onClose,
 }: {
   children: React.ReactNode;
-  dropDownRef: React.Ref<HTMLDivElement>;
+  dropDownRef: React.RefObject<HTMLDivElement | null>;
   onClose: () => void;
 }) {
-  const [items, setItems] = useState<React.RefObject<HTMLButtonElement>[]>();
-  const [highlightedItem, setHighlightedItem] = useState<React.RefObject<HTMLButtonElement>>();
+  const [items, setItems] = useState<React.RefObject<HTMLButtonElement | null>[]>();
+  const [highlightedItem, setHighlightedItem] =
+    useState<React.RefObject<HTMLButtonElement | null>>();
 
   const registerItem = useCallback(
-    (itemRef: React.RefObject<HTMLButtonElement>) => {
+    (itemRef: React.RefObject<HTMLButtonElement | null>) => {
       setItems((prev) => (prev ? [...prev, itemRef] : [itemRef]));
     },
     [setItems],
   );
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
-    if (!items) {
-      return;
-    }
+    if (!items) return;
 
     const key = event.key;
 
@@ -83,18 +82,15 @@ function DropDownItems({
       onClose();
     } else if (key === "ArrowUp") {
       setHighlightedItem((prev) => {
-        if (!prev) {
-          return items[0];
-        }
+        if (!prev) return items[0];
         const index = items.indexOf(prev) - 1;
         return items[index === -1 ? items.length - 1 : index];
       });
     } else if (key === "ArrowDown") {
       setHighlightedItem((prev) => {
-        if (!prev) {
-          return items[0];
-        }
-        return items[items.indexOf(prev) + 1];
+        if (!prev) return items[0];
+        const index = items.indexOf(prev) + 1;
+        return items[index === items.length ? 0 : index];
       });
     }
   };
@@ -119,7 +115,7 @@ function DropDownItems({
   return (
     <DropDownContext.Provider value={contextValue}>
       <div
-        className="dropdown fixed z-[100] flex min-h-10 flex-col gap-1 rounded bg-white p-2 shadow-lg dark:bg-[#121212] dark:shadow-lg-dark"
+        className="dropdown border-border bg-surface text-foreground fixed z-100 flex min-w-36 flex-col gap-0.5 rounded-xl border p-1.5 shadow-2xl"
         ref={dropDownRef}
         onKeyDown={handleKeyDown}
       >
@@ -147,7 +143,7 @@ export default function DropDown({
   buttonLabel?: string;
   children: ReactNode;
   stopCloseOnClickSelf?: boolean;
-}): JSX.Element {
+}): React.JSX.Element {
   const dropDownRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const [showDropDown, setShowDropDown] = useState(false);
@@ -226,7 +222,7 @@ export default function DropDown({
         aria-label={buttonAriaLabel || buttonLabel}
         className={cn(
           buttonClassName,
-          "flex items-center justify-between gap-2 rounded p-2 text-[#1e1e1e] hover:enabled:bg-[#eee] dark:text-white dark:hover:enabled:bg-[#3b3b3b]",
+          "text-foreground hover:enabled:bg-surface-hover flex cursor-pointer items-center justify-between gap-1.5 rounded-md px-2 py-1.5 text-xs transition-colors focus:outline-none",
         )}
         onClick={() => setShowDropDown(!showDropDown)}
         ref={buttonRef}
@@ -234,9 +230,11 @@ export default function DropDown({
         <div className="flex-1">
           {ButtonIcon && <ButtonIcon className={cn(buttonIconClassName, "format icon")} />}
         </div>
-        {buttonLabel && <span className="text dropdown-button-text">{buttonLabel}</span>}
+        {buttonLabel && (
+          <span className="text dropdown-button-text font-medium">{buttonLabel}</span>
+        )}
         <div className="flex-1">
-          <ChevronDown className="size-4" />
+          <ChevronDown className="text-muted size-3.5" />
         </div>
       </button>
 

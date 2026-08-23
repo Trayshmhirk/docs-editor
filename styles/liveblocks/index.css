@@ -1,5 +1,5 @@
-@import "@/styles/liveblocks/dark-theme.css";
-@import "@/styles/liveblocks/light-theme.css";
+@import "./dark-theme.css";
+@import "./light-theme.css";
 
 .lb-root {
   --lb-radius: 6px;
@@ -37,7 +37,7 @@
 }
 
 .lb-button {
-  --lb-foreground-moderate: #444444;
+  --lb-foreground-moderate: var(--muted);
 }
 
 .lb-button:where([data-variant="primary"]) {
@@ -57,8 +57,8 @@
 }
 
 .lb-root:where(:not(.lb-root .lb-root)) {
-  --lb-dynamic-background: #121212;
-  color: #fff;
+  --lb-dynamic-background: var(--surface);
+  color: var(--foreground);
 }
 
 .lb-composer-editor :where([data-placeholder]) {

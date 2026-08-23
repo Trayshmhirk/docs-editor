@@ -21,7 +21,16 @@ import { $isHeadingNode } from "@lexical/rich-text";
 import { $findMatchingParent } from "@lexical/utils";
 import React, { Dispatch } from "react";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Bold, Italic, Link, RotateCcw, RotateCw, Underline } from "lucide-react";
+import {
+  Bold,
+  Italic,
+  Link,
+  RotateCcw,
+  RotateCw,
+  Table as TableIcon,
+  Underline,
+} from "lucide-react";
+import { INSERT_TABLE_COMMAND } from "@lexical/table";
 import { Button } from "@/components/ui/button";
 import BlockFormatDropDown from "./toolbarDropdown/BlockFormatDropdown";
 import { blockTypeToBlockName, useToolbarState } from "@/context/ToolbarContext";
@@ -37,14 +46,14 @@ import FontSize from "./fontSize";
 const LowPriority = 1;
 
 function Divider() {
-  return <div className="mx-1 h-full w-[1px] bg-[#dedede] dark:bg-[#3b3b3b]" />;
+  return <div className="bg-border mx-1 h-5 w-px shrink-0 self-center" />;
 }
 
 export default function ToolbarPlugin({
   setIsLinkEditMode,
 }: {
   setIsLinkEditMode: Dispatch<boolean>;
-}): JSX.Element {
+}): React.JSX.Element {
   const [editor] = useLexicalComposerContext();
 
   const toolbarRef = useRef(null);
@@ -99,6 +108,13 @@ export default function ToolbarPlugin({
       const isLink = $isLinkNode(parent) || $isLinkNode(node);
       updateToolbarState("isLink", isLink);
 
+      const tableNode = $findMatchingParent(node, (e) => e.getType() === "table");
+      if (tableNode) {
+        updateToolbarState("rootType", "table");
+      } else {
+        updateToolbarState("rootType", "root");
+      }
+
       if (elementDOM !== null) {
         setSelectedElementKey(elementKey);
         if ($isListNode(element)) {
@@ -122,6 +138,7 @@ export default function ToolbarPlugin({
         }
       }
 
+      // Handle buttons
       updateToolbarState(
         "fontFamily",
         $getSelectionStyleValueForProperty(selection, "font-family", "Arial"),
@@ -146,7 +163,7 @@ export default function ToolbarPlugin({
             : parent?.getFormatType() || "left",
       );
     }
-  }, [updateToolbarState, editor]);
+  }, [editor, updateToolbarState]);
 
   useEffect(() => {
     return mergeRegister(
@@ -160,7 +177,7 @@ export default function ToolbarPlugin({
       }),
       editor.registerCommand(
         SELECTION_CHANGE_COMMAND,
-        (/*_payload, _newEditor*/) => {
+        () => {
           $updateToolbar();
           return false;
         },
@@ -201,6 +218,14 @@ export default function ToolbarPlugin({
     }
   }, [editor, setIsLinkEditMode, toolbarState.isLink]);
 
+  const insertTable = useCallback(() => {
+    editor.dispatchCommand(INSERT_TABLE_COMMAND, {
+      columns: "3",
+      rows: "3",
+      includeHeaders: false,
+    });
+  }, [editor]);
+
   const onCodeLanguageSelect = useCallback(
     (value: string) => {
       editor.update(() => {
@@ -216,10 +241,7 @@ export default function ToolbarPlugin({
   );
 
   return (
-    <div
-      className="toolbar flex h-full gap-[2px] rounded-t-lg bg-[#fcfcfc] p-1 dark:bg-[#1e1e1e]"
-      ref={toolbarRef}
-    >
+    <div className="toolbar flex h-full items-center gap-1 bg-transparent p-0.5" ref={toolbarRef}>
       <button
         disabled={!canUndo}
         onClick={() => {
@@ -227,8 +249,9 @@ export default function ToolbarPlugin({
         }}
         className="toolbar-item toolbar-button"
         aria-label="Undo"
+        title="Undo (Ctrl+Z)"
       >
-        <RotateCcw className="format icon" />
+        <RotateCcw className="format icon size-4" />
       </button>
       <button
         disabled={!canRedo}
@@ -237,8 +260,9 @@ export default function ToolbarPlugin({
         }}
         className="toolbar-item toolbar-button"
         aria-label="Redo"
+        title="Redo (Ctrl+Y)"
       >
-        <RotateCw className="format icon" />
+        <RotateCw className="format icon size-4" />
       </button>
       <Divider />
       {toolbarState.blockType in blockTypeToBlockName && editor && (
@@ -263,7 +287,7 @@ export default function ToolbarPlugin({
             {CODE_LANGUAGE_OPTIONS.map(([value, name]) => {
               return (
                 <DropDownItem
-                  className={`item flex min-w-[100px] items-center justify-between rounded px-2 py-1 text-sm hover:enabled:bg-[#eee] dark:hover:enabled:bg-[#3b3b3b] ${dropDownActiveClass(
+                  className={`item hover:enabled:bg-surface-hover text-foreground flex min-w-25 items-center justify-between rounded-lg px-2.5 py-1.5 text-xs transition-colors ${dropDownActiveClass(
                     value === toolbarState.codeLanguage,
                   )}`}
                   onClick={() => onCodeLanguageSelect(value)}
@@ -291,45 +315,67 @@ export default function ToolbarPlugin({
           />
           <Divider />
           <Button
+            variant="ghost"
+            size="icon"
             disabled={!isEditable}
             onClick={() => {
               editor.dispatchCommand(FORMAT_TEXT_COMMAND, "bold");
             }}
-            className={`toolbar-item toolbar-button ${toolbarState.isBold ? "active" : ""}`}
+            className={`toolbar-item toolbar-button size-8 ${toolbarState.isBold ? "active" : ""}`}
             aria-label="Format Bold"
+            title="Bold (Ctrl+B)"
           >
-            <Bold className="format icon" />
+            <Bold className="format icon size-4" />
           </Button>
           <Button
+            variant="ghost"
+            size="icon"
             disabled={!isEditable}
             onClick={() => {
               editor.dispatchCommand(FORMAT_TEXT_COMMAND, "italic");
             }}
-            className={`toolbar-item toolbar-button ${toolbarState.isItalic ? "active" : ""}`}
+            className={`toolbar-item toolbar-button size-8 ${toolbarState.isItalic ? "active" : ""}`}
             aria-label="Format Italics"
+            title="Italic (Ctrl+I)"
           >
-            <Italic className="format icon" />
+            <Italic className="format icon size-4" />
           </Button>
           <Button
+            variant="ghost"
+            size="icon"
             disabled={!isEditable}
             onClick={() => {
               editor.dispatchCommand(FORMAT_TEXT_COMMAND, "underline");
             }}
-            className={`toolbar-item toolbar-button ${toolbarState.isUnderline ? "active" : ""}`}
+            className={`toolbar-item toolbar-button size-8 ${toolbarState.isUnderline ? "active" : ""}`}
             aria-label="Format Underline"
+            title="Underline (Ctrl+U)"
           >
-            <Underline className="format icon" />
+            <Underline className="format icon size-4" />
           </Button>
           <Button
+            variant="ghost"
+            size="icon"
             disabled={!isEditable}
             onClick={insertLink}
-            className={
-              "toolbar-item toolbar-button spaced " + (toolbarState.isLink ? "active" : "")
-            }
+            className={`toolbar-item toolbar-button size-8 ${toolbarState.isLink ? "active" : ""}`}
             aria-label="Insert link"
+            title="Insert Link"
             type="button"
           >
-            <Link className="format icon rotate-45 transform" />
+            <Link className="format icon size-4 rotate-45 transform" />
+          </Button>
+          <Button
+            variant="ghost"
+            size="icon"
+            disabled={!isEditable}
+            onClick={insertTable}
+            className="toolbar-item toolbar-button size-8"
+            aria-label="Insert table"
+            type="button"
+            title="Insert Table"
+          >
+            <TableIcon className="format icon size-4" />
           </Button>
           <TextFormatDropdown editor={editor} disabled={!isEditable} toolbarState={toolbarState} />
         </>

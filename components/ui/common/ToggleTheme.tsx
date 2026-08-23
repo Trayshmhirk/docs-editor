@@ -19,39 +19,35 @@ export function ToggleTheme({ isEditor }: { isEditor?: boolean }) {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button
+          variant="ghost"
           size="icon"
-          className={`text-[#1e1e1e] transition-all hover:bg-[#fcfcfc] dark:text-white dark:hover:bg-[#383838] ${
-            isEditor
-              ? "hover-shadow bg-transparent dark:bg-transparent"
-              : "border border-[#d1d1d1] bg-white dark:border-[#7a7a7a] dark:bg-[#2a2a2a]"
+          className={`text-foreground hover:bg-surface-hover hover:text-foreground transition-all ${
+            isEditor ? "hover-shadow bg-transparent" : "border-border bg-surface border"
           }`}
         >
-          <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-          <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+          <Sun className="h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
+          <Moon className="absolute h-[1.2rem] w-[1.2rem] scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" />
           <span className="sr-only">Toggle theme</span>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent
-        align="end"
-        className={`${isEditor ? "dark:bg-black" : "dark:bg-[#2a2a2a]"} dark:border-[#555555]`}
-      >
+      <DropdownMenuContent align="end" className="border-border bg-surface text-foreground">
         <DropdownMenuItem
           onClick={() => setTheme("light")}
-          className="focus:bg-[#e9e9e9] dark:focus:bg-[#3e3e3e]"
+          className="focus:bg-surface-hover focus:text-foreground"
         >
           Light
           {resolvedTheme === "light" && <Check className="ml-auto h-4 w-4" />}
         </DropdownMenuItem>
         <DropdownMenuItem
           onClick={() => setTheme("dark")}
-          className="focus:bg-[#e9e9e9] dark:focus:bg-[#3e3e3e]"
+          className="focus:bg-surface-hover focus:text-foreground"
         >
           Dark
           {resolvedTheme === "dark" && <Check className="ml-auto h-4 w-4" />}
         </DropdownMenuItem>
         <DropdownMenuItem
           onClick={() => setTheme("system")}
-          className="focus:bg-[#e9e9e9] dark:focus:bg-[#3e3e3e]"
+          className="focus:bg-surface-hover focus:text-foreground"
         >
           System
           {theme === "system" && <Check className="ml-auto h-4 w-4" />}

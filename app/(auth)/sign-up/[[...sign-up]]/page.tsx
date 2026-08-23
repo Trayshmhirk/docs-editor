@@ -11,7 +11,7 @@ const SignUpPage = () => {
     <main className="flex h-screen w-full flex-col items-center justify-center gap-10">
       <SignUp
         appearance={{
-          baseTheme: resolvedTheme === "dark" ? dark : undefined,
+          theme: resolvedTheme === "dark" ? dark : undefined,
           elements: {
             cardBox: "border border-[#eeeeee] dark:border-[#181818] shadow-xl dark:shadow-xl-dark",
             card: "dark:bg-[#1f1f1f] shadow-sm dark:shadow-md-dark",

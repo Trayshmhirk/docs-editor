@@ -1,123 +1,138 @@
-.cl-internal-piyvrh,
-.cl-internal-16vtwdp,
-.cl-internal-lk7758,
-.cl-internal-13u79ez {
-  display: none;
-}
-
-.cl-internal-w4f4gh,
-.cl-internal-19lj6gi {
-  background: none;
-}
-
-.cl-internal-wf8x4b,
-.cl-internal-1xpngvq {
-  line-height: unset;
-}
-
 .cl-avatarBox {
   width: 36px;
   height: 36px;
-  border: 2px solid #2196f3;
+  border: 2px solid var(--primary);
+  border-radius: 9999px;
 }
 
-html.dark .cl-internal-13lvar6,
-html.dark .cl-internal-1cftg7i,
-html.dark .cl-internal-to9o31 {
-  background: #151515;
+/* ── Global Clerk Modal & Popover Theme Styles ── */
+.cl-userButtonPopoverCard {
+  background-color: var(--surface) !important;
+  border: 1px solid var(--border) !important;
+  color: var(--foreground) !important;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5) !important;
 }
 
-html.dark .cl-internal-k7p5wl {
-  background: #202020;
-  border-color: #474747;
-  @apply shadow-lg-dark;
+.cl-internal-1ino59o {
+  width: 17rem;
 }
 
-html.dark .cl-internal-pp7u0o,
-html.dark .cl-internal-tn25c7 {
-  color: #bcbccf;
+.cl-internal-lsfqjd {
+  width: 17rem;
 }
 
-html.dark .cl-internal-168uxhv,
-html.dark .cl-internal-zpbffa {
-  color: #9a9ba2;
+.cl-userButtonPopoverFooter {
+  background-color: var(--background) !important;
+  border-top: 1px solid var(--border) !important;
 }
 
-html.dark .cl-internal-c2xpfh {
-  background-color: #292929;
-  @apply shadow-lg-dark;
+.cl-userButtonPopoverActionButton {
+  color: var(--foreground) !important;
 }
 
-html.dark .cl-internal-q7chm5 {
-  background-color: #333;
-  color: #bbbbbb;
+.cl-userButtonPopoverActionButton:hover {
+  background-color: var(--surface-hover) !important;
+  color: var(--foreground) !important;
 }
 
-html.dark .cl-internal-1j5cao4,
-html.dark .cl-internal-1u67iw4,
-html.dark .cl-internal-10dnmwk,
-html.dark .cl-internal-ajnh64,
-html.dark .cl-internal-1940az2 {
-  color: #bbbbbb;
+.cl-userButtonPopoverActionButtonIcon {
+  color: var(--muted) !important;
 }
 
-html.dark .cl-internal-190cjq9,
-html.dark .cl-internal-1y71s3o,
-html.dark .cl-internal-1yzyqwe,
-html.dark .cl-internal-1pz8pdy,
-html.dark .cl-internal-1s0h3cl,
-html.dark .cl-internal-13p2l65,
-html.dark .cl-internal-rvg68x {
-  color: #eeeeee;
+/* UserProfile Modal & Card (Manage account) */
+.cl-modalContent {
+  background-color: var(--surface) !important;
+  border: 1px solid var(--border) !important;
+  color: var(--foreground) !important;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7) !important;
+  border-radius: 1rem !important;
 }
 
-html.dark .cl-internal-1v9xsvw,
-html.dark .cl-internal-23zfou {
-  color: #8f92a4;
+.cl-modalBackdrop {
+  backdrop-filter: blur(4px) !important;
+  background-color: rgba(0, 0, 0, 0.65) !important;
 }
 
-html.dark .cl-internal-6lplep {
-  background-color: #222222;
-  @apply shadow-md-dark;
+.cl-card {
+  background-color: var(--surface) !important;
+  color: var(--foreground) !important;
 }
 
-html.dark .cl-internal-vox37u {
-  color: #fff;
+.cl-navbar {
+  background-color: var(--surface-canvas) !important;
+  border-right: 1px solid var(--border) !important;
 }
 
-html.dark .cl-internal-1u67iw4:hover,
-html.dark .cl-internal-vox37u:hover,
-html.dark .cl-internal-10dnmwk:hover,
-html.dark .cl-internal-ajnh64:hover {
-  background-color: #393939;
-  @apply shadow-sm-dark;
+.cl-navbarButton {
+  color: var(--muted) !important;
 }
 
-html.dark .cl-internal-1mdgqw8,
-html.dark .cl-internal-1q1j6io {
-  border-color: #444444;
+.cl-navbarButton:hover {
+  background-color: var(--surface-hover) !important;
+  color: var(--foreground) !important;
 }
 
-html.dark .cl-internal-1e217up,
-html.dark .cl-internal-18n5pfw {
-  background-color: #393939;
-  @apply shadow-md-dark;
+.cl-navbarButton[data-active="true"] {
+  background-color: var(--surface-secondary) !important;
+  color: var(--foreground) !important;
 }
 
-html.dark .cl-internal-1940az2 {
-  @apply shadow-sm-dark;
+.cl-headerTitle {
+  color: var(--foreground) !important;
 }
 
-html.dark .cl-internal-1are3ma:hover,
-html.dark .cl-internal-156ribv:hover {
-  background-color: #ef444427;
+.cl-headerSubtitle {
+  color: var(--muted) !important;
 }
 
-html.dark .cl-internal-1lerq0t {
-  background-color: #bbbbbb;
-  @apply rounded-full;
+.cl-profileSection {
+  border-bottom: 1px solid var(--border) !important;
 }
 
-html.dark .cl-internal-zpbffa {
-  border-color: #adadad;
+.cl-profileSectionPrimaryButton {
+  color: var(--primary) !important;
+}
+
+.cl-profileSectionPrimaryButton:hover {
+  color: var(--primary-hover) !important;
+}
+
+.cl-formButtonPrimary {
+  background-color: var(--primary) !important;
+  color: var(--primary-foreground) !important;
+}
+
+.cl-formButtonPrimary:hover {
+  background-color: var(--primary-hover) !important;
+}
+
+.cl-formButtonReset {
+  color: var(--muted) !important;
+}
+
+.cl-formButtonReset:hover {
+  background-color: var(--surface-hover) !important;
+  color: var(--foreground) !important;
+}
+
+.cl-badge {
+  background-color: var(--surface-secondary) !important;
+  color: var(--foreground) !important;
+  border: 1px solid var(--border) !important;
+}
+
+.cl-dividerLine {
+  background-color: var(--border) !important;
+}
+
+.cl-dividerText {
+  color: var(--muted) !important;
+}
+
+.cl-scrollBox {
+  background-color: var(--surface) !important;
+}
+
+.cl-page {
+  background-color: var(--surface) !important;
 }

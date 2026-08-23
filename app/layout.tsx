@@ -18,7 +18,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning={true}>
-      <body className="min-h-screen overflow-hidden">
+      <body className="min-h-screen font-sans antialiased" suppressHydrationWarning={true}>
         <ClerkProvider>
           <ThemeProvider
             attribute="class"

@@ -1,10 +1,13 @@
 /* LEXICAL EDITOR STYLES */
 html.light .editor-code {
-  background-color: #f0f2f5;
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  color: #0f172a;
 }
 
 html.light .editor-code:before {
-  background-color: #eee;
-  border-right: 1px solid #ccc;
-  color: #777;
+  background-color: #f1f5f9;
+  border-right: 1px solid #e2e8f0;
+  color: #94a3b8;
 }

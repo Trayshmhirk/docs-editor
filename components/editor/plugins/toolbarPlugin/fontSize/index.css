@@ -1,17 +1,14 @@
 .font-size-input {
-  font-weight: bold;
-  font-size: 14px;
-  color: #777;
-  border-radius: 5px;
-  border-color: grey;
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--foreground);
+  background: var(--surface-secondary);
+  border-radius: 6px;
+  border: 1px solid var(--border);
   padding: 2px 4px;
   text-align: center;
-  width: 30px;
+  width: 32px;
   align-self: center;
-}
-
-html.dark .font-size-input {
-  color: #ffffff;
 }
 
 .font-size-input:disabled {

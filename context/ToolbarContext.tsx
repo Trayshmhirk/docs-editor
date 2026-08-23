@@ -75,7 +75,7 @@ type ContextShape = {
 
 const Context = createContext<ContextShape | undefined>(undefined);
 
-export const ToolbarContext = ({ children }: { children: ReactNode }): JSX.Element => {
+export const ToolbarContext = ({ children }: { children: ReactNode }): React.JSX.Element => {
   const [toolbarState, setToolbarState] = useState(INITIAL_TOOLBAR_STATE);
   const selectionFontSize = toolbarState.fontSize;
 
