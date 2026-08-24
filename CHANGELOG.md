@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.1.3](https://github.com/Trayshmhirk/docs-editor/compare/v0.1.2...v0.1.3) (2026-08-24)
+
+
+### 🛠️ CI/CD & Tooling
+
+* **runtime:** upgrade Node.js runtime and CI runner to version 24 ([d93d9bb](https://github.com/Trayshmhirk/docs-editor/commit/d93d9bb2364d6ecff42b1f4bd217aaa06cfd6149))
+* upgrade Node.js runner to version 24 and update release-please action ([5696bec](https://github.com/Trayshmhirk/docs-editor/commit/5696bece7421dba01a27f07eea2102e1439ff823))
+
+
+### 🔧 Maintenance
+
+* **deps:** bump googleapis/release-please-action from 4 to 5 ([3a378d6](https://github.com/Trayshmhirk/docs-editor/commit/3a378d60d336eb7a1f648576538860ec41a87398))
+* **deps:** bump googleapis/release-please-action from 4 to 5 ([dc4825c](https://github.com/Trayshmhirk/docs-editor/commit/dc4825c961d0d2f7a7f5b9dc06d742bc0076a4ba))
+
 ## [0.1.2](https://github.com/Trayshmhirk/docs-editor/compare/v0.1.1...v0.1.2) (2026-08-23)
 
 
