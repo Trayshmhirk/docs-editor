@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.1.4](https://github.com/Trayshmhirk/docs-editor/compare/v0.1.3...v0.1.4) (2026-08-28)
+
+
+### 📚 Documentation
+
+* **prerequisites:** update Node.js requirement to version 24 ([1446be2](https://github.com/Trayshmhirk/docs-editor/commit/1446be2d31dfa4c832562de375681144c277abe8))
+* **roadmap:** integrate toolbar formatting expansion and renumber roadmap phases ([3a7e0c7](https://github.com/Trayshmhirk/docs-editor/commit/3a7e0c71c268a1a19c750dd49a059f5a8bb70548))
+* update development roadmap and bump Node.js prerequisites ([4a6d71d](https://github.com/Trayshmhirk/docs-editor/commit/4a6d71d8458b9776b80aadbb6086d3156170072a))
+
 ## [0.1.3](https://github.com/Trayshmhirk/docs-editor/compare/v0.1.2...v0.1.3) (2026-08-24)
 
 
