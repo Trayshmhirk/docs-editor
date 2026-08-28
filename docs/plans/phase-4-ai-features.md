@@ -1,14 +1,14 @@
-# Phase 3 — AI Features
+# Phase 4 — AI Features
 
 **Goal:** AI that feels native to the editor — rewrite, format, generate, and summarize — not a bolt-on chatbot.
 
-**Depends on:** [Phase 1 — Foundation & Collaboration](./phase-1-foundation-collaboration.md) (stable Lexical + Liveblocks). [Phase 2](./phase-2-core-product-features.md) optional but recommended for version snapshots before AI edits.
+**Depends on:** [Phase 1 — Foundation & Collaboration](./phase-1-foundation-collaboration.md) (stable Lexical + Liveblocks), [Phase 2 — Enterprise Editor Canvas & Toolbar Experience](./phase-2-enterprise-editor-canvas.md). [Phase 3 — Core Product Features](./phase-3-core-product-features.md) optional but recommended for version snapshots before AI edits.
 
 **Estimated effort:** 2–3 weeks
 
 ---
 
-## 3.1 Architecture overview
+## 4.1 Architecture overview
 
 ```txt
 User selects text (or places cursor)
@@ -34,7 +34,7 @@ Apply via editor.update() → Liveblocks syncs to collaborators
 
 ---
 
-## 3.2 Infrastructure
+## 4.2 Infrastructure
 
 - [ ] Add **Vercel AI SDK** (`ai` package) for streaming
 - [ ] Choose provider: OpenAI, Anthropic, or configurable via env
@@ -53,7 +53,7 @@ Apply via editor.update() → Liveblocks syncs to collaborators
 
 ---
 
-## 3.3 AI command plugin (Lexical)
+## 4.3 AI command plugin (Lexical)
 
 - [ ] Create `AICommandPlugin` for Lexical
 - [ ] Triggers:
@@ -75,7 +75,7 @@ lib/ai/apply-ai-edit.ts      ← Lexical transaction helpers
 
 ---
 
-## 3.4 Core AI actions
+## 4.4 Core AI actions
 
 | Action                   | Description                                              | Priority |
 | ------------------------ | -------------------------------------------------------- | -------- |
@@ -96,7 +96,7 @@ lib/ai/apply-ai-edit.ts      ← Lexical transaction helpers
 
 ---
 
-## 3.5 Diff preview and apply
+## 4.5 Diff preview and apply
 
 - [ ] Show side-by-side or inline diff before applying
 - [ ] "Accept" applies Lexical transaction; "Discard" closes panel
@@ -119,7 +119,7 @@ editor.update(() => {
 
 ---
 
-## 3.6 AI formatting presets (differentiator)
+## 4.6 AI formatting presets (differentiator)
 
 One-click structural transforms:
 
@@ -132,16 +132,16 @@ Preset definitions live in `lib/ai/presets.ts`.
 
 ---
 
-## 3.7 Document-level AI sidebar
+## 4.7 Document-level AI sidebar
 
 - [ ] Collapsible sidebar on document page
 - [ ] Full-document summary
 - [ ] "Ask about this document" Q&A with doc content as context
-- [ ] Chat history per document (store in Postgres if Phase 2 DB exists)
+- [ ] Chat history per document (store in Postgres if Phase 3 DB exists)
 
 ---
 
-## 3.8 AI in comments (stretch)
+## 4.8 AI in comments (stretch)
 
 - [ ] "Suggest reply" on comment threads
 - [ ] Uses thread context + surrounding document excerpt
@@ -149,7 +149,7 @@ Preset definitions live in `lib/ai/presets.ts`.
 
 ---
 
-## 3.9 Collaborative AI (stretch)
+## 4.9 Collaborative AI (stretch)
 
 - [ ] One user triggers AI; others see suggestion in real time before accept
 - [ ] "Apply for everyone" vs "Apply for me only" (if technically feasible)
@@ -157,7 +157,7 @@ Preset definitions live in `lib/ai/presets.ts`.
 
 ---
 
-## 3.10 Security and compliance
+## 4.10 Security and compliance
 
 - [ ] API keys server-side only — never expose to client
 - [ ] Do not log full document content
@@ -192,4 +192,4 @@ feat(ai): add document summary sidebar
 
 ## Next phase
 
-→ [Phase 4 — Auth Strategy](./phase-4-auth-strategy.md)
+→ [Phase 5 — Auth Strategy](./phase-5-auth-strategy.md)

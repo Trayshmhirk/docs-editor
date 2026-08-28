@@ -369,7 +369,7 @@ Google Docs immediately understand the layout and feel at home.
 > **Deferred — Real Document Preview Thumbnails:** Rendering actual document content
 > inside card thumbnails (like Google Docs) requires access to the Liveblocks/Lexical
 > document state at list time, which is not available during home page load. This feature
-> will be implemented in Phase 2.5 (see `docs/plans/phase-2.5-enterprise-editor-canvas.md`)
+> will be implemented in Phase 2 (see `docs/plans/phase-2-enterprise-editor-canvas.md`)
 > as part of the document metadata / storage architecture work.
 
 ### Files to modify for home dashboard
@@ -540,4 +540,4 @@ style(share): polish share dialog layout, copy-link, and dark mode fixes
 
 ## Next Phase
 
-→ [Phase 2 — Core Product Features & Database Architecture](./phase-2-core-product-features.md)
+→ [Phase 2 — Enterprise Editor Canvas & Toolbar Experience](./phase-2-enterprise-editor-canvas.md)

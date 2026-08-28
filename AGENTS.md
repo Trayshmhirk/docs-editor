@@ -12,13 +12,15 @@ Before commits, PRs, or phase work, read:
 
 ## Development phases
 
-| Phase | File                                                                                               | Focus                             |
-| ----- | -------------------------------------------------------------------------------------------------- | --------------------------------- |
-| 0     | [`docs/plans/phase-0-tooling.md`](docs/plans/phase-0-tooling.md)                                   | Tooling, CI/CD, conventions       |
-| 1     | [`docs/plans/phase-1-foundation-collaboration.md`](docs/plans/phase-1-foundation-collaboration.md) | Deps, Tailwind v4, collaboration  |
-| 2     | [`docs/plans/phase-2-core-product-features.md`](docs/plans/phase-2-core-product-features.md)       | History, search, export, Postgres |
-| 3     | [`docs/plans/phase-3-ai-features.md`](docs/plans/phase-3-ai-features.md)                           | Inline AI editing                 |
-| 4     | [`docs/plans/phase-4-auth-strategy.md`](docs/plans/phase-4-auth-strategy.md)                       | Auth strategy                     |
+| Phase | File                                                                                                     | Focus                                |
+| ----- | -------------------------------------------------------------------------------------------------------- | ------------------------------------ |
+| 0     | [`docs/plans/phase-0-tooling.md`](docs/plans/phase-0-tooling.md)                                         | Tooling, CI/CD, conventions          |
+| 1     | [`docs/plans/phase-1-foundation-collaboration.md`](docs/plans/phase-1-foundation-collaboration.md)       | Deps, Tailwind v4, collaboration     |
+| 1.5   | [`docs/plans/phase-1.5-performance-and-ui-revamp.md`](docs/plans/phase-1.5-performance-and-ui-revamp.md) | Dev speed, Google Docs sharing, UI   |
+| 2     | [`docs/plans/phase-2-enterprise-editor-canvas.md`](docs/plans/phase-2-enterprise-editor-canvas.md)       | Page canvas, ruler, toolbar, outline |
+| 3     | [`docs/plans/phase-3-core-product-features.md`](docs/plans/phase-3-core-product-features.md)             | History, search, export, Postgres    |
+| 4     | [`docs/plans/phase-4-ai-features.md`](docs/plans/phase-4-ai-features.md)                                 | Inline AI editing                    |
+| 5     | [`docs/plans/phase-5-auth-strategy.md`](docs/plans/phase-5-auth-strategy.md)                             | Auth strategy                        |
 
 Before starting a phase, read its plan file and work through the checklist.
 

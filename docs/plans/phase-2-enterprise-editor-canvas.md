@@ -1,0 +1,463 @@
+# Phase 2 — Enterprise Editor Canvas & Toolbar Experience
+
+**Goal:** Elevate the Lexical editor from a functional rich-text input into a document-first
+editing canvas. Introduce a Google Docs-inspired page layout (white page on a gray viewport,
+ruler, visible margins), an advanced toolbar expansion with color pickers and formatting transforms,
+a curated Insert menu covering standard document blocks, and proper spatial anchoring of Liveblocks
+comment threads beside the page.
+
+**Depends on:** [Phase 1.5 — Performance & UI Revamp](./phase-1.5-performance-and-ui-revamp.md)
+
+**Estimated effort:** 2–3 weeks
+
+---
+
+## Sections Overview
+
+| Section | Focus                                   | Effort |
+| ------- | --------------------------------------- | ------ |
+| 2.1     | Page canvas shell & viewport layout     | Medium |
+| 2.2     | Ruler & margin controls                 | Medium |
+| 2.3     | Advanced Toolbar & Formatting Expansion | Large  |
+| 2.4     | Curated Insert menu & block elements    | Medium |
+| 2.5     | Comment thread spatial anchoring        | Small  |
+| 2.6     | Document outline sidebar                | Medium |
+| 2.7     | Home dashboard document previews        | Medium |
+
+---
+
+## 2.1 Page Canvas Shell & Viewport Layout
+
+The most impactful visual change: replace the current full-width editor fill with a
+document-first "paper on a desk" metaphor. The editor canvas becomes a constrained-width
+white page centered in a gray viewport — the same mental model users bring from Google
+Docs and Microsoft Word.
+
+This is **not a Lexical change**. It is a CSS layout architecture change to the editor
+shell components. Lexical renders inside whatever container you give it; the container
+just needs to look like a page.
+
+### Target Layout
+
+```txt
++----------- Viewport (gray, #f0f0f0 / dark: #1a1a1a) -------------------------+
+|                                                                               |
+|  +--------- Document Room Header -------------------------------------------+|
+|  | <- Home  | Untitled Document (pencil icon)  Connected  [Share] [Avatars] ||
+|  +---------------------------------------------------------------------------+|
+|                                                                               |
+|  +--------- Toolbar (sticky, full-width) ------------------------------------+|
+|  | [Undo][Redo] | [Format] | [Font][Size] | [B][I][U]... | [Insert] [Align] ||
+|  +---------------------------------------------------------------------------+|
+|                                                                               |
+|  +--- Ruler -----------------------------------------------------------------+|
+|                                                                               |
+|          +------- Page Canvas (816px, white, shadow) --------+               |
+|          |                                                    |               |
+|          |  [cursor / editor content renders here]            |               |
+|          |                                                    |               |
+|          +----------------------------------------------------+               |
+|                      [Comment column appears to the right]                    |
++-------------------------------------------------------------------------------+
+```
+
+### Why 816px
+
+816px = 8.5 inches x 96 DPI — the standard US Letter page width at screen resolution.
+This makes the page feel like a real document. A4 equivalent would be 794px. The width
+should be a CSS custom property so it can be changed per-document in a later phase.
+
+### Checklist for page canvas
+
+- [ ] Wrap the editor viewport in a `PageViewport` shell component with a gray background
+      and vertical scroll
+- [ ] Center a `PageCanvas` div (max-width: 816px, white background, padding: 96px 96px,
+      `box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)`)
+- [ ] Define `--page-width`, `--page-padding-x`, and `--page-padding-y` as CSS custom
+      properties in `globals.css` for future per-document overrides
+- [ ] Ensure the page canvas fills to at least the full viewport height even when content
+      is short (min-height approach)
+- [ ] Verify dark mode: viewport becomes `#1e1e1e`, page canvas becomes `#2a2a2a` or
+      near-white depending on the user's document theme preference
+- [ ] Confirm Liveblocks collaborator cursors render correctly inside the new canvas
+      container (they are viewport-absolute and may need re-anchoring to the canvas)
+
+### Files to modify for page canvas
+
+```txt
+components/editor/EditorShell.tsx              [NEW — wraps PageViewport + PageCanvas]
+components/editor/Editor.tsx
+app/(root)/documents/[id]/page.tsx
+app/globals.css
+styles/editor/index.css
+```
+
+---
+
+## 2.2 Ruler & Margin Controls
+
+A horizontal ruler sitting above the page canvas provides visual grounding and, in a later
+iteration, draggable margin handles. The first iteration ships a read-only ruler that
+reflects the current page width and padding. Drag-to-adjust margins is a future stretch
+goal and is explicitly out of scope here.
+
+### Ruler Anatomy
+
+```txt
+  <- margin ->|<-- -- -- -- text area (624px) -- -- -- -- -->|<- margin ->
+  0           1           2           3           4           5           6
+  |           |           |           |           |           |           |
+  |||   |   |||   |   |||   |   |||   |   |||   |   |||   |   |||   |   |||
+```
+
+### Checklist for ruler
+
+- [ ] Build a `DocumentRuler` React component that renders above the page canvas
+- [ ] Ruler ticks at 0.25in intervals, labeled at every 1in; tick height varies by interval
+- [ ] Ruler width matches the page canvas width including horizontal scroll offset
+- [ ] Shade the margin zones (left and right of the text area) in a distinct background
+      tint to visually separate them from the live editing zone
+- [ ] The ruler hides automatically on mobile (below `md` breakpoint) where page
+      margins collapse for readability
+- [ ] Expose `--ruler-unit` CSS variable (`96px = 1in`) for consistency with page width
+
+### Files to modify for ruler
+
+```txt
+components/editor/DocumentRuler.tsx            [NEW]
+components/editor/EditorShell.tsx
+styles/editor/index.css
+```
+
+---
+
+## 2.3 Advanced Toolbar & Formatting Expansion
+
+Bring the editor toolbar to Google Docs parity by introducing text and highlight color pickers, a Line & Paragraph Spacing dropdown, list styling grids, a Format menu (text transforms), and a Page Layout dropdown.
+
+### Toolbar Strip Layout (Left to Right)
+
+```txt
+[Undo][Redo] | [Print] | [Format▾ (Aa)] | [Styles▾] | [Font Family▾] | [Size -/+] |
+[B][I][U] | [A▾ TextColor][Highlighter▾ BgColor] |
+[InsertLink][AddComment][InsertImage] |
+[Align▾] | [LineSpacing▾] | [Checklist][BulletList▾][NumberList▾] | [Outdent][Indent] |
+[ClearFormatting] | [Insert▾] | [PageLayout▾]
+```
+
+### Color Picker UI & Custom Modal
+
+```txt
+Dropdown:
++----------------------------------------------+
+| [None] (Only for Highlight color)            |
++----------------------------------------------+
+| ● ● ● ● ● ● ● ●  (Preset palette grid)       |
+| ● ● ● ● ● ● ● ●                              |
++----------------------------------------------+
+| CUSTOM                                       |
+| ⊕ (Opens Custom Modal)                       |
++----------------------------------------------+
+
+Custom Modal:
++----------------------------------------------+
+| [Gradient Canvas (Saturation/Lightness)]     |
+| [Hue Slider]                                 |
+| Hex [ #FF0000 ]  R [255] G [0] B [0]         |
+|                      [ Cancel ] [ OK ]       |
++----------------------------------------------+
+```
+
+### Lexical Mechanism & Preset Palette
+
+```ts
+// Text color
+$patchStyleText(selection, { color: hexValue });
+
+// Highlight (Background) color
+$patchStyleText(selection, { "background-color": hexValue });
+```
+
+Preset palette matching Google Docs / Lexical:
+
+```txt
+Row 1: #000  #434343  #666  #999  #b7b7b7  #ccc  #efefef  #f3f3f3  #fff
+Row 2: #f00  #f90  #ff0  #0f0  #0ff  #00f  #90f  #f0f  + custom (from modal)
+```
+
+### Format & Spacing Menu Scope
+
+```txt
+Format (Aa)
++-- Strikethrough        (Ctrl+Shift+X)
++-- Superscript          (Ctrl+.)
++-- Subscript            (Ctrl+,)
++-- (separator)
++-- Capitalization
+    +-- lowercase
+    +-- UPPERCASE
+    +-- Title Case
+
+Line & paragraph spacing
++-- Single (1.0)
++-- 1.15 (Default)
++-- 1.5
++-- Double (2.0)
++-- (separator)
++-- Add space before paragraph
++-- Add space after paragraph
++-- Custom spacing...
+```
+
+### Page Layout Settings & CSS Mapping
+
+| Page Size        | `--page-width` | `--page-height` (print) | Margin Preset    | `--page-padding-x` | `--page-padding-y` |
+| :--------------- | :------------- | :---------------------- | :--------------- | :----------------- | :----------------- |
+| Pageless         | `100%`         | auto                    | Normal (1")      | `96px`             | `96px`             |
+| Letter (8.5×11") | `816px`        | `1056px`                | Narrow (0.5")    | `48px`             | `48px`             |
+| A4 (8.27×11.69") | `794px`        | `1123px`                | Moderate (0.75") | `72px`             | `72px`             |
+| Legal (8.5×14")  | `816px`        | `1344px`                | Wide (1.5")      | `144px`            | `96px`             |
+
+Page settings are stored in **Liveblocks Room Metadata** (`liveblocks.updateRoom({ metadata })`) and sync live to collaborators.
+
+### Checklist for toolbar expansion
+
+- [ ] Build `ColorDropdown` component (preset swatches + CUSTOM `+` button)
+- [ ] Build `CustomColorModal` component (gradient canvas + hue slider + Hex/RGB inputs)
+- [ ] Build `FontColorButton` and `HighlightColorButton` toolbar components
+- [ ] Build `LineSpacingDropdown` toolbar component with line height and paragraph spacing controls
+- [ ] Add `ChecklistButton`, `BulletedListDropdown` (with style grid), `NumberedListDropdown` (with style grid), and Indent/Outdent controls
+- [ ] Build `FormatDropdown` with Strikethrough, Superscript, Subscript, and Title Case text transforms
+- [ ] Add `ClearFormattingButton` directly to the main toolbar strip (calling `$clearFormatting`)
+- [ ] Build `PageLayoutDropdown` to adjust page size (Letter, A4, Pageless) and margin presets via CSS custom properties and Liveblocks metadata
+
+### Files to modify for toolbar expansion
+
+```txt
+components/editor/plugins/toolbarPlugin/ColorDropdown.tsx         [NEW]
+components/editor/plugins/toolbarPlugin/CustomColorModal.tsx      [NEW]
+components/editor/plugins/toolbarPlugin/FontColorButton.tsx       [NEW]
+components/editor/plugins/toolbarPlugin/HighlightColorButton.tsx  [NEW]
+components/editor/plugins/toolbarPlugin/LineSpacingDropdown.tsx   [NEW]
+components/editor/plugins/toolbarPlugin/ListDropdowns.tsx         [NEW]
+components/editor/plugins/toolbarPlugin/FormatDropdown.tsx        [NEW]
+components/editor/plugins/toolbarPlugin/PageLayoutDropdown.tsx    [NEW]
+components/editor/plugins/toolbarPlugin/ToolbarPlugin.tsx         [MODIFY]
+styles/editor/index.css                                           [MODIFY]
+```
+
+---
+
+## 2.4 Curated Insert Menu & Block Elements
+
+Google Docs organizes its most-used features into a clean Insert dropdown. We will add a curated **Insert** dropdown to the toolbar that surfaces essential document block types in one place, grouped logically.
+
+### Insert Menu Scope
+
+```txt
+Insert
++-- Media
+|   +-- Image (upload file or paste URL)
+|   +-- Horizontal line / Divider
++-- Structure
+|   +-- Table (opens grid size picker, max 8x8)
+|   +-- Callout Block (info, warning, tip)
+|   +-- Break
+|       +-- Page Break
++-- Embed
+|   +-- YouTube Video
+|   +-- Tweet
++-- Code
+    +-- Code Block (with language selector)
+```
+
+### Lexical Node Requirements
+
+| Insert Item     | Lexical Mechanism                     | Status   |
+| --------------- | ------------------------------------- | -------- |
+| Image           | Custom `ImageNode` (Decorator)        | To build |
+| Horizontal Rule | `HorizontalRuleNode` (@lexical/react) | To wire  |
+| Table           | `@lexical/table`                      | Exists   |
+| Callout Block   | Custom `CalloutNode` (Decorator)      | To build |
+| Page Break      | Custom `PageBreakNode` (Decorator)    | To build |
+| YouTube Embed   | Custom `YouTubeNode` (Decorator)      | To build |
+| Tweet Embed     | Custom `TweetNode` (Decorator)        | To build |
+| Code Block      | `@lexical/code`                       | Exists   |
+
+### Checklist for Insert menu
+
+- [ ] Build `InsertDropdown` toolbar component with grouped sections and keyboard-accessible menu items
+- [ ] Implement `ImageNode` (Decorator): upload dialog to file or URL; resize handle overlay on selection
+- [ ] Wire `HorizontalRuleNode` from `@lexical/react` as an insert action
+- [ ] Implement `CalloutNode` (Decorator): styled block with icon (info / warning / tip) and editable text
+- [ ] Implement `PageBreakNode` (Decorator): renders as a visual dashed rule across the canvas; represents a page break
+- [ ] Implement `YouTubeNode` and `TweetNode` decorator embeds
+- [ ] Wire `@lexical/table` Table insert with a popover grid size picker
+- [ ] All custom nodes must serialize to/from Lexical JSON correctly for Liveblocks persistence
+
+### Files to modify for Insert menu
+
+```txt
+components/editor/plugins/toolbarPlugin/ToolbarPlugin.tsx
+components/editor/plugins/toolbarPlugin/toolbarDropdown/InsertDropdown.tsx   [NEW]
+components/editor/nodes/ImageNode.tsx                                         [NEW]
+components/editor/nodes/CalloutNode.tsx                                       [NEW]
+components/editor/nodes/PageBreakNode.tsx                                     [NEW]
+components/editor/nodes/YouTubeNode.tsx                                       [NEW]
+components/editor/nodes/TweetNode.tsx                                         [NEW]
+components/editor/Editor.tsx
+```
+
+---
+
+## 2.5 Comment Thread Spatial Anchoring
+
+Liveblocks `FloatingThreads` currently renders comment threads as overlays attached to selected text. The enterprise pattern — as seen in Google Docs — is to anchor threads to the right margin of the page, vertically aligned with the text they annotate.
+
+### Target Layout for comment anchoring
+
+```txt
++------- Page Canvas -----------------+   +---- Comment Column (320px) --------+
+|                                     |   |                                     |
+|  Lorem ipsum dolor sit amet,        |<--|  Thread: @user - 2h ago             |
+|  consectetur adipiscing elit.       |   |  "Can we rework this paragraph?"    |
+|                                     |   |  [Reply...]                         |
+|                                     |   +-------------------------------------+
++-------------------------------------+
+```
+
+### Checklist for comment anchoring
+
+- [ ] Wrap the page canvas and comment column in a flex row container inside `EditorShell`
+- [ ] Position `FloatingThreads` (Liveblocks) inside the comment column (right side), fixed width 320px, anchored to the annotated text's vertical offset
+- [ ] Ensure the comment column collapses to a floating popover on narrow viewports (below `lg` breakpoint)
+- [ ] Add a toggle button in the room header to show/hide the comment column
+- [ ] Verify that clicking a comment thread highlights the corresponding text range in Lexical
+
+### Files to modify for comment anchoring
+
+```txt
+components/editor/EditorShell.tsx
+components/collaborators/CollaborativeRoom.tsx
+components/ui/shared/Header.tsx
+styles/editor/index.css
+```
+
+---
+
+## 2.6 Document Outline Sidebar
+
+A collapsible left sidebar that reads heading nodes (H1, H2, H3) from the Lexical editor state and renders a navigable outline. Clicking an entry smoothly scrolls the page canvas to the corresponding heading.
+
+### Checklist for document outline
+
+- [ ] Build an `OutlinePlugin` Lexical plugin that reads the editor state for heading nodes and emits an ordered outline array
+- [ ] Build an `OutlineSidebar` component that renders the outline with indentation levels matching heading depth (H1 / H2 / H3)
+- [ ] Clicking an outline item scrolls the associated heading into view using `scrollIntoView`
+- [ ] The sidebar is collapsible; default state is open on desktop, closed on tablet and mobile
+- [ ] Highlight the active heading in the outline as the user scrolls through the document
+- [ ] The sidebar toggle button lives in the document room header
+
+### Files to modify for document outline
+
+```txt
+components/editor/plugins/OutlinePlugin.tsx    [NEW]
+components/editor/OutlineSidebar.tsx           [NEW]
+components/editor/EditorShell.tsx
+components/editor/Editor.tsx
+components/ui/shared/Header.tsx
+```
+
+---
+
+## 2.7 Home Dashboard Document Preview Thumbnails
+
+> **Context:** Phase 1.5 ships a simulated page thumbnail (decorative placeholder lines). This section upgrades those cards to show real document content.
+
+To render a live preview of document content in the home dashboard card, we need to serialize and store a snapshot of each document's text content outside of Liveblocks storage (which is only accessible inside a `RoomProvider`). The approach:
+
+### Technical Strategy
+
+1. **Document Snapshot Storage:** When a document is saved or edited (debounced), serialize the first ~300 characters of plain text and the first heading from Lexical's `EditorState` using `editor.getEditorState().read()`. Store this snapshot in Liveblocks room metadata (via `updateRoom` from the server action, extending `RoomMetadata` with a `preview` field).
+
+2. **Home Dashboard Reading:** `getDocuments()` already returns full `RoomData` including `metadata`. Once `metadata.preview` exists, `DocumentCard` renders actual text lines instead of placeholder bars.
+
+3. **Graceful Degradation:** If `metadata.preview` is absent (older documents), the existing decorative placeholder lines are shown — no breaking change.
+
+### Preview Card Anatomy
+
+```txt
+┌──────────────────────┐
+│ ── Title Heading ──── │  ← first heading or doc title (font-semibold)
+│ Lorem ipsum dolor    │  ← first ~80 chars of body text (text-xs text-muted)
+│ sit amet consect...  │
+└──────────────────────┘
+  Document Title
+  Opened 2d ago
+```
+
+### Checklist for document previews
+
+- [ ] Extend `RoomMetadata` type with `preview?: string` and `previewHeading?: string`
+- [ ] Add a `saveDocumentPreview(roomId, preview, heading)` server action that calls `liveblocks.updateRoom()` to patch metadata
+- [ ] In the Lexical `Editor` component, add a debounced `OnChangePlugin` that reads plain-text content and fires `saveDocumentPreview` on change (max once per 30s)
+- [ ] Update `DocumentCard` to render `metadata.previewHeading` and `metadata.preview` when available, falling back to the current decorative placeholder
+- [ ] Ensure the preview text is truncated safely and does not expose private content to users who only have `room:read` access (server-side check)
+
+### Files to modify for document previews
+
+```txt
+types/index.d.ts                                  (extend RoomMetadata)
+lib/actions/room.actions.ts                       (saveDocumentPreview action)
+components/editor/Editor.tsx                      (debounced OnChangePlugin)
+components/ui/home/DocumentCard.tsx               (preview rendering)
+```
+
+---
+
+## Acceptance Criteria
+
+### Canvas, Ruler & Layout
+
+- [ ] The editor renders as a white page (816px wide) centered on a gray viewport background
+- [ ] A horizontal ruler sits above the page with correct inch markings and shaded margin zones
+- [ ] Page canvas has drop shadow and padding in both dark and light mode
+- [ ] Page size, orientation, and margin changes apply immediately to the canvas and persist in Liveblocks metadata
+
+### Toolbar & Formatting
+
+- [ ] Text color and highlight color pickers open dropdowns with preset palette and custom color modal
+- [ ] Line & Paragraph spacing applies line height and paragraph margins correctly
+- [ ] List style dropdowns provide bullet and numbering style grids
+- [ ] Format dropdown includes Title Case text transform, strikethrough, superscript, and subscript
+- [ ] Clear Formatting button strips inline styling
+
+### Insert Experience & Sidebar
+
+- [ ] Curated Insert dropdown inserts Image, Table, HR, Page Break, and Embeds correctly
+- [ ] Custom nodes serialize to and from Lexical JSON for Liveblocks persistence
+- [ ] Comment threads are spatially anchored to the right margin column beside the page
+- [ ] Document outline sidebar renders H1/H2/H3 headings and scrolls on click
+
+---
+
+## Suggested Commit Sequence
+
+```txt
+style(canvas): introduce page canvas shell with gray viewport and white page layout
+style(ruler): add horizontal document ruler with inch markings and margin zones
+feat(toolbar): add text and highlight color pickers with custom color modal
+feat(toolbar): implement line spacing, list style dropdowns, and format transforms
+feat(toolbar): add page layout dropdown for page size and margin presets
+feat(editor): add curated Insert dropdown with image, table, hr, and page break
+feat(nodes): implement ImageNode, CalloutNode, and PageBreakNode decorator nodes
+feat(comments): anchor liveblocks threads to right margin column beside page
+feat(outline): add collapsible document outline sidebar driven by heading nodes
+feat(home): render real document content previews inside home dashboard cards
+```
+
+---
+
+## Next Phase
+
+→ [Phase 3 — Core Product Features & Database Architecture](./phase-3-core-product-features.md)

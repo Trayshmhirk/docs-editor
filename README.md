@@ -22,7 +22,7 @@ A modern, real-time collaborative rich-text document editor built with Next.js, 
 
 ### Prerequisites
 
-- Node.js >= 20.0.0 (see [`.nvmrc`](./.nvmrc))
+- Node.js >= 24.0.0 (see [`.nvmrc`](./.nvmrc))
 - npm >= 10.0.0
 
 ### Installation
