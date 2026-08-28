@@ -1,14 +1,14 @@
-# Phase 2 — Core Product Features & Database Architecture
+# Phase 3 — Core Product Features & Database Architecture
 
 **Goal:** Transform Docs Editor into a multi-tenant document platform with an application database (Postgres), personalized home dashboards, Google Docs-grade sharing (anonymous guest carets & public link sharing), Google Drive/Docs integration, version history, full-text search, and multi-format exports.
 
-**Depends on:** [Phase 1 — Foundation & Collaboration](./phase-1-foundation-collaboration.md), [Phase 1.5 — Performance & UI Revamp](./performance-and-ui-revamp.md)
+**Depends on:** [Phase 1 — Foundation & Collaboration](./phase-1-foundation-collaboration.md), [Phase 1.5 — Performance & UI Revamp](./phase-1.5-performance-and-ui-revamp.md), [Phase 2 — Enterprise Editor Canvas & Toolbar Experience](./phase-2-enterprise-editor-canvas.md)
 
 **Estimated effort:** 3–4 weeks
 
 ---
 
-## 2.1 Application Database & Multi-Tenant Schema (Postgres)
+## 3.1 Application Database & Multi-Tenant Schema (Postgres)
 
 Liveblocks handles real-time delta streaming and collaborative CRDT state. Postgres stores application metadata, document ownership, user preferences, and permissions.
 
@@ -79,14 +79,14 @@ CREATE TABLE starred_documents (
 );
 ```
 
-### Checklist
+### Checklist for database schema
 
 - [ ] Set up Drizzle ORM (or Prisma) with Postgres connection pooling
 - [ ] Define database schema tables: `users`, `documents`, `document_permissions`, `folders`, `starred_documents`
 - [ ] Create database migration scripts and seed utilities
 - [ ] Sync document creation and deletion lifecycle between Postgres and Liveblocks rooms
 
-### Files to create/modify
+### Files to create/modify for database schema
 
 ```txt
 drizzle.config.ts (or prisma/schema.prisma)
@@ -98,7 +98,7 @@ lib/actions/document.actions.ts
 
 ---
 
-## 2.2 Personalized Multi-Tenant Dashboard (`/`)
+## 3.2 Personalized Multi-Tenant Dashboard (`/`)
 
 The home screen must be strictly tailored to the authenticated user, matching Google Docs' organization.
 
@@ -140,7 +140,7 @@ components/dashboard/DocumentActionsMenu.tsx
 
 ---
 
-## 2.3 Google Docs-Grade Sharing & Anonymous Guest Carets
+## 3.3 Google Docs-Grade Sharing & Anonymous Guest Carets
 
 Allow seamless public link sharing without forcing mandatory sign-ups, while retaining strict permission controls.
 
@@ -190,7 +190,7 @@ lib/actions/room.actions.ts
 
 ---
 
-## 2.4 Google Drive & Google Docs Integrations (Export & Import)
+## 3.4 Google Drive & Google Docs Integrations (Export & Import)
 
 Allow seamless document synchronization and export with the Google Workspace ecosystem.
 
@@ -223,7 +223,7 @@ components/modal/ExportModal.tsx
 
 ---
 
-## 2.5 Version History & Snapshots
+## 3.5 Version History & Snapshots
 
 Provide revision tracking, comparison, and one-click rollback.
 
@@ -244,7 +244,7 @@ app/(root)/documents/[id]/page.tsx
 
 ---
 
-## 2.6 Unified Document Search (Titles + Full Text)
+## 3.6 Unified Document Search (Titles + Full Text)
 
 Enable instant search across all documents.
 
@@ -264,7 +264,7 @@ lib/actions/document.actions.ts
 
 ---
 
-## 2.7 Document Organization (Folders, Starred, Trash)
+## 3.7 Document Organization (Folders, Starred, Trash)
 
 Structured file management for power users.
 
@@ -286,7 +286,7 @@ lib/actions/folder.actions.ts
 
 ---
 
-## 2.8 Multi-Format Export (Markdown, PDF, HTML, Docx)
+## 3.8 Multi-Format Export (Markdown, PDF, HTML, Docx)
 
 Enable exporting document content to standard industry formats.
 
@@ -309,7 +309,7 @@ components/modal/ExportModal.tsx
 
 ---
 
-## 2.9 Keyboard Shortcuts, Command Palette & Inline Mentions
+## 3.9 Keyboard Shortcuts, Command Palette & Inline Mentions
 
 Provide power-user shortcuts and interactive collaborator tagging.
 
@@ -330,7 +330,7 @@ components/modal/ShortcutsModal.tsx
 
 ---
 
-## 2.10 Mobile & Responsive Editor Experience
+## 3.10 Mobile & Responsive Editor Experience
 
 Ensure high-quality document editing across mobile devices and tablets.
 
@@ -379,5 +379,5 @@ feat(mentions): add inline collaborator mentions with inbox notifications
 
 ## Next Phase
 
-→ [Phase 3 — AI Features & Inline Editing](./phase-3-ai-features.md)  
-→ [Phase 4 — Auth Strategy & Inbuilt Auth Migration](./phase-4-auth-strategy.md)
+→ [Phase 4 — AI Features & Inline Editing](./phase-4-ai-features.md)  
+→ [Phase 5 — Auth Strategy & Inbuilt Auth Migration](./phase-5-auth-strategy.md)

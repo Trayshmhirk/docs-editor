@@ -200,4 +200,4 @@ feat(share): improve invite validation and error handling
 
 ## Next phase
 
-→ [Phase 2 — Core Product Features](./phase-2-core-product-features.md)
+→ [Phase 1.5 — Performance & UI Revamp](./phase-1.5-performance-and-ui-revamp.md)

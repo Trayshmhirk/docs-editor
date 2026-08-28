@@ -1,14 +1,14 @@
-# Phase 4 — Auth Strategy
+# Phase 5 — Auth Strategy
 
 **Goal:** Decide and implement the long-term authentication approach — customize Clerk deeply or migrate to custom auth — without breaking Liveblocks integration.
 
-**Depends on:** [Phase 0 — Tooling](./phase-0-tooling.md). [Phase 2 — Core Product Features](./phase-2-core-product-features.md) recommended (Postgres user table simplifies custom auth).
+**Depends on:** [Phase 0 — Tooling](./phase-0-tooling.md). [Phase 3 — Core Product Features & Database Architecture](./phase-3-core-product-features.md) recommended (Postgres user table simplifies custom auth).
 
 **Estimated effort:** 1 week (Clerk Elements) **or** 3–4 weeks (full custom auth)
 
 ---
 
-## 4.1 Current auth architecture
+## 5.1 Current auth architecture
 
 | Component        | Clerk usage                                             |
 | ---------------- | ------------------------------------------------------- |
@@ -24,7 +24,7 @@ Any auth change must preserve or migrate the Liveblocks `identifyUser` flow and 
 
 ---
 
-## 4.2 Decision matrix
+## 5.2 Decision matrix
 
 ### Option A — Stay on Clerk, customize heavily (recommended first)
 
@@ -48,13 +48,13 @@ Any auth change must preserve or migrate the Liveblocks `identifyUser` flow and 
 
 ### Recommendation
 
-1. **Phase 4a:** Clerk Elements custom UI (1 week)
-2. **Phase 4b:** Add Postgres `users` table synced with Clerk webhooks
-3. **Phase 4c:** Revisit custom auth only if Clerk limits become a blocker
+1. **Phase 5a:** Clerk Elements custom UI (1 week)
+2. **Phase 5b:** Add Postgres `users` table synced with Clerk webhooks
+3. **Phase 5c:** Revisit custom auth only if Clerk limits become a blocker
 
 ---
 
-## 4.3 Option A — Clerk Elements custom UI
+## 5.3 Option A — Clerk Elements custom UI
 
 Replace default Clerk card components with fully branded auth matching the editor.
 
@@ -85,17 +85,17 @@ styles/clerk/index.css
 
 ---
 
-## 4.4 Option A — Clerk organizations (optional)
+## 5.4 Option A — Clerk organizations (optional)
 
 If workspace/team sharing is needed:
 
 - [ ] Enable Clerk Organizations
-- [ ] Map org → shared document folders (requires Phase 2 DB)
+- [ ] Map org → shared document folders (requires Phase 3 DB)
 - [ ] Org-level billing (future)
 
 ---
 
-## 4.5 Option B — Custom auth (if pursued)
+## 5.5 Option B — Custom auth (if pursued)
 
 ### Recommended stack
 
@@ -116,7 +116,7 @@ If workspace/team sharing is needed:
 - [ ] Replace `getClerkUsers()` with DB user lookup
 - [ ] Replace `<ClerkProvider>`, `<SignIn>`, `<UserButton>` across app
 - [ ] Migration path for existing Clerk users (export + import or dual-run period)
-- [ ] MFA (optional, phase 4c)
+- [ ] MFA (optional, phase 5c)
 
 ### Files to replace/modify
 
@@ -133,9 +133,9 @@ components/collaborators/CollaborativeRoom.tsx
 
 ---
 
-## 4.6 Hybrid — Clerk + Postgres user sync (recommended bridge)
+## 5.6 Hybrid — Clerk + Postgres user sync (recommended bridge)
 
-Even if staying on Clerk, sync users to Postgres for Phase 2 features.
+Even if staying on Clerk, sync users to Postgres for Phase 3 features.
 
 - [ ] Clerk webhook: `user.created`, `user.updated`, `user.deleted`
 - [ ] `app/api/webhooks/clerk/route.ts` with signature verification
@@ -151,7 +151,7 @@ Even if staying on Clerk, sync users to Postgres for Phase 2 features.
 
 ---
 
-## 4.7 Liveblocks auth contract (must preserve)
+## 5.7 Liveblocks auth contract (must preserve)
 
 Regardless of option, the auth endpoint must:
 
@@ -180,7 +180,7 @@ await liveblocks.identifyUser({ userId: user.info.email, groupIds: [] }, { userI
 
 ---
 
-## 4.8 Share flow migration considerations
+## 5.8 Share flow migration considerations
 
 - Room access today: `usersAccesses` keyed by email string
 - If moving to user IDs: migration script to remap access keys
@@ -237,5 +237,5 @@ feat(auth): migrate existing clerk users
 
 ## Related plans
 
-← [Phase 2 — Core Product Features](./phase-2-core-product-features.md) (Postgres prerequisite for hybrid/custom)  
+← [Phase 3 — Core Product Features & Database Architecture](./phase-3-core-product-features.md) (Postgres prerequisite for hybrid/custom)  
 ← [Phase 1 — Foundation & Collaboration](./phase-1-foundation-collaboration.md)
