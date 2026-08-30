@@ -213,19 +213,22 @@
 .editor-list-ol {
   padding: 0;
   margin: 0;
+  list-style-type: decimal;
 }
 
 .editor-list-ul {
   padding: 0;
   margin: 0;
+  list-style-type: disc;
 }
 
 .editor-listItem {
   margin: 8px 32px 8px 32px;
+  list-style-type: inherit;
 }
 
 .editor-nestedListItem {
-  list-style-type: none;
+  list-style-type: inherit;
 }
 
 .editor-listItemChecked,
@@ -350,39 +353,67 @@ pre::-webkit-scrollbar-thumb {
   border-collapse: collapse;
   border-spacing: 0;
   max-width: 100%;
-  overflow-y: scroll;
   table-layout: fixed;
-  width: calc(100% - 25px);
-  margin: 15px 0;
+  width: 100%;
+  margin: 16px 0;
 }
 
 .editor-tableCell {
-  border: 1px solid #ccc;
+  border: 1px solid #c7c7c7;
   min-width: 75px;
   vertical-align: top;
   text-align: start;
-  padding: 6px 8px;
+  padding: 8px;
   position: relative;
   outline: none;
 }
 
 .editor-tableCellHeader {
-  background-color: #f2f3f5;
-  font-weight: bold;
+  background-color: #f8fafc;
+  font-weight: 600;
 }
 
 .editor-tableCellSelected {
-  background-color: #c9e2ff;
+  background-color: #c2e7ff;
 }
 
 .dark .editor-tableCell {
-  border-color: #444;
+  border-color: #334155;
 }
 
 .dark .editor-tableCellHeader {
-  background-color: #1e2638;
+  background-color: #1e293b;
 }
 
 .dark .editor-tableCellSelected {
   background-color: #1e3a5f;
+}
+
+/* -------------- PAGE CANVAS & VIEWPORT LAYOUT --------------- */
+.editor-viewport {
+  background-color: var(--surface-canvas);
+  scrollbar-gutter: stable;
+}
+
+.page-canvas {
+  width: 100%;
+  max-width: var(--page-width, 816px);
+  min-height: var(--page-height, 1056px);
+  background-color: var(--page-bg);
+  box-shadow: var(--page-shadow);
+  border: 1px solid #dadce0;
+  border-radius: 0;
+  padding: var(--page-padding-y, 96px) var(--page-padding-x, 96px);
+}
+
+.dark .page-canvas {
+  border-color: #1e293b;
+}
+
+@media (max-width: 768px) {
+  .page-canvas {
+    padding: 1.5rem 1rem !important;
+    min-height: calc(100vh - 8rem);
+    border-radius: 0;
+  }
 }

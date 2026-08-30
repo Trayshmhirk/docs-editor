@@ -14,15 +14,15 @@ comment threads beside the page.
 
 ## Sections Overview
 
-| Section | Focus                                   | Effort |
-| ------- | --------------------------------------- | ------ |
-| 2.1     | Page canvas shell & viewport layout     | Medium |
-| 2.2     | Ruler & margin controls                 | Medium |
-| 2.3     | Advanced Toolbar & Formatting Expansion | Large  |
-| 2.4     | Curated Insert menu & block elements    | Medium |
-| 2.5     | Comment thread spatial anchoring        | Small  |
-| 2.6     | Document outline sidebar                | Medium |
-| 2.7     | Home dashboard document previews        | Medium |
+| Section | Focus                                    | Effort |
+| ------- | ---------------------------------------- | ------ |
+| 2.1     | Page canvas shell & viewport layout      | Medium |
+| 2.2     | Ruler & margin controls                  | Medium |
+| 2.3     | Advanced Toolbar & Formatting Expansion  | Large  |
+| 2.4     | Curated Insert menu & table architecture | Large  |
+| 2.5     | Comment thread spatial anchoring         | Small  |
+| 2.6     | Document outline sidebar                 | Medium |
+| 2.7     | Home dashboard document previews         | Medium |
 
 ---
 
@@ -69,17 +69,17 @@ should be a CSS custom property so it can be changed per-document in a later pha
 
 ### Checklist for page canvas
 
-- [ ] Wrap the editor viewport in a `PageViewport` shell component with a gray background
+- [x] Wrap the editor viewport in a `PageViewport` shell component with a gray background
       and vertical scroll
-- [ ] Center a `PageCanvas` div (max-width: 816px, white background, padding: 96px 96px,
+- [x] Center a `PageCanvas` div (max-width: 816px, white background, padding: 96px 96px,
       `box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)`)
-- [ ] Define `--page-width`, `--page-padding-x`, and `--page-padding-y` as CSS custom
+- [x] Define `--page-width`, `--page-padding-x`, and `--page-padding-y` as CSS custom
       properties in `globals.css` for future per-document overrides
-- [ ] Ensure the page canvas fills to at least the full viewport height even when content
+- [x] Ensure the page canvas fills to at least the full viewport height even when content
       is short (min-height approach)
-- [ ] Verify dark mode: viewport becomes `#1e1e1e`, page canvas becomes `#2a2a2a` or
+- [x] Verify dark mode: viewport becomes `#1e1e1e`, page canvas becomes `#2a2a2a` or
       near-white depending on the user's document theme preference
-- [ ] Confirm Liveblocks collaborator cursors render correctly inside the new canvas
+- [x] Confirm Liveblocks collaborator cursors render correctly inside the new canvas
       container (they are viewport-absolute and may need re-anchoring to the canvas)
 
 ### Files to modify for page canvas
@@ -112,14 +112,14 @@ goal and is explicitly out of scope here.
 
 ### Checklist for ruler
 
-- [ ] Build a `DocumentRuler` React component that renders above the page canvas
-- [ ] Ruler ticks at 0.25in intervals, labeled at every 1in; tick height varies by interval
-- [ ] Ruler width matches the page canvas width including horizontal scroll offset
-- [ ] Shade the margin zones (left and right of the text area) in a distinct background
+- [x] Build a `DocumentRuler` React component that renders above the page canvas
+- [x] Ruler ticks at 0.25in intervals, labeled at every 1in; tick height varies by interval
+- [x] Ruler width matches the page canvas width including horizontal scroll offset
+- [x] Shade the margin zones (left and right of the text area) in a distinct background
       tint to visually separate them from the live editing zone
-- [ ] The ruler hides automatically on mobile (below `md` breakpoint) where page
+- [x] The ruler hides automatically on mobile (below `md` breakpoint) where page
       margins collapse for readability
-- [ ] Expose `--ruler-unit` CSS variable (`96px = 1in`) for consistency with page width
+- [x] Expose `--ruler-unit` CSS variable (`96px = 1in`) for consistency with page width
 
 ### Files to modify for ruler
 
@@ -222,14 +222,14 @@ Page settings are stored in **Liveblocks Room Metadata** (`liveblocks.updateRoom
 
 ### Checklist for toolbar expansion
 
-- [ ] Build `ColorDropdown` component (preset swatches + CUSTOM `+` button)
-- [ ] Build `CustomColorModal` component (gradient canvas + hue slider + Hex/RGB inputs)
-- [ ] Build `FontColorButton` and `HighlightColorButton` toolbar components
-- [ ] Build `LineSpacingDropdown` toolbar component with line height and paragraph spacing controls
-- [ ] Add `ChecklistButton`, `BulletedListDropdown` (with style grid), `NumberedListDropdown` (with style grid), and Indent/Outdent controls
-- [ ] Build `FormatDropdown` with Strikethrough, Superscript, Subscript, and Title Case text transforms
-- [ ] Add `ClearFormattingButton` directly to the main toolbar strip (calling `$clearFormatting`)
-- [ ] Build `PageLayoutDropdown` to adjust page size (Letter, A4, Pageless) and margin presets via CSS custom properties and Liveblocks metadata
+- [x] Build `ColorDropdown` component (preset swatches + CUSTOM `+` button)
+- [x] Build `CustomColorModal` component (gradient canvas + hue slider + Hex/RGB inputs)
+- [x] Build `FontColorButton` and `HighlightColorButton` toolbar components
+- [x] Build `LineSpacingDropdown` toolbar component with line height and paragraph spacing controls
+- [x] Add `ChecklistButton`, `BulletedListDropdown` (with style grid), `NumberedListDropdown` (with style grid), and Indent/Outdent controls
+- [x] Build `FormatDropdown` with Strikethrough, Superscript, Subscript, and Title Case text transforms
+- [x] Add `ClearFormattingButton` directly to the main toolbar strip (calling `$clearFormatting`)
+- [x] Build `PageLayoutDropdown` to adjust page size (Letter, A4, Pageless) and margin presets via CSS custom properties and Liveblocks metadata
 
 ### Files to modify for toolbar expansion
 
@@ -248,11 +248,59 @@ styles/editor/index.css                                           [MODIFY]
 
 ---
 
-## 2.4 Curated Insert Menu & Block Elements
+## 2.4 Curated Insert Menu & Enterprise Table Architecture
 
-Google Docs organizes its most-used features into a clean Insert dropdown. We will add a curated **Insert** dropdown to the toolbar that surfaces essential document block types in one place, grouped logically.
+Google Docs organizes block creation and tables into an intuitive Insert dropdown and dynamic cell context controls. We expand Section 2.4 to cover both the curated **Insert Menu** and the full-featured **Google Docs-Grade Table Experience** (interactive grid dimension picker, cell context actions, drag-to-resize borders, and keyboard tab navigation).
 
-### Insert Menu Scope
+### 2.4.1 Interactive Table Grid Dimension Picker
+
+Instead of inserting a static hardcoded $3\times 3$ table on click:
+
+- Provide an interactive $8\times 8$ (expandable up to $10\times 10$) hover grid inside the Table dropdown menu.
+- As the user moves the mouse across grid cells, live-highlight the selection in blue and display a dynamic label: `5 × 4 Table`.
+- Clicking a cell dispatches `INSERT_TABLE_COMMAND` with `{ columns: String(col), rows: String(row), includeHeaders: false }`.
+- Automatically ensures editable paragraph buffers exist before and after the table.
+
+```txt
+┌─────────────────────────┐
+│ Insert Table            │
+│ ┌─┬─┬─┬─┬─┬─┬─┬─┐       │
+│ ├─┼─┼─┼─┼─┼─┼─┼─┤       │
+│ ├─┼─┼─┼─┼─┼─┼─┼─┤  4 × 5 │
+│ ├─┼─┼─┼─┼─┼─┼─┼─┤       │
+│ └─┴─┴─┴─┴─┴─┴─┴─┘       │
+└─────────────────────────┘
+```
+
+### 2.4.2 Table Cell Action Menu & Context Controls
+
+When the caret is positioned inside any table cell, a subtle dropdown chevron appears on the active cell (or via right-click context menu):
+
+1. **Row Controls:**
+   - Insert row above (`$insertTableRowAtSelection(false)`)
+   - Insert row below (`$insertTableRowAtSelection(true)`)
+   - Delete row (`$deleteTableRowAtSelection()`)
+2. **Column Controls:**
+   - Insert column left (`$insertTableColumnAtSelection(false)`)
+   - Insert column right (`$insertTableColumnAtSelection(true)`)
+   - Delete column (`$deleteTableColumnAtSelection()`)
+3. **Table Level Actions:**
+   - Delete table (`$deleteTableAtSelection()`)
+   - Cell background color palette (`SET_TABLE_CELL_BACKGROUND_COLOR_COMMAND`)
+
+### 2.4.3 Table Column & Row Drag-to-Resize (`TableCellResizerPlugin`)
+
+- Attaches invisible hover zones along cell column borders and row dividers.
+- On hover, displays a `col-resize` or `row-resize` cursor with a blue guideline overlay.
+- Dragging adjusts `TableCellNode` width and height in real time, recalculating table layout smoothly.
+
+### 2.4.4 Table Keyboard Navigation & Buffer Lines (`TableEscapePlugin`)
+
+- **Paragraph Buffering:** Guarantees that any standalone `TableNode` in the document root has accessible paragraph lines before and after it.
+- **Arrow Key Escaping:** `ArrowUp` on the top row steps out to the preceding paragraph; `ArrowDown` on the bottom row steps out to the trailing paragraph.
+- **Tab Key Navigation:** `Tab` moves cell-to-cell; pressing `Tab` on the bottom-right cell automatically creates a new row below and focuses its first cell.
+
+### 2.4.5 Curated Insert Menu Scope & Custom Decorator Nodes
 
 ```txt
 Insert
@@ -260,7 +308,7 @@ Insert
 |   +-- Image (upload file or paste URL)
 |   +-- Horizontal line / Divider
 +-- Structure
-|   +-- Table (opens grid size picker, max 8x8)
+|   +-- Table (opens 8x8 grid dimension picker)
 |   +-- Callout Block (info, warning, tip)
 |   +-- Break
 |       +-- Page Break
@@ -277,35 +325,43 @@ Insert
 | --------------- | ------------------------------------- | -------- |
 | Image           | Custom `ImageNode` (Decorator)        | To build |
 | Horizontal Rule | `HorizontalRuleNode` (@lexical/react) | To wire  |
-| Table           | `@lexical/table`                      | Exists   |
+| Table           | `@lexical/table`                      | Enhanced |
 | Callout Block   | Custom `CalloutNode` (Decorator)      | To build |
 | Page Break      | Custom `PageBreakNode` (Decorator)    | To build |
 | YouTube Embed   | Custom `YouTubeNode` (Decorator)      | To build |
 | Tweet Embed     | Custom `TweetNode` (Decorator)        | To build |
 | Code Block      | `@lexical/code`                       | Exists   |
 
-### Checklist for Insert menu
+### Checklist for Section 2.4
 
 - [ ] Build `InsertDropdown` toolbar component with grouped sections and keyboard-accessible menu items
+- [ ] Build interactive `TableGridPicker` component with an $8\times 8$ dimension matrix and live label
+- [ ] Implement `TableCellActionMenuPlugin` for inserting/deleting rows, columns, and tables
+- [ ] Implement `TableCellResizerPlugin` for drag-to-resize column widths and row heights
+- [ ] Maintain `TableEscapePlugin` for automatic paragraph buffers and Tab/Arrow navigation
 - [ ] Implement `ImageNode` (Decorator): upload dialog to file or URL; resize handle overlay on selection
 - [ ] Wire `HorizontalRuleNode` from `@lexical/react` as an insert action
 - [ ] Implement `CalloutNode` (Decorator): styled block with icon (info / warning / tip) and editable text
-- [ ] Implement `PageBreakNode` (Decorator): renders as a visual dashed rule across the canvas; represents a page break
+- [ ] Implement `PageBreakNode` (Decorator): renders as a visual dashed rule across the canvas
 - [ ] Implement `YouTubeNode` and `TweetNode` decorator embeds
-- [ ] Wire `@lexical/table` Table insert with a popover grid size picker
 - [ ] All custom nodes must serialize to/from Lexical JSON correctly for Liveblocks persistence
 
-### Files to modify for Insert menu
+### Files to modify for Section 2.4
 
 ```txt
 components/editor/plugins/toolbarPlugin/ToolbarPlugin.tsx
 components/editor/plugins/toolbarPlugin/toolbarDropdown/InsertDropdown.tsx   [NEW]
+components/editor/plugins/toolbarPlugin/toolbarDropdown/TableGridPicker.tsx   [NEW]
+components/editor/plugins/TableCellActionMenuPlugin.tsx                       [NEW]
+components/editor/plugins/TableCellResizerPlugin.tsx                          [NEW]
+components/editor/plugins/TableEscapePlugin.tsx
 components/editor/nodes/ImageNode.tsx                                         [NEW]
 components/editor/nodes/CalloutNode.tsx                                       [NEW]
 components/editor/nodes/PageBreakNode.tsx                                     [NEW]
 components/editor/nodes/YouTubeNode.tsx                                       [NEW]
 components/editor/nodes/TweetNode.tsx                                         [NEW]
 components/editor/Editor.tsx
+styles/editor/index.css
 ```
 
 ---
