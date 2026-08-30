@@ -69,17 +69,17 @@ should be a CSS custom property so it can be changed per-document in a later pha
 
 ### Checklist for page canvas
 
-- [ ] Wrap the editor viewport in a `PageViewport` shell component with a gray background
+- [x] Wrap the editor viewport in a `PageViewport` shell component with a gray background
       and vertical scroll
-- [ ] Center a `PageCanvas` div (max-width: 816px, white background, padding: 96px 96px,
+- [x] Center a `PageCanvas` div (max-width: 816px, white background, padding: 96px 96px,
       `box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)`)
-- [ ] Define `--page-width`, `--page-padding-x`, and `--page-padding-y` as CSS custom
+- [x] Define `--page-width`, `--page-padding-x`, and `--page-padding-y` as CSS custom
       properties in `globals.css` for future per-document overrides
-- [ ] Ensure the page canvas fills to at least the full viewport height even when content
+- [x] Ensure the page canvas fills to at least the full viewport height even when content
       is short (min-height approach)
-- [ ] Verify dark mode: viewport becomes `#1e1e1e`, page canvas becomes `#2a2a2a` or
+- [x] Verify dark mode: viewport becomes `#1e1e1e`, page canvas becomes `#2a2a2a` or
       near-white depending on the user's document theme preference
-- [ ] Confirm Liveblocks collaborator cursors render correctly inside the new canvas
+- [x] Confirm Liveblocks collaborator cursors render correctly inside the new canvas
       container (they are viewport-absolute and may need re-anchoring to the canvas)
 
 ### Files to modify for page canvas
@@ -112,14 +112,14 @@ goal and is explicitly out of scope here.
 
 ### Checklist for ruler
 
-- [ ] Build a `DocumentRuler` React component that renders above the page canvas
-- [ ] Ruler ticks at 0.25in intervals, labeled at every 1in; tick height varies by interval
-- [ ] Ruler width matches the page canvas width including horizontal scroll offset
-- [ ] Shade the margin zones (left and right of the text area) in a distinct background
+- [x] Build a `DocumentRuler` React component that renders above the page canvas
+- [x] Ruler ticks at 0.25in intervals, labeled at every 1in; tick height varies by interval
+- [x] Ruler width matches the page canvas width including horizontal scroll offset
+- [x] Shade the margin zones (left and right of the text area) in a distinct background
       tint to visually separate them from the live editing zone
-- [ ] The ruler hides automatically on mobile (below `md` breakpoint) where page
+- [x] The ruler hides automatically on mobile (below `md` breakpoint) where page
       margins collapse for readability
-- [ ] Expose `--ruler-unit` CSS variable (`96px = 1in`) for consistency with page width
+- [x] Expose `--ruler-unit` CSS variable (`96px = 1in`) for consistency with page width
 
 ### Files to modify for ruler
 
@@ -222,14 +222,14 @@ Page settings are stored in **Liveblocks Room Metadata** (`liveblocks.updateRoom
 
 ### Checklist for toolbar expansion
 
-- [ ] Build `ColorDropdown` component (preset swatches + CUSTOM `+` button)
-- [ ] Build `CustomColorModal` component (gradient canvas + hue slider + Hex/RGB inputs)
-- [ ] Build `FontColorButton` and `HighlightColorButton` toolbar components
-- [ ] Build `LineSpacingDropdown` toolbar component with line height and paragraph spacing controls
-- [ ] Add `ChecklistButton`, `BulletedListDropdown` (with style grid), `NumberedListDropdown` (with style grid), and Indent/Outdent controls
-- [ ] Build `FormatDropdown` with Strikethrough, Superscript, Subscript, and Title Case text transforms
-- [ ] Add `ClearFormattingButton` directly to the main toolbar strip (calling `$clearFormatting`)
-- [ ] Build `PageLayoutDropdown` to adjust page size (Letter, A4, Pageless) and margin presets via CSS custom properties and Liveblocks metadata
+- [x] Build `ColorDropdown` component (preset swatches + CUSTOM `+` button)
+- [x] Build `CustomColorModal` component (gradient canvas + hue slider + Hex/RGB inputs)
+- [x] Build `FontColorButton` and `HighlightColorButton` toolbar components
+- [x] Build `LineSpacingDropdown` toolbar component with line height and paragraph spacing controls
+- [x] Add `ChecklistButton`, `BulletedListDropdown` (with style grid), `NumberedListDropdown` (with style grid), and Indent/Outdent controls
+- [x] Build `FormatDropdown` with Strikethrough, Superscript, Subscript, and Title Case text transforms
+- [x] Add `ClearFormattingButton` directly to the main toolbar strip (calling `$clearFormatting`)
+- [x] Build `PageLayoutDropdown` to adjust page size (Letter, A4, Pageless) and margin presets via CSS custom properties and Liveblocks metadata
 
 ### Files to modify for toolbar expansion
 

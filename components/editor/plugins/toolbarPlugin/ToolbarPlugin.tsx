@@ -1,3 +1,5 @@
+"use client";
+
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import { $getNearestNodeOfType, mergeRegister } from "@lexical/utils";
 import { $isListNode, ListNode } from "@lexical/list";
@@ -19,8 +21,7 @@ import {
 } from "lexical";
 import { $isHeadingNode } from "@lexical/rich-text";
 import { $findMatchingParent } from "@lexical/utils";
-import React, { Dispatch } from "react";
-import { useCallback, useEffect, useRef, useState } from "react";
+import React, { Dispatch, useCallback, useEffect, useRef, useState } from "react";
 import {
   Bold,
   Italic,
@@ -39,9 +40,22 @@ import DropDown, { DropDownItem } from "@/components/ui/lexical/dropdown";
 import { FontDropDown } from "./toolbarDropdown/FontDropdown";
 import { $getSelectionStyleValueForProperty } from "@lexical/selection";
 import { ElementFormatDropdown } from "./toolbarDropdown/ElementFormatDropdown";
-import TextFormatDropdown from "./toolbarDropdown/TextFormatDropdown";
 import { sanitizeUrl } from "@/lib/utils";
 import FontSize from "./fontSize";
+
+// Section 2.3 Expanded Formatting Components
+import FontColorButton from "./FontColorButton";
+import HighlightColorButton from "./HighlightColorButton";
+import LineSpacingDropdown from "./LineSpacingDropdown";
+import {
+  BulletedListDropdown,
+  NumberedListDropdown,
+  ChecklistButton,
+  IndentControls,
+} from "./ListDropdowns";
+import FormatDropdown from "./FormatDropdown";
+import ClearFormattingButton from "./ClearFormattingButton";
+import PageLayoutDropdown from "./PageLayoutDropdown";
 
 const LowPriority = 1;
 
@@ -56,7 +70,7 @@ export default function ToolbarPlugin({
 }): React.JSX.Element {
   const [editor] = useLexicalComposerContext();
 
-  const toolbarRef = useRef(null);
+  const toolbarRef = useRef<HTMLDivElement>(null);
   const [canUndo, setCanUndo] = useState(false);
   const [canRedo, setCanRedo] = useState(false);
 
@@ -69,7 +83,7 @@ export default function ToolbarPlugin({
     const selection = $getSelection();
 
     if ($isRangeSelection(selection)) {
-      // Update text format
+      // 1. Text Formatting Flags
       updateToolbarState("isBold", selection.hasFormat("bold"));
       updateToolbarState("isItalic", selection.hasFormat("italic"));
       updateToolbarState("isUnderline", selection.hasFormat("underline"));
@@ -79,12 +93,27 @@ export default function ToolbarPlugin({
       updateToolbarState("isLowercase", selection.hasFormat("lowercase"));
       updateToolbarState("isUppercase", selection.hasFormat("uppercase"));
       updateToolbarState("isCapitalize", selection.hasFormat("capitalize"));
+      updateToolbarState("isCode", selection.hasFormat("code"));
+
+      // 2. Font Styles
       updateToolbarState(
         "fontSize",
         $getSelectionStyleValueForProperty(selection, "font-size", "15px"),
       );
+      updateToolbarState(
+        "fontFamily",
+        $getSelectionStyleValueForProperty(selection, "font-family", "Arial"),
+      );
+      updateToolbarState(
+        "fontColor",
+        $getSelectionStyleValueForProperty(selection, "color", "#000000"),
+      );
+      updateToolbarState(
+        "bgColor",
+        $getSelectionStyleValueForProperty(selection, "background-color", "transparent"),
+      );
 
-      //
+      // 3. Block and Anchor Analysis
       const anchorNode = selection.anchor.getNode();
 
       let element =
@@ -102,7 +131,7 @@ export default function ToolbarPlugin({
       const elementKey = element.getKey();
       const elementDOM = editor.getElementByKey(elementKey);
 
-      // Update links
+      // 4. Links and Table Root Status
       const node = getSelectedNode(selection);
       const parent = node.getParent();
       const isLink = $isLinkNode(parent) || $isLinkNode(node);
@@ -115,12 +144,12 @@ export default function ToolbarPlugin({
         updateToolbarState("rootType", "root");
       }
 
+      // 5. Block Type (Heading, List, Code, Paragraph)
       if (elementDOM !== null) {
         setSelectedElementKey(elementKey);
         if ($isListNode(element)) {
           const parentList = $getNearestNodeOfType<ListNode>(anchorNode, ListNode);
           const type = parentList ? parentList.getListType() : element.getListType();
-
           updateToolbarState("blockType", type);
         } else {
           const type = $isHeadingNode(element) ? element.getTag() : element.getType();
@@ -138,22 +167,15 @@ export default function ToolbarPlugin({
         }
       }
 
-      // Handle buttons
-      updateToolbarState(
-        "fontFamily",
-        $getSelectionStyleValueForProperty(selection, "font-family", "Arial"),
-      );
-
+      // 6. Element Alignment
       let matchingParent;
       if ($isLinkNode(parent)) {
-        // If node is a link, we need to fetch the parent paragraph node to set format
         matchingParent = $findMatchingParent(
           node,
           (parentNode) => $isElementNode(parentNode) && !parentNode.isInline(),
         );
       }
 
-      // If matchingParent is a valid node, pass it's format type
       updateToolbarState(
         "elementFormat",
         $isElementNode(matchingParent)
@@ -241,30 +263,45 @@ export default function ToolbarPlugin({
   );
 
   return (
-    <div className="toolbar flex h-full items-center gap-1 bg-transparent p-0.5" ref={toolbarRef}>
+    <div
+      className="toolbar flex h-full scrollbar-none items-center gap-1 overflow-x-auto bg-transparent p-0.5"
+      ref={toolbarRef}
+    >
+      {/* 1. History Controls */}
       <button
-        disabled={!canUndo}
+        disabled={!canUndo || !isEditable}
         onClick={() => {
           editor.dispatchCommand(UNDO_COMMAND, undefined);
         }}
+        onMouseDown={(e) => e.preventDefault()}
         className="toolbar-item toolbar-button"
         aria-label="Undo"
         title="Undo (Ctrl+Z)"
       >
         <RotateCcw className="format icon size-4" />
       </button>
+
       <button
-        disabled={!canRedo}
+        disabled={!canRedo || !isEditable}
         onClick={() => {
           editor.dispatchCommand(REDO_COMMAND, undefined);
         }}
+        onMouseDown={(e) => e.preventDefault()}
         className="toolbar-item toolbar-button"
         aria-label="Redo"
         title="Redo (Ctrl+Y)"
       >
         <RotateCw className="format icon size-4" />
       </button>
+
       <Divider />
+
+      {/* 2. Format Options (Aa dropdown: Strikethrough, Subscript, Superscript, Title Case) */}
+      <FormatDropdown disabled={!isEditable} />
+
+      <Divider />
+
+      {/* 3. Block Style Dropdown (Normal, Heading 1..6, Quote) */}
       {toolbarState.blockType in blockTypeToBlockName && editor && (
         <>
           <BlockFormatDropDown
@@ -276,44 +313,49 @@ export default function ToolbarPlugin({
           <Divider />
         </>
       )}
+
+      {/* 4. Code Block Language Selector vs Typography Controls */}
       {toolbarState.blockType === "code" ? (
-        <>
-          <DropDown
-            disabled={!isEditable}
-            buttonClassName="toolbar-item code-language"
-            buttonLabel={getLanguageFriendlyName(toolbarState.codeLanguage)}
-            buttonAriaLabel="Select language"
-          >
-            {CODE_LANGUAGE_OPTIONS.map(([value, name]) => {
-              return (
-                <DropDownItem
-                  className={`item hover:enabled:bg-surface-hover text-foreground flex min-w-25 items-center justify-between rounded-lg px-2.5 py-1.5 text-xs transition-colors ${dropDownActiveClass(
-                    value === toolbarState.codeLanguage,
-                  )}`}
-                  onClick={() => onCodeLanguageSelect(value)}
-                  key={value}
-                >
-                  <span className="text">{name}</span>
-                </DropDownItem>
-              );
-            })}
-          </DropDown>
-        </>
+        <DropDown
+          disabled={!isEditable}
+          buttonClassName="toolbar-item code-language"
+          buttonLabel={getLanguageFriendlyName(toolbarState.codeLanguage)}
+          buttonAriaLabel="Select language"
+        >
+          {CODE_LANGUAGE_OPTIONS.map(([value, name]) => (
+            <DropDownItem
+              className={`item hover:enabled:bg-surface-hover text-foreground flex min-w-25 items-center justify-between rounded-lg px-2.5 py-1.5 text-xs transition-colors ${dropDownActiveClass(
+                value === toolbarState.codeLanguage,
+              )}`}
+              onClick={() => onCodeLanguageSelect(value)}
+              key={value}
+            >
+              <span className="text">{name}</span>
+            </DropDownItem>
+          ))}
+        </DropDown>
       ) : (
         <>
+          {/* Font Family */}
           <FontDropDown
             disabled={!isEditable}
             style={"font-family"}
             value={toolbarState.fontFamily}
             editor={editor}
           />
+
           <Divider />
+
+          {/* Font Size (- / + and direct input) */}
           <FontSize
             selectionFontSize={toolbarState.fontSize.slice(0, -2)}
             editor={editor}
             disabled={!isEditable}
           />
+
           <Divider />
+
+          {/* Bold, Italic, Underline */}
           <Button
             variant="ghost"
             size="icon"
@@ -327,6 +369,7 @@ export default function ToolbarPlugin({
           >
             <Bold className="format icon size-4" />
           </Button>
+
           <Button
             variant="ghost"
             size="icon"
@@ -334,12 +377,15 @@ export default function ToolbarPlugin({
             onClick={() => {
               editor.dispatchCommand(FORMAT_TEXT_COMMAND, "italic");
             }}
-            className={`toolbar-item toolbar-button size-8 ${toolbarState.isItalic ? "active" : ""}`}
+            className={`toolbar-item toolbar-button size-8 ${
+              toolbarState.isItalic ? "active" : ""
+            }`}
             aria-label="Format Italics"
             title="Italic (Ctrl+I)"
           >
             <Italic className="format icon size-4" />
           </Button>
+
           <Button
             variant="ghost"
             size="icon"
@@ -347,12 +393,22 @@ export default function ToolbarPlugin({
             onClick={() => {
               editor.dispatchCommand(FORMAT_TEXT_COMMAND, "underline");
             }}
-            className={`toolbar-item toolbar-button size-8 ${toolbarState.isUnderline ? "active" : ""}`}
+            className={`toolbar-item toolbar-button size-8 ${
+              toolbarState.isUnderline ? "active" : ""
+            }`}
             aria-label="Format Underline"
             title="Underline (Ctrl+U)"
           >
             <Underline className="format icon size-4" />
           </Button>
+
+          {/* Text & Highlight Color Pickers */}
+          <FontColorButton disabled={!isEditable} />
+          <HighlightColorButton disabled={!isEditable} />
+
+          <Divider />
+
+          {/* Link & Table */}
           <Button
             variant="ghost"
             size="icon"
@@ -360,11 +416,12 @@ export default function ToolbarPlugin({
             onClick={insertLink}
             className={`toolbar-item toolbar-button size-8 ${toolbarState.isLink ? "active" : ""}`}
             aria-label="Insert link"
-            title="Insert Link"
+            title="Insert Link (Ctrl+K)"
             type="button"
           >
             <Link className="format icon size-4 rotate-45 transform" />
           </Button>
+
           <Button
             variant="ghost"
             size="icon"
@@ -377,15 +434,38 @@ export default function ToolbarPlugin({
           >
             <TableIcon className="format icon size-4" />
           </Button>
-          <TextFormatDropdown editor={editor} disabled={!isEditable} toolbarState={toolbarState} />
+
+          <Divider />
+
+          {/* Alignment Dropdown */}
+          <ElementFormatDropdown
+            disabled={!isEditable}
+            value={toolbarState.elementFormat}
+            editor={editor}
+          />
+
+          {/* Line & Paragraph Spacing */}
+          <LineSpacingDropdown disabled={!isEditable} />
+
+          <Divider />
+
+          {/* Lists & Indentation Controls */}
+          <ChecklistButton disabled={!isEditable} />
+          <BulletedListDropdown disabled={!isEditable} />
+          <NumberedListDropdown disabled={!isEditable} />
+          <IndentControls disabled={!isEditable} />
+
+          <Divider />
+
+          {/* Clear Formatting Button */}
+          <ClearFormattingButton disabled={!isEditable} />
+
+          <Divider />
+
+          {/* Page Layout Settings (Letter, A4, Margins) */}
+          <PageLayoutDropdown disabled={!isEditable} />
         </>
       )}
-      <Divider />
-      <ElementFormatDropdown
-        disabled={!isEditable}
-        value={toolbarState.elementFormat}
-        editor={editor}
-      />
     </div>
   );
 }
