@@ -168,12 +168,12 @@ body {
   @apply bg-transparent;
 }
 
-ul {
+ul:not([class*="editor-list"]) {
   list-style: disc;
   list-style-type: disc;
 }
 
-ol {
+ol:not([class*="editor-list"]) {
   list-style: decimal;
   list-style-type: decimal;
 }

@@ -2,12 +2,11 @@
 
 import React, { useRef } from "react";
 import DocumentRuler from "./DocumentRuler";
+import { useDocumentLayout } from "@/context/DocumentLayoutContext";
+import { cn } from "@/lib/utils";
 
 interface EditorShellProps {
   children: React.ReactNode;
-  pageWidth?: number;
-  marginLeft?: number;
-  marginRight?: number;
   showRuler?: boolean;
 }
 
@@ -15,28 +14,20 @@ interface EditorShellProps {
  * EditorShell provides the "paper on a desk" layout:
  * - Gray desktop viewport with vertical scroll
  * - Synchronized horizontal ruler sitting above the canvas
- * - Centered 816px (US Letter) white page canvas container
+ * - Dynamically sized page canvas container supporting Letter, A4, Legal, and Pageless modes
  */
-export const EditorShell: React.FC<EditorShellProps> = ({
-  children,
-  pageWidth = 816,
-  marginLeft = 96,
-  marginRight = 96,
-  showRuler = true,
-}) => {
+export const EditorShell: React.FC<EditorShellProps> = ({ children, showRuler = true }) => {
   const viewportRef = useRef<HTMLDivElement>(null);
+  const { layout } = useDocumentLayout();
+  const { width, minHeight, paddingX, paddingY, isPageless } = layout;
 
   return (
     <div className="bg-surface-canvas relative flex flex-1 flex-col overflow-hidden">
-      {/* Sticky Ruler Bar */}
-      {showRuler && (
+      {/* Sticky Ruler Bar (hidden in Pageless mode) */}
+      {showRuler && !isPageless && (
         <div className="bg-surface-canvas/90 border-border z-10 w-full shrink-0 border-b backdrop-blur-xs">
           <div className="overflow-x-hidden px-4 py-1 sm:px-8">
-            <DocumentRuler
-              pageWidth={pageWidth}
-              marginLeft={marginLeft}
-              marginRight={marginRight}
-            />
+            <DocumentRuler pageWidth={width} marginLeft={paddingX} marginRight={paddingX} />
           </div>
         </div>
       )}
@@ -44,15 +35,26 @@ export const EditorShell: React.FC<EditorShellProps> = ({
       {/* Viewport Scroll Area */}
       <div
         ref={viewportRef}
-        className="editor-viewport relative flex flex-1 flex-col items-center justify-start overflow-y-auto px-4 py-8 sm:px-8 sm:py-10"
+        className={cn(
+          "editor-viewport relative flex flex-1 flex-col items-center justify-start overflow-y-auto px-4",
+          isPageless ? "py-6 sm:px-12" : "py-8 sm:px-8 sm:py-10",
+        )}
       >
-        {/* Centered Page Canvas Paper Shell */}
+        {/* Page Canvas Container */}
         <div
-          className="page-canvas relative mb-12 w-full rounded-none transition-shadow duration-200"
+          className={cn(
+            "page-canvas bg-surface relative w-full rounded-none transition-all duration-200",
+            isPageless
+              ? "mb-6 max-w-4xl border-none shadow-none"
+              : "mb-12 border border-[#dadce0] shadow-md dark:border-slate-800",
+          )}
           style={{
-            maxWidth: `${pageWidth}px`,
-            paddingLeft: `${marginLeft}px`,
-            paddingRight: `${marginRight}px`,
+            maxWidth: isPageless ? "960px" : `${width}px`,
+            minHeight: isPageless ? "100%" : `${minHeight}px`,
+            paddingLeft: `${paddingX}px`,
+            paddingRight: `${paddingX}px`,
+            paddingTop: `${paddingY}px`,
+            paddingBottom: `${paddingY}px`,
           }}
         >
           {children}
