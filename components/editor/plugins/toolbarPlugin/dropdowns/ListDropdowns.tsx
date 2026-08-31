@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import {
   $insertList,
@@ -20,7 +20,11 @@ import { $getNearestNodeOfType } from "@lexical/utils";
 import { List, ListOrdered, ListCheck, Indent, Outdent, ChevronDown } from "lucide-react";
 import { useToolbarState } from "@/context/ToolbarContext";
 import CustomToolbarButton from "@/components/ui/custom/CustomToolbarButton";
-import ToolbarPopover from "./ToolbarPopover";
+import {
+  CustomPopover,
+  CustomPopoverTrigger,
+  CustomPopoverContent,
+} from "@/components/ui/custom/CustomPopover";
 
 // Bullet List Style Presets
 const BULLET_PRESETS = [
@@ -60,7 +64,6 @@ export function BulletedListDropdown({
   const [editor] = useLexicalComposerContext();
   const { toolbarState } = useToolbarState();
   const [isOpen, setIsOpen] = useState(false);
-  const triggerRef = useRef<HTMLDivElement>(null);
 
   const isBulletActive = toolbarState.blockType === "bullet";
 
@@ -99,33 +102,32 @@ export function BulletedListDropdown({
   };
 
   return (
-    <>
-      <div ref={triggerRef} className="inline-flex items-center">
-        {/* Primary Button */}
-        <CustomToolbarButton
-          size="split-left"
-          disabled={disabled}
-          isActive={isBulletActive}
-          tooltip="Bulleted list"
-          onClick={handleButtonClick}
-        >
-          <List className="format icon size-4" />
-        </CustomToolbarButton>
+    <div className="inline-flex items-center">
+      {/* Primary Button */}
+      <CustomToolbarButton
+        size="split-left"
+        disabled={disabled}
+        isActive={isBulletActive}
+        tooltip="Bulleted list"
+        onClick={handleButtonClick}
+      >
+        <List className="format icon size-4" />
+      </CustomToolbarButton>
 
-        {/* Dropdown Chevron */}
-        <CustomToolbarButton
-          size="split-right"
-          disabled={disabled}
-          isActive={isOpen}
-          tooltip="Bullet list options"
-          onClick={() => setIsOpen((prev) => !prev)}
-        >
-          <ChevronDown className="text-foreground size-3 shrink-0" />
-        </CustomToolbarButton>
-      </div>
+      {/* Dropdown Chevron */}
+      <CustomPopover open={isOpen} onOpenChange={setIsOpen}>
+        <CustomPopoverTrigger asChild>
+          <CustomToolbarButton
+            size="split-right"
+            disabled={disabled}
+            isActive={isOpen}
+            tooltip="Bullet list options"
+          >
+            <ChevronDown className="text-foreground size-3 shrink-0" />
+          </CustomToolbarButton>
+        </CustomPopoverTrigger>
 
-      <ToolbarPopover isOpen={isOpen} onClose={() => setIsOpen(false)} anchorRef={triggerRef}>
-        <div className="border-border bg-surface text-foreground w-44 rounded-lg border p-1.5 shadow-xl select-none">
+        <CustomPopoverContent className="w-44 p-1.5" sideOffset={8}>
           <div className="flex flex-col gap-0.5">
             {BULLET_PRESETS.map((preset) => (
               <button
@@ -141,9 +143,9 @@ export function BulletedListDropdown({
               </button>
             ))}
           </div>
-        </div>
-      </ToolbarPopover>
-    </>
+        </CustomPopoverContent>
+      </CustomPopover>
+    </div>
   );
 }
 
@@ -155,7 +157,6 @@ export function NumberedListDropdown({
   const [editor] = useLexicalComposerContext();
   const { toolbarState } = useToolbarState();
   const [isOpen, setIsOpen] = useState(false);
-  const triggerRef = useRef<HTMLDivElement>(null);
 
   const isNumberActive = toolbarState.blockType === "number";
 
@@ -194,33 +195,32 @@ export function NumberedListDropdown({
   };
 
   return (
-    <>
-      <div ref={triggerRef} className="inline-flex items-center">
-        {/* Primary Button */}
-        <CustomToolbarButton
-          size="split-left"
-          disabled={disabled}
-          isActive={isNumberActive}
-          tooltip="Numbered list"
-          onClick={handleButtonClick}
-        >
-          <ListOrdered className="format icon size-4" />
-        </CustomToolbarButton>
+    <div className="inline-flex items-center">
+      {/* Primary Button */}
+      <CustomToolbarButton
+        size="split-left"
+        disabled={disabled}
+        isActive={isNumberActive}
+        tooltip="Numbered list"
+        onClick={handleButtonClick}
+      >
+        <ListOrdered className="format icon size-4" />
+      </CustomToolbarButton>
 
-        {/* Dropdown Chevron */}
-        <CustomToolbarButton
-          size="split-right"
-          disabled={disabled}
-          isActive={isOpen}
-          tooltip="Numbered list options"
-          onClick={() => setIsOpen((prev) => !prev)}
-        >
-          <ChevronDown className="text-foreground size-3 shrink-0" />
-        </CustomToolbarButton>
-      </div>
+      {/* Dropdown Chevron */}
+      <CustomPopover open={isOpen} onOpenChange={setIsOpen}>
+        <CustomPopoverTrigger asChild>
+          <CustomToolbarButton
+            size="split-right"
+            disabled={disabled}
+            isActive={isOpen}
+            tooltip="Numbered list options"
+          >
+            <ChevronDown className="text-foreground size-3 shrink-0" />
+          </CustomToolbarButton>
+        </CustomPopoverTrigger>
 
-      <ToolbarPopover isOpen={isOpen} onClose={() => setIsOpen(false)} anchorRef={triggerRef}>
-        <div className="border-border bg-surface text-foreground w-52 rounded-lg border p-1.5 shadow-xl select-none">
+        <CustomPopoverContent className="w-52 p-1.5" sideOffset={8}>
           <div className="flex flex-col gap-0.5">
             {NUMBERED_PRESETS.map((preset) => (
               <button
@@ -236,9 +236,9 @@ export function NumberedListDropdown({
               </button>
             ))}
           </div>
-        </div>
-      </ToolbarPopover>
-    </>
+        </CustomPopoverContent>
+      </CustomPopover>
+    </div>
   );
 }
 

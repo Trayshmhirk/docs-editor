@@ -1,13 +1,17 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import { $patchStyleText } from "@lexical/selection";
 import { $getSelection, $isRangeSelection } from "lexical";
 import { useToolbarState } from "@/context/ToolbarContext";
 import CustomToolbarButton from "@/components/ui/custom/CustomToolbarButton";
-import ColorDropdown from "./ColorDropdown";
-import ToolbarPopover from "./ToolbarPopover";
+import {
+  CustomPopover,
+  CustomPopoverTrigger,
+  CustomPopoverContent,
+} from "@/components/ui/custom/CustomPopover";
+import CustomColorPicker from "@/components/ui/custom/CustomColorPicker";
 
 export default function FontColorButton({
   disabled = false,
@@ -17,7 +21,6 @@ export default function FontColorButton({
   const [editor] = useLexicalComposerContext();
   const { toolbarState } = useToolbarState();
   const [isOpen, setIsOpen] = useState(false);
-  const buttonRef = useRef<HTMLButtonElement>(null);
 
   const activeColor = toolbarState.fontColor || "#000000";
 
@@ -33,29 +36,29 @@ export default function FontColorButton({
   };
 
   return (
-    <>
-      <CustomToolbarButton
-        ref={buttonRef}
-        disabled={disabled}
-        isActive={isOpen}
-        tooltip="Text color"
-        onClick={() => setIsOpen((prev) => !prev)}
-        className="flex-col gap-0"
-      >
-        <span className="font-serif text-base leading-none font-bold">A</span>
-        <span
-          className="mt-0.5 h-1 w-4.5 rounded-full border border-black/10"
-          style={{ backgroundColor: activeColor }}
-        />
-      </CustomToolbarButton>
+    <CustomPopover open={isOpen} onOpenChange={setIsOpen}>
+      <CustomPopoverTrigger asChild>
+        <CustomToolbarButton
+          disabled={disabled}
+          isActive={isOpen}
+          tooltip="Text color"
+          className="flex-col gap-0"
+        >
+          <span className="font-serif text-base leading-none font-bold">A</span>
+          <span
+            className="mt-0.5 h-1 w-4.5 rounded-full border border-black/10"
+            style={{ backgroundColor: activeColor }}
+          />
+        </CustomToolbarButton>
+      </CustomPopoverTrigger>
 
-      <ToolbarPopover isOpen={isOpen} onClose={() => setIsOpen(false)} anchorRef={buttonRef}>
-        <ColorDropdown
+      <CustomPopoverContent className="border-none bg-transparent p-0 shadow-none" sideOffset={8}>
+        <CustomColorPicker
           currentColor={activeColor}
           onSelectColor={handleSelectColor}
           onClose={() => setIsOpen(false)}
         />
-      </ToolbarPopover>
-    </>
+      </CustomPopoverContent>
+    </CustomPopover>
   );
 }

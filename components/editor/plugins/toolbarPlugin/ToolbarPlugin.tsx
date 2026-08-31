@@ -24,6 +24,7 @@ import { $findMatchingParent } from "@lexical/utils";
 import React, { Dispatch, useCallback, useEffect, useRef, useState } from "react";
 import {
   Bold,
+  ChevronDown,
   Italic,
   Link,
   RotateCcw,
@@ -33,29 +34,34 @@ import {
 } from "lucide-react";
 import { INSERT_TABLE_COMMAND } from "@lexical/table";
 import CustomToolbarButton from "@/components/ui/custom/CustomToolbarButton";
-import BlockFormatDropDown from "./toolbarDropdown/BlockFormatDropdown";
+import {
+  CustomDropdown,
+  CustomDropdownTrigger,
+  CustomDropdownContent,
+  CustomDropdownItem,
+} from "@/components/ui/custom/CustomDropdown";
+import BlockFormatDropDown from "./dropdowns/BlockFormatDropdown";
 import { blockTypeToBlockName, useToolbarState } from "@/context/ToolbarContext";
-import { CODE_LANGUAGE_OPTIONS, dropDownActiveClass, getSelectedNode } from "./utils";
-import DropDown, { DropDownItem } from "@/components/ui/lexical/dropdown";
-import { FontDropDown } from "./toolbarDropdown/FontDropdown";
+import { CODE_LANGUAGE_OPTIONS, getSelectedNode } from "./utils";
+import { FontDropDown } from "./dropdowns/FontDropdown";
 import { $getSelectionStyleValueForProperty } from "@lexical/selection";
-import { ElementFormatDropdown } from "./toolbarDropdown/ElementFormatDropdown";
+import { ElementFormatDropdown } from "./dropdowns/ElementFormatDropdown";
 import { sanitizeUrl } from "@/lib/utils";
-import FontSize from "./fontSize";
+import FontSize from "./dropdowns/fontSize";
 
 // Section 2.3 Expanded Formatting Components
-import FontColorButton from "./FontColorButton";
-import HighlightColorButton from "./HighlightColorButton";
-import LineSpacingDropdown from "./LineSpacingDropdown";
+import FontColorButton from "./dropdowns/FontColorButton";
+import HighlightColorButton from "./dropdowns/HighlightColorButton";
+import LineSpacingDropdown from "./dropdowns/LineSpacingDropdown";
 import {
   BulletedListDropdown,
   NumberedListDropdown,
   ChecklistButton,
   IndentControls,
-} from "./ListDropdowns";
-import FormatDropdown from "./FormatDropdown";
-import ClearFormattingButton from "./ClearFormattingButton";
-import PageLayoutDropdown from "./PageLayoutDropdown";
+} from "./dropdowns/ListDropdowns";
+import FormatDropdown from "./dropdowns/FormatDropdown";
+import ClearFormattingButton from "./dropdowns/ClearFormattingButton";
+import PageLayoutDropdown from "./dropdowns/PageLayoutDropdown";
 
 const LowPriority = 1;
 
@@ -310,24 +316,32 @@ export default function ToolbarPlugin({
 
       {/* 4. Code Block Language Selector vs Typography Controls */}
       {toolbarState.blockType === "code" ? (
-        <DropDown
-          disabled={!isEditable}
-          buttonClassName="toolbar-item code-language"
-          buttonLabel={getLanguageFriendlyName(toolbarState.codeLanguage)}
-          buttonAriaLabel="Select language"
-        >
-          {CODE_LANGUAGE_OPTIONS.map(([value, name]) => (
-            <DropDownItem
-              className={`item hover:enabled:bg-surface-hover text-foreground flex min-w-25 items-center justify-between rounded-lg px-2.5 py-1.5 text-xs transition-colors ${dropDownActiveClass(
-                value === toolbarState.codeLanguage,
-              )}`}
-              onClick={() => onCodeLanguageSelect(value)}
-              key={value}
+        <CustomDropdown>
+          <CustomDropdownTrigger asChild>
+            <CustomToolbarButton
+              disabled={!isEditable}
+              tooltip="Code language"
+              className="w-auto min-w-25 justify-between gap-1.5 px-2 font-normal"
             >
-              <span className="text">{name}</span>
-            </DropDownItem>
-          ))}
-        </DropDown>
+              <span className="truncate text-xs font-medium">
+                {getLanguageFriendlyName(toolbarState.codeLanguage)}
+              </span>
+              <ChevronDown className="text-muted-foreground size-3 shrink-0" />
+            </CustomToolbarButton>
+          </CustomDropdownTrigger>
+
+          <CustomDropdownContent className="w-36 p-1">
+            {CODE_LANGUAGE_OPTIONS.map(([value, name]) => (
+              <CustomDropdownItem
+                key={value}
+                isActive={value === toolbarState.codeLanguage}
+                onClick={() => onCodeLanguageSelect(value)}
+              >
+                <span>{name}</span>
+              </CustomDropdownItem>
+            ))}
+          </CustomDropdownContent>
+        </CustomDropdown>
       ) : (
         <>
           {/* Font Family */}

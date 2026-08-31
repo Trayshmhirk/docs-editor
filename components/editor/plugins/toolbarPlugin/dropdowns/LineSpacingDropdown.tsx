@@ -1,11 +1,15 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import { $getSelection, $isElementNode, $isRangeSelection, ElementNode } from "lexical";
 import { BetweenVerticalStart, Check } from "lucide-react";
 import CustomToolbarButton from "@/components/ui/custom/CustomToolbarButton";
-import ToolbarPopover from "./ToolbarPopover";
+import {
+  CustomPopover,
+  CustomPopoverTrigger,
+  CustomPopoverContent,
+} from "@/components/ui/custom/CustomPopover";
 
 // Helper to patch CSS style string
 function patchElementStyle(currentStyle: string, updates: Record<string, string | null>): string {
@@ -48,7 +52,6 @@ export default function LineSpacingDropdown({
 }): React.JSX.Element {
   const [editor] = useLexicalComposerContext();
   const [isOpen, setIsOpen] = useState(false);
-  const buttonRef = useRef<HTMLButtonElement>(null);
   const [currentLineHeight, setCurrentLineHeight] = useState<string>("1.15");
   const [hasSpaceBefore, setHasSpaceBefore] = useState(false);
   const [hasSpaceAfter, setHasSpaceAfter] = useState(false);
@@ -128,65 +131,63 @@ export default function LineSpacingDropdown({
   };
 
   return (
-    <>
-      <CustomToolbarButton
-        ref={buttonRef}
-        disabled={disabled}
-        isActive={isOpen}
-        tooltip="Line & paragraph spacing"
-        onClick={() => setIsOpen((prev) => !prev)}
-      >
-        <BetweenVerticalStart className="format icon size-4" />
-      </CustomToolbarButton>
+    <CustomPopover open={isOpen} onOpenChange={setIsOpen}>
+      <CustomPopoverTrigger asChild>
+        <CustomToolbarButton
+          disabled={disabled}
+          isActive={isOpen}
+          tooltip="Line & paragraph spacing"
+        >
+          <BetweenVerticalStart className="format icon size-4" />
+        </CustomToolbarButton>
+      </CustomPopoverTrigger>
 
-      <ToolbarPopover isOpen={isOpen} onClose={() => setIsOpen(false)} anchorRef={buttonRef}>
-        <div className="border-border bg-surface text-foreground w-52 rounded-lg border p-1.5 shadow-xl select-none">
-          {/* Line Height Options */}
-          <div className="flex flex-col gap-0.5">
-            {LINE_SPACING_OPTIONS.map((opt) => {
-              const isSelected = currentLineHeight === opt.value;
-              return (
-                <button
-                  key={opt.value}
-                  type="button"
-                  onClick={() => applyLineSpacing(opt.value)}
-                  className="hover:bg-surface-hover text-foreground flex items-center justify-between rounded-md px-3 py-1.5 text-xs transition-colors"
-                >
-                  <span>{opt.label}</span>
-                  {isSelected && <Check size={14} className="text-primary dark:text-accent" />}
-                </button>
-              );
-            })}
-          </div>
-
-          <div className="border-border my-1.5 border-t" />
-
-          {/* Paragraph Spacing Modifiers */}
-          <div className="flex flex-col gap-0.5">
-            <button
-              type="button"
-              onClick={toggleSpaceBefore}
-              className="hover:bg-surface-hover text-foreground flex items-center justify-between rounded-md px-3 py-1.5 text-xs transition-colors"
-            >
-              <span>
-                {hasSpaceBefore ? "Remove space before paragraph" : "Add space before paragraph"}
-              </span>
-              {hasSpaceBefore && <Check size={14} className="text-primary dark:text-accent" />}
-            </button>
-
-            <button
-              type="button"
-              onClick={toggleSpaceAfter}
-              className="hover:bg-surface-hover text-foreground flex items-center justify-between rounded-md px-3 py-1.5 text-xs transition-colors"
-            >
-              <span>
-                {hasSpaceAfter ? "Remove space after paragraph" : "Add space after paragraph"}
-              </span>
-              {hasSpaceAfter && <Check size={14} className="text-primary dark:text-accent" />}
-            </button>
-          </div>
+      <CustomPopoverContent className="w-52 p-1.5" sideOffset={8}>
+        {/* Line Height Options */}
+        <div className="flex flex-col gap-0.5">
+          {LINE_SPACING_OPTIONS.map((opt) => {
+            const isSelected = currentLineHeight === opt.value;
+            return (
+              <button
+                key={opt.value}
+                type="button"
+                onClick={() => applyLineSpacing(opt.value)}
+                className="hover:bg-surface-hover text-foreground flex items-center justify-between rounded-md px-3 py-1.5 text-xs transition-colors"
+              >
+                <span>{opt.label}</span>
+                {isSelected && <Check size={14} className="text-primary dark:text-accent" />}
+              </button>
+            );
+          })}
         </div>
-      </ToolbarPopover>
-    </>
+
+        <div className="border-border my-1.5 border-t" />
+
+        {/* Paragraph Spacing Modifiers */}
+        <div className="flex flex-col gap-0.5">
+          <button
+            type="button"
+            onClick={toggleSpaceBefore}
+            className="hover:bg-surface-hover text-foreground flex items-center justify-between rounded-md px-3 py-1.5 text-xs transition-colors"
+          >
+            <span>
+              {hasSpaceBefore ? "Remove space before paragraph" : "Add space before paragraph"}
+            </span>
+            {hasSpaceBefore && <Check size={14} className="text-primary dark:text-accent" />}
+          </button>
+
+          <button
+            type="button"
+            onClick={toggleSpaceAfter}
+            className="hover:bg-surface-hover text-foreground flex items-center justify-between rounded-md px-3 py-1.5 text-xs transition-colors"
+          >
+            <span>
+              {hasSpaceAfter ? "Remove space after paragraph" : "Add space after paragraph"}
+            </span>
+            {hasSpaceAfter && <Check size={14} className="text-primary dark:text-accent" />}
+          </button>
+        </div>
+      </CustomPopoverContent>
+    </CustomPopover>
   );
 }
