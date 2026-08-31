@@ -263,7 +263,8 @@ components/ui/
 │   ├── CustomDropdown.tsx          # Extends Shadcn DropdownMenu with standardized item padding
 │   ├── CustomPopover.tsx           # Extends Shadcn Popover with zero-clipping portal behavior
 │   ├── CustomModal.tsx             # Extends Shadcn Dialog with consistent backdrop & transitions
-│   └── CustomColorPicker.tsx       # Standardized 2D canvas & 10x8 palette matrix
+│   ├── CustomColorPicker.tsx       # Standardized 10x8 palette matrix & custom trigger dropdown
+│   └── CustomColorModal.tsx        # Standalone 2D HSV gradient & RGB/HEX picker dialog
 ├── button.tsx                      # Base Shadcn Button
 ├── dropdown-menu.tsx               # Base Shadcn Dropdown Menu
 ├── popover.tsx                     # Base Shadcn Popover
@@ -274,13 +275,17 @@ components/ui/
 ### Core Design System Rules
 
 1. **`CustomToolbarButton` Contract:**
-   - Standard size: `size-8` ($32 \times 32\text{px}$).
+   - Standard size: `size-9` ($36 \times 36\text{px}$) with dedicated split-button sizing presets.
    - Hover state: `hover:enabled:bg-surface-hover` (resolves to `--surface-hover`).
    - Active state: `bg-primary/15 text-primary dark:bg-primary/20 dark:text-accent font-semibold`.
    - Interaction guard: `onMouseDown={(e) => e.preventDefault()}` on all buttons to maintain Lexical caret selection.
 2. **`CustomDropdown` & `CustomPopover` Contract:**
    - Fixed elevation (`z-50` / `z-60`), animated transitions, and viewport collision detection.
+   - Focus retention guard: `onOpenAutoFocus={(e) => e.preventDefault()}` and `onCloseAutoFocus` to preserve editor caret position.
    - Standardized text scale: `text-xs` font size, `px-2.5 py-1.5` item padding.
+3. **`CustomModal` & `CustomColorModal` Contract:**
+   - Uniform backdrop blur, centered responsive container (`max-w-md` / `max-w-sm`), and standardized action headers/footers.
+   - Reusable across both toolbar controls and upcoming table cell / document canvas styling.
 
 ### Enterprise Folder Structure & Gradual Refactoring Blueprint
 
