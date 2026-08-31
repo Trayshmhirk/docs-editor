@@ -112,7 +112,7 @@ export const GOOGLE_DOCS_COLOR_PALETTE = [
   ],
 ];
 
-interface ColorDropdownProps {
+export interface CustomColorPickerProps {
   currentColor?: string;
   onSelectColor: (color: string | null) => void;
   showNoneOption?: boolean;
@@ -120,13 +120,13 @@ interface ColorDropdownProps {
   onClose?: () => void;
 }
 
-export default function ColorDropdown({
+export default function CustomColorPicker({
   currentColor,
   onSelectColor,
   showNoneOption = false,
   noneLabel = "None",
   onClose,
-}: ColorDropdownProps): React.JSX.Element {
+}: CustomColorPickerProps): React.JSX.Element {
   const [isCustomModalOpen, setIsCustomModalOpen] = useState(false);
   const [customColors, setCustomColors] = useState<string[]>([]);
 
