@@ -14,15 +14,17 @@ comment threads beside the page.
 
 ## Sections Overview
 
-| Section | Focus                                    | Effort |
-| ------- | ---------------------------------------- | ------ |
-| 2.1     | Page canvas shell & viewport layout      | Medium |
-| 2.2     | Ruler & margin controls                  | Medium |
-| 2.3     | Advanced Toolbar & Formatting Expansion  | Large  |
-| 2.4     | Curated Insert menu & table architecture | Large  |
-| 2.5     | Comment thread spatial anchoring         | Small  |
-| 2.6     | Document outline sidebar                 | Medium |
-| 2.7     | Home dashboard document previews         | Medium |
+| Section | Focus                                                   | Effort |
+| ------- | ------------------------------------------------------- | ------ |
+| 2.1     | Page canvas shell & viewport layout                     | Medium |
+| 2.2     | Ruler & margin controls                                 | Medium |
+| 2.3     | Advanced Toolbar & Formatting Expansion                 | Large  |
+| 2.3.A   | Shadcn UI standardization & modular folder architecture | Medium |
+| 2.3.B   | Toolbar strip layout alignment & overflow management    | Medium |
+| 2.4     | Curated Insert menu & table architecture                | Large  |
+| 2.5     | Comment thread spatial anchoring                        | Small  |
+| 2.6     | Document outline sidebar                                | Medium |
+| 2.7     | Home dashboard document previews                        | Medium |
 
 ---
 
@@ -248,6 +250,104 @@ styles/editor/index.css                                           [MODIFY]
 
 ---
 
+## 2.3.A Codebase Component Layer & Shadcn UI Standardization
+
+To prevent visual drift, inconsistent hover/active states, and ad-hoc CSS overrides, all toolbar and editor interactive elements must be built upon standardized wrappers extending Shadcn UI primitives.
+
+### Wrapper Hierarchy & Component Contracts
+
+```txt
+components/ui/
+├── custom/
+│   ├── CustomToolbarButton.tsx     # Extends Shadcn Button with toolbar-item tokens & active state
+│   ├── CustomDropdown.tsx          # Extends Shadcn DropdownMenu with standardized item padding
+│   ├── CustomPopover.tsx           # Extends Shadcn Popover with zero-clipping portal behavior
+│   ├── CustomModal.tsx             # Extends Shadcn Dialog with consistent backdrop & transitions
+│   └── CustomColorPicker.tsx       # Standardized 2D canvas & 10x8 palette matrix
+├── button.tsx                      # Base Shadcn Button
+├── dropdown-menu.tsx               # Base Shadcn Dropdown Menu
+├── popover.tsx                     # Base Shadcn Popover
+├── dialog.tsx                      # Base Shadcn Dialog
+└── select.tsx                      # Base Shadcn Select
+```
+
+### Core Design System Rules
+
+1. **`CustomToolbarButton` Contract:**
+   - Standard size: `size-8` ($32 \times 32\text{px}$).
+   - Hover state: `hover:enabled:bg-surface-hover` (resolves to `--surface-hover`).
+   - Active state: `bg-primary/15 text-primary dark:bg-primary/20 dark:text-accent font-semibold`.
+   - Interaction guard: `onMouseDown={(e) => e.preventDefault()}` on all buttons to maintain Lexical caret selection.
+2. **`CustomDropdown` & `CustomPopover` Contract:**
+   - Fixed elevation (`z-50` / `z-60`), animated transitions, and viewport collision detection.
+   - Standardized text scale: `text-xs` font size, `px-2.5 py-1.5` item padding.
+
+### Enterprise Folder Structure & Gradual Refactoring Blueprint
+
+To ensure long-term scalability without causing merge friction or breaking Git history, we establish clear domain boundaries and a gradual, non-destructive migration pattern:
+
+```txt
+components/
+├── ui/                              # Pure design system primitives & enterprise wrappers ONLY
+│   ├── custom/                      # CustomToolbarButton, CustomDropdown, CustomModal, etc.
+│   └── ...                          # Base Radix / Shadcn primitives (button, dialog, popover)
+├── home/                            # Home dashboard & document library (DocumentCard, HomeDashboard)
+├── shared/                          # Global shell & reusable widgets (Header, ToggleTheme, Loader)
+├── modal/                           # Centralized application dialogs (DeleteModal, ShareModal)
+├── liveblocks/                      # Real-time collaboration UI (Comments, Notifications)
+├── collaborators/                   # Live room presence & active collaborator avatars
+└── editor/                          # Lexical rich-text editing engine
+    ├── DocumentRuler.tsx            # Horizontal document ruler
+    ├── EditorShell.tsx              # Paper-on-a-desk page canvas shell
+    ├── nodes/                       # Custom Lexical Decorator & AST nodes
+    └── plugins/                     # Lexical feature plugins
+        └── toolbarPlugin/           # Main formatting ribbon
+            ├── dropdowns/           # Grouped formatting dropdowns & pickers
+            ├── ToolbarPlugin.tsx
+            ├── options.ts
+            └── utils.ts
+```
+
+#### What Stays As-Is (Zero Disruption)
+
+- **`app/` Router Groups (`app/(auth)/`, `app/(root)/`, `app/api/`):** Maintain idiomatic Next.js 15 App Router conventions.
+- **`context/` Providers:** Keep `DocumentLayoutContext.tsx`, `ToolbarContext.tsx`, and `SettingsContext.tsx` focused and single-purpose.
+- **`lib/actions/`:** Keep server-side database/room operations cleanly separated from client UI.
+
+#### Gradual Refactoring Rules
+
+1. **No Big-Bang Relocations:** Never move entire directory trees in one massive commit.
+2. **Feature-Bound Moves:** Migrate components to their proper domain folders (e.g. moving `components/ui/home/` to `components/home/`) incrementally as those feature areas are touched in upcoming phases.
+3. **Strict Import Aliases:** Always use root `@/...` aliases to ensure clean, resilient import paths.
+
+---
+
+## 2.3.B Toolbar Strip Layout Alignment & Overflow Management
+
+Align the primary editor ribbon with the Google Docs layout hierarchy, eliminating clutter and organizing overflow actions cleanly.
+
+### Primary Ribbon Layout
+
+```txt
+┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ [↩ ↪ 🖨] │ [Zoom 100% ▾] │ [Normal text ▾] │ [Arial ▾] │ [- 11 +] │ [B I U A 🖍] │ [🔗 💬 🖼] │ [⋮ More Options]                      │
+└───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+```
+
+### Key Interaction Paradigms
+
+1. **No Standalone Block Clutter:** Blocks like Table, Page Break, and Divider are housed inside the **Insert** dropdown menu, not floating as standalone buttons in the inline text formatting strip.
+2. **Strict On-Click Activation:** All dropdowns, submenus, and overflow panels open exclusively on **click** (never on hover) with `onMouseDown={(e) => e.preventDefault()}` to preserve editor selection.
+3. **Secondary Overflow Bar (`⋮` More Options):**
+   - Housed within an on-click floating strip when the viewport width constrains the toolbar.
+   - Houses paragraph alignment, line spacing, list presets, indentation, and table cell contextual controls (Fill Color, Border Color, Border Width).
+4. **Visual Preset Card Grids:**
+   - Checklist Dropdown (2 visual cards: Strike vs No-Strike).
+   - Bulleted List Dropdown (6 visual card grids: Disc, Circle, Square, Diamond, Star, Arrow).
+   - Numbered List Dropdown (6 visual card grids: Decimal, Alpha, Roman, Nested).
+
+---
+
 ## 2.4 Curated Insert Menu & Enterprise Table Architecture
 
 Google Docs organizes block creation and tables into an intuitive Insert dropdown and dynamic cell context controls. We expand Section 2.4 to cover both the curated **Insert Menu** and the full-featured **Google Docs-Grade Table Experience** (interactive grid dimension picker, cell context actions, drag-to-resize borders, and keyboard tab navigation).
@@ -334,10 +434,13 @@ Insert
 
 ### Checklist for Section 2.4
 
+- [ ] Standardize the component layer by implementing `CustomToolbarButton`, `CustomDropdown`, `CustomPopover`, and `CustomModal` in `components/ui/custom/`
+- [ ] Consolidate toolbar controls into `components/editor/plugins/toolbarPlugin/dropdowns/`
 - [ ] Build `InsertDropdown` toolbar component with grouped sections and keyboard-accessible menu items
 - [ ] Build interactive `TableGridPicker` component with an $8\times 8$ dimension matrix and live label
 - [ ] Implement `TableCellActionMenuPlugin` for inserting/deleting rows, columns, and tables
 - [ ] Implement `TableCellResizerPlugin` for drag-to-resize column widths and row heights
+- [ ] Implement Table Contextual Toolbar (Fill Color, Border Color, Border Width) in the on-click `⋮` More Options overflow strip
 - [ ] Maintain `TableEscapePlugin` for automatic paragraph buffers and Tab/Arrow navigation
 - [ ] Implement `ImageNode` (Decorator): upload dialog to file or URL; resize handle overlay on selection
 - [ ] Wire `HorizontalRuleNode` from `@lexical/react` as an insert action
@@ -349,17 +452,22 @@ Insert
 ### Files to modify for Section 2.4
 
 ```txt
+components/ui/custom/CustomToolbarButton.tsx                                   [NEW]
+components/ui/custom/CustomDropdown.tsx                                        [NEW]
+components/ui/custom/CustomPopover.tsx                                         [NEW]
+components/ui/custom/CustomModal.tsx                                           [NEW]
 components/editor/plugins/toolbarPlugin/ToolbarPlugin.tsx
-components/editor/plugins/toolbarPlugin/toolbarDropdown/InsertDropdown.tsx   [NEW]
-components/editor/plugins/toolbarPlugin/toolbarDropdown/TableGridPicker.tsx   [NEW]
-components/editor/plugins/TableCellActionMenuPlugin.tsx                       [NEW]
-components/editor/plugins/TableCellResizerPlugin.tsx                          [NEW]
+components/editor/plugins/toolbarPlugin/dropdowns/InsertDropdown.tsx            [NEW]
+components/editor/plugins/toolbarPlugin/dropdowns/TableGridPicker.tsx          [NEW]
+components/editor/plugins/toolbarPlugin/dropdowns/TableContextualToolbar.tsx   [NEW]
+components/editor/plugins/TableCellActionMenuPlugin.tsx                        [NEW]
+components/editor/plugins/TableCellResizerPlugin.tsx                           [NEW]
 components/editor/plugins/TableEscapePlugin.tsx
-components/editor/nodes/ImageNode.tsx                                         [NEW]
-components/editor/nodes/CalloutNode.tsx                                       [NEW]
-components/editor/nodes/PageBreakNode.tsx                                     [NEW]
-components/editor/nodes/YouTubeNode.tsx                                       [NEW]
-components/editor/nodes/TweetNode.tsx                                         [NEW]
+components/editor/nodes/ImageNode.tsx                                          [NEW]
+components/editor/nodes/CalloutNode.tsx                                        [NEW]
+components/editor/nodes/PageBreakNode.tsx                                      [NEW]
+components/editor/nodes/YouTubeNode.tsx                                        [NEW]
+components/editor/nodes/TweetNode.tsx                                          [NEW]
 components/editor/Editor.tsx
 styles/editor/index.css
 ```
