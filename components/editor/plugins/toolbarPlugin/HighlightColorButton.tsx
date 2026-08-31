@@ -6,6 +6,7 @@ import { $patchStyleText } from "@lexical/selection";
 import { $getSelection, $isRangeSelection } from "lexical";
 import { Highlighter } from "lucide-react";
 import { useToolbarState } from "@/context/ToolbarContext";
+import CustomToolbarButton from "@/components/ui/custom/CustomToolbarButton";
 import ColorDropdown from "./ColorDropdown";
 import ToolbarPopover from "./ToolbarPopover";
 
@@ -19,7 +20,7 @@ export default function HighlightColorButton({
   const [isOpen, setIsOpen] = useState(false);
   const buttonRef = useRef<HTMLButtonElement>(null);
 
-  const activeBgColor =
+  const activeColor =
     toolbarState.bgColor &&
     toolbarState.bgColor !== "#fff" &&
     toolbarState.bgColor !== "transparent"
@@ -30,7 +31,11 @@ export default function HighlightColorButton({
     editor.update(() => {
       const selection = $getSelection();
       if ($isRangeSelection(selection)) {
-        $patchStyleText(selection, { "background-color": color });
+        if (!color) {
+          $patchStyleText(selection, { "background-color": null });
+        } else {
+          $patchStyleText(selection, { "background-color": color });
+        }
       }
     });
     setIsOpen(false);
@@ -38,38 +43,33 @@ export default function HighlightColorButton({
 
   return (
     <>
-      <button
+      <CustomToolbarButton
         ref={buttonRef}
-        type="button"
         disabled={disabled}
-        title="Highlight color"
-        aria-label="Highlight color"
+        isActive={isOpen}
+        tooltip="Highlight color"
         onClick={() => setIsOpen((prev) => !prev)}
-        onMouseDown={(e) => e.preventDefault()}
-        className={`toolbar-item toolbar-button relative flex size-8 flex-col items-center justify-center ${
-          isOpen ? "active" : ""
-        }`}
+        className="flex-col gap-0.5"
       >
-        <Highlighter className="format icon size-3.5" />
+        <Highlighter className="format icon" />
         <span
-          className="mt-0.5 h-1 w-4.5 rounded-full border border-black/10"
+          className="h-1 w-4.5 rounded-full border border-black/10"
           style={{
-            backgroundColor: activeBgColor || "transparent",
-            backgroundImage: !activeBgColor
-              ? "linear-gradient(45deg, #ccc 25%, transparent 25%), linear-gradient(-45deg, #ccc 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #ccc 75%), linear-gradient(-45deg, transparent 75%, #ccc 75%)"
-              : undefined,
+            backgroundColor: activeColor || "transparent",
+            backgroundImage: activeColor
+              ? "none"
+              : "linear-gradient(45deg, #ccc 25%, transparent 25%), linear-gradient(-45deg, #ccc 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #ccc 75%), linear-gradient(-45deg, transparent 75%, #ccc 75%)",
             backgroundSize: "4px 4px",
           }}
         />
-      </button>
+      </CustomToolbarButton>
 
       <ToolbarPopover isOpen={isOpen} onClose={() => setIsOpen(false)} anchorRef={buttonRef}>
         <ColorDropdown
-          currentColor={activeBgColor}
+          currentColor={activeColor}
           onSelectColor={handleSelectColor}
-          showNoneOption={true}
-          noneLabel="None"
           onClose={() => setIsOpen(false)}
+          showNoneOption
         />
       </ToolbarPopover>
     </>

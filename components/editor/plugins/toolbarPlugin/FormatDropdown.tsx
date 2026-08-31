@@ -13,6 +13,7 @@ import {
   Check,
 } from "lucide-react";
 import { useToolbarState } from "@/context/ToolbarContext";
+import CustomToolbarButton from "@/components/ui/custom/CustomToolbarButton";
 import ToolbarPopover from "./ToolbarPopover";
 
 export default function FormatDropdown({
@@ -58,21 +59,18 @@ export default function FormatDropdown({
 
   return (
     <>
-      <button
+      <CustomToolbarButton
         ref={buttonRef}
-        type="button"
         disabled={disabled}
-        title="Format options (Aa)"
-        aria-label="Format options"
+        isActive={isOpen}
+        tooltip="Format options (Aa)"
         onClick={() => {
           setIsOpen((prev) => !prev);
           setShowCaseSubmenu(false);
         }}
-        onMouseDown={(e) => e.preventDefault()}
-        className={`toolbar-item toolbar-button size-8 ${isOpen ? "active" : ""}`}
       >
         <span className="text-xs font-semibold tracking-tight">Aa</span>
-      </button>
+      </CustomToolbarButton>
 
       <ToolbarPopover
         isOpen={isOpen}
@@ -159,28 +157,30 @@ export default function FormatDropdown({
               </button>
 
               {showCaseSubmenu && (
-                <div className="border-border bg-surface text-foreground absolute top-0 left-full ml-1 w-36 rounded-lg border p-1 shadow-xl">
-                  <button
-                    type="button"
-                    onClick={() => applyCaseTransform("lower")}
-                    className="hover:bg-surface-hover text-foreground flex w-full items-center rounded-md px-2.5 py-1.5 text-xs transition-colors"
-                  >
-                    lowercase
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => applyCaseTransform("upper")}
-                    className="hover:bg-surface-hover text-foreground flex w-full items-center rounded-md px-2.5 py-1.5 text-xs transition-colors"
-                  >
-                    UPPERCASE
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => applyCaseTransform("title")}
-                    className="hover:bg-surface-hover text-foreground flex w-full items-center rounded-md px-2.5 py-1.5 text-xs transition-colors"
-                  >
-                    Title Case
-                  </button>
+                <div className="border-border bg-surface text-foreground absolute top-0 left-full z-70 ml-1 w-36 rounded-lg border p-1 shadow-xl">
+                  <div className="flex flex-col gap-0.5">
+                    <button
+                      type="button"
+                      onClick={() => applyCaseTransform("lower")}
+                      className="hover:bg-surface-hover text-foreground flex items-center rounded-md px-2.5 py-1 text-left text-xs transition-colors"
+                    >
+                      lowercase
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => applyCaseTransform("upper")}
+                      className="hover:bg-surface-hover text-foreground flex items-center rounded-md px-2.5 py-1 text-left text-xs transition-colors"
+                    >
+                      UPPERCASE
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => applyCaseTransform("title")}
+                      className="hover:bg-surface-hover text-foreground flex items-center rounded-md px-2.5 py-1 text-left text-xs transition-colors"
+                    >
+                      Title Case
+                    </button>
+                  </div>
                 </div>
               )}
             </div>

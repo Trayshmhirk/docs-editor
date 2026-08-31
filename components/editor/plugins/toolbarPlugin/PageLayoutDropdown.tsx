@@ -2,6 +2,7 @@
 
 import React, { useRef, useState } from "react";
 import { Check, SlidersHorizontal } from "lucide-react";
+import CustomToolbarButton from "@/components/ui/custom/CustomToolbarButton";
 import ToolbarPopover from "./ToolbarPopover";
 import {
   MarginPreset,
@@ -32,18 +33,15 @@ export default function PageLayoutDropdown({
 
   return (
     <>
-      <button
+      <CustomToolbarButton
         ref={buttonRef}
-        type="button"
         disabled={disabled}
-        title="Page layout & setup"
-        aria-label="Page layout & setup"
+        isActive={isOpen}
+        tooltip="Page layout & setup"
         onClick={() => setIsOpen((prev) => !prev)}
-        onMouseDown={(e) => e.preventDefault()}
-        className={`toolbar-item toolbar-button size-8 ${isOpen ? "active" : ""}`}
       >
         <SlidersHorizontal className="format icon size-4" />
-      </button>
+      </CustomToolbarButton>
 
       <ToolbarPopover
         isOpen={isOpen}

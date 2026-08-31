@@ -32,7 +32,7 @@ import {
   Underline,
 } from "lucide-react";
 import { INSERT_TABLE_COMMAND } from "@lexical/table";
-import { Button } from "@/components/ui/button";
+import CustomToolbarButton from "@/components/ui/custom/CustomToolbarButton";
 import BlockFormatDropDown from "./toolbarDropdown/BlockFormatDropdown";
 import { blockTypeToBlockName, useToolbarState } from "@/context/ToolbarContext";
 import { CODE_LANGUAGE_OPTIONS, dropDownActiveClass, getSelectedNode } from "./utils";
@@ -264,35 +264,29 @@ export default function ToolbarPlugin({
 
   return (
     <div
-      className="toolbar flex h-full scrollbar-none items-center gap-1 overflow-x-auto bg-transparent p-0.5"
+      className="toolbar flex h-full scrollbar-none items-center gap-0.5 overflow-x-auto bg-transparent p-0.5"
       ref={toolbarRef}
     >
       {/* 1. History Controls */}
-      <button
+      <CustomToolbarButton
         disabled={!canUndo || !isEditable}
         onClick={() => {
           editor.dispatchCommand(UNDO_COMMAND, undefined);
         }}
-        onMouseDown={(e) => e.preventDefault()}
-        className="toolbar-item toolbar-button"
-        aria-label="Undo"
-        title="Undo (Ctrl+Z)"
+        tooltip="Undo (Ctrl+Z)"
       >
         <RotateCcw className="format icon size-4" />
-      </button>
+      </CustomToolbarButton>
 
-      <button
+      <CustomToolbarButton
         disabled={!canRedo || !isEditable}
         onClick={() => {
           editor.dispatchCommand(REDO_COMMAND, undefined);
         }}
-        onMouseDown={(e) => e.preventDefault()}
-        className="toolbar-item toolbar-button"
-        aria-label="Redo"
-        title="Redo (Ctrl+Y)"
+        tooltip="Redo (Ctrl+Y)"
       >
         <RotateCw className="format icon size-4" />
-      </button>
+      </CustomToolbarButton>
 
       <Divider />
 
@@ -356,51 +350,38 @@ export default function ToolbarPlugin({
           <Divider />
 
           {/* Bold, Italic, Underline */}
-          <Button
-            variant="ghost"
-            size="icon"
+          <CustomToolbarButton
             disabled={!isEditable}
             onClick={() => {
               editor.dispatchCommand(FORMAT_TEXT_COMMAND, "bold");
             }}
-            className={`toolbar-item toolbar-button size-8 ${toolbarState.isBold ? "active" : ""}`}
-            aria-label="Format Bold"
-            title="Bold (Ctrl+B)"
+            isActive={toolbarState.isBold}
+            tooltip="Bold (Ctrl+B)"
           >
             <Bold className="format icon size-4" />
-          </Button>
+          </CustomToolbarButton>
 
-          <Button
-            variant="ghost"
-            size="icon"
+          <CustomToolbarButton
             disabled={!isEditable}
             onClick={() => {
               editor.dispatchCommand(FORMAT_TEXT_COMMAND, "italic");
             }}
-            className={`toolbar-item toolbar-button size-8 ${
-              toolbarState.isItalic ? "active" : ""
-            }`}
-            aria-label="Format Italics"
-            title="Italic (Ctrl+I)"
+            isActive={toolbarState.isItalic}
+            tooltip="Italic (Ctrl+I)"
           >
             <Italic className="format icon size-4" />
-          </Button>
+          </CustomToolbarButton>
 
-          <Button
-            variant="ghost"
-            size="icon"
+          <CustomToolbarButton
             disabled={!isEditable}
             onClick={() => {
               editor.dispatchCommand(FORMAT_TEXT_COMMAND, "underline");
             }}
-            className={`toolbar-item toolbar-button size-8 ${
-              toolbarState.isUnderline ? "active" : ""
-            }`}
-            aria-label="Format Underline"
-            title="Underline (Ctrl+U)"
+            isActive={toolbarState.isUnderline}
+            tooltip="Underline (Ctrl+U)"
           >
             <Underline className="format icon size-4" />
-          </Button>
+          </CustomToolbarButton>
 
           {/* Text & Highlight Color Pickers */}
           <FontColorButton disabled={!isEditable} />
@@ -409,31 +390,18 @@ export default function ToolbarPlugin({
           <Divider />
 
           {/* Link & Table */}
-          <Button
-            variant="ghost"
-            size="icon"
+          <CustomToolbarButton
             disabled={!isEditable}
             onClick={insertLink}
-            className={`toolbar-item toolbar-button size-8 ${toolbarState.isLink ? "active" : ""}`}
-            aria-label="Insert link"
-            title="Insert Link (Ctrl+K)"
-            type="button"
+            isActive={toolbarState.isLink}
+            tooltip="Insert Link (Ctrl+K)"
           >
             <Link className="format icon size-4 rotate-45 transform" />
-          </Button>
+          </CustomToolbarButton>
 
-          <Button
-            variant="ghost"
-            size="icon"
-            disabled={!isEditable}
-            onClick={insertTable}
-            className="toolbar-item toolbar-button size-8"
-            aria-label="Insert table"
-            type="button"
-            title="Insert Table"
-          >
+          <CustomToolbarButton disabled={!isEditable} onClick={insertTable} tooltip="Insert Table">
             <TableIcon className="format icon size-4" />
-          </Button>
+          </CustomToolbarButton>
 
           <Divider />
 

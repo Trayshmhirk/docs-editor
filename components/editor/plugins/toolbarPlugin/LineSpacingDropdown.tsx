@@ -4,6 +4,7 @@ import React, { useRef, useState } from "react";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import { $getSelection, $isElementNode, $isRangeSelection, ElementNode } from "lexical";
 import { BetweenVerticalStart, Check } from "lucide-react";
+import CustomToolbarButton from "@/components/ui/custom/CustomToolbarButton";
 import ToolbarPopover from "./ToolbarPopover";
 
 // Helper to patch CSS style string
@@ -128,18 +129,15 @@ export default function LineSpacingDropdown({
 
   return (
     <>
-      <button
+      <CustomToolbarButton
         ref={buttonRef}
-        type="button"
         disabled={disabled}
-        title="Line & paragraph spacing"
-        aria-label="Line & paragraph spacing"
+        isActive={isOpen}
+        tooltip="Line & paragraph spacing"
         onClick={() => setIsOpen((prev) => !prev)}
-        onMouseDown={(e) => e.preventDefault()}
-        className={`toolbar-item toolbar-button size-8 ${isOpen ? "active" : ""}`}
       >
         <BetweenVerticalStart className="format icon size-4" />
-      </button>
+      </CustomToolbarButton>
 
       <ToolbarPopover isOpen={isOpen} onClose={() => setIsOpen(false)} anchorRef={buttonRef}>
         <div className="border-border bg-surface text-foreground w-52 rounded-lg border p-1.5 shadow-xl select-none">
@@ -152,7 +150,7 @@ export default function LineSpacingDropdown({
                   key={opt.value}
                   type="button"
                   onClick={() => applyLineSpacing(opt.value)}
-                  className="hover:bg-surface-hover text-foreground flex items-center justify-between rounded-md px-3 py-1.5 text-left text-xs transition-colors"
+                  className="hover:bg-surface-hover text-foreground flex items-center justify-between rounded-md px-3 py-1.5 text-xs transition-colors"
                 >
                   <span>{opt.label}</span>
                   {isSelected && <Check size={14} className="text-primary dark:text-accent" />}
@@ -163,25 +161,28 @@ export default function LineSpacingDropdown({
 
           <div className="border-border my-1.5 border-t" />
 
-          {/* Paragraph Spacing Toggles */}
+          {/* Paragraph Spacing Modifiers */}
           <div className="flex flex-col gap-0.5">
             <button
               type="button"
               onClick={toggleSpaceBefore}
-              className="hover:bg-surface-hover text-foreground flex items-center justify-between rounded-md px-3 py-1.5 text-left text-xs transition-colors"
+              className="hover:bg-surface-hover text-foreground flex items-center justify-between rounded-md px-3 py-1.5 text-xs transition-colors"
             >
               <span>
                 {hasSpaceBefore ? "Remove space before paragraph" : "Add space before paragraph"}
               </span>
+              {hasSpaceBefore && <Check size={14} className="text-primary dark:text-accent" />}
             </button>
+
             <button
               type="button"
               onClick={toggleSpaceAfter}
-              className="hover:bg-surface-hover text-foreground flex items-center justify-between rounded-md px-3 py-1.5 text-left text-xs transition-colors"
+              className="hover:bg-surface-hover text-foreground flex items-center justify-between rounded-md px-3 py-1.5 text-xs transition-colors"
             >
               <span>
                 {hasSpaceAfter ? "Remove space after paragraph" : "Add space after paragraph"}
               </span>
+              {hasSpaceAfter && <Check size={14} className="text-primary dark:text-accent" />}
             </button>
           </div>
         </div>
