@@ -19,7 +19,7 @@ import {
   formatParagraph,
   formatQuote,
   getBlockTypeIcon,
-} from "../utils";
+} from "@/components/editor/plugins/toolbarPlugin/utils";
 import {
   Code,
   Heading1,

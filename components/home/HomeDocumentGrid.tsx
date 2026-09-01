@@ -2,8 +2,8 @@
 
 import React, { useState, useEffect, useMemo } from "react";
 import { RoomData } from "@liveblocks/node";
-import DocumentCard from "./DocumentCard";
-import SortDropdown, { SortOption } from "./SortDropdown";
+import DocumentCard from "@/components/home/DocumentCard";
+import SortDropdown, { SortOption } from "@/components/home/SortDropdown";
 import { LayoutGrid, List, FileText, SearchX } from "lucide-react";
 import { Button } from "@/components/ui/button";
 

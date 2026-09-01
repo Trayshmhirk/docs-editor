@@ -1,12 +1,12 @@
 "use client";
 
 import React, { useState } from "react";
-import Header from "@/components/ui/shared/Header";
-import Notifications from "@/components/ui/liveblocks/Notifications";
-import ClerkSignedInUserButton from "@/components/ui/common/ClerkSignedInUserButton";
-import { ToggleTheme } from "@/components/ui/common/ToggleTheme";
-import NewDocumentSection from "./NewDocumentSection";
-import HomeDocumentGrid from "./HomeDocumentGrid";
+import Header from "@/components/shared/Header";
+import Notifications from "@/components/liveblocks/Notifications";
+import ClerkSignedInUserButton from "@/components/shared/ClerkSignedInUserButton";
+import { ToggleTheme } from "@/components/shared/ToggleTheme";
+import NewDocumentSection from "@/components/home/NewDocumentSection";
+import HomeDocumentGrid from "@/components/home/HomeDocumentGrid";
 import { RoomData } from "@liveblocks/node";
 import { Search, X } from "lucide-react";
 

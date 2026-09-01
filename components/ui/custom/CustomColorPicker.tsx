@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { Plus, Ban, Check } from "lucide-react";
-import CustomColorModal from "./CustomColorModal";
+import CustomColorModal from "@/components/ui/custom/CustomColorModal";
 
 // 10-column Google Docs Swatch Palette Matrix
 export const GOOGLE_DOCS_COLOR_PALETTE = [

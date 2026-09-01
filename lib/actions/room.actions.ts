@@ -1,9 +1,9 @@
 "use server";
 
 import { nanoid } from "nanoid";
-import { liveblocks } from "../liveblocks";
+import { liveblocks } from "@/lib/liveblocks";
 import { revalidatePath } from "next/cache";
-import { getAccessType } from "../utils";
+import { getAccessType } from "@/lib/utils";
 import { redirect } from "next/navigation";
 
 export const createDoc = async ({ userId, email }: CreateDocumentParams) => {

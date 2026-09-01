@@ -28,10 +28,10 @@ import {
   useIsEditorReady,
 } from "@liveblocks/react-lexical";
 
-import Loader from "@/components/ui/common/Loader";
+import Loader from "@/components/shared/Loader";
 import FloatingToolbarPlugin from "./plugins/FloatingToolbarPlugin";
 import { useThreads } from "@liveblocks/react/suspense";
-import Comments from "@/components/ui/liveblocks/Comments";
+import Comments from "@/components/liveblocks/Comments";
 import { useEffect, useState } from "react";
 import { ToolbarContext } from "@/context/ToolbarContext";
 import { DocumentLayoutProvider } from "@/context/DocumentLayoutContext";
