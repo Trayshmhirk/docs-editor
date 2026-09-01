@@ -1,10 +1,16 @@
 "use client";
 
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import {
+  CustomModal,
+  CustomModalContent,
+  CustomModalHeader,
+  CustomModalTitle,
+  CustomModalFooter,
+} from "@/components/ui/custom/CustomModal";
 
-interface CustomColorModalProps {
+export interface CustomColorModalProps {
   isOpen: boolean;
   onClose: () => void;
   onSelectColor: (hexColor: string) => void;
@@ -69,58 +75,45 @@ function rgbToHsv(r: number, g: number, b: number): { h: number; s: number; v: n
     }
     h /= 6;
   }
-  return { h: h * 360, s, v };
+
+  return { h: Math.round(h * 360), s, v };
 }
 
 // Utility: Convert HSV to RGB
 function hsvToRgb(h: number, s: number, v: number): { r: number; g: number; b: number } {
   h = (h % 360) / 60;
-  if (h < 0) h += 6;
-  const i = Math.floor(h);
-  const f = h - i;
-  const p = v * (1 - s);
-  const q = v * (1 - s * f);
-  const t = v * (1 - s * (1 - f));
+  const c = v * s;
+  const x = c * (1 - Math.abs((h % 2) - 1));
+  const m = v - c;
 
   let r = 0,
     g = 0,
     b = 0;
-  switch (i) {
-    case 0:
-      r = v;
-      g = t;
-      b = p;
-      break;
-    case 1:
-      r = q;
-      g = v;
-      b = p;
-      break;
-    case 2:
-      r = p;
-      g = v;
-      b = t;
-      break;
-    case 3:
-      r = p;
-      g = q;
-      b = v;
-      break;
-    case 4:
-      r = t;
-      g = p;
-      b = v;
-      break;
-    case 5:
-      r = v;
-      g = p;
-      b = q;
-      break;
+
+  if (h >= 0 && h < 1) {
+    r = c;
+    g = x;
+  } else if (h >= 1 && h < 2) {
+    r = x;
+    g = c;
+  } else if (h >= 2 && h < 3) {
+    g = c;
+    b = x;
+  } else if (h >= 3 && h < 4) {
+    g = x;
+    b = c;
+  } else if (h >= 4 && h < 5) {
+    r = x;
+    b = c;
+  } else if (h >= 5 && h < 6) {
+    r = c;
+    b = x;
   }
+
   return {
-    r: Math.round(r * 255),
-    g: Math.round(g * 255),
-    b: Math.round(b * 255),
+    r: Math.round((r + m) * 255),
+    g: Math.round((g + m) * 255),
+    b: Math.round((b + m) * 255),
   };
 }
 
@@ -130,45 +123,44 @@ export default function CustomColorModal({
   onSelectColor,
   initialColor = "#000000",
 }: CustomColorModalProps): React.JSX.Element | null {
-  const initialRgb = hexToRgb(initialColor);
+  // Normalize initial color
+  const validInitial = initialColor.startsWith("#") ? initialColor : "#000000";
+  const initialRgb = hexToRgb(validInitial);
   const initialHsv = rgbToHsv(initialRgb.r, initialRgb.g, initialRgb.b);
 
   const [hue, setHue] = useState<number>(initialHsv.h);
   const [saturation, setSaturation] = useState<number>(initialHsv.s);
   const [value, setValue] = useState<number>(initialHsv.v);
 
-  const [hexInput, setHexInput] = useState<string>(initialColor);
+  const [hexInput, setHexInput] = useState<string>(validInitial);
   const [rgbState, setRgbState] = useState<{ r: number; g: number; b: number }>(initialRgb);
 
   const satValRef = useRef<HTMLDivElement>(null);
   const isDraggingSatVal = useRef(false);
   const isDraggingHue = useRef(false);
 
-  // Sync inputs when HSV changes
-  const updateFromHsv = useCallback((h: number, s: number, v: number) => {
-    const rgb = hsvToRgb(h, s, v);
-    const hex = rgbToHex(rgb.r, rgb.g, rgb.b);
-    setHue(h);
-    setSaturation(s);
-    setValue(v);
-    setRgbState(rgb);
-    setHexInput(hex);
-  }, []);
-
-  // Initialize on open
+  // Sync state on reopen with initialColor
   useEffect(() => {
     if (isOpen) {
-      const rgb = hexToRgb(initialColor);
+      const rgb = hexToRgb(validInitial);
       const hsv = rgbToHsv(rgb.r, rgb.g, rgb.b);
       setHue(hsv.h);
       setSaturation(hsv.s);
       setValue(hsv.v);
+      setHexInput(validInitial);
       setRgbState(rgb);
-      setHexInput(initialColor.startsWith("#") ? initialColor : `#${initialColor}`);
     }
-  }, [isOpen, initialColor]);
+  }, [isOpen, validInitial]);
 
-  // Handle saturation/value canvas drag
+  // Update RGB and HEX from current HSV values
+  const syncFromHsv = useCallback((h: number, s: number, v: number) => {
+    const rgb = hsvToRgb(h, s, v);
+    const hex = rgbToHex(rgb.r, rgb.g, rgb.b);
+    setRgbState(rgb);
+    setHexInput(hex);
+  }, []);
+
+  // Pointer drag for Saturation / Value 2D canvas
   const handleSatValPointer = useCallback(
     (e: React.PointerEvent | PointerEvent) => {
       if (!satValRef.current) return;
@@ -176,31 +168,39 @@ export default function CustomColorModal({
       const x = Math.max(0, Math.min(rect.width, e.clientX - rect.left));
       const y = Math.max(0, Math.min(rect.height, e.clientY - rect.top));
 
-      const s = x / rect.width;
-      const v = 1 - y / rect.height;
-      updateFromHsv(hue, s, v);
+      const newSat = x / rect.width;
+      const newVal = 1 - y / rect.height;
+
+      setSaturation(newSat);
+      setValue(newVal);
+      syncFromHsv(hue, newSat, newVal);
     },
-    [hue, updateFromHsv],
+    [hue, syncFromHsv],
   );
 
-  // Handle hue slider drag
+  // Pointer drag for 1D Hue bar
   const handleHuePointer = useCallback(
-    (e: React.PointerEvent | PointerEvent, sliderElem: HTMLElement) => {
-      const rect = sliderElem.getBoundingClientRect();
+    (e: React.PointerEvent | PointerEvent, targetElement?: HTMLElement) => {
+      const el = targetElement || (e.currentTarget as HTMLElement);
+      if (!el) return;
+      const rect = el.getBoundingClientRect();
       const x = Math.max(0, Math.min(rect.width, e.clientX - rect.left));
-      const h = (x / rect.width) * 360;
-      updateFromHsv(h, saturation, value);
+      const newHue = Math.round((x / rect.width) * 360) % 360;
+
+      setHue(newHue);
+      syncFromHsv(newHue, saturation, value);
     },
-    [saturation, value, updateFromHsv],
+    [saturation, value, syncFromHsv],
   );
 
-  // Global mouseup / pointermove listeners for smooth dragging
+  // Global mouseup listeners for drag completion
   useEffect(() => {
     const onPointerMove = (e: PointerEvent) => {
       if (isDraggingSatVal.current) {
         handleSatValPointer(e);
       }
     };
+
     const onPointerUp = () => {
       isDraggingSatVal.current = false;
       isDraggingHue.current = false;
@@ -208,38 +208,42 @@ export default function CustomColorModal({
 
     window.addEventListener("pointermove", onPointerMove);
     window.addEventListener("pointerup", onPointerUp);
+
     return () => {
       window.removeEventListener("pointermove", onPointerMove);
       window.removeEventListener("pointerup", onPointerUp);
     };
   }, [handleSatValPointer]);
 
-  // Handle HEX input change
+  // Numerical Hex field edit
   const handleHexChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let val = e.target.value;
     if (!val.startsWith("#")) val = "#" + val;
     setHexInput(val);
+
     if (/^#[0-9A-Fa-f]{6}$/.test(val)) {
       const rgb = hexToRgb(val);
       const hsv = rgbToHsv(rgb.r, rgb.g, rgb.b);
+      setRgbState(rgb);
       setHue(hsv.h);
       setSaturation(hsv.s);
       setValue(hsv.v);
-      setRgbState(rgb);
     }
   };
 
-  // Handle RGB input changes
-  const handleRgbChange = (channel: "r" | "g" | "b", val: number) => {
+  // Numerical RGB fields edit
+  const handleRgbChange = (field: "r" | "g" | "b", val: number) => {
     const clamped = isNaN(val) ? 0 : Math.max(0, Math.min(255, val));
-    const newRgb = { ...rgbState, [channel]: clamped };
-    const hsv = rgbToHsv(newRgb.r, newRgb.g, newRgb.b);
-    const hex = rgbToHex(newRgb.r, newRgb.g, newRgb.b);
-    setRgbState(newRgb);
+    const nextRgb = { ...rgbState, [field]: clamped };
+    setRgbState(nextRgb);
+
+    const hex = rgbToHex(nextRgb.r, nextRgb.g, nextRgb.b);
+    setHexInput(hex);
+
+    const hsv = rgbToHsv(nextRgb.r, nextRgb.g, nextRgb.b);
     setHue(hsv.h);
     setSaturation(hsv.s);
     setValue(hsv.v);
-    setHexInput(hex);
   };
 
   const handleConfirm = () => {
@@ -247,26 +251,17 @@ export default function CustomColorModal({
     onClose();
   };
 
-  if (!isOpen) return null;
-
   // Background color of the saturation canvas at 100% saturation and 100% value for the current hue
   const pureHueRgb = hsvToRgb(hue, 1, 1);
   const pureHueHex = rgbToHex(pureHueRgb.r, pureHueRgb.g, pureHueRgb.b);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-xs">
-      <div className="border-border bg-surface text-foreground animate-in fade-in zoom-in-95 relative w-full max-w-sm rounded-xl border p-5 shadow-2xl duration-150">
+    <CustomModal open={isOpen} onOpenChange={(open) => !open && onClose()}>
+      <CustomModalContent className="max-w-sm p-5">
         {/* Header */}
-        <div className="mb-4 flex items-center justify-between">
-          <h3 className="text-sm font-semibold">Custom Color</h3>
-          <button
-            type="button"
-            onClick={onClose}
-            className="hover:bg-muted text-muted-foreground hover:text-foreground rounded-md p-1 transition-colors"
-          >
-            <X size={16} />
-          </button>
-        </div>
+        <CustomModalHeader className="mb-2">
+          <CustomModalTitle className="text-sm font-semibold">Custom Color</CustomModalTitle>
+        </CustomModalHeader>
 
         {/* 2D Saturation / Value Gradient Canvas */}
         <div
@@ -333,7 +328,7 @@ export default function CustomColorModal({
               value={hexInput}
               onChange={handleHexChange}
               maxLength={7}
-              className="border-border bg-surface-canvas text-foreground mt-0.5 w-full rounded-md border px-2 py-1 font-mono text-xs uppercase outline-none focus:ring-1 focus:ring-blue-500"
+              className="border-border bg-surface text-foreground focus:ring-primary mt-0.5 w-full rounded-md border px-2 py-1 font-mono text-xs uppercase outline-none focus:ring-1"
             />
           </div>
 
@@ -347,7 +342,7 @@ export default function CustomColorModal({
                 max={255}
                 value={rgbState.r}
                 onChange={(e) => handleRgbChange("r", parseInt(e.target.value, 10))}
-                className="border-border bg-surface-canvas text-foreground mt-0.5 w-11 rounded-md border px-1 py-1 text-center font-mono text-xs outline-none focus:ring-1 focus:ring-blue-500"
+                className="border-border bg-surface text-foreground focus:ring-primary mt-0.5 w-11 rounded-md border px-1 py-1 text-center font-mono text-xs outline-none focus:ring-1"
               />
             </div>
             <div>
@@ -358,7 +353,7 @@ export default function CustomColorModal({
                 max={255}
                 value={rgbState.g}
                 onChange={(e) => handleRgbChange("g", parseInt(e.target.value, 10))}
-                className="border-border bg-surface-canvas text-foreground mt-0.5 w-11 rounded-md border px-1 py-1 text-center font-mono text-xs outline-none focus:ring-1 focus:ring-blue-500"
+                className="border-border bg-surface text-foreground focus:ring-primary mt-0.5 w-11 rounded-md border px-1 py-1 text-center font-mono text-xs outline-none focus:ring-1"
               />
             </div>
             <div>
@@ -369,26 +364,26 @@ export default function CustomColorModal({
                 max={255}
                 value={rgbState.b}
                 onChange={(e) => handleRgbChange("b", parseInt(e.target.value, 10))}
-                className="border-border bg-surface-canvas text-foreground mt-0.5 w-11 rounded-md border px-1 py-1 text-center font-mono text-xs outline-none focus:ring-1 focus:ring-blue-500"
+                className="border-border bg-surface text-foreground focus:ring-primary mt-0.5 w-11 rounded-md border px-1 py-1 text-center font-mono text-xs outline-none focus:ring-1"
               />
             </div>
           </div>
         </div>
 
         {/* Action Buttons */}
-        <div className="border-border mt-5 flex items-center justify-end gap-2 border-t pt-3">
+        <CustomModalFooter className="border-border mt-5 border-t pt-3">
           <Button variant="ghost" size="sm" onClick={onClose} className="text-xs">
             Cancel
           </Button>
           <Button
             size="sm"
             onClick={handleConfirm}
-            className="bg-blue-600 text-xs text-white hover:bg-blue-700"
+            className="bg-primary text-primary-foreground hover:bg-primary-hover text-xs"
           >
             OK
           </Button>
-        </div>
-      </div>
-    </div>
+        </CustomModalFooter>
+      </CustomModalContent>
+    </CustomModal>
   );
 }

@@ -5,6 +5,7 @@ import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext
 import { $createParagraphNode, $getSelection, $isRangeSelection, $isTextNode } from "lexical";
 import { $setBlocksType } from "@lexical/selection";
 import { RemoveFormatting } from "lucide-react";
+import CustomToolbarButton from "@/components/ui/custom/CustomToolbarButton";
 
 export default function ClearFormattingButton({
   disabled = false,
@@ -33,16 +34,12 @@ export default function ClearFormattingButton({
   };
 
   return (
-    <button
-      type="button"
+    <CustomToolbarButton
       disabled={disabled}
-      title="Clear formatting (Ctrl+\)"
-      aria-label="Clear formatting"
+      tooltip="Clear formatting (Ctrl+\)"
       onClick={handleClearFormatting}
-      onMouseDown={(e) => e.preventDefault()}
-      className="toolbar-item toolbar-button size-8"
     >
       <RemoveFormatting className="format icon size-4" />
-    </button>
+    </CustomToolbarButton>
   );
 }
