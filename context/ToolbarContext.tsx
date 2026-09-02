@@ -59,6 +59,7 @@ const INITIAL_TOOLBAR_STATE = {
   isLowercase: false,
   isUppercase: false,
   isCapitalize: false,
+  checklistStyle: "standard" as "standard" | "strikethrough",
   rootType: "root" as keyof typeof rootTypeToRootName,
 };
 
