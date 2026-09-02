@@ -3,27 +3,33 @@
 import React, { useMemo } from "react";
 
 interface DocumentRulerProps {
-  pageWidth?: number; // default: 816 (8.5in * 96dpi)
-  marginLeft?: number; // default: 96 (1in * 96dpi)
-  marginRight?: number; // default: 96 (1in * 96dpi)
+  pageWidth?: number; // base: 816 (8.5in * 96dpi)
+  marginLeft?: number; // base: 96 (1in * 96dpi)
+  marginRight?: number; // base: 96 (1in * 96dpi)
+  zoomFactor?: number; // 0.5, 0.75, 1.0, 1.5, etc.
 }
 
 /**
  * Pixel-accurate horizontal document ruler matching Google Docs.
- * Dynamically displays inch markings and shaded margin zones based on active page width and margins.
+ * Dynamically expands/contracts physical width and tick spacing with zoom,
+ * while keeping ruler height, number typography, and blue indent markers crisp and fixed.
  */
 export const DocumentRuler: React.FC<DocumentRulerProps> = ({
   pageWidth = 816,
   marginLeft = 96,
   marginRight = 96,
+  zoomFactor = 1.0,
 }) => {
-  const pixelsPerInch = 96;
-  const eighthInch = pixelsPerInch / 8; // 12px
-  const totalInches = pageWidth / pixelsPerInch;
+  const renderedWidth = pageWidth * zoomFactor;
+  const renderedMarginLeft = marginLeft * zoomFactor;
+  const renderedMarginRight = marginRight * zoomFactor;
+  const pixelsPerInch = 96 * zoomFactor;
+  const eighthInch = pixelsPerInch / 8;
+  const totalInches = pageWidth / 96;
 
-  // Generate 1/8 inch tick intervals across the active page width
+  // Generate 1/8 inch tick intervals across the scaled physical width
   const ticks = useMemo(() => {
-    const tickCount = Math.floor(pageWidth / eighthInch);
+    const tickCount = Math.floor(renderedWidth / eighthInch);
     return Array.from({ length: tickCount + 1 }, (_, i) => {
       const position = i * eighthInch;
       const isInch = i % 8 === 0;
@@ -31,10 +37,10 @@ export const DocumentRuler: React.FC<DocumentRulerProps> = ({
       const isQuarterInch = i % 2 === 0 && !isInch && !isHalfInch;
       const inchNumber = isInch ? i / 8 : null;
 
-      let height = "h-1"; // 1/8" tick
-      if (isQuarterInch) height = "h-1.5";
-      if (isHalfInch) height = "h-2";
-      if (isInch) height = "h-2.5";
+      let height = "h-0.75"; // 1/8" tick
+      if (isQuarterInch) height = "h-1.25";
+      if (isHalfInch) height = "h-1.5";
+      if (isInch) height = "h-2";
 
       return {
         index: i,
@@ -44,32 +50,32 @@ export const DocumentRuler: React.FC<DocumentRulerProps> = ({
         height,
       };
     });
-  }, [pageWidth, eighthInch]);
+  }, [renderedWidth, eighthInch]);
 
-  const activeWidth = Math.max(0, pageWidth - marginLeft - marginRight);
+  const activeWidth = Math.max(0, renderedWidth - renderedMarginLeft - renderedMarginRight);
 
   return (
     <div
       aria-hidden="true"
-      className="border-border bg-surface text-muted-foreground relative mx-auto hidden h-6 border-y font-mono text-[10px] transition-all duration-200 select-none md:block"
-      style={{ width: `${pageWidth}px` }}
+      className="border-border bg-surface text-muted-foreground relative mx-auto hidden h-7 border-y font-sans text-[10px] select-none md:block"
+      style={{ width: `${renderedWidth}px` }}
     >
       {/* Left Shaded Margin Zone */}
       <div
-        className="bg-surface-secondary/70 absolute top-0 bottom-0 left-0 border-r border-slate-300/60 transition-all duration-200 dark:border-slate-700/60"
-        style={{ width: `${marginLeft}px` }}
+        className="bg-surface-secondary/70 absolute top-0 bottom-0 left-0"
+        style={{ width: `${renderedMarginLeft}px` }}
       />
 
       {/* Active Content Zone */}
       <div
-        className="bg-surface absolute top-0 bottom-0 transition-all duration-200"
-        style={{ left: `${marginLeft}px`, width: `${activeWidth}px` }}
+        className="bg-surface absolute top-0 bottom-0"
+        style={{ left: `${renderedMarginLeft}px`, width: `${activeWidth}px` }}
       />
 
       {/* Right Shaded Margin Zone */}
       <div
-        className="bg-surface-secondary/70 absolute top-0 right-0 bottom-0 border-l border-slate-300/60 transition-all duration-200 dark:border-slate-700/60"
-        style={{ width: `${marginRight}px` }}
+        className="bg-surface-secondary/70 absolute top-0 right-0 bottom-0"
+        style={{ width: `${renderedMarginRight}px` }}
       />
 
       {/* Ticks and Number Labels */}
@@ -84,7 +90,7 @@ export const DocumentRuler: React.FC<DocumentRulerProps> = ({
               tick.inchNumber !== null &&
               tick.inchNumber > 0 &&
               tick.inchNumber < totalInches && (
-                <span className="text-muted absolute -top-3.5 -translate-x-1/2 text-[9px] leading-none font-medium">
+                <span className="text-foreground absolute -top-2.5 -translate-x-1/2 text-[11px] leading-none font-normal">
                   {tick.inchNumber}
                 </span>
               )}

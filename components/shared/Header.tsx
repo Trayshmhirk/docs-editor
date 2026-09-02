@@ -12,7 +12,7 @@ const Header = ({ children, className }: HeaderProps) => {
     >
       <Link
         href="/"
-        className="flex shrink-0 items-center gap-2.5 transition-opacity hover:opacity-90"
+        className="flex shrink-0 items-center gap-1.5 transition-opacity hover:opacity-90"
       >
         <Image src="/assets/images/logo.png" alt="Logo" width={32} height={32} />
         <span className="text-foreground hidden font-bold tracking-tight sm:inline-block">
