@@ -32,7 +32,7 @@ import Loader from "@/components/shared/Loader";
 import FloatingToolbarPlugin from "./plugins/FloatingToolbarPlugin";
 import { useThreads } from "@liveblocks/react/suspense";
 import Comments from "@/components/liveblocks/Comments";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { ToolbarContext } from "@/context/ToolbarContext";
 import { DocumentLayoutProvider } from "@/context/DocumentLayoutContext";
 import PlaygroundNodes from "./nodes/playgroundNodes";
@@ -42,18 +42,22 @@ import { useSettings } from "@/context/SettingsContext";
 
 import EditorShell from "./EditorShell";
 import TableEscapePlugin from "./plugins/TableEscapePlugin";
+import EditorSanitizerPlugin from "./plugins/EditorSanitizerPlugin";
 
 export function Editor({ roomId, currentUserType }: Editorprops) {
-  const initialConfig = liveblocksConfig({
-    namespace: "MyEditor",
-    nodes: [...PlaygroundNodes],
-    theme: editorTheme,
-    onError: (error: Error) => {
-      console.error(error);
-      throw error;
-    },
-    editable: currentUserType === "editor",
-  });
+  const initialConfig = useMemo(
+    () =>
+      liveblocksConfig({
+        namespace: "MyEditor",
+        nodes: [...PlaygroundNodes],
+        theme: editorTheme,
+        onError: (error: Error) => {
+          console.error("[Lexical Error]:", error);
+        },
+        editable: currentUserType === "editor",
+      }),
+    [currentUserType],
+  );
 
   const {
     settings: { hasLinkAttributes },
@@ -99,46 +103,46 @@ export function Editor({ roomId, currentUserType }: Editorprops) {
             </div>
 
             <EditorShell>
-              {ready ? (
-                <>
-                  <RichTextPlugin
-                    contentEditable={
-                      <div className="editor relative min-h-full" ref={onRef}>
-                        <ContentEditable className="editor-input text-foreground relative min-h-175 caret-current outline-none" />
-                      </div>
-                    }
-                    placeholder={
-                      <div className="editor-placeholder text-muted pointer-events-none absolute top-24 left-24 inline-block text-sm select-none max-md:top-6 max-md:left-4">
-                        Enter some rich text...
-                      </div>
-                    }
-                    ErrorBoundary={LexicalErrorBoundary}
-                  />
-                  {currentUserType === "editor" && <FloatingToolbarPlugin />}
-                  <HistoryPlugin />
-                  <AutoFocusPlugin />
-                  <ListPlugin />
-                  <CheckListPlugin />
-                  <CodeHighlightPlugin />
-                  <TablePlugin />
-                  <TableEscapePlugin />
-                  {floatingAnchorElem && !isSmallWidthViewport && (
-                    <>
-                      <CodeActionMenuPlugin anchorElem={floatingAnchorElem} />
-                      <FloatingLinkEditorPlugin
-                        anchorElem={floatingAnchorElem}
-                        isLinkEditMode={isLinkEditMode}
-                        setIsLinkEditMode={setIsLinkEditMode}
-                      />
-                    </>
-                  )}
-                  <LinkPlugin hasLinkAttributes={hasLinkAttributes} />
-                </>
-              ) : (
-                <div className="flex min-h-100 items-center justify-center">
-                  <Loader />
-                </div>
-              )}
+              <div className="relative min-h-full">
+                {!ready && (
+                  <div className="bg-surface/80 absolute inset-0 z-30 flex items-center justify-center backdrop-blur-xs">
+                    <Loader />
+                  </div>
+                )}
+                <RichTextPlugin
+                  contentEditable={
+                    <div className="editor relative min-h-full" ref={onRef}>
+                      <ContentEditable className="editor-input text-foreground relative min-h-175 caret-current outline-none" />
+                    </div>
+                  }
+                  placeholder={
+                    <div className="editor-placeholder text-muted pointer-events-none absolute top-24 left-24 inline-block text-sm select-none max-md:top-6 max-md:left-4">
+                      Enter some rich text...
+                    </div>
+                  }
+                  ErrorBoundary={LexicalErrorBoundary}
+                />
+                {currentUserType === "editor" && <FloatingToolbarPlugin />}
+                <HistoryPlugin />
+                <AutoFocusPlugin />
+                <EditorSanitizerPlugin />
+                <ListPlugin />
+                <CheckListPlugin />
+                <CodeHighlightPlugin />
+                <TablePlugin />
+                <TableEscapePlugin />
+                {floatingAnchorElem && !isSmallWidthViewport && (
+                  <>
+                    <CodeActionMenuPlugin anchorElem={floatingAnchorElem} />
+                    <FloatingLinkEditorPlugin
+                      anchorElem={floatingAnchorElem}
+                      isLinkEditMode={isLinkEditMode}
+                      setIsLinkEditMode={setIsLinkEditMode}
+                    />
+                  </>
+                )}
+                <LinkPlugin hasLinkAttributes={hasLinkAttributes} />
+              </div>
 
               {/* liveblocks plugin */}
               <LiveblocksPlugin>

@@ -21,6 +21,7 @@ comment threads beside the page.
 | 2.3     | Advanced Toolbar & Formatting Expansion                 | Large  |
 | 2.3.A   | Shadcn UI standardization & modular folder architecture | Medium |
 | 2.3.B   | Toolbar strip layout alignment & overflow management    | Medium |
+| 2.3.C   | Google Docs multi-page pagination & continuous canvas   | Large  |
 | 2.4     | Curated Insert menu & table architecture                | Large  |
 | 2.5     | Comment thread spatial anchoring                        | Small  |
 | 2.6     | Document outline sidebar                                | Medium |
@@ -350,6 +351,33 @@ Align the primary editor ribbon with the Google Docs layout hierarchy, eliminati
    - Checklist Dropdown (2 visual cards: Strike vs No-Strike).
    - Bulleted List Dropdown (6 visual card grids: Disc, Circle, Square, Diamond, Star, Arrow).
    - Numbered List Dropdown (6 visual card grids: Decimal, Alpha, Roman, Nested).
+
+---
+
+## 2.3.C Google Docs Multi-Page Pagination & Continuous Canvas Architecture
+
+Elevate the editor canvas from a single static height container into an authentic Google Docs book-like pagination system.
+
+### Core Anatomy
+
+1. **Pages Mode (Default Google Docs Layout):**
+   - Renders discrete sheets of paper (816px x 1056px for Letter, 794px x 1123px for A4).
+   - Dynamically calculates the number of pages required based on the editor's active content height:
+     $$\text{pageCount} = \max\left(1, \left\lceil \frac{\text{contentHeight}}{\text{pageHeight} - (\text{pagePaddingY} \times 2)} \right\rceil\right)$$
+   - Between pages, renders a visual page break gutter (16px gray desk background space with drop shadows and page boundaries), treating each page like a physical sheet in a binder/book.
+   - Text overflows smoothly across page boundaries while maintaining paragraph integrity and click-to-focus caret navigation.
+2. **Pageless Mode (Fluid Continuous Canvas):**
+   - White paper container dynamically expands downwards with content (`min-h-full h-auto`).
+   - Ensures text never overflows outside the white canvas into the gray viewport background.
+3. **Chromium `zoom` Resolution:**
+   - Eliminate CSS `zoom` layout bugs that cause Chromium to freeze container dimensions during typing, ensuring container height and page sheets always stay synchronized with live keystrokes.
+
+### Checklist for 2.3.C
+
+- [ ] Measure content height dynamically with a debounced `ResizeObserver` on the editor input.
+- [ ] Build a multi-page background sheet renderer in `EditorShell.tsx` that generates $N$ page cards separated by 16px desk gutters in Pages mode.
+- [ ] Ensure Pageless mode dynamically expands without clipping or text escaping the white paper.
+- [ ] Verify live typing, Enter key, and Backspace work seamlessly across page transitions.
 
 ---
 
