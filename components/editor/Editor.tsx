@@ -43,6 +43,9 @@ import { useSettings } from "@/context/SettingsContext";
 import EditorShell from "./EditorShell";
 import TableEscapePlugin from "./plugins/TableEscapePlugin";
 import EditorSanitizerPlugin from "./plugins/EditorSanitizerPlugin";
+import { HorizontalRulePlugin } from "@lexical/react/LexicalHorizontalRulePlugin";
+import { PageBreakPlugin } from "./plugins/PageBreakPlugin";
+import MenuBar from "./menubar/MenuBar";
 
 export function Editor({ roomId, currentUserType }: Editorprops) {
   const initialConfig = useMemo(
@@ -98,6 +101,7 @@ export function Editor({ roomId, currentUserType }: Editorprops) {
       <DocumentLayoutProvider>
         <ToolbarContext>
           <div className="bg-surface-canvas text-foreground flex size-full flex-1 flex-col overflow-hidden text-left leading-5">
+            <MenuBar />
             <div className="toolbar-wrapper border-border z-20 flex min-h-11 min-w-full items-center justify-between gap-4 border-b">
               <ToolbarPlugin setIsLinkEditMode={setIsLinkEditMode} />
             </div>
@@ -131,6 +135,8 @@ export function Editor({ roomId, currentUserType }: Editorprops) {
                 <CodeHighlightPlugin />
                 <TablePlugin />
                 <TableEscapePlugin />
+                <HorizontalRulePlugin />
+                <PageBreakPlugin />
                 {floatingAnchorElem && !isSmallWidthViewport && (
                   <>
                     <CodeActionMenuPlugin anchorElem={floatingAnchorElem} />
