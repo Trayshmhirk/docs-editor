@@ -33,7 +33,6 @@ import {
   Table as TableIcon,
   Underline,
 } from "lucide-react";
-import { INSERT_TABLE_COMMAND } from "@lexical/table";
 import CustomToolbarButton from "@/components/ui/custom/CustomToolbarButton";
 import {
   CustomDropdown,
@@ -65,6 +64,12 @@ import {
 import FormatDropdown from "./dropdowns/FormatDropdown";
 import ClearFormattingButton from "./dropdowns/ClearFormattingButton";
 import PageLayoutDropdown from "./dropdowns/PageLayoutDropdown";
+import {
+  CustomPopover,
+  CustomPopoverTrigger,
+  CustomPopoverContent,
+} from "@/components/ui/custom/CustomPopover";
+import { TableGridPicker } from "./dropdowns/TableGridPicker";
 
 const LowPriority = 1;
 
@@ -84,6 +89,7 @@ export default function ToolbarPlugin({
 
   const [canUndo, setCanUndo] = useState(false);
   const [canRedo, setCanRedo] = useState(false);
+  const [isTablePickerOpen, setIsTablePickerOpen] = useState(false);
 
   const [selectedElementKey, setSelectedElementKey] = useState<NodeKey | null>(null);
 
@@ -287,14 +293,6 @@ export default function ToolbarPlugin({
     }
   }, [editor, setIsLinkEditMode, toolbarState.isLink]);
 
-  const insertTable = useCallback(() => {
-    editor.dispatchCommand(INSERT_TABLE_COMMAND, {
-      columns: "3",
-      rows: "3",
-      includeHeaders: false,
-    });
-  }, [editor]);
-
   const handlePrint = useCallback(() => {
     if (typeof window !== "undefined") {
       window.print();
@@ -413,9 +411,20 @@ export default function ToolbarPlugin({
         <Link className="format icon size-4 rotate-45 transform" />
       </CustomToolbarButton>
 
-      <CustomToolbarButton disabled={!isEditable} onClick={insertTable} tooltip="Insert Table">
-        <TableIcon className="format icon size-4" />
-      </CustomToolbarButton>
+      <CustomPopover open={isTablePickerOpen} onOpenChange={setIsTablePickerOpen}>
+        <CustomPopoverTrigger asChild>
+          <CustomToolbarButton
+            disabled={!isEditable}
+            tooltip="Insert Table"
+            isActive={isTablePickerOpen}
+          >
+            <TableIcon className="format icon size-4" />
+          </CustomToolbarButton>
+        </CustomPopoverTrigger>
+        <CustomPopoverContent sideOffset={4} align="start">
+          <TableGridPicker onClose={() => setIsTablePickerOpen(false)} />
+        </CustomPopoverContent>
+      </CustomPopover>
     </div>
   );
 

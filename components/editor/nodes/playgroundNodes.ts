@@ -9,6 +9,7 @@ import { OverflowNode } from "@lexical/overflow";
 import { HorizontalRuleNode } from "@lexical/react/LexicalHorizontalRuleNode";
 import { HeadingNode, QuoteNode } from "@lexical/rich-text";
 import { TableCellNode, TableNode, TableRowNode } from "@lexical/table";
+import { PageBreakNode } from "./PageBreakNode";
 
 const PlaygroundNodes: Array<Klass<LexicalNode>> = [
   HeadingNode,
@@ -25,6 +26,7 @@ const PlaygroundNodes: Array<Klass<LexicalNode>> = [
   LinkNode,
   OverflowNode,
   HorizontalRuleNode,
+  PageBreakNode,
   MarkNode,
 ];
 
