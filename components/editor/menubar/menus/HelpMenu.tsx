@@ -52,7 +52,7 @@ export const HelpMenu: React.FC<HelpMenuProps> = ({ disabled }) => {
         <CustomDropdownItem
           className="px-3 py-2 text-sm"
           onClick={() => {
-            window.open("https://github.com/Trayshmhirk/docs-editor", "_blank");
+            window.open("https://github.com/platenhq/platen", "_blank");
             setOpen(false);
           }}
         >

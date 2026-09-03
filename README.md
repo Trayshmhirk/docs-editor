@@ -1,6 +1,6 @@
-# Docs Editor
+# Platen
 
-[![CI](https://github.com/Trayshmhirk/docs-editor/actions/workflows/ci.yml/badge.svg)](https://github.com/Trayshmhirk/docs-editor/actions/workflows/ci.yml)
+[![CI](https://github.com/platenhq/platen/actions/workflows/ci.yml/badge.svg)](https://github.com/platenhq/platen/actions/workflows/ci.yml)
 
 A modern, real-time collaborative rich-text document editor built with Next.js, Lexical, Liveblocks, and Clerk.
 
@@ -30,8 +30,8 @@ A modern, real-time collaborative rich-text document editor built with Next.js, 
 1. **Clone the repository:**
 
    ```bash
-   git clone https://github.com/Trayshmhirk/docs-editor.git
-   cd docs-editor
+   git clone https://github.com/platenhq/platen.git
+   cd platen
    ```
 
 2. **Install dependencies:**

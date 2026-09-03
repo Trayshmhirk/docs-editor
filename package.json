@@ -1,7 +1,18 @@
 {
-  "name": "docs-editor",
+  "name": "platen",
   "version": "0.1.3",
   "private": true,
+  "description": "Enterprise-grade collaborative document editor",
+  "author": "Platen Authors (Trayshmhirk)",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/platenhq/platen.git"
+  },
+  "homepage": "https://github.com/platenhq/platen#readme",
+  "bugs": {
+    "url": "https://github.com/platenhq/platen/issues"
+  },
   "engines": {
     "node": ">=24.0.0"
   },
