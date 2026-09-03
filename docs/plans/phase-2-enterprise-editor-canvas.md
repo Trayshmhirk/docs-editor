@@ -386,9 +386,27 @@ Elevate the editor canvas from a single static height container into an authenti
 
 ---
 
-## 2.4 Curated Insert Menu & Enterprise Table Architecture
+## 2.4 Application Menu Bar & Curated Insert Architecture
 
-Google Docs organizes block creation and tables into an intuitive Insert dropdown and dynamic cell context controls. We expand Section 2.4 to cover both the curated **Insert Menu** and the full-featured **Google Docs-Grade Table Experience** (interactive grid dimension picker, cell context actions, drag-to-resize borders, and keyboard tab navigation).
+Google Docs and Microsoft Word organize high-level document actions into a primary **Menu Bar** and an intuitive **Insert** experience. We anchor the application Menu Bar (`File`, `Edit`, `View`, `Insert`, `Format`, `Tools`, `Help`) directly above the formatting toolbar ribbon, adopting the Google Docs dropdown paradigm so text formatting controls remain permanently visible while providing organized document-level action menus.
+
+### 2.4.0 Application Menu Bar Strip (Google Docs Paradigm)
+
+Housed directly above the formatting toolbar ribbon, the Menu Bar provides clean, accessible dropdown triggers for document-level operations:
+
+```txt
+┌────────────────────────────────────────────────────────────────────────────────────────┐
+│ File  Edit  View  Insert  Format  Tools  Help                                          │
+└────────────────────────────────────────────────────────────────────────────────────────┘
+```
+
+1. **`File`**: New document, Share, Download (PDF, Plain Text), Print (`window.print()`), Page Setup.
+2. **`Edit`**: Undo (`UNDO_COMMAND`), Redo (`REDO_COMMAND`), Select All.
+3. **`View`**: Mode Switcher (Pages vs. Pageless), Show/Hide Ruler, Zoom presets.
+4. **`Insert`**: Curated block insertion dropdown (Table grid picker, Image, Horizontal line, Page break, Code block).
+5. **`Format`**: Text styling shortcuts (Bold, Italic, Underline, Strikethrough, Superscript, Subscript, Clear formatting).
+6. **`Tools`**: Word count dialog / statistics, Keyboard shortcuts.
+7. **`Help`**: Keyboard shortcuts guide, Documentation.
 
 ### 2.4.1 Interactive Table Grid Dimension Picker
 
@@ -472,14 +490,15 @@ Insert
 
 ### Checklist for Section 2.4
 
-- [ ] Standardize the component layer by implementing `CustomToolbarButton`, `CustomDropdown`, `CustomPopover`, and `CustomModal` in `components/ui/custom/`
-- [ ] Consolidate toolbar controls into `components/editor/plugins/toolbarPlugin/dropdowns/`
-- [ ] Build `InsertDropdown` toolbar component with grouped sections and keyboard-accessible menu items
+- [x] Standardize the component layer by implementing `CustomToolbarButton`, `CustomDropdown`, `CustomPopover`, and `CustomModal` in `components/ui/custom/`
+- [x] Consolidate toolbar controls into `components/editor/plugins/toolbarPlugin/dropdowns/`
+- [ ] Build `MenuBar` component with `File`, `Edit`, `View`, `Insert`, `Format`, `Tools`, `Help` dropdown triggers in `components/editor/menubar/MenuBar.tsx`
+- [ ] Build `InsertMenu` and `InsertDropdown` toolbar components with grouped sections and keyboard-accessible menu items
 - [ ] Build interactive `TableGridPicker` component with an $8\times 8$ dimension matrix and live label
 - [ ] Implement `TableCellActionMenuPlugin` for inserting/deleting rows, columns, and tables
 - [ ] Implement `TableCellResizerPlugin` for drag-to-resize column widths and row heights
 - [ ] Implement Table Contextual Toolbar (Fill Color, Border Color, Border Width) in the on-click `⋮` More Options overflow strip
-- [ ] Maintain `TableEscapePlugin` for automatic paragraph buffers and Tab/Arrow navigation
+- [x] Maintain `TableEscapePlugin` for automatic paragraph buffers and Tab/Arrow navigation
 - [ ] Implement `ImageNode` (Decorator): upload dialog to file or URL; resize handle overlay on selection
 - [ ] Wire `HorizontalRuleNode` from `@lexical/react` as an insert action
 - [ ] Implement `CalloutNode` (Decorator): styled block with icon (info / warning / tip) and editable text
@@ -490,12 +509,8 @@ Insert
 ### Files to modify for Section 2.4
 
 ```txt
-components/ui/custom/CustomToolbarButton.tsx                                   [NEW]
-components/ui/custom/CustomDropdown.tsx                                        [NEW]
-components/ui/custom/CustomPopover.tsx                                         [NEW]
-components/ui/custom/CustomModal.tsx                                           [NEW]
-components/editor/plugins/toolbarPlugin/ToolbarPlugin.tsx
-components/editor/plugins/toolbarPlugin/dropdowns/InsertDropdown.tsx            [NEW]
+components/editor/menubar/MenuBar.tsx                                          [NEW]
+components/editor/menubar/menus/InsertMenu.tsx                                 [NEW]
 components/editor/plugins/toolbarPlugin/dropdowns/TableGridPicker.tsx          [NEW]
 components/editor/plugins/toolbarPlugin/dropdowns/TableContextualToolbar.tsx   [NEW]
 components/editor/plugins/TableCellActionMenuPlugin.tsx                        [NEW]
@@ -507,6 +522,7 @@ components/editor/nodes/PageBreakNode.tsx                                      [
 components/editor/nodes/YouTubeNode.tsx                                        [NEW]
 components/editor/nodes/TweetNode.tsx                                          [NEW]
 components/editor/Editor.tsx
+components/editor/plugins/toolbarPlugin/ToolbarPlugin.tsx
 styles/editor/index.css
 ```
 
