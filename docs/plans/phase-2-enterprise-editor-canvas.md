@@ -480,10 +480,10 @@ Insert
 | Insert Item     | Lexical Mechanism                     | Status   |
 | --------------- | ------------------------------------- | -------- |
 | Image           | Custom `ImageNode` (Decorator)        | To build |
-| Horizontal Rule | `HorizontalRuleNode` (@lexical/react) | To wire  |
+| Horizontal Rule | `HorizontalRuleNode` (@lexical/react) | Done     |
 | Table           | `@lexical/table`                      | Enhanced |
 | Callout Block   | Custom `CalloutNode` (Decorator)      | To build |
-| Page Break      | Custom `PageBreakNode` (Decorator)    | To build |
+| Page Break      | Custom `PageBreakNode` (Decorator)    | Done     |
 | YouTube Embed   | Custom `YouTubeNode` (Decorator)      | To build |
 | Tweet Embed     | Custom `TweetNode` (Decorator)        | To build |
 | Code Block      | `@lexical/code`                       | Exists   |
@@ -492,17 +492,17 @@ Insert
 
 - [x] Standardize the component layer by implementing `CustomToolbarButton`, `CustomDropdown`, `CustomPopover`, and `CustomModal` in `components/ui/custom/`
 - [x] Consolidate toolbar controls into `components/editor/plugins/toolbarPlugin/dropdowns/`
-- [ ] Build `MenuBar` component with `File`, `Edit`, `View`, `Insert`, `Format`, `Tools`, `Help` dropdown triggers in `components/editor/menubar/MenuBar.tsx`
-- [ ] Build `InsertMenu` and `InsertDropdown` toolbar components with grouped sections and keyboard-accessible menu items
-- [ ] Build interactive `TableGridPicker` component with an $8\times 8$ dimension matrix and live label
+- [x] Build `MenuBar` component with `File`, `Edit`, `View`, `Insert`, `Format`, `Tools`, `Help` dropdown triggers in `components/editor/menubar/MenuBar.tsx`
+- [x] Build `InsertMenu` and `InsertDropdown` toolbar components with grouped sections and keyboard-accessible menu items
+- [x] Build interactive `TableGridPicker` component with an $8\times 8$ dimension matrix and live label
 - [ ] Implement `TableCellActionMenuPlugin` for inserting/deleting rows, columns, and tables
 - [ ] Implement `TableCellResizerPlugin` for drag-to-resize column widths and row heights
 - [ ] Implement Table Contextual Toolbar (Fill Color, Border Color, Border Width) in the on-click `⋮` More Options overflow strip
 - [x] Maintain `TableEscapePlugin` for automatic paragraph buffers and Tab/Arrow navigation
 - [ ] Implement `ImageNode` (Decorator): upload dialog to file or URL; resize handle overlay on selection
-- [ ] Wire `HorizontalRuleNode` from `@lexical/react` as an insert action
+- [x] Wire `HorizontalRuleNode` from `@lexical/react` as an insert action
 - [ ] Implement `CalloutNode` (Decorator): styled block with icon (info / warning / tip) and editable text
-- [ ] Implement `PageBreakNode` (Decorator): renders as a visual dashed rule across the canvas
+- [x] Implement `PageBreakNode` (Decorator): renders as a visual dashed rule across the canvas
 - [ ] Implement `YouTubeNode` and `TweetNode` decorator embeds
 - [ ] All custom nodes must serialize to/from Lexical JSON correctly for Liveblocks persistence
 
