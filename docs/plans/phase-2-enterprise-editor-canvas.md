@@ -21,10 +21,12 @@ comment threads beside the page.
 | 2.3     | Advanced Toolbar & Formatting Expansion                 | Large  |
 | 2.3.A   | Shadcn UI standardization & modular folder architecture | Medium |
 | 2.3.B   | Toolbar strip layout alignment & overflow management    | Medium |
+| 2.3.C   | Google Docs multi-page pagination & continuous canvas   | Large  |
 | 2.4     | Curated Insert menu & table architecture                | Large  |
-| 2.5     | Comment thread spatial anchoring                        | Small  |
-| 2.6     | Document outline sidebar                                | Medium |
-| 2.7     | Home dashboard document previews                        | Medium |
+| 2.5     | Platen Engine hybrid multi-sheet canvas integration     | Large  |
+| 2.6     | Comment thread spatial anchoring                        | Small  |
+| 2.7     | Document outline sidebar                                | Medium |
+| 2.8     | Home dashboard document previews                        | Medium |
 
 ---
 
@@ -353,9 +355,59 @@ Align the primary editor ribbon with the Google Docs layout hierarchy, eliminati
 
 ---
 
-## 2.4 Curated Insert Menu & Enterprise Table Architecture
+## 2.3.C Google Docs Multi-Page Pagination & Continuous Canvas Architecture
 
-Google Docs organizes block creation and tables into an intuitive Insert dropdown and dynamic cell context controls. We expand Section 2.4 to cover both the curated **Insert Menu** and the full-featured **Google Docs-Grade Table Experience** (interactive grid dimension picker, cell context actions, drag-to-resize borders, and keyboard tab navigation).
+Elevate the editor canvas from a single static height container into an authentic Google Docs book-like pagination system with continuous paper canvas, dynamic page calculation, and dashed page boundary indicators.
+
+### Core Anatomy
+
+1. **Pages Mode (Continuous Paper Canvas with Google Docs Page Dividers):**
+   - Renders a continuous paper sheet (816px x 1056px for Letter, 794px x 1123px for A4) on a desk background with subtle drop shadows and borders.
+   - Dynamically calculates total page count based on active editor content height using a pure read-only, debounced `ResizeObserver`:
+     $$\text{pageCount} = \max\left(1, \left\lceil \frac{\text{contentHeight}}{\text{pageHeight} - (\text{pagePaddingY} \times 2)} \right\rceil\right)$$
+   - At exact standard page intervals (1056px for Letter), renders visual Google Docs-style dashed page dividers (`.page-break-divider`) with right-aligned page number badges (`Page 2`, `Page 3`), giving authors clear spatial orientation without layout thrashing.
+   - Guarantees 60fps typing, zero layout pendulums, zero flickering, and zero AST mutation conflicts in collaborative Liveblocks sessions.
+2. **Pageless Mode (Fluid Continuous Canvas):**
+   - 100% fluid edge-to-edge canvas with zero fixed width clamps (`.page-canvas-pageless`) and comfortable responsive horizontal padding.
+   - Viewport background dynamically matches paper background (`bg-surface`) with zero card borders or gray desk boxing, matching Google Docs Pageless.
+3. **Chromium `zoom` Resolution:**
+   - Sized the zoom factor conditionally (`zoom: zoomFactor !== 1 ? zoomFactor : undefined`) to prevent Chromium's layout engine from freezing container dimensions during typing.
+4. **Standalone Dedicated Engine Blueprint (`@trayshmhirk/paged-engine`):**
+   - Comprehensive forensic research of Microsoft Word Online completed and documented in the agent knowledge base.
+   - Standalone open-source repository initialized to build the full 6-layer Hybrid Micro-Canvas Track Engine with discrete page margin slicing for future plug-and-play integration.
+
+### Checklist for 2.3.C
+
+- [x] Measure content height dynamically with a debounced read-only `ResizeObserver` on the editor input.
+- [x] Build continuous multi-page paper canvas with Google Docs-style dashed page break dividers and page badges in `EditorShell.tsx`.
+- [x] Ensure Pageless mode dynamically expands without clipping or text escaping the white paper.
+- [x] Resolve Chromium `zoom` dimension freezing with conditional zoom application.
+- [x] Verify live typing, Enter key, and Backspace work seamlessly with 100% stability and zero layout flickering.
+- [x] Document the 6-layer Hybrid Micro-Canvas Track architecture for the dedicated standalone pagination package.
+
+---
+
+## 2.4 Application Menu Bar & Curated Insert Architecture
+
+Google Docs and Microsoft Word organize high-level document actions into a primary **Menu Bar** and an intuitive **Insert** experience. We anchor the application Menu Bar (`File`, `Edit`, `View`, `Insert`, `Format`, `Tools`, `Help`) directly above the formatting toolbar ribbon, adopting the Google Docs dropdown paradigm so text formatting controls remain permanently visible while providing organized document-level action menus.
+
+### 2.4.0 Application Menu Bar Strip (Google Docs Paradigm)
+
+Housed directly above the formatting toolbar ribbon, the Menu Bar provides clean, accessible dropdown triggers for document-level operations:
+
+```txt
+┌────────────────────────────────────────────────────────────────────────────────────────┐
+│ File  Edit  View  Insert  Format  Tools  Help                                          │
+└────────────────────────────────────────────────────────────────────────────────────────┘
+```
+
+1. **`File`**: New document, Share, Download (PDF, Plain Text), Print (`window.print()`), Page Setup.
+2. **`Edit`**: Undo (`UNDO_COMMAND`), Redo (`REDO_COMMAND`), Select All.
+3. **`View`**: Mode Switcher (Pages vs. Pageless), Show/Hide Ruler, Zoom presets.
+4. **`Insert`**: Curated block insertion dropdown (Table grid picker, Image, Horizontal line, Page break, Code block).
+5. **`Format`**: Text styling shortcuts (Bold, Italic, Underline, Strikethrough, Superscript, Subscript, Clear formatting).
+6. **`Tools`**: Word count dialog / statistics, Keyboard shortcuts.
+7. **`Help`**: Keyboard shortcuts guide, Documentation.
 
 ### 2.4.1 Interactive Table Grid Dimension Picker
 
@@ -429,40 +481,37 @@ Insert
 | Insert Item     | Lexical Mechanism                     | Status   |
 | --------------- | ------------------------------------- | -------- |
 | Image           | Custom `ImageNode` (Decorator)        | To build |
-| Horizontal Rule | `HorizontalRuleNode` (@lexical/react) | To wire  |
+| Horizontal Rule | `HorizontalRuleNode` (@lexical/react) | Done     |
 | Table           | `@lexical/table`                      | Enhanced |
 | Callout Block   | Custom `CalloutNode` (Decorator)      | To build |
-| Page Break      | Custom `PageBreakNode` (Decorator)    | To build |
+| Page Break      | Custom `PageBreakNode` (Decorator)    | Done     |
 | YouTube Embed   | Custom `YouTubeNode` (Decorator)      | To build |
 | Tweet Embed     | Custom `TweetNode` (Decorator)        | To build |
 | Code Block      | `@lexical/code`                       | Exists   |
 
 ### Checklist for Section 2.4
 
-- [ ] Standardize the component layer by implementing `CustomToolbarButton`, `CustomDropdown`, `CustomPopover`, and `CustomModal` in `components/ui/custom/`
-- [ ] Consolidate toolbar controls into `components/editor/plugins/toolbarPlugin/dropdowns/`
-- [ ] Build `InsertDropdown` toolbar component with grouped sections and keyboard-accessible menu items
-- [ ] Build interactive `TableGridPicker` component with an $8\times 8$ dimension matrix and live label
+- [x] Standardize the component layer by implementing `CustomToolbarButton`, `CustomDropdown`, `CustomPopover`, and `CustomModal` in `components/ui/custom/`
+- [x] Consolidate toolbar controls into `components/editor/plugins/toolbarPlugin/dropdowns/`
+- [x] Build `MenuBar` component with `File`, `Edit`, `View`, `Insert`, `Format`, `Tools`, `Help` dropdown triggers in `components/editor/menubar/MenuBar.tsx`
+- [x] Build `InsertMenu` and `InsertDropdown` toolbar components with grouped sections and keyboard-accessible menu items
+- [x] Build interactive `TableGridPicker` component with an $8\times 8$ dimension matrix and live label
 - [ ] Implement `TableCellActionMenuPlugin` for inserting/deleting rows, columns, and tables
 - [ ] Implement `TableCellResizerPlugin` for drag-to-resize column widths and row heights
 - [ ] Implement Table Contextual Toolbar (Fill Color, Border Color, Border Width) in the on-click `⋮` More Options overflow strip
-- [ ] Maintain `TableEscapePlugin` for automatic paragraph buffers and Tab/Arrow navigation
+- [x] Maintain `TableEscapePlugin` for automatic paragraph buffers and Tab/Arrow navigation
 - [ ] Implement `ImageNode` (Decorator): upload dialog to file or URL; resize handle overlay on selection
-- [ ] Wire `HorizontalRuleNode` from `@lexical/react` as an insert action
+- [x] Wire `HorizontalRuleNode` from `@lexical/react` as an insert action
 - [ ] Implement `CalloutNode` (Decorator): styled block with icon (info / warning / tip) and editable text
-- [ ] Implement `PageBreakNode` (Decorator): renders as a visual dashed rule across the canvas
+- [x] Implement `PageBreakNode` (Decorator): renders as a visual dashed rule across the canvas
 - [ ] Implement `YouTubeNode` and `TweetNode` decorator embeds
 - [ ] All custom nodes must serialize to/from Lexical JSON correctly for Liveblocks persistence
 
 ### Files to modify for Section 2.4
 
 ```txt
-components/ui/custom/CustomToolbarButton.tsx                                   [NEW]
-components/ui/custom/CustomDropdown.tsx                                        [NEW]
-components/ui/custom/CustomPopover.tsx                                         [NEW]
-components/ui/custom/CustomModal.tsx                                           [NEW]
-components/editor/plugins/toolbarPlugin/ToolbarPlugin.tsx
-components/editor/plugins/toolbarPlugin/dropdowns/InsertDropdown.tsx            [NEW]
+components/editor/menubar/MenuBar.tsx                                          [NEW]
+components/editor/menubar/menus/InsertMenu.tsx                                 [NEW]
 components/editor/plugins/toolbarPlugin/dropdowns/TableGridPicker.tsx          [NEW]
 components/editor/plugins/toolbarPlugin/dropdowns/TableContextualToolbar.tsx   [NEW]
 components/editor/plugins/TableCellActionMenuPlugin.tsx                        [NEW]
@@ -474,12 +523,77 @@ components/editor/nodes/PageBreakNode.tsx                                      [
 components/editor/nodes/YouTubeNode.tsx                                        [NEW]
 components/editor/nodes/TweetNode.tsx                                          [NEW]
 components/editor/Editor.tsx
+components/editor/plugins/toolbarPlugin/ToolbarPlugin.tsx
 styles/editor/index.css
 ```
 
 ---
 
-## 2.5 Comment Thread Spatial Anchoring
+## 2.5 Platen Engine Hybrid Multi-Sheet Canvas Integration
+
+Connect the dedicated `@platen/engine` library into Platen as a high-fidelity, discrete multi-sheet layout mode. While **Pages Mode** (Section 2.3.C) provides continuous, low-latency DOM typing with visual dashed dividers, **Platen Engine Mode** brings true desktop publishing fidelity by slicing text runs into discrete physical paper sheets with absolute line tracking and strict CSS containment (`contain: strict`).
+
+### Core Architectural Synergy
+
+```txt
+┌────────────────────────────────────────────────────────────────────────┐
+│                        Liveblocks Lexical Composer                     │
+│               (Single Source of Truth / Collaborative AST)             │
+└──────────────────────────────────┬─────────────────────────────────────┘
+                                   │ Updates / AST
+                                   ▼
+┌────────────────────────────────────────────────────────────────────────┐
+│                        LexicalAdapter (@platen/engine)                 │
+│               (Extracts ParagraphBlocks, TextRuns, Bitmasks)           │
+└──────────────────────────────────┬─────────────────────────────────────┘
+                                   │ Batching via rAF
+                                   ▼
+┌────────────────────────────────────────────────────────────────────────┐
+│                      PagedEngineBridge (@platen/engine)                │
+│                 (Offscreen MetricEngine -> LayoutSlicer)               │
+└──────────────────────────────────┬─────────────────────────────────────┘
+                                   │ PageSlice[]
+                                   ▼
+┌────────────────────────────────────────────────────────────────────────┐
+│                     PlatenEngineCanvas / PagedDesk                     │
+│         [ PagedSheet 1 ]      [ PagedSheet 2 ]      [ PagedSheet N ]   │
+│         (contain: strict)     (contain: strict)     (contain: strict)  │
+└────────────────────────────────────────────────────────────────────────┘
+```
+
+### View Mode Integration
+
+In `ViewMenu.tsx`, authors can seamlessly toggle between three document presentations:
+
+1. **Pages (Continuous DOM Canvas):** Continuous DOM canvas with standard Google Docs-style dashed page dividers and badges. Ideal for rapid composition and rich interactive tables.
+2. **Pageless Mode:** Fluid edge-to-edge canvas matching Google Docs Pageless.
+3. **Platen Engine (Multi-Sheet):** Print-faithful multi-sheet rendering using `@platen/engine`. Each sheet is an isolated container where paragraphs wrap across page boundaries with sub-pixel typography.
+
+### Checklist for Section 2.5
+
+- [ ] Add `@platen/engine` to `package.json` dependencies
+- [ ] Implement `PagedEditorPlugin.tsx` connecting the Lexical editor state to `PagedEngineBridge` via `LexicalAdapter`
+- [ ] Build `PlatenEngineCanvas.tsx` hosting `PagedDesk` and rendering reactive `PagedSheet` components
+- [ ] Extend `DocumentLayoutContext` to support `'pages' | 'pageless' | 'paged-engine'` view modes
+- [ ] Update `ViewMenu.tsx` to include an active checkmark toggle for **Platen Engine (Multi-Sheet)**
+- [ ] Synchronize zoom and document dimensions between `PagedDesk` and the document ruler
+- [ ] Verify zero collaborative mutation loops between Liveblocks Yjs sync and `PagedEngineBridge`
+
+### Files to modify for Section 2.5
+
+```txt
+package.json
+context/DocumentLayoutContext.tsx
+components/editor/menubar/menus/ViewMenu.tsx
+components/editor/plugins/PagedEditorPlugin.tsx      [NEW]
+components/editor/PlatenEngineCanvas.tsx             [NEW]
+components/editor/EditorShell.tsx
+styles/editor/index.css
+```
+
+---
+
+## 2.6 Comment Thread Spatial Anchoring
 
 Liveblocks `FloatingThreads` currently renders comment threads as overlays attached to selected text. The enterprise pattern — as seen in Google Docs — is to anchor threads to the right margin of the page, vertically aligned with the text they annotate.
 
@@ -514,7 +628,7 @@ styles/editor/index.css
 
 ---
 
-## 2.6 Document Outline Sidebar
+## 2.7 Document Outline Sidebar
 
 A collapsible left sidebar that reads heading nodes (H1, H2, H3) from the Lexical editor state and renders a navigable outline. Clicking an entry smoothly scrolls the page canvas to the corresponding heading.
 
@@ -539,7 +653,7 @@ components/ui/shared/Header.tsx
 
 ---
 
-## 2.7 Home Dashboard Document Preview Thumbnails
+## 2.8 Home Dashboard Document Preview Thumbnails
 
 > **Context:** Phase 1.5 ships a simulated page thumbnail (decorative placeholder lines). This section upgrades those cards to show real document content.
 

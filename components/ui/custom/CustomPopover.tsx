@@ -18,7 +18,7 @@ const CustomPopoverContent = React.forwardRef<
       onOpenAutoFocus?.(e);
     }}
     className={cn(
-      "border-border bg-surface text-foreground z-60 w-auto rounded-lg border p-1.5 shadow-xl outline-none select-none",
+      "border-border bg-surface text-foreground z-50 w-auto rounded-lg border p-1.5 shadow-xl outline-none select-none",
       className,
     )}
     {...props}

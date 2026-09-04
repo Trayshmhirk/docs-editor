@@ -118,6 +118,7 @@ export interface CustomColorPickerProps {
   showNoneOption?: boolean;
   noneLabel?: string;
   onClose?: () => void;
+  onOpenCustomModal?: () => void;
 }
 
 export default function CustomColorPicker({
@@ -126,6 +127,7 @@ export default function CustomColorPicker({
   showNoneOption = false,
   noneLabel = "None",
   onClose,
+  onOpenCustomModal,
 }: CustomColorPickerProps): React.JSX.Element {
   const [isCustomModalOpen, setIsCustomModalOpen] = useState(false);
   const [customColors, setCustomColors] = useState<string[]>([]);
@@ -142,6 +144,14 @@ export default function CustomColorPicker({
     });
     onSelectColor(color);
     if (onClose) onClose();
+  };
+
+  const handlePlusClick = () => {
+    if (onOpenCustomModal) {
+      onOpenCustomModal();
+    } else {
+      setIsCustomModalOpen(true);
+    }
   };
 
   return (
@@ -217,7 +227,7 @@ export default function CustomColorPicker({
           <button
             type="button"
             title="Custom color..."
-            onClick={() => setIsCustomModalOpen(true)}
+            onClick={handlePlusClick}
             className="border-border hover:bg-muted text-foreground flex size-6 items-center justify-center rounded-full border transition-colors focus:outline-none"
           >
             <Plus size={14} />

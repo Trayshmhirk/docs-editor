@@ -3,10 +3,9 @@
 import React, { useState } from "react";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import {
-  $insertList,
-  $isListItemNode,
-  $isListNode,
   INSERT_CHECK_LIST_COMMAND,
+  INSERT_ORDERED_LIST_COMMAND,
+  INSERT_UNORDERED_LIST_COMMAND,
   ListNode,
   REMOVE_LIST_COMMAND,
 } from "@lexical/list";
@@ -25,35 +24,142 @@ import {
   CustomPopoverTrigger,
   CustomPopoverContent,
 } from "@/components/ui/custom/CustomPopover";
+import { cn } from "@/lib/utils";
 
-// Bullet List Style Presets
-const BULLET_PRESETS = [
-  { label: "Default (Disc)", styleType: "disc", icon: "●" },
-  { label: "Circle", styleType: "circle", icon: "○" },
-  { label: "Square", styleType: "square", icon: "■" },
+// 6 Visual Bullet List Style Presets matching Google Docs
+const BULLET_CARD_PRESETS = [
+  {
+    id: "disc",
+    styleType: "disc",
+    levels: [
+      { sym: "●", indent: 0, width: "w-10" },
+      { sym: "○", indent: 1, width: "w-8" },
+      { sym: "■", indent: 2, width: "w-6" },
+    ],
+  },
+  {
+    id: "diamond",
+    styleType: "diamond",
+    levels: [
+      { sym: "◆", indent: 0, width: "w-10" },
+      { sym: "◇", indent: 1, width: "w-8" },
+      { sym: "◆", indent: 2, width: "w-6" },
+    ],
+  },
+  {
+    id: "square",
+    styleType: "square",
+    levels: [
+      { sym: "■", indent: 0, width: "w-10" },
+      { sym: "□", indent: 1, width: "w-8" },
+      { sym: "■", indent: 2, width: "w-6" },
+    ],
+  },
+  {
+    id: "arrow-diamond",
+    styleType: "arrow",
+    levels: [
+      { sym: "➔", indent: 0, width: "w-10" },
+      { sym: "◆", indent: 1, width: "w-8" },
+      { sym: "●", indent: 2, width: "w-6" },
+    ],
+  },
+  {
+    id: "star",
+    styleType: "star",
+    levels: [
+      { sym: "★", indent: 0, width: "w-10" },
+      { sym: "○", indent: 1, width: "w-8" },
+      { sym: "■", indent: 2, width: "w-6" },
+    ],
+  },
+  {
+    id: "arrow-circle",
+    styleType: "arrow-circle",
+    levels: [
+      { sym: "➢", indent: 0, width: "w-10" },
+      { sym: "○", indent: 1, width: "w-8" },
+      { sym: "■", indent: 2, width: "w-6" },
+    ],
+  },
 ];
 
-// Numbered List Style Presets
-const NUMBERED_PRESETS = [
-  { label: "Numbers (1, 2, 3)", styleType: "decimal", preview: "1. 2. 3." },
-  { label: "Letters (a, b, c)", styleType: "lower-alpha", preview: "a. b. c." },
-  { label: "Capital Letters (A, B, C)", styleType: "upper-alpha", preview: "A. B. C." },
-  { label: "Roman (i, ii, iii)", styleType: "lower-roman", preview: "i. ii. iii." },
+// 6 Visual Numbered List Style Presets matching Google Docs
+const NUMBERED_CARD_PRESETS = [
+  {
+    id: "decimal",
+    styleType: "decimal",
+    lines: [
+      { prefix: "1.", indent: 0, width: "w-9" },
+      { prefix: "a.", indent: 1, width: "w-7" },
+      { prefix: "i.", indent: 2, width: "w-5" },
+      { prefix: "2.", indent: 0, width: "w-9" },
+    ],
+  },
+  {
+    id: "paren-decimal",
+    styleType: "paren-decimal",
+    lines: [
+      { prefix: "1)", indent: 0, width: "w-9" },
+      { prefix: "a)", indent: 1, width: "w-7" },
+      { prefix: "i)", indent: 2, width: "w-5" },
+      { prefix: "2)", indent: 0, width: "w-9" },
+    ],
+  },
+  {
+    id: "nested-decimal",
+    styleType: "nested-decimal",
+    lines: [
+      { prefix: "1.", indent: 0, width: "w-9" },
+      { prefix: "1.1.", indent: 1, width: "w-7" },
+      { prefix: "1.2.1.", indent: 2, width: "w-5" },
+      { prefix: "2.", indent: 0, width: "w-9" },
+    ],
+  },
+  {
+    id: "upper-alpha",
+    styleType: "upper-alpha",
+    lines: [
+      { prefix: "A.", indent: 0, width: "w-9" },
+      { prefix: "a.", indent: 1, width: "w-7" },
+      { prefix: "i.", indent: 2, width: "w-5" },
+      { prefix: "B.", indent: 0, width: "w-9" },
+    ],
+  },
+  {
+    id: "upper-roman",
+    styleType: "upper-roman",
+    lines: [
+      { prefix: "I.", indent: 0, width: "w-9" },
+      { prefix: "A.", indent: 1, width: "w-7" },
+      { prefix: "1.", indent: 2, width: "w-5" },
+      { prefix: "II.", indent: 0, width: "w-9" },
+    ],
+  },
+  {
+    id: "leading-zero",
+    styleType: "leading-zero",
+    lines: [
+      { prefix: "01.", indent: 0, width: "w-9" },
+      { prefix: "a.", indent: 1, width: "w-7" },
+      { prefix: "i.", indent: 2, width: "w-5" },
+      { prefix: "02.", indent: 0, width: "w-9" },
+    ],
+  },
 ];
 
-// Helper to recursively apply list-style-type to all ListItemNode children
-function applyListStyleToItems(listNode: ListNode, styleType: string) {
-  listNode.setStyle(`list-style-type: ${styleType};`);
-  listNode.getChildren().forEach((child) => {
-    if ($isListItemNode(child)) {
-      child.setStyle(`list-style-type: ${styleType};`);
-      child.getChildren().forEach((grandChild) => {
-        if ($isListNode(grandChild)) {
-          applyListStyleToItems(grandChild, styleType);
-        }
-      });
-    }
-  });
+function getListStyleCSS(styleType: string): string {
+  if (styleType === "diamond") return `list-style-type: "◆ ";`;
+  if (styleType === "square") return `list-style-type: square;`;
+  if (styleType === "arrow") return `list-style-type: "➔ ";`;
+  if (styleType === "arrow-circle") return `list-style-type: "➢ ";`;
+  if (styleType === "star") return `list-style-type: "★ ";`;
+  if (styleType === "paren-decimal") return `list-style-type: decimal;`;
+  if (styleType === "upper-roman") return `list-style-type: upper-roman;`;
+  if (styleType === "upper-alpha") return `list-style-type: upper-alpha;`;
+  if (styleType === "nested-decimal") return `list-style-type: decimal;`;
+  if (styleType === "leading-zero") return `list-style-type: decimal-leading-zero;`;
+  return `list-style-type: ${styleType};`;
 }
 
 export function BulletedListDropdown({
@@ -64,30 +170,27 @@ export function BulletedListDropdown({
   const [editor] = useLexicalComposerContext();
   const { toolbarState } = useToolbarState();
   const [isOpen, setIsOpen] = useState(false);
+  const [selectedBulletId, setSelectedBulletId] = useState<string>("disc");
 
   const isBulletActive = toolbarState.blockType === "bullet";
 
-  const handleToggleOrSetStyle = (styleType: string) => {
-    editor.update(() => {
-      const selection = $getSelection();
-      if ($isRangeSelection(selection)) {
-        const anchorNode = selection.anchor.getNode();
-        let listNode = $getNearestNodeOfType(anchorNode, ListNode);
-
-        if (!listNode || listNode.getListType() !== "bullet") {
-          $insertList("bullet");
-          const newSelection = $getSelection();
-          if ($isRangeSelection(newSelection)) {
-            listNode = $getNearestNodeOfType(newSelection.anchor.getNode(), ListNode);
+  const handleToggleOrSetStyle = (presetId: string, styleType: string) => {
+    setSelectedBulletId(presetId);
+    if (!isBulletActive) {
+      editor.dispatchCommand(INSERT_UNORDERED_LIST_COMMAND, undefined);
+    }
+    if (styleType !== "disc") {
+      editor.update(() => {
+        const selection = $getSelection();
+        if ($isRangeSelection(selection)) {
+          const anchorNode = selection.anchor.getNode();
+          const listNode = $getNearestNodeOfType(anchorNode, ListNode);
+          if (listNode) {
+            listNode.setStyle(getListStyleCSS(styleType));
           }
         }
-
-        if (listNode) {
-          applyListStyleToItems(listNode, styleType);
-        }
-      }
-    });
-
+      });
+    }
     setIsOpen(false);
   };
 
@@ -95,9 +198,8 @@ export function BulletedListDropdown({
     if (isBulletActive) {
       editor.dispatchCommand(REMOVE_LIST_COMMAND, undefined);
     } else {
-      editor.update(() => {
-        $insertList("bullet");
-      });
+      setSelectedBulletId("disc");
+      editor.dispatchCommand(INSERT_UNORDERED_LIST_COMMAND, undefined);
     }
   };
 
@@ -127,21 +229,48 @@ export function BulletedListDropdown({
           </CustomToolbarButton>
         </CustomPopoverTrigger>
 
-        <CustomPopoverContent className="w-44 p-1.5" sideOffset={8}>
-          <div className="flex flex-col gap-0.5">
-            {BULLET_PRESETS.map((preset) => (
-              <button
-                key={preset.styleType}
-                type="button"
-                onClick={() => handleToggleOrSetStyle(preset.styleType)}
-                className="hover:bg-surface-hover text-foreground flex items-center justify-between rounded-md px-2.5 py-1.5 text-xs transition-colors"
-              >
-                <span className="flex items-center gap-2">
-                  <span className="font-mono text-sm leading-none">{preset.icon}</span>
-                  <span>{preset.label}</span>
-                </span>
-              </button>
-            ))}
+        <CustomPopoverContent className="w-68 p-2" sideOffset={8}>
+          <div className="grid grid-cols-2 gap-1.5 sm:grid-cols-3">
+            {BULLET_CARD_PRESETS.map((preset) => {
+              const isSelected = isBulletActive && selectedBulletId === preset.id;
+              return (
+                <button
+                  key={preset.id}
+                  type="button"
+                  onMouseDown={(e) => e.preventDefault()}
+                  onClick={() => handleToggleOrSetStyle(preset.id, preset.styleType)}
+                  className={cn(
+                    "flex flex-col rounded-md border p-2 text-left transition-all",
+                    isSelected
+                      ? "border-blue-600 bg-blue-50/80 ring-1 ring-blue-500 dark:bg-blue-950/40"
+                      : "hover:bg-surface-hover/70 border-slate-200/80 hover:border-slate-300 dark:border-slate-800 dark:hover:border-slate-700",
+                  )}
+                >
+                  <div className="space-y-1.5 py-0.5">
+                    {preset.levels.map((lvl, idx) => (
+                      <div
+                        key={idx}
+                        className={cn(
+                          "flex items-center gap-1.5 leading-none",
+                          lvl.indent === 1 && "pl-2",
+                          lvl.indent === 2 && "pl-4",
+                        )}
+                      >
+                        <span className="text-foreground w-2.5 shrink-0 text-center text-[10px]">
+                          {lvl.sym}
+                        </span>
+                        <span
+                          className={cn(
+                            "h-1 rounded-full bg-slate-300 dark:bg-slate-600",
+                            lvl.width,
+                          )}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                </button>
+              );
+            })}
           </div>
         </CustomPopoverContent>
       </CustomPopover>
@@ -157,30 +286,27 @@ export function NumberedListDropdown({
   const [editor] = useLexicalComposerContext();
   const { toolbarState } = useToolbarState();
   const [isOpen, setIsOpen] = useState(false);
+  const [selectedNumberId, setSelectedNumberId] = useState<string>("decimal");
 
   const isNumberActive = toolbarState.blockType === "number";
 
-  const handleToggleOrSetStyle = (styleType: string) => {
-    editor.update(() => {
-      const selection = $getSelection();
-      if ($isRangeSelection(selection)) {
-        const anchorNode = selection.anchor.getNode();
-        let listNode = $getNearestNodeOfType(anchorNode, ListNode);
-
-        if (!listNode || listNode.getListType() !== "number") {
-          $insertList("number");
-          const newSelection = $getSelection();
-          if ($isRangeSelection(newSelection)) {
-            listNode = $getNearestNodeOfType(newSelection.anchor.getNode(), ListNode);
+  const handleToggleOrSetStyle = (presetId: string, styleType: string) => {
+    setSelectedNumberId(presetId);
+    if (!isNumberActive) {
+      editor.dispatchCommand(INSERT_ORDERED_LIST_COMMAND, undefined);
+    }
+    if (styleType !== "decimal") {
+      editor.update(() => {
+        const selection = $getSelection();
+        if ($isRangeSelection(selection)) {
+          const anchorNode = selection.anchor.getNode();
+          const listNode = $getNearestNodeOfType(anchorNode, ListNode);
+          if (listNode) {
+            listNode.setStyle(getListStyleCSS(styleType));
           }
         }
-
-        if (listNode) {
-          applyListStyleToItems(listNode, styleType);
-        }
-      }
-    });
-
+      });
+    }
     setIsOpen(false);
   };
 
@@ -188,9 +314,8 @@ export function NumberedListDropdown({
     if (isNumberActive) {
       editor.dispatchCommand(REMOVE_LIST_COMMAND, undefined);
     } else {
-      editor.update(() => {
-        $insertList("number");
-      });
+      setSelectedNumberId("decimal");
+      editor.dispatchCommand(INSERT_ORDERED_LIST_COMMAND, undefined);
     }
   };
 
@@ -220,21 +345,48 @@ export function NumberedListDropdown({
           </CustomToolbarButton>
         </CustomPopoverTrigger>
 
-        <CustomPopoverContent className="w-52 p-1.5" sideOffset={8}>
-          <div className="flex flex-col gap-0.5">
-            {NUMBERED_PRESETS.map((preset) => (
-              <button
-                key={preset.styleType}
-                type="button"
-                onClick={() => handleToggleOrSetStyle(preset.styleType)}
-                className="hover:bg-surface-hover text-foreground flex items-center justify-between rounded-md px-2.5 py-1.5 text-xs transition-colors"
-              >
-                <span>{preset.label}</span>
-                <span className="text-muted-foreground font-mono text-[11px]">
-                  {preset.preview}
-                </span>
-              </button>
-            ))}
+        <CustomPopoverContent className="w-68 p-2" sideOffset={8}>
+          <div className="grid grid-cols-2 gap-1.5 sm:grid-cols-3">
+            {NUMBERED_CARD_PRESETS.map((preset) => {
+              const isSelected = isNumberActive && selectedNumberId === preset.id;
+              return (
+                <button
+                  key={preset.id}
+                  type="button"
+                  onMouseDown={(e) => e.preventDefault()}
+                  onClick={() => handleToggleOrSetStyle(preset.id, preset.styleType)}
+                  className={cn(
+                    "flex flex-col rounded-md border p-2 text-left transition-all",
+                    isSelected
+                      ? "border-blue-600 bg-blue-50/80 ring-1 ring-blue-500 dark:bg-blue-950/40"
+                      : "hover:bg-surface-hover/70 border-slate-200/80 hover:border-slate-300 dark:border-slate-800 dark:hover:border-slate-700",
+                  )}
+                >
+                  <div className="space-y-1 py-0.5">
+                    {preset.lines.map((line, idx) => (
+                      <div
+                        key={idx}
+                        className={cn(
+                          "flex items-center gap-1.5 leading-none",
+                          line.indent === 1 && "pl-2",
+                          line.indent === 2 && "pl-4",
+                        )}
+                      >
+                        <span className="text-foreground min-w-3 shrink-0 text-right font-mono text-[9px]">
+                          {line.prefix}
+                        </span>
+                        <span
+                          className={cn(
+                            "h-1 rounded-full bg-slate-300 dark:bg-slate-600",
+                            line.width,
+                          )}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                </button>
+              );
+            })}
           </div>
         </CustomPopoverContent>
       </CustomPopover>
@@ -244,9 +396,30 @@ export function NumberedListDropdown({
 
 export function ChecklistButton({ disabled = false }: { disabled?: boolean }): React.JSX.Element {
   const [editor] = useLexicalComposerContext();
-  const { toolbarState } = useToolbarState();
+  const { toolbarState, updateToolbarState } = useToolbarState();
+  const [isOpen, setIsOpen] = useState(false);
 
+  const selectedCheckType = toolbarState.checklistStyle;
   const isCheckActive = toolbarState.blockType === "check";
+
+  const handleSelectChecklist = (strikethrough: boolean) => {
+    const style = strikethrough ? "strikethrough" : "standard";
+    updateToolbarState("checklistStyle", style);
+    if (!isCheckActive) {
+      editor.dispatchCommand(INSERT_CHECK_LIST_COMMAND, undefined);
+    }
+    editor.update(() => {
+      const selection = $getSelection();
+      if ($isRangeSelection(selection)) {
+        const anchorNode = selection.anchor.getNode();
+        const listNode = $getNearestNodeOfType(anchorNode, ListNode);
+        if (listNode) {
+          listNode.setStyle(strikethrough ? "checklist-strikethrough" : "");
+        }
+      }
+    });
+    setIsOpen(false);
+  };
 
   const handleToggle = () => {
     if (isCheckActive) {
@@ -257,14 +430,89 @@ export function ChecklistButton({ disabled = false }: { disabled?: boolean }): R
   };
 
   return (
-    <CustomToolbarButton
-      disabled={disabled}
-      isActive={isCheckActive}
-      tooltip="Checklist"
-      onClick={handleToggle}
-    >
-      <ListCheck className="format icon size-4" />
-    </CustomToolbarButton>
+    <div className="inline-flex items-center">
+      <CustomToolbarButton
+        size="split-left"
+        disabled={disabled}
+        isActive={isCheckActive}
+        tooltip="Checklist"
+        onClick={handleToggle}
+      >
+        <ListCheck className="format icon size-4" />
+      </CustomToolbarButton>
+
+      <CustomPopover open={isOpen} onOpenChange={setIsOpen}>
+        <CustomPopoverTrigger asChild>
+          <CustomToolbarButton
+            size="split-right"
+            disabled={disabled}
+            isActive={isOpen}
+            tooltip="Checklist options"
+          >
+            <ChevronDown className="text-foreground size-3 shrink-0" />
+          </CustomToolbarButton>
+        </CustomPopoverTrigger>
+
+        <CustomPopoverContent className="w-56 p-2" sideOffset={8}>
+          <div className="grid grid-cols-2 gap-1.5">
+            {/* Card 1: Standard Checklist (no strikethrough) */}
+            <button
+              type="button"
+              onMouseDown={(e) => e.preventDefault()}
+              onClick={() => handleSelectChecklist(false)}
+              className={cn(
+                "flex flex-col rounded-md border p-2.5 text-left transition-all",
+                isCheckActive && selectedCheckType === "standard"
+                  ? "border-blue-600 bg-blue-50/80 ring-1 ring-blue-500 dark:bg-blue-950/40"
+                  : "hover:bg-surface-hover/70 border-slate-200/80 hover:border-slate-300 dark:border-slate-800 dark:hover:border-slate-700",
+              )}
+            >
+              <div className="space-y-2">
+                <div className="flex items-center gap-2">
+                  <span className="rounded-2xs size-3.5 shrink-0 border border-slate-500" />
+                  <span className="h-1 w-12 rounded-full bg-slate-300 dark:bg-slate-600" />
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="rounded-2xs flex size-3.5 shrink-0 items-center justify-center border border-blue-600 bg-blue-600 text-[9px] text-white">
+                    ✓
+                  </span>
+                  <span className="h-1 w-10 rounded-full bg-slate-300 dark:bg-slate-600" />
+                </div>
+              </div>
+            </button>
+
+            {/* Card 2: Strikethrough Checklist */}
+            <button
+              type="button"
+              onMouseDown={(e) => e.preventDefault()}
+              onClick={() => handleSelectChecklist(true)}
+              className={cn(
+                "flex flex-col rounded-md border p-2.5 text-left transition-all",
+                isCheckActive && selectedCheckType === "strikethrough"
+                  ? "border-blue-600 bg-blue-50/80 ring-1 ring-blue-500 dark:bg-blue-950/40"
+                  : "hover:bg-surface-hover/70 border-slate-200/80 hover:border-slate-300 dark:border-slate-800 dark:hover:border-slate-700",
+              )}
+            >
+              <div className="space-y-2">
+                <div className="flex items-center gap-2">
+                  <span className="rounded-2xs size-3.5 shrink-0 border border-slate-500" />
+                  <span className="h-1 w-12 rounded-full bg-slate-300 dark:bg-slate-600" />
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="rounded-2xs flex size-3.5 shrink-0 items-center justify-center border border-blue-600 bg-blue-600 text-[9px] text-white">
+                    ✓
+                  </span>
+                  <div className="relative flex items-center">
+                    <span className="h-1 w-10 rounded-full bg-slate-300 opacity-60 dark:bg-slate-600" />
+                    <span className="absolute inset-x-0 h-px bg-slate-500 dark:bg-slate-400" />
+                  </div>
+                </div>
+              </div>
+            </button>
+          </div>
+        </CustomPopoverContent>
+      </CustomPopover>
+    </div>
   );
 }
 
